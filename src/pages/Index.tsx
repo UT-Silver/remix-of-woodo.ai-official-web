@@ -1,0 +1,492 @@
+import { Link } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
+import ScrollReveal from "../components/ScrollReveal";
+import MagneticButton from "../components/MagneticButton";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+
+const pillars = [
+  {
+    char: "悟",
+    color: "text-primary-dark",
+    glowColor: "#22C55E",
+    label: "Awaken",
+    desc: "We believe the deepest learning happens when students discover their own questions — not memorize someone else's answers.",
+  },
+  {
+    char: "动",
+    color: "text-secondary-dark",
+    glowColor: "#38BDF8",
+    label: "Build",
+    desc: "Ideas without execution are decoration. Every week ends with something built, tested, and shipped.",
+  },
+  {
+    char: "爱",
+    color: "text-accent-dark",
+    glowColor: "#FBBF24",
+    label: "Love",
+    desc: "Education without genuine care is just information transfer. We invest in the whole person.",
+  },
+];
+
+const articles = [
+  { category: "Founding", color: "bg-primary/10 text-primary-dark", title: "Why We Started Woodo", date: "Mar 2026" },
+  { category: "Education", color: "bg-secondary/10 text-secondary-dark", title: "The Judgment Gap", date: "Mar 2026" },
+  { category: "AI", color: "bg-accent/10 text-accent-dark", title: "AI Literacy Is Not Enough", date: "Feb 2026" },
+];
+
+const showcaseLabels = ["Team retreat", "Workshop", "Demo day", "Campus", "Mentorship", "Launch event"];
+
+const teamMembers = [
+  { name: "Silver Yin", school: "Columbia University", quote: "Building what education should have been all along." },
+  { name: "David Dong", school: "Peking University", quote: "Execution is the only honest form of conviction." },
+  { name: "Keer Wang", school: "Columbia University", quote: "The best learning happens in relationship, not isolation." },
+];
+
+const Index = () => {
+  const heroText = "The world's best young minds don't need another course. They need a";
+
+  // Carousel state
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartX = useRef(0);
+  const scrollStartX = useRef(0);
+
+  const checkScroll = () => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 10);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
+  };
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", checkScroll);
+    checkScroll();
+    return () => el.removeEventListener("scroll", checkScroll);
+  }, []);
+
+  const scrollCarousel = (dir: number) => {
+    scrollContainerRef.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
+  };
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    dragStartX.current = e.clientX;
+    scrollStartX.current = scrollContainerRef.current?.scrollLeft || 0;
+  };
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    const dx = e.clientX - dragStartX.current;
+    if (scrollContainerRef.current) scrollContainerRef.current.scrollLeft = scrollStartX.current - dx;
+  };
+  const onMouseUp = () => setIsDragging(false);
+
+  const cardSizes = [320, 240, 320, 240, 320, 240];
+
+  // Pillar hover state for image reveal
+  const [hoveredPillar, setHoveredPillar] = useState<number | null>(null);
+
+  return (
+    <div className="page-enter">
+      {/* ===== 1. HERO — dark immersive, particles as visual ===== */}
+      <section
+        className="hero-section min-h-screen flex items-center relative overflow-hidden"
+        style={{
+          background: "#0F1F0F",
+          position: "relative",
+          zIndex: 10,
+          padding: "0 8%",
+        }}
+      >
+        {/* Hero gradient fade at bottom */}
+        <div
+          className="absolute bottom-0 left-0 right-0 pointer-events-none"
+          style={{
+            height: "120px",
+            background: "linear-gradient(to bottom, transparent, #FAF9F6)",
+            zIndex: 20,
+          }}
+        />
+
+        {/* Subtle image area on right for future photo */}
+        <div
+          className="hidden lg:block absolute"
+          style={{
+            right: "5%",
+            top: "15%",
+            width: "45%",
+            height: "70%",
+            borderRadius: "20px",
+            background: "rgba(255,255,255,0.03)",
+            border: "0.5px solid rgba(255,255,255,0.06)",
+          }}
+        />
+
+        <div className="relative z-10 max-w-[680px]">
+          <p
+            className="text-xs uppercase mb-5"
+            style={{ color: "#86EFAC", letterSpacing: "4px" }}
+          >
+            Wisdom in Motion
+          </p>
+          <h1
+            className="hero-title"
+            style={{ color: "#FFFFFF" }}
+          >
+            {heroText}{" "}
+            <span style={{ color: "#86EFAC", fontWeight: 700 }}>launchpad.</span>
+          </h1>
+          <p
+            className="mt-6 max-w-[540px]"
+            style={{ color: "#94A3B8", fontSize: "18px", lineHeight: 1.7 }}
+          >
+            Woodo.ai is where ambition meets AI. We select, train, and launch the next generation of builders.
+          </p>
+          <div className="flex flex-col sm:flex-row items-start gap-5 mt-10">
+            <MagneticButton
+              to="/apply"
+              className="inline-block font-semibold rounded-full transition-all active:scale-[0.97] cta-glow"
+              style={{
+                background: "#FBBF24",
+                color: "#1E293B",
+                fontSize: "16px",
+                fontWeight: 600,
+                padding: "16px 36px",
+                border: "none",
+                letterSpacing: "0.5px",
+              }}
+            >
+              Enter the arena
+            </MagneticButton>
+            <Link
+              to="/vision"
+              className="text-[15px] font-semibold transition-colors group mt-2 sm:mt-4"
+              style={{ color: "#86EFAC" }}
+            >
+              Our vision <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
+          <ChevronDown className="w-5 h-5" style={{ color: "rgba(255,255,255,0.3)" }} />
+        </div>
+      </section>
+
+      {/* ===== 2. BRAND STORY — warm off-white ===== */}
+      <section
+        className="px-6"
+        style={{ background: "#FAF9F6", position: "relative", zIndex: 10, padding: "140px 24px" }}
+      >
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+          <ScrollReveal className="flex-1" direction="fadeOnly" duration={800}>
+            <div className="relative pl-8 md:pl-10" style={{ borderLeft: "4px solid #22C55E" }}>
+              <span
+                className="absolute -top-10 left-4 text-[100px] leading-none select-none pointer-events-none"
+                style={{ color: "#DCFCE7", fontFamily: "'Playfair Display', serif" }}
+              >
+                "
+              </span>
+              <blockquote
+                className="text-2xl md:text-[28px] leading-relaxed relative z-10"
+                style={{ color: "#16A34A", fontFamily: "'Playfair Display', serif", fontStyle: "italic", lineHeight: 1.4 }}
+              >
+                AI lowers the barrier to building. We raise the bar for what gets{" "}
+                <em className="not-italic font-semibold" style={{ color: "#15803D" }}>built</em>.
+              </blockquote>
+              <p className="mt-4 text-xs uppercase tracking-[3px]" style={{ color: "#94A3B8" }}>
+                — Woodo Thesis
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal className="flex-1" direction="up">
+            <div>
+              <h2
+                className="text-2xl md:text-[34px] font-semibold leading-snug text-balance"
+                style={{ color: "#1E293B", lineHeight: 1.25 }}
+              >
+                The scarce resource is no longer technical skill — it's knowing what{" "}
+                <strong>deserves</strong> to be built.
+              </h2>
+              <p className="mt-8 max-w-xl" style={{ color: "#4B5563", fontSize: "17px", lineHeight: 1.8 }}>
+                The world is flooded with tools. What's missing are people with the taste to know what matters, the judgment to cut through noise, and the courage to build something original.
+              </p>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ===== 3. 悟动爱 PILLARS — warm gray, zigzag, hover images ===== */}
+      <section
+        className="px-6 relative dot-grid-bg"
+        style={{ background: "#F3F1ED", position: "relative", zIndex: 10, padding: "160px 24px" }}
+      >
+        <div className="max-w-4xl mx-auto relative z-10 space-y-20 md:space-y-24">
+          {pillars.map((p, i) => {
+            const isLeft = i % 2 === 0;
+            return (
+              <ScrollReveal key={p.char} direction={isLeft ? "left" : "right"}>
+                <div
+                  className={`relative max-w-[65%] ${isLeft ? "mr-auto" : "ml-auto"}`}
+                  onMouseEnter={() => setHoveredPillar(i)}
+                  onMouseLeave={() => setHoveredPillar(null)}
+                >
+                  <div
+                    className="absolute -top-6 font-bold leading-none pointer-events-none select-none"
+                    style={{
+                      fontSize: "200px",
+                      opacity: 0.10,
+                      color: p.glowColor,
+                      [isLeft ? "left" : "right"]: 0,
+                    }}
+                  >
+                    {p.char}
+                  </div>
+
+                  {/* Hover-reveal image placeholder */}
+                  <div
+                    className="hidden md:block absolute top-1/2 rounded-2xl transition-all duration-400"
+                    style={{
+                      [isLeft ? "right" : "left"]: "-320px",
+                      transform: `translateY(-50%) translateX(${hoveredPillar === i ? "0" : isLeft ? "20px" : "-20px"})`,
+                      width: "280px",
+                      height: "200px",
+                      background: "linear-gradient(135deg, rgba(220,252,231,0.7), rgba(224,242,254,0.7), rgba(254,249,195,0.4))",
+                      opacity: hoveredPillar === i ? 1 : 0,
+                      borderRadius: "16px",
+                    }}
+                  />
+
+                  <div className="relative z-10 pt-16 md:pt-24">
+                    <h3
+                      className="text-2xl md:text-[36px] font-semibold tracking-wide"
+                      style={{ fontFamily: "'Playfair Display', serif" }}
+                    >
+                      <span className={p.color}>{p.label}</span>
+                    </h3>
+                    <p className="mt-4 max-w-md" style={{ color: "#4B5563", fontSize: "17px", lineHeight: 1.8 }}>
+                      {p.desc}
+                    </p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ===== 4. TEAM — near-black, rectangular photos ===== */}
+      <section style={{ background: "#111714", position: "relative", zIndex: 10, padding: "140px 24px" }}>
+        <ScrollReveal className="max-w-5xl mx-auto text-center relative z-10" direction="fadeOnly">
+          <h2 className="text-[32px] md:text-[36px] font-semibold tracking-wide" style={{ color: "#FFFFFF" }}>
+            Built by <strong style={{ color: "#86EFAC" }}>builders</strong>
+          </h2>
+          <div className="mt-14 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-10">
+            {teamMembers.map((f, i) => (
+              <div
+                key={f.name}
+                className="flex flex-col items-center gap-5 p-6 rounded-2xl transition-all duration-400 hover:bg-white/[0.08]"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "0.5px solid rgba(255,255,255,0.08)",
+                  transform: i === 1 ? "translateY(-24px)" : "none",
+                }}
+              >
+                <div
+                  className="w-[180px] h-[220px] rounded-2xl overflow-hidden"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(34,197,94,0.15) 0%, rgba(56,189,248,0.1) 100%)",
+                    backgroundImage:
+                      "linear-gradient(135deg, rgba(34,197,94,0.15) 0%, rgba(56,189,248,0.1) 100%), radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
+                    backgroundSize: "100% 100%, 16px 16px",
+                  }}
+                />
+                <div className="text-center">
+                  <div className="text-lg font-semibold" style={{ color: "#FFFFFF" }}>{f.name}</div>
+                  <p
+                    className="text-sm mt-1 max-w-[200px]"
+                    style={{ color: "#CBD5E1", fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
+                  >
+                    "{f.quote}"
+                  </p>
+                  <div className="text-xs mt-2 uppercase tracking-[2px]" style={{ color: "#64748B" }}>
+                    Co-founder · {f.school}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Link to="/team" className="inline-block mt-12 text-sm font-semibold transition-colors group" style={{ color: "#86EFAC" }}>
+            Meet the team <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+          </Link>
+        </ScrollReveal>
+      </section>
+
+      {/* ===== 5. MOMENTS CAROUSEL — warm off-white ===== */}
+      <section style={{ background: "#FAF9F6", position: "relative", zIndex: 10, padding: "140px 24px" }} className="overflow-hidden">
+        <ScrollReveal>
+          <div className="max-w-5xl mx-auto mb-8">
+            <p className="text-xs uppercase tracking-[3px]" style={{ color: "#94A3B8" }}>Moments</p>
+          </div>
+          <div className="relative max-w-5xl mx-auto">
+            {/* Edge fades */}
+            <div className="absolute left-0 top-0 bottom-0 w-16 z-20 pointer-events-none" style={{ background: "linear-gradient(to right, #FAF9F6, transparent)" }} />
+            <div className="absolute right-0 top-0 bottom-0 w-16 z-20 pointer-events-none" style={{ background: "linear-gradient(to left, #FAF9F6, transparent)" }} />
+
+            {canScrollLeft && (
+              <button
+                onClick={() => scrollCarousel(-1)}
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-shadow"
+                style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
+              >
+                <ChevronLeft className="w-5 h-5" style={{ color: "#1E293B" }} />
+              </button>
+            )}
+            {canScrollRight && (
+              <button
+                onClick={() => scrollCarousel(1)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-shadow"
+                style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
+              >
+                <ChevronRight className="w-5 h-5" style={{ color: "#1E293B" }} />
+              </button>
+            )}
+
+            <div
+              ref={scrollContainerRef}
+              className="flex gap-4 overflow-x-auto scrollbar-hide py-2"
+              style={{ cursor: isDragging ? "grabbing" : "grab" }}
+              onMouseDown={onMouseDown}
+              onMouseMove={onMouseMove}
+              onMouseUp={onMouseUp}
+              onMouseLeave={onMouseUp}
+            >
+              {showcaseLabels.map((label, i) => {
+                const w = cardSizes[i % cardSizes.length];
+                const h = i % 2 === 0 ? 200 : 180;
+                const colors = [
+                  "linear-gradient(135deg, rgba(220,252,231,0.7), rgba(224,242,254,0.7))",
+                  "linear-gradient(135deg, rgba(224,242,254,0.7), rgba(240,249,255,0.7))",
+                  "linear-gradient(135deg, rgba(254,249,195,0.7), rgba(255,251,235,0.7))",
+                ];
+                return (
+                  <div
+                    key={i}
+                    className="flex-shrink-0 rounded-xl overflow-hidden select-none"
+                    style={{ width: `${w}px`, height: `${h}px`, background: colors[i % 3] }}
+                  >
+                    <div className="w-full h-full flex items-end p-4">
+                      <span className="text-xs uppercase tracking-[2px] font-medium" style={{ color: "#64748B" }}>{label}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* ===== 6. INSIGHTS — warm gray ===== */}
+      <section className="px-6 dot-grid-bg" style={{ background: "#F3F1ED", position: "relative", zIndex: 10, padding: "140px 24px" }}>
+        <ScrollReveal className="container mx-auto max-w-4xl relative z-10" direction="scaleIn">
+          <div className="flex items-baseline justify-between mb-12">
+            <h2 className="text-[32px] md:text-[36px] font-semibold" style={{ color: "#1E293B" }}>
+              How we <strong className="text-primary-dark">think</strong>
+            </h2>
+            <Link to="/insights" className="text-sm font-semibold text-primary-dark hover:text-primary-darkest transition-colors group">
+              All insights <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
+
+          {/* Featured article */}
+          <ScrollReveal className="mb-8">
+            <Link
+              to="/insights"
+              className="block rounded-2xl overflow-hidden card-hover group"
+              style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
+            >
+              <div className="flex flex-col md:flex-row" style={{ minHeight: "280px" }}>
+                <div
+                  className="w-full md:w-1/2 overflow-hidden"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(220,252,231,0.7), rgba(224,242,254,0.7), rgba(254,249,195,0.4))",
+                    minHeight: "200px",
+                  }}
+                />
+                <div className="p-8 flex flex-col justify-center flex-1">
+                  <span className="inline-block w-fit px-3 py-1 rounded-lg text-xs font-semibold bg-primary/10 text-primary-dark mb-4">
+                    Founding
+                  </span>
+                  <h3 className="text-[22px] font-semibold" style={{ color: "#1E293B" }}>Why We Started Woodo</h3>
+                  <p className="text-sm mt-3 max-w-sm" style={{ color: "#4B5563" }}>
+                    The origin story of a conviction: that the world's most talented young people deserve more than another course catalog.
+                  </p>
+                  <p className="text-xs mt-4" style={{ color: "#94A3B8" }}>5 min read · Mar 2026</p>
+                </div>
+              </div>
+            </Link>
+          </ScrollReveal>
+
+          {/* Secondary articles */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {articles.slice(1).map((a, i) => (
+              <ScrollReveal key={a.title} delay={i * 100} direction="scaleIn">
+                <Link
+                  to="/insights"
+                  className="block rounded-2xl overflow-hidden card-hover group"
+                  style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
+                >
+                  <div
+                    className="overflow-hidden h-40"
+                    style={{
+                      background:
+                        i === 0
+                          ? "linear-gradient(135deg, rgba(224,242,254,0.7), rgba(240,249,255,0.7))"
+                          : "linear-gradient(135deg, rgba(254,249,195,0.7), rgba(255,251,235,0.7))",
+                    }}
+                  />
+                  <div className="p-6">
+                    <span className={`inline-block px-3 py-1 rounded-lg text-xs font-semibold ${a.color} mb-3`}>{a.category}</span>
+                    <h3 className="text-lg font-semibold" style={{ color: "#1E293B" }}>{a.title}</h3>
+                    <p className="text-xs mt-2" style={{ color: "#94A3B8" }}>5 min read · {a.date}</p>
+                  </div>
+                </Link>
+              </ScrollReveal>
+            ))}
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* ===== 7. CTA STRIP — deep forest green ===== */}
+      <section
+        className="text-center relative overflow-hidden"
+        style={{ background: "#0D3320", position: "relative", zIndex: 10, padding: "100px 24px" }}
+      >
+        <ScrollReveal direction="fadeOnly">
+          <h2 className="text-[32px] md:text-[36px] font-semibold tracking-wide relative z-10" style={{ color: "#FFFFFF" }}>
+            Ready to build something that <strong style={{ color: "#FBBF24" }}>matters</strong>?
+          </h2>
+          <MagneticButton
+            to="/apply"
+            className="inline-block mt-10 font-semibold rounded-full transition-all active:scale-[0.97] relative z-10 cta-glow"
+            style={{
+              background: "#FBBF24",
+              color: "#1E293B",
+              fontSize: "16px",
+              fontWeight: 600,
+              padding: "16px 36px",
+              border: "none",
+            }}
+          >
+            Enter the arena
+          </MagneticButton>
+        </ScrollReveal>
+      </section>
+    </div>
+  );
+};
+
+export default Index;
