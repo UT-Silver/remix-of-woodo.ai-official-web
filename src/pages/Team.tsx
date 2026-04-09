@@ -174,7 +174,7 @@ const Team = () => {
                 networkLogos.map((logo, i) => (
                   <div
                     key={`${dupeIdx}-${i}`}
-                    className="flex-shrink-0 h-16 px-6 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-sm"
+                    className="flex-shrink-0 h-16 px-6 rounded-xl border border-white/10 bg-black flex items-center justify-center"
                   >
                     <img src={logo.src} alt={logo.alt} className="h-10 w-auto object-contain opacity-80" />
                   </div>
