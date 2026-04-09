@@ -70,25 +70,6 @@ const Vision = () => {
         </div>
       </section>
 
-      {/* Stats Strip — cool gray + dot grid */}
-      <section className="py-16 px-6 bg-cool-gray dot-grid-bg">
-        <div className="max-w-4xl mx-auto grid grid-cols-3 gap-8 text-center relative z-10">
-          {[
-            { value: 3, label: "Co-founders" },
-            { value: 3, label: "Cities" },
-            { value: 1, label: "Mission" },
-          ].map((stat, i) => (
-            <ScrollReveal key={stat.label} delay={i * 150}>
-              <div className="py-8">
-                <div className="text-4xl md:text-5xl font-bold text-primary-dark">
-                  <CountUp end={stat.value} />
-                </div>
-                <div className="mt-2 text-sm text-muted-foreground uppercase tracking-widest">{stat.label}</div>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-      </section>
 
       {/* Convictions — accordion hover */}
       <section className="py-20 md:py-28 px-6">
