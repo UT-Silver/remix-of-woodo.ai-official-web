@@ -90,8 +90,11 @@ const Vision = () => {
 
       {/* Convictions — alternating white / warm-white */}
       <section className="py-20 md:py-28 px-6">
-        <div className="max-w-5xl mx-auto space-y-24">
-          {convictions.map((c, i) => (
+        <div className="max-w-5xl mx-auto">
+          <ScrollReveal direction="up">
+            <h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight mb-16">Our Vision</h2>
+          </ScrollReveal>
+          <div className="space-y-24">
             <ScrollReveal key={c.title} delay={i * 150} direction={i % 2 === 0 ? "left" : "right"}>
               <div className={`flex flex-col ${i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-10 items-center p-8 rounded-2xl ${i % 2 === 0 ? "bg-background" : "bg-warm-white"}`}>
                 <div className="flex-1">
