@@ -4,6 +4,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import LightParticleReveal from "../components/LightParticleReveal";
 import applyHeroBg from "../assets/apply-hero.png";
+import wechatQr from "../assets/wechat-qr.png";
 import {
   Accordion,
   AccordionContent,
