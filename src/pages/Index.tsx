@@ -188,7 +188,7 @@ const Index = () => {
       {/* ===== LOGO MARQUEE ===== */}
       <section
         className="overflow-hidden"
-        style={{ background: "#111714", position: "relative", zIndex: 10, padding: "40px 0" }}
+        style={{ background: "#0F1F0F", position: "relative", zIndex: 10, padding: "40px 0" }}
       >
         <div className="overflow-hidden">
           <div className="flex gap-8 items-center w-max animate-marquee" style={{ animationDuration: '30s' }}>
@@ -196,9 +196,9 @@ const Index = () => {
               networkLogos.map((logo, i) => (
                 <div
                   key={`${dupeIdx}-${i}`}
-                  className="flex-shrink-0 h-16 px-6 rounded-xl border border-white/10 bg-black flex items-center justify-center"
+                  className="flex-shrink-0 h-16 px-6 flex items-center justify-center"
                 >
-                  <img src={logo.src} alt={logo.alt} className="h-10 w-auto object-contain opacity-80" />
+                  <img src={logo.src} alt={logo.alt} className="h-10 w-auto object-contain opacity-70" />
                 </div>
               ))
             )}
