@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
+import heroBuild from "../assets/hero-build.png";
 import report1 from "../assets/report-1.png";
 import report2 from "../assets/report-2.png";
 import report3 from "../assets/report-3.png";
@@ -26,14 +27,20 @@ const Portfolio = () => {
 
   return (
     <div className="page-enter pt-20">
-      {/* Header — warm white + dot grid */}
-      <section className="py-20 md:py-28 px-6 text-center bg-warm-white dot-grid-bg">
-        <ScrollReveal>
-          <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-4 relative z-10">Build</p>
-          <h1 className="text-3xl md:text-4xl font-medium text-foreground relative z-10">
-            What our builders <strong className="text-primary-dark font-bold">create</strong>.
+      {/* Hero — cinematic image with overlay text */}
+      <section className="dark-section-glow relative w-full overflow-hidden" style={{ height: "70vh", minHeight: "480px" }}>
+        <img
+          src={heroBuild}
+          alt="Human hand reaching toward robotic hand"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.05) 100%)" }} />
+        <ScrollReveal className="absolute bottom-12 left-8 md:left-16 z-10 max-w-2xl" direction="up">
+          <p className="text-xs uppercase tracking-[3px] mb-4" style={{ color: "rgba(255,255,255,0.6)" }}>Build</p>
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.1] text-white">
+            What our builders<br /><strong className="font-bold">create</strong>.
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground relative z-10">The proof is in the projects.</p>
+          <p className="mt-4 text-lg" style={{ color: "rgba(255,255,255,0.6)" }}>The proof is in the projects.</p>
         </ScrollReveal>
       </section>
 
