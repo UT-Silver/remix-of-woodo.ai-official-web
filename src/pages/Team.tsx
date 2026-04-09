@@ -141,7 +141,7 @@ const Team = () => {
         <ScrollReveal className="max-w-5xl mx-auto relative z-10">
           <h2 className="text-2xl font-semibold text-foreground">Our <strong className="text-primary-dark">network</strong></h2>
           <p className="mt-4 text-muted-foreground max-w-2xl">
-            We work with practitioners from leading AI labs, technology companies, research institutions, and startups.
+            We work with practitioners from leading AI labs, technology companies, investment institutions, and startups.
           </p>
           <div className="mt-12 flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             {Array.from({ length: 6 }).map((_, i) => (
