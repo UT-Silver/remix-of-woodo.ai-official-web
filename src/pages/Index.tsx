@@ -274,6 +274,27 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ===== LOGO MARQUEE ===== */}
+      <section
+        className="overflow-hidden"
+        style={{ background: "#111714", position: "relative", zIndex: 10, padding: "40px 0" }}
+      >
+        <div className="overflow-hidden">
+          <div className="flex gap-8 items-center w-max animate-marquee" style={{ animationDuration: '30s' }}>
+            {[...Array(2)].flatMap((_, dupeIdx) =>
+              networkLogos.map((logo, i) => (
+                <div
+                  key={`${dupeIdx}-${i}`}
+                  className="flex-shrink-0 h-16 px-6 rounded-xl border border-white/10 bg-black flex items-center justify-center"
+                >
+                  <img src={logo.src} alt={logo.alt} className="h-10 w-auto object-contain opacity-80" />
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* ===== 4. TEAM — near-black, rectangular photos ===== */}
       <section style={{ background: "#111714", position: "relative", zIndex: 10, padding: "140px 24px" }}>
         <ScrollReveal className="max-w-5xl mx-auto text-center relative z-10" direction="fadeOnly">
