@@ -97,13 +97,14 @@ const Portfolio = () => {
             {[...reportImages, ...reportImages, ...reportImages].map((img, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-500 ease-out hover:scale-110 hover:z-10 relative"
+                className="flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-500 ease-out hover:scale-110 hover:z-10 relative cursor-pointer"
                 style={{ width: "400px", height: "280px", backgroundColor: "#252525" }}
+                onDoubleClick={() => setLightboxSrc(img.src)}
               >
                 <img
                   src={img.src}
                   alt={img.alt}
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-top pointer-events-none"
                   draggable={false}
                 />
               </div>
