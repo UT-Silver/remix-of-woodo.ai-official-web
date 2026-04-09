@@ -89,20 +89,27 @@ const Team = () => {
                       <p className="text-xs uppercase tracking-[2px] text-muted-foreground mb-4">Gallery</p>
                       <div className="overflow-hidden">
                         <div className="flex gap-4 w-max animate-marquee" style={{ animationDuration: '14s' }}>
-                          {[...Array(2)].flatMap((_, dupeIdx) =>
-                            Array.from({ length: f.photoCount }).map((_, j) => (
+                          {[...Array(2)].flatMap((_, dupeIdx) => {
+                            const items = f.gallery.length > 0
+                              ? f.gallery
+                              : Array.from({ length: 4 }, (_, j) => j);
+                            return items.map((item, j) => (
                               <div
                                 key={`${dupeIdx}-${j}`}
                                 className="flex-shrink-0 w-36 h-28 rounded-xl overflow-hidden border border-border"
                               >
-                                <ImagePlaceholder
-                                  variant="neutral"
-                                  className="w-full h-full"
-                                  label={`${f.name.split(" ")[0]} #${j + 1}`}
-                                />
+                                {typeof item === "string" ? (
+                                  <img src={item} alt={`${f.name} #${j + 1}`} className="w-full h-full object-cover" />
+                                ) : (
+                                  <ImagePlaceholder
+                                    variant="neutral"
+                                    className="w-full h-full"
+                                    label={`${f.name.split(" ")[0]} #${j + 1}`}
+                                  />
+                                )}
                               </div>
-                            ))
-                          )}
+                            ));
+                          })}
                         </div>
                       </div>
                     </div>
