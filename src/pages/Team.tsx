@@ -84,7 +84,7 @@ const Team = () => {
                     <div className="px-6 md:px-10 pb-8">
                       <p className="text-xs uppercase tracking-[2px] text-muted-foreground mb-4">Gallery</p>
                       <div className="overflow-hidden">
-                        <div className="flex gap-4 w-max animate-[marqueeScroll_12s_linear_infinite]">
+                        <div className="flex gap-4 w-max animate-marquee" style={{ animationDuration: '14s' }}>
                           {[...Array(2)].flatMap((_, dupeIdx) =>
                             Array.from({ length: f.photoCount }).map((_, j) => (
                               <div
