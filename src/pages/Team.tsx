@@ -32,7 +32,7 @@ const founders = [
     name: "Keer Wang", title: "Co-founder", school: "Columbia University, SIPA",
     bio: "Keer leads community and mentorship — the human infrastructure that makes transformation possible. She believes education without genuine relationship is just content delivery.",
     avatar: avatarKeer,
-    gallery: [] as string[],
+    gallery: [keerGallery1, keerGallery2, keerGallery3, keerGallery4],
   },
 ];
 
