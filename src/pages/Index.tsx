@@ -223,8 +223,9 @@ const Index = () => {
 
       {/* ===== 2. BRAND STORY — warm off-white ===== */}
       <section
+        ref={lightSectionRef}
         className="px-6"
-        style={{ background: "#FAF9F6", position: "relative", zIndex: 10, padding: "140px 24px" }}
+        style={{ position: "relative", zIndex: 10, padding: "140px 24px" }}
       >
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
           <ScrollReveal className="flex-1" direction="fadeOnly" duration={800}>
