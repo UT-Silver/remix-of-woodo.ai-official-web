@@ -14,6 +14,7 @@ import keerGallery1 from "../assets/keer-gallery-1.png";
 import keerGallery2 from "../assets/keer-gallery-2.jpg";
 import keerGallery3 from "../assets/keer-gallery-3.jpg";
 import keerGallery4 from "../assets/keer-gallery-4.png";
+import keerGallery5 from "../assets/keer-gallery-5.jpg";
 
 const founders = [
   {
@@ -32,7 +33,7 @@ const founders = [
     name: "Keer Wang", title: "Co-founder", school: "Columbia University, SIPA",
     bio: "Keer leads community and mentorship — the human infrastructure that makes transformation possible. She believes education without genuine relationship is just content delivery.",
     avatar: avatarKeer,
-    gallery: [keerGallery1, keerGallery2, keerGallery3, keerGallery4],
+    gallery: [keerGallery1, keerGallery2, keerGallery3, keerGallery4, keerGallery5],
   },
 ];
 
