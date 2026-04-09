@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import MagneticButton from "../components/MagneticButton";
 import HeroParticleReveal from "../components/HeroParticleReveal";
+import LightParticleReveal from "../components/LightParticleReveal";
 import { ChevronDown } from "lucide-react";
 import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
@@ -336,32 +337,35 @@ const Index = () => {
 
       {/* ===== 5. MOMENTS — warm off-white, infinite marquee ===== */}
       <section style={{ background: "#FAF9F6", position: "relative", zIndex: 10, padding: "140px 24px" }} className="overflow-hidden">
-        <ScrollReveal direction="up" className="max-w-5xl mx-auto mb-12">
-          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight" style={{ color: "#1E293B" }}>Moments</h2>
-        </ScrollReveal>
-        <div
-          className="relative w-full"
-          onMouseEnter={() => setMarqueePaused(true)}
-          onMouseLeave={() => setMarqueePaused(false)}
-        >
+        <LightParticleReveal />
+        <div className="relative" style={{ zIndex: 10 }}>
+          <ScrollReveal direction="up" className="max-w-5xl mx-auto mb-12">
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight" style={{ color: "#1E293B" }}>Moments</h2>
+          </ScrollReveal>
           <div
-            className="flex gap-6 marquee-track"
-            style={{ animationPlayState: marqueePaused ? "paused" : "running" }}
+            className="relative w-full"
+            onMouseEnter={() => setMarqueePaused(true)}
+            onMouseLeave={() => setMarqueePaused(false)}
           >
-            {[...momentImages, ...momentImages, ...momentImages].map((img, i) => (
-              <div
-                key={i}
-                className="flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-500 ease-out hover:scale-105 hover:z-10 relative"
-                style={{ width: "400px", height: "280px", backgroundColor: "#E8E5E0" }}
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-full object-cover pointer-events-none"
-                  draggable={false}
-                />
-              </div>
-            ))}
+            <div
+              className="flex gap-6 marquee-track"
+              style={{ animationPlayState: marqueePaused ? "paused" : "running" }}
+            >
+              {[...momentImages, ...momentImages, ...momentImages].map((img, i) => (
+                <div
+                  key={i}
+                  className="flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-500 ease-out hover:scale-105 hover:z-10 relative"
+                  style={{ width: "400px", height: "280px", backgroundColor: "#E8E5E0" }}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-full object-cover pointer-events-none"
+                    draggable={false}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
