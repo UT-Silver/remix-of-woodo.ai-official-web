@@ -14,6 +14,7 @@ import keerGallery1 from "../assets/keer-gallery-1.png";
 import keerGallery2 from "../assets/keer-gallery-2.jpg";
 import keerGallery3 from "../assets/keer-gallery-3.jpg";
 import keerGallery4 from "../assets/keer-gallery-4.png";
+import keerGallery5 from "../assets/keer-gallery-5.jpg";
 
 const founders = [
   {
