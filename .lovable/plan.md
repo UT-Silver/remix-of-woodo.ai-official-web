@@ -1,29 +1,25 @@
 
 
-## Vision 页面 "What We Believe" section 滚动变黑效果
+## 主页 Brand Story section 由黑变亮过渡效果
 
-### 目标
-当用户滚动进入 "AI has democratized capability..." 这段文字区域时，整个页面背景平滑过渡为深色（#111714），文字变白；滚出后恢复原样。同时删除该 section 左侧的图片占位。
+参考 Vision 页面的 IntersectionObserver 模式，在主页的 "AI lowers the barrier to building..." Brand Story section 实现从暗到亮的背景过渡。
 
-### 修改文件：`src/pages/Vision.tsx`
+### 修改文件：`src/pages/Index.tsx`
 
-1. **添加 `useEffect` + `useRef` + `useState`**：用 IntersectionObserver 监听该 section 的可见性，设置 `isDark` 状态
+1. **添加状态和 ref**：新增 `isLight` state 和 `lightSectionRef`，用 `IntersectionObserver`（threshold 0.3）监听 Brand Story section
 
-2. **删除图片占位**：移除 `<ScrollReveal className="flex-1 md:sticky md:top-32">` 包裹的 `ImagePlaceholder`，让文字独占全宽居中
+2. **包裹层动态背景**：在最外层 `<div className="page-enter">` 上添加动态样式：
+   - 默认不设背景（Hero 和 Logo 条本身都是深色）
+   - 当 `isLight` 为 true 时，背景过渡到 `#FAF9F6`（暖白）
+   - `transition: background-color 0.8s ease`
 
-3. **背景过渡**：在最外层 `<div>` 上添加动态样式：
-   - 背景色：`isDark ? '#111714' : 'transparent'`
-   - 过渡：`transition: background-color 0.8s ease`
-   - 该 section 本身去掉 `bg-warm-white`
+3. **Brand Story section 自身**：
+   - 给该 section 加上 `ref={lightSectionRef}`
+   - 移除其 inline `background: "#FAF9F6"`，让背景由外层控制过渡
+   - 这样滚动进入时，整个页面从深色（Hero/Logo 条的 `#111714`）平滑过渡到暖白
 
-4. **文字颜色过渡**：该 section 内的文字根据 `isDark` 切换：
-   - 段落文字：`isDark ? 'text-gray-300' : 'text-muted-foreground'`
-   - 首字母大写 A：`isDark ? 'text-primary-light' : 'text-primary-dark'`
-   - "agency" 加粗：`isDark ? 'text-white' : 'text-foreground'`
+4. **文字无需变色**：该 section 文字本身就是亮色背景下的配色，不需要像 Vision 页那样切换文字颜色
 
-5. **布局调整**：文字区域改为 `max-w-3xl mx-auto` 居中，不再是左右两列
-
-### 技术细节
-- IntersectionObserver 使用 `threshold: 0.3` 确保 section 进入约 30% 时触发
-- 清理：移除未使用的 `ImagePlaceholder` import（如果其他地方不再用）
+### 效果
+用户从 Hero（深色）→ Logo 条（深色）→ 滚入 Brand Story 时，整个页面背景平滑从黑变亮白，产生沉浸式的明暗切换体验。
 
