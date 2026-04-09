@@ -167,14 +167,14 @@ const Team = () => {
             We work with practitioners from leading AI labs, technology companies, investment institutions, and startups.
           </p>
           <div className="mt-12 overflow-hidden">
-            <div className="flex gap-8 items-center w-max animate-marquee" style={{ animationDuration: '25s' }}>
+            <div className="flex gap-8 items-center w-max animate-marquee" style={{ animationDuration: '30s' }}>
               {[...Array(2)].flatMap((_, dupeIdx) =>
-                Array.from({ length: 8 }).map((_, i) => (
+                networkLogos.map((logo, i) => (
                   <div
                     key={`${dupeIdx}-${i}`}
-                    className="flex-shrink-0 w-36 h-20 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-sm"
+                    className="flex-shrink-0 h-16 px-6 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-sm"
                   >
-                    <span className="text-xs text-neutral-500 uppercase tracking-widest">Logo</span>
+                    <img src={logo.src} alt={logo.alt} className="h-10 w-auto object-contain opacity-80" />
                   </div>
                 ))
               )}
