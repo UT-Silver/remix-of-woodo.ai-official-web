@@ -83,19 +83,23 @@ const Team = () => {
                   >
                     <div className="px-6 md:px-10 pb-8">
                       <p className="text-xs uppercase tracking-[2px] text-muted-foreground mb-4">Gallery</p>
-                      <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                        {Array.from({ length: f.photoCount }).map((_, j) => (
-                          <div
-                            key={j}
-                            className="flex-shrink-0 w-36 h-28 rounded-xl overflow-hidden border border-border"
-                          >
-                            <ImagePlaceholder
-                              variant="neutral"
-                              className="w-full h-full"
-                              label={`${f.name.split(" ")[0]} #${j + 1}`}
-                            />
-                          </div>
-                        ))}
+                      <div className="overflow-hidden">
+                        <div className="flex gap-4 w-max animate-marquee" style={{ animationDuration: '14s' }}>
+                          {[...Array(2)].flatMap((_, dupeIdx) =>
+                            Array.from({ length: f.photoCount }).map((_, j) => (
+                              <div
+                                key={`${dupeIdx}-${j}`}
+                                className="flex-shrink-0 w-36 h-28 rounded-xl overflow-hidden border border-border"
+                              >
+                                <ImagePlaceholder
+                                  variant="neutral"
+                                  className="w-full h-full"
+                                  label={`${f.name.split(" ")[0]} #${j + 1}`}
+                                />
+                              </div>
+                            ))
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
