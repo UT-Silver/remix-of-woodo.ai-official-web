@@ -67,8 +67,11 @@ const articles = [
   { category: "AI", color: "bg-accent/10 text-accent-dark", title: "AI Literacy Is Not Enough", date: "Feb 2026" },
 ];
 
-const showcaseLabels = ["Team retreat", "Workshop", "Demo day", "Campus", "Mentorship", "Launch event"];
-
+const momentImages = [
+  { src: moment1, alt: "Meeting with industry leaders" },
+  { src: moment2, alt: "Team gathering" },
+  { src: moment3, alt: "Community workshop" },
+];
 const teamMembers = [
   { name: "Silver Yin", school: "Columbia University", quote: "Building what education should have been all along.", avatar: avatarSilver },
   { name: "David Dong", school: "Peking University", quote: "Execution is the only honest form of conviction.", avatar: avatarDavid },
@@ -78,46 +81,7 @@ const teamMembers = [
 const Index = () => {
   const heroText = "The world's best young minds don't need another course. They need a";
 
-  // Carousel state
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStartX = useRef(0);
-  const scrollStartX = useRef(0);
-
-  const checkScroll = () => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 10);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
-  };
-
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    el.addEventListener("scroll", checkScroll);
-    checkScroll();
-    return () => el.removeEventListener("scroll", checkScroll);
-  }, []);
-
-  const scrollCarousel = (dir: number) => {
-    scrollContainerRef.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
-  };
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    dragStartX.current = e.clientX;
-    scrollStartX.current = scrollContainerRef.current?.scrollLeft || 0;
-  };
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    const dx = e.clientX - dragStartX.current;
-    if (scrollContainerRef.current) scrollContainerRef.current.scrollLeft = scrollStartX.current - dx;
-  };
-  const onMouseUp = () => setIsDragging(false);
-
-  const cardSizes = [320, 240, 320, 240, 320, 240];
+  const [marqueePaused, setMarqueePaused] = useState(false);
 
   // Pillar hover state for image reveal
   const [hoveredPillar, setHoveredPillar] = useState<number | null>(null);
