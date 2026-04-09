@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import CountUp from "../components/CountUp";
+import HeroParticleReveal from "../components/HeroParticleReveal";
 import visionHero1 from "../assets/vision-hero-1.png";
 import visionHero2 from "../assets/vision-hero-2.png";
 import visionHero3 from "../assets/vision-hero-3.png";
@@ -16,31 +17,30 @@ const convictions = [
 const Vision = () => {
   return (
     <div className="page-enter pt-20">
-      {/* Opening — white + blue glow */}
-      <section className="min-h-[80vh] flex items-center justify-center px-6 relative overflow-hidden bg-white dot-grid-bg">
-        {/* Scattered photos like Omidyar hero */}
-        <ScrollReveal direction="fadeOnly" delay={200} className="absolute top-[10%] left-[8%] md:left-[12%] z-0">
+      {/* Opening — Build-style hero with black particles */}
+      <section className="particle-reveal-zone relative w-full overflow-hidden bg-white" style={{ height: "70vh", minHeight: "480px" }}>
+        <HeroParticleReveal color="black" />
+        {/* Scattered photos */}
+        <ScrollReveal direction="fadeOnly" delay={200} className="absolute top-[10%] left-[8%] md:left-[12%]" style={{ zIndex: 1 }}>
           <img src={visionHero1} alt="" className="w-32 md:w-48 lg:w-56 rounded-sm shadow-lg" />
         </ScrollReveal>
-        <ScrollReveal direction="fadeOnly" delay={400} className="absolute top-[6%] right-[20%] md:right-[25%] z-0">
+        <ScrollReveal direction="fadeOnly" delay={400} className="absolute top-[6%] right-[20%] md:right-[25%]" style={{ zIndex: 1 }}>
           <img src={visionHero2} alt="" className="w-28 md:w-40 lg:w-48 rounded-sm shadow-lg" />
         </ScrollReveal>
-        <ScrollReveal direction="fadeOnly" delay={600} className="absolute bottom-[10%] right-[6%] md:right-[10%] z-0">
+        <ScrollReveal direction="fadeOnly" delay={600} className="absolute bottom-[10%] right-[6%] md:right-[10%]" style={{ zIndex: 1 }}>
           <img src={visionHero3} alt="" className="w-32 md:w-44 lg:w-52 rounded-sm shadow-lg" />
         </ScrollReveal>
-        <ScrollReveal direction="fadeOnly" delay={800} className="absolute bottom-[8%] left-[25%] md:left-[30%] z-0">
+        <ScrollReveal direction="fadeOnly" delay={800} className="absolute bottom-[8%] left-[25%] md:left-[30%]" style={{ zIndex: 1 }}>
           <img src={visionHero4} alt="" className="w-36 md:w-48 lg:w-56 rounded-sm shadow-lg" />
         </ScrollReveal>
 
-        <div className="max-w-5xl w-full relative z-10">
-          <ScrollReveal direction="left">
-            <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-6">Our Vision</p>
-            <h1 className="text-3xl md:text-5xl font-medium text-foreground leading-tight text-balance">
-              <strong className="text-primary-dark font-bold">Invention</strong> should not belong to the few.
-            </h1>
-            <p className="mt-4 text-lg text-muted-foreground">We exist to make sure it doesn't.</p>
-          </ScrollReveal>
-        </div>
+        <ScrollReveal className="absolute bottom-12 left-8 md:left-16 z-10 max-w-2xl" direction="up">
+          <p className="text-xs uppercase tracking-[3px] mb-4 text-muted-foreground">Our Vision</p>
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.1] text-foreground">
+            <strong className="text-primary-dark font-bold">Invention</strong> should not belong to the few.
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground">We exist to make sure it doesn't.</p>
+        </ScrollReveal>
       </section>
 
       <div className="section-divider" />
