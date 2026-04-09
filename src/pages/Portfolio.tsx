@@ -70,7 +70,7 @@ const Portfolio = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
           {/* Card 1 — large, accent bg */}
           <ScrollReveal className="md:row-span-1">
-            <div className="rounded-3xl p-8 md:p-10 h-full flex flex-col justify-end min-h-[320px]" style={{ backgroundColor: "#F5E6D3" }}>
+            <div className="p-8 md:p-10 h-full flex flex-col justify-end min-h-[320px]" style={{ backgroundColor: "#F5E6D3", borderRadius: "24px 120px 24px 24px" }}>
               <div className="h-40 md:h-48 mb-6 rounded-2xl flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.06)" }}>
                 <span className="text-muted-foreground text-sm">Illustration coming soon</span>
               </div>
@@ -112,7 +112,7 @@ const Portfolio = () => {
 
           {/* Card 4 — accent warm bg */}
           <ScrollReveal delay={300}>
-            <div className="rounded-3xl p-8 md:p-10 h-full flex flex-col justify-end min-h-[320px]" style={{ backgroundColor: "#E87B5A" }}>
+            <div className="p-8 md:p-10 h-full flex flex-col justify-end min-h-[320px]" style={{ backgroundColor: "#E87B5A", borderRadius: "24px 24px 24px 120px" }}>
               <div className="h-40 md:h-48 mb-6 rounded-2xl flex items-center justify-center" style={{ backgroundColor: "rgba(255,255,255,0.15)" }}>
                 <span className="text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>Illustration coming soon</span>
               </div>
