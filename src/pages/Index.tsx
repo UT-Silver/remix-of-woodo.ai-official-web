@@ -8,6 +8,31 @@ import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
 import avatarKeer from "../assets/avatar-keer.jpg";
 import articleHeroWoodo from "../assets/article-hero-woodo.png";
+import logoBytedance from "../assets/logo-bytedance.png";
+import logoAmazon from "../assets/logo-amazon.png";
+import logoBilibili from "../assets/logo-bilibili.png";
+import logoMeta from "../assets/logo-meta.png";
+import logoTencent from "../assets/logo-tencent.png";
+import logoOpenai from "../assets/logo-openai.png";
+import logoBcg from "../assets/logo-bcg.png";
+import logoCicc from "../assets/logo-cicc.png";
+import logoJpmorgan from "../assets/logo-jpmorgan.png";
+import logoAlibaba from "../assets/logo-alibaba.png";
+import logoDeutschebank from "../assets/logo-deutschebank.png";
+
+const networkLogos = [
+  { src: logoBytedance, alt: "ByteDance" },
+  { src: logoAmazon, alt: "Amazon" },
+  { src: logoBilibili, alt: "Bilibili" },
+  { src: logoMeta, alt: "Meta" },
+  { src: logoTencent, alt: "Tencent" },
+  { src: logoOpenai, alt: "OpenAI" },
+  { src: logoBcg, alt: "BCG" },
+  { src: logoCicc, alt: "CICC" },
+  { src: logoJpmorgan, alt: "J.P.Morgan" },
+  { src: logoAlibaba, alt: "Alibaba" },
+  { src: logoDeutschebank, alt: "Deutsche Bank" },
+];
 
 const pillars = [
   {
@@ -157,6 +182,27 @@ const Index = () => {
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
           <ChevronDown className="w-5 h-5" style={{ color: "rgba(255,255,255,0.3)" }} />
+        </div>
+      </section>
+
+      {/* ===== LOGO MARQUEE ===== */}
+      <section
+        className="overflow-hidden"
+        style={{ background: "#111714", position: "relative", zIndex: 10, padding: "40px 0" }}
+      >
+        <div className="overflow-hidden">
+          <div className="flex gap-8 items-center w-max animate-marquee" style={{ animationDuration: '30s' }}>
+            {[...Array(2)].flatMap((_, dupeIdx) =>
+              networkLogos.map((logo, i) => (
+                <div
+                  key={`${dupeIdx}-${i}`}
+                  className="flex-shrink-0 h-16 px-6 rounded-xl border border-white/10 bg-black flex items-center justify-center"
+                >
+                  <img src={logo.src} alt={logo.alt} className="h-10 w-auto object-contain opacity-80" />
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </section>
 
