@@ -73,11 +73,31 @@ const ParticleBackground = () => {
       mouseY = e.clientY;
     };
 
+    // Cache dark section rects
+    let darkRects: DOMRect[] = [];
+    let lastRectCheck = 0;
+
+    const refreshDarkRects = () => {
+      const selectors = '.bg-slate-dark, .dark-section-glow, .bg-cta-green';
+      darkRects = Array.from(document.querySelectorAll(selectors)).map(el => el.getBoundingClientRect());
+      lastRectCheck = Date.now();
+    };
+
+    const isInDarkZone = (y: number) => {
+      for (const r of darkRects) {
+        if (y >= r.top && y <= r.bottom) return true;
+      }
+      return false;
+    };
+
     const animate = () => {
       const W = canvas.width;
       const H = canvas.height;
       ctx.clearRect(0, 0, W, H);
       const time = Date.now() * 0.001;
+
+      // Refresh dark section positions every 500ms
+      if (Date.now() - lastRectCheck > 500) refreshDarkRects();
 
       // Update positions
       for (const node of nodes) {
@@ -117,25 +137,17 @@ const ParticleBackground = () => {
         }
       }
 
-      // Detect dark sections under each node by sampling known dark regions
       // Draw nodes
       for (const node of nodes) {
         const dm = Math.sqrt((node.x - mouseX) ** 2 + (node.y - mouseY) ** 2);
+        const isDark = isInDarkZone(node.y);
 
-        // Check if node is over a dark background element
-        const elBelow = document.elementFromPoint(node.x, node.y);
-        const isDark = elBelow ? (
-          elBelow.closest('.bg-slate-dark') !== null ||
-          elBelow.closest('.dark-section-glow') !== null ||
-          elBelow.closest('.bg-cta-green') !== null
-        ) : false;
-
-        let opacity = isDark ? 0.35 : 0.12;
-        let size = node.size;
+        let opacity = isDark ? 0.55 : 0.12;
+        let size = isDark ? node.size * 1.3 : node.size;
 
         if (dm < MOUSE_RADIUS) {
           const p = 1 - dm / MOUSE_RADIUS;
-          opacity = (isDark ? 0.35 : 0.12) + p * 0.55;
+          opacity = (isDark ? 0.55 : 0.12) + p * 0.6;
           size = node.size + p * 3;
 
           if (p > 0.3) {
@@ -173,7 +185,7 @@ const ParticleBackground = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 5, width: "100vw", height: "100vh" }}
+      style={{ zIndex: 15, width: "100vw", height: "100vh" }}
     />
   );
 };
