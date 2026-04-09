@@ -197,9 +197,7 @@ const Apply = () => {
           </a>
           <div className="mt-8 max-w-xs mx-auto rounded-2xl p-6 border relative z-10" style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}>
             <p className="text-xs mb-3" style={{ color: "rgba(255,255,255,0.4)" }}>WeChat</p>
-            <div className="w-24 h-24 rounded-lg mx-auto flex items-center justify-center" style={{ background: "rgba(255,255,255,0.1)" }}>
-              <span className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>QR Code</span>
-            </div>
+            <img src={wechatQr} alt="WeChat QR Code" className="w-24 h-24 rounded-lg mx-auto" />
           </div>
         </ScrollReveal>
       </section>
