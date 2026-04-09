@@ -185,7 +185,7 @@ const ParticleBackground = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 5, width: "100vw", height: "100vh" }}
+      style={{ zIndex: 15, width: "100vw", height: "100vh" }}
     />
   );
 };
