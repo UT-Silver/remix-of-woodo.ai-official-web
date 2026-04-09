@@ -1,39 +1,17 @@
 
 
-# Add Investment Report Screenshots Section to Build Page
+## 修改：揭示半径从 25px 改为 250px
 
-## What we're building
-A new section below the AI Value Chain iframe showcasing 4 investment report screenshots in a bento-grid layout inspired by the reference image (image 5 — the sync.com grid with mixed-size cards on a dark background).
+将 Build 页 Hero 图片上的粒子揭示效果半径从 25px 增大到 250px。
 
-## Layout Design
-Based on the reference image's bento-grid style: a 3-column grid with varying card sizes. The 4 report screenshots will be arranged as:
+### 修改内容
 
-```text
-┌──────────────┬─────────┐
-│   Image 1    │ Image 2 │
-│  (large,     │ (small) │
-│   spans 2    │         │
-│   cols)      ├─────────┤
-│              │ Image 3 │
-├──────────────┤ (small) │
-│   Image 4    │         │
-│  (wide,      │         │
-│   spans 2)   │         │
-└──────────────┴─────────┘
-```
+#### 1. `src/components/ParticleBackground.tsx`
+- 将 `REVEAL_RADIUS` 常量从 `25` 改为 `250`。
 
-Dark background (`bg-[#1a1a1a]`) with rounded-corner cards, matching the reference's premium feel and the site's existing dark sections.
+#### 2. `src/pages/Portfolio.tsx`
+- Hero section 添加 `particle-reveal-zone` class 标记（如尚未添加）。
 
-## Changes
-
-### 1. Copy the 4 report screenshots to `src/assets/`
-Copy the 4 uploaded report images into the project for use as imports.
-
-### 2. Update `src/pages/Portfolio.tsx`
-Insert a new section between the AI Value Chain iframe section and the Future Grid section:
-- Section header: `"Crafting Wall Street Standard Investment Reports."` with subtitle
-- Dark background with bento-grid layout
-- 4 images displayed in rounded cards with `object-cover` / `object-top` cropping
-- ScrollReveal animations consistent with the rest of the page
-- Responsive: stacks to single column on mobile
+### 效果
+鼠标在 Hero 图片上时，250px 范围内的粒子会变亮、放大并显示光晕，覆盖范围更大，视觉冲击力更强。
 
