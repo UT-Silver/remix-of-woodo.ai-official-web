@@ -1,15 +1,14 @@
 
 
-## 移除 "Building in progress" 区块
+## 将 Build 页面粒子颜色改为纯白
 
-### 修改文件：`src/pages/Portfolio.tsx`
+### 修改文件：`src/components/HeroParticleReveal.tsx`
 
-删除第 49-68 行（从 `{/* Logo Centerpiece — white */}` 注释到该 section 的 `</section>` 结束标签），包含：
-- Ripple rings 动画
-- Woodo Logo placeholder
-- "2026" 水印文字
-- "Building in progress." 标题
-- "First projects launching 2026." 副标题
+将颜色逻辑从读取 CSS 变量（`--primary`, `--secondary`, `--accent`）改为固定使用纯白色 `0 0% 100%`（HSL 格式）。
 
-删除后，Hero section 将直接衔接 AI Value Chain Interactive 区块。
+具体修改：
+- 移除 `colorTokens` 数组的 CSS 变量读取逻辑
+- 将所有节点的 `colorToken` 固定为 `"0 0% 100%"`（纯白 HSL）
+
+该组件仅在 Portfolio 页面 Hero 区域使用，不影响其他页面。
 
