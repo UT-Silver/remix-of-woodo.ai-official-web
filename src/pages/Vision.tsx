@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
+import HeroParticleReveal from "../components/HeroParticleReveal";
 
 import visionHero1 from "../assets/vision-hero-1.png";
 import visionHero2 from "../assets/vision-hero-2.png";
@@ -74,8 +75,9 @@ const Vision = () => {
       <div className="section-divider" />
 
       {/* What We Believe — scroll-triggered dark background */}
-      <section ref={darkSectionRef} className="py-20 md:py-28 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+      <section ref={darkSectionRef} className="py-20 md:py-28 px-6 relative overflow-hidden particle-reveal-zone">
+        <HeroParticleReveal />
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center relative z-10">
           <ScrollReveal className="w-full md:w-1/2" direction="left">
             <div className="rounded-2xl overflow-hidden shadow-lg">
               <img src={visionLaborMarket} alt="Labor market signals — AI skills in demand" className="w-full h-auto object-cover" />
