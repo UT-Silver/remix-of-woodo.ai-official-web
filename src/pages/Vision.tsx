@@ -35,7 +35,7 @@ const Vision = () => {
         <div className="max-w-5xl w-full relative z-10">
           <ScrollReveal direction="left">
             <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-6">Our Vision</p>
-            <h1 className="text-3xl md:text-5xl font-medium text-foreground leading-tight text-balance">
+            <h1 className="hero-title text-foreground text-balance">
               <strong className="text-primary-dark font-bold">Invention</strong> should not belong to the few.
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">We exist to make sure it doesn't.</p>
