@@ -178,7 +178,7 @@ const Index = () => {
                 style={{ color: "#16A34A", fontFamily: "'Playfair Display', serif", fontStyle: "italic", lineHeight: 1.4 }}
               >
                 AI lowers the barrier to building. We raise the bar for what gets{" "}
-                <em className="not-italic font-semibold" style={{ color: "#15803D" }}>built</em>.
+                <em className="not-italic font-bold" style={{ color: "#15803D" }}>built</em>.
               </blockquote>
               <p className="mt-4 text-xs uppercase tracking-[3px]" style={{ color: "#94A3B8" }}>
                 — Woodo Thesis
