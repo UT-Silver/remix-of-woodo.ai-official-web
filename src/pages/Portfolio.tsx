@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import ComingSoonParticle from "../components/ComingSoonParticle";
@@ -26,9 +26,22 @@ const reportImages = [
 const Portfolio = () => {
   const [marqueePaused, setMarqueePaused] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [isDark, setIsDark] = useState(false);
+  const darkSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = darkSectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsDark(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="page-enter pt-20">
+    <div className="page-enter pt-20" style={{ backgroundColor: isDark ? '#1a1a1a' : 'transparent', transition: 'background-color 0.8s ease' }}>
       <section className="dark-section-glow particle-reveal-zone relative w-full overflow-hidden" style={{ height: "70vh", minHeight: "480px" }}>
         <img
           src={heroBuild}
@@ -69,7 +82,7 @@ const Portfolio = () => {
       </section>
 
       {/* Investment Reports Showcase — dark bento grid */}
-      <section className="py-20 md:py-28 overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
+      <section ref={darkSectionRef} className="py-20 md:py-28 overflow-hidden">
         <ScrollReveal className="px-6">
           <p className="text-xs uppercase tracking-[3px] mb-4 text-center" style={{ color: "rgba(255,255,255,0.45)" }}>Showcase</p>
           <h2 className="text-2xl md:text-3xl font-medium text-center" style={{ color: "#fff" }}>
