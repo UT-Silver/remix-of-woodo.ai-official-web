@@ -129,7 +129,7 @@ const Portfolio = () => {
           style={{ height: "80vh", minHeight: "500px" }}
         >
           <iframe
-            src="/ai-hedge-fund"
+            src="https://dist-eight-puce.vercel.app"
             title="AI Hedge Fund Agent Team"
             className="w-full h-full border-0"
             loading="lazy"
