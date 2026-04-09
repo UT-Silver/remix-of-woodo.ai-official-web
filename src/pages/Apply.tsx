@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import HeroParticleReveal from "../components/HeroParticleReveal";
+import LightParticleReveal from "../components/LightParticleReveal";
 import applyHeroBg from "../assets/apply-hero.png";
 import {
   Accordion,
@@ -87,7 +88,8 @@ const Apply = () => {
       </section>
 
       {/* Form — cool gray + dot grid texture */}
-      <section className="py-16 px-6 bg-cool-gray dot-grid-bg-green relative">
+      <section className="py-16 px-6 bg-cool-gray dot-grid-bg-green relative overflow-hidden">
+        <LightParticleReveal />
         <ScrollReveal className="max-w-lg mx-auto bg-background/90 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-border relative z-10">
           {submitted ? (
             <div className="text-center py-16">
