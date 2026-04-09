@@ -371,3 +371,44 @@
   animation: marquee-scroll 30s linear infinite;
   width: max-content;
 }
+
+/* ========== ARTICLE PROSE ========== */
+.prose-article p {
+  font-family: 'Georgia', serif;
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  color: #1E293B;
+  margin-bottom: 1.5rem;
+}
+.prose-article strong {
+  font-weight: 700;
+}
+.prose-article em {
+  font-style: italic;
+}
+.prose-article hr {
+  border: none;
+  border-top: 1px solid #E2E8F0;
+  margin: 2.5rem 0;
+}
+.prose-article ul {
+  margin: 1.5rem 0;
+  padding-left: 0;
+  list-style: none;
+}
+.prose-article ul li {
+  font-family: 'Georgia', serif;
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  color: #1E293B;
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.prose-article ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #22C55E;
+  font-weight: bold;
+}
