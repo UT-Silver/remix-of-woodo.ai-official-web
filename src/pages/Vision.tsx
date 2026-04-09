@@ -14,16 +14,13 @@ const Vision = () => {
     <div className="page-enter pt-20">
       {/* Opening — white + blue glow */}
       <section className="min-h-[80vh] flex items-center justify-center px-6 relative overflow-hidden glow-blue-bl dot-grid-bg">
-        <div className="max-w-5xl w-full flex flex-col md:flex-row items-center gap-12 relative z-10">
-          <ScrollReveal className="flex-1" direction="left">
+        <div className="max-w-5xl w-full relative z-10">
+          <ScrollReveal direction="left">
             <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-6">Our Vision</p>
             <h1 className="text-3xl md:text-5xl font-medium text-foreground leading-tight text-balance">
               <strong className="text-primary-dark font-bold">Invention</strong> should not belong to the few.
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">We exist to make sure it doesn't.</p>
-          </ScrollReveal>
-          <ScrollReveal className="flex-1 max-w-md w-full" direction="right">
-            <ImagePlaceholder variant="green" className="w-full h-72 md:h-96" label="Vision Visual" />
           </ScrollReveal>
         </div>
       </section>
