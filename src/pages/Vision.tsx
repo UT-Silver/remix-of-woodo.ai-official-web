@@ -95,6 +95,7 @@ const Vision = () => {
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight mb-16">Our Vision</h2>
           </ScrollReveal>
           <div className="space-y-24">
+          {convictions.map((c, i) => (
             <ScrollReveal key={c.title} delay={i * 150} direction={i % 2 === 0 ? "left" : "right"}>
               <div className={`flex flex-col ${i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-10 items-center p-8 rounded-2xl ${i % 2 === 0 ? "bg-background" : "bg-warm-white"}`}>
                 <div className="flex-1">
@@ -116,6 +117,7 @@ const Vision = () => {
               </div>
             </ScrollReveal>
           ))}
+          </div>
         </div>
       </section>
 
