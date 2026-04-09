@@ -107,7 +107,7 @@ const Vision = () => {
                   className={`rounded-2xl transition-all duration-500 ease-out cursor-pointer ${isExpanded ? 'bg-warm-white p-8 shadow-sm' : 'p-4'}`}
                 >
                   {/* Title row — always visible */}
-                  <div className="flex items-center gap-4">
+                  <div className={`flex items-center gap-4 ${i % 2 === 1 ? 'justify-end' : ''}`}>
                     <span className={`text-2xl font-bold transition-colors duration-300 ${isExpanded ? 'text-primary-dark' : 'text-muted-foreground/40'}`}>{c.num}</span>
                     <div className={`w-px h-6 transition-colors duration-300 ${isExpanded ? c.border.replace('border-', 'bg-') : 'bg-muted-foreground/20'}`} />
                     <h3 className={`text-xl md:text-2xl font-semibold tracking-tight transition-colors duration-300 ${isExpanded ? 'text-foreground' : 'text-muted-foreground'}`}>{c.title}</h3>
