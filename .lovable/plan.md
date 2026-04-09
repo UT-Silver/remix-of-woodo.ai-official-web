@@ -1,21 +1,20 @@
 
 
-## Portfolio 页面：从亮到暗的背景过渡
+## Vision 页面暗色 section 添加粒子连线效果
 
-### 修改文件：`src/pages/Portfolio.tsx`
+### 修改文件：`src/pages/Vision.tsx`
 
-1. **添加状态和 ref**：引入 `useEffect, useRef`，新增 `isDark` state 和 `darkSectionRef`，用 `IntersectionObserver`（threshold 0.3）监听 Investment Reports section
+1. **导入 HeroParticleReveal**：`import HeroParticleReveal from "../components/HeroParticleReveal";`
 
-2. **外层动态背景**：在最外层 `<div className="page-enter">` 上添加动态样式：
-   - `backgroundColor: isDark ? '#1a1a1a' : 'transparent'`
-   - `transition: background-color 0.8s ease`
+2. **给暗色 section 添加 `relative overflow-hidden particle-reveal-zone` 类名和粒子组件**：
+   - 当前 section（line 77）：`<section ref={darkSectionRef} className="py-20 md:py-28 px-6">`
+   - 改为：`<section ref={darkSectionRef} className="py-20 md:py-28 px-6 relative overflow-hidden particle-reveal-zone">`
+   - 在 section 内部、`max-w-5xl` div 之前插入 `<HeroParticleReveal />`
 
-3. **Investment Reports section**：
-   - 加 `ref={darkSectionRef}`
-   - 移除其 inline `style={{ backgroundColor: "#1a1a1a" }}`，让背景由外层过渡控制
+3. **确保内容层级在粒子之上**：给 `max-w-5xl` 的 div 加 `relative z-10`
 
-4. **AI Value Chain section**：保持 `bg-warm-white dot-grid-bg` 不变（亮色）
+`HeroParticleReveal` 组件已经实现了 250px 范围的白色神经节点连线效果（`REVEAL_RADIUS = 250`），会自动适配父容器尺寸。`particle-reveal-zone` class 会让全局 `ParticleBackground` 也识别该区域。
 
 ### 效果
-用户从 AI Value Chain（亮色）滚入 Investment Reports 时，整个页面背景平滑从亮变暗，与 Vision 和 Index 页的过渡风格一致。
+进入暗色 "What We Believe" section 后，鼠标周围 250px 范围内会出现白色粒子节点和连线，与 Build 页 hero 效果一致。
 
