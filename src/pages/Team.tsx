@@ -154,7 +154,7 @@ const Team = () => {
             ))}
           </div>
           <p className="mt-8 text-sm text-muted-foreground">
-            We also partner with leading AI researchers, startup founders, and industry practitioners.
+            {"\n"}
           </p>
         </ScrollReveal>
       </section>
