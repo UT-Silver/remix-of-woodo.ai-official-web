@@ -142,12 +142,12 @@ const ParticleBackground = () => {
         const dm = Math.sqrt((node.x - mouseX) ** 2 + (node.y - mouseY) ** 2);
         const isDark = isInDarkZone(node.y);
 
-        let opacity = isDark ? 0.35 : 0.12;
-        let size = node.size;
+        let opacity = isDark ? 0.55 : 0.12;
+        let size = isDark ? node.size * 1.3 : node.size;
 
         if (dm < MOUSE_RADIUS) {
           const p = 1 - dm / MOUSE_RADIUS;
-          opacity = (isDark ? 0.35 : 0.12) + p * 0.55;
+          opacity = (isDark ? 0.55 : 0.12) + p * 0.6;
           size = node.size + p * 3;
 
           if (p > 0.3) {
