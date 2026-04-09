@@ -62,10 +62,6 @@
   }
   html {
     scroll-behavior: smooth;
-    transition: background-color 0.5s linear;
-  }
-  html.portfolio-dark {
-    background-color: #1a1a1a;
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;

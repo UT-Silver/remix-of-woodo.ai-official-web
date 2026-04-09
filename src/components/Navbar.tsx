@@ -13,12 +13,12 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [onHero, setOnHero] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [portfolioDark, setPortfolioDark] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
+      // Check if we're still within the hero section (approx 100vh)
       setOnHero(window.scrollY < window.innerHeight - 80);
     };
     window.addEventListener("scroll", onScroll);
@@ -26,98 +26,77 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Watch for portfolio-dark class on <html>
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setPortfolioDark(document.documentElement.classList.contains("portfolio-dark"));
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
-  }, []);
-
+  // Only show hero-aware styling on homepage
   const isHome = location.pathname === "/";
   const heroMode = isHome && onHero && !scrolled;
-  const darkNav = portfolioDark && !heroMode;
 
   useEffect(() => {
     setMenuOpen(false);
   }, [location]);
 
-  const linkColor = (isActive: boolean) => {
-    if (heroMode) return isActive ? "#FFFFFF" : "rgba(255,255,255,0.8)";
-    if (darkNav) return isActive ? "#FFFFFF" : "rgba(255,255,255,0.7)";
-    return isActive ? "#1E293B" : "#4B5563";
-  };
-
-  const linkHoverColor = () => {
-    if (heroMode) return "#FFFFFF";
-    if (darkNav) return "#FFFFFF";
-    return "#16A34A";
-  };
-
-  const underlineColor = heroMode ? "#86EFAC" : darkNav ? "#86EFAC" : "#22C55E";
-  const hamburgerColor = heroMode || darkNav ? "#FFFFFF" : "#1E293B";
-
-  const navBgStyle = scrolled
-    ? darkNav
-      ? {
-          background: "rgba(26,26,26,0.85)",
-          borderBottom: "0.5px solid rgba(255,255,255,0.08)",
-          WebkitBackdropFilter: "blur(16px)",
-          backdropFilter: "blur(16px)",
-          boxShadow: "0 1px 0 rgba(0,0,0,0.2)",
-        }
-      : {
-          background: "rgba(250,249,246,0.85)",
-          borderBottom: "0.5px solid rgba(226,232,240,0.5)",
-          WebkitBackdropFilter: "blur(16px)",
-          backdropFilter: "blur(16px)",
-          boxShadow: "0 1px 0 rgba(0,0,0,0.04)",
-        }
-    : { background: "transparent" };
-
   return (
     <>
       <nav
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-        style={navBgStyle}
+        style={
+          scrolled
+            ? {
+                background: "rgba(250,249,246,0.85)",
+                borderBottom: "0.5px solid rgba(226,232,240,0.5)",
+                WebkitBackdropFilter: "blur(16px)",
+                backdropFilter: "blur(16px)",
+                boxShadow: "0 1px 0 rgba(0,0,0,0.04)",
+              }
+            : heroMode
+            ? { background: "transparent" }
+            : { background: "transparent" }
+        }
       >
         <div className="container mx-auto flex items-center justify-between h-16 md:h-20" style={{ padding: "0 5%" }}>
-          <Wordmark variant={heroMode || darkNav ? "dark" : "light"} size="sm" />
+          <Wordmark variant={heroMode ? "dark" : "light"} size="sm" />
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center" style={{ gap: "40px" }}>
-            {navLinks.map((link) => {
-              const isActive = location.pathname === link.to;
-              return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className="relative transition-colors group"
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="relative transition-colors group"
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  letterSpacing: "0.5px",
+                  color: heroMode
+                    ? location.pathname === link.to
+                      ? "#FFFFFF"
+                      : "rgba(255,255,255,0.8)"
+                    : location.pathname === link.to
+                    ? "#1E293B"
+                    : "#4B5563",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = heroMode ? "#FFFFFF" : "#16A34A";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = heroMode
+                    ? location.pathname === link.to
+                      ? "#FFFFFF"
+                      : "rgba(255,255,255,0.8)"
+                    : location.pathname === link.to
+                    ? "#1E293B"
+                    : "#4B5563";
+                }}
+              >
+                {link.label}
+                <span
+                  className="absolute -bottom-1 left-0 right-0 h-[2px] transition-transform duration-300 origin-center"
                   style={{
-                    fontSize: "14px",
-                    fontWeight: 400,
-                    letterSpacing: "0.5px",
-                    color: linkColor(isActive),
+                    background: heroMode ? "#86EFAC" : "#22C55E",
+                    transform: location.pathname === link.to ? "scaleX(1)" : "scaleX(0)",
                   }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = linkHoverColor();
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = linkColor(isActive);
-                  }}
-                >
-                  {link.label}
-                  <span
-                    className="absolute -bottom-1 left-0 right-0 h-[2px] transition-transform duration-300 origin-center"
-                    style={{
-                      background: underlineColor,
-                      transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                    }}
-                  />
-                </Link>
-              );
-            })}
+                />
+              </Link>
+            ))}
             <Link
               to="/apply"
               className="font-semibold rounded-full transition-all active:scale-[0.97] cta-glow"
@@ -150,15 +129,15 @@ const Navbar = () => {
           >
             <span
               className="block w-5 h-0.5 transition-transform"
-              style={{ background: hamburgerColor, transform: menuOpen ? "rotate(45deg) translateY(8px)" : "none" }}
+              style={{ background: heroMode ? "#FFFFFF" : "#1E293B", transform: menuOpen ? "rotate(45deg) translateY(8px)" : "none" }}
             />
             <span
               className="block w-5 h-0.5 transition-opacity"
-              style={{ background: hamburgerColor, opacity: menuOpen ? 0 : 1 }}
+              style={{ background: heroMode ? "#FFFFFF" : "#1E293B", opacity: menuOpen ? 0 : 1 }}
             />
             <span
               className="block w-5 h-0.5 transition-transform"
-              style={{ background: hamburgerColor, transform: menuOpen ? "-rotate(45deg) translateY(-8px)" : "none" }}
+              style={{ background: heroMode ? "#FFFFFF" : "#1E293B", transform: menuOpen ? "-rotate(45deg) translateY(-8px)" : "none" }}
             />
           </button>
         </div>
