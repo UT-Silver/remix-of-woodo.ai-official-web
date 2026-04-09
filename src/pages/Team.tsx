@@ -8,6 +8,7 @@ import davidGallery1 from "../assets/david-gallery-1.jpg";
 import davidGallery2 from "../assets/david-gallery-2.jpg";
 import davidGallery3 from "../assets/david-gallery-3.jpg";
 import davidGallery4 from "../assets/david-gallery-4.jpg";
+import davidGallery5 from "../assets/david-gallery-5.jpg";
 
 const founders = [
   {
