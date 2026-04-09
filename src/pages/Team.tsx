@@ -76,7 +76,7 @@ const Team = () => {
       <section className="py-20 md:py-28 px-6 text-center glow-green-tr dot-grid-bg">
         <ScrollReveal>
           <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-4 relative z-10">The Team</p>
-          <h1 className="text-3xl md:text-4xl font-medium text-foreground relative z-10">
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-foreground relative z-10">
             <strong className="text-primary-dark font-bold">Builders</strong> who decided to build builders.
           </h1>
           <p className="mt-4 text-lg text-muted-foreground relative z-10">Three co-founders, one conviction.</p>
