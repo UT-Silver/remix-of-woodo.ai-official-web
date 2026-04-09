@@ -21,16 +21,16 @@ const Vision = () => {
       <section className="particle-reveal-zone relative w-full overflow-hidden bg-white" style={{ height: "70vh", minHeight: "480px" }}>
         <HeroParticleReveal color="black" />
         {/* Scattered photos */}
-        <ScrollReveal direction="fadeOnly" delay={200} className="absolute top-[10%] left-[8%] md:left-[12%]" style={{ zIndex: 1 }}>
+        <ScrollReveal direction="fadeOnly" delay={200} className="absolute top-[10%] left-[8%] md:left-[12%] z-[1]">
           <img src={visionHero1} alt="" className="w-32 md:w-48 lg:w-56 rounded-sm shadow-lg" />
         </ScrollReveal>
-        <ScrollReveal direction="fadeOnly" delay={400} className="absolute top-[6%] right-[20%] md:right-[25%]" style={{ zIndex: 1 }}>
+        <ScrollReveal direction="fadeOnly" delay={400} className="absolute top-[6%] right-[20%] md:right-[25%] z-[1]">
           <img src={visionHero2} alt="" className="w-28 md:w-40 lg:w-48 rounded-sm shadow-lg" />
         </ScrollReveal>
-        <ScrollReveal direction="fadeOnly" delay={600} className="absolute bottom-[10%] right-[6%] md:right-[10%]" style={{ zIndex: 1 }}>
+        <ScrollReveal direction="fadeOnly" delay={600} className="absolute bottom-[10%] right-[6%] md:right-[10%] z-[1]">
           <img src={visionHero3} alt="" className="w-32 md:w-44 lg:w-52 rounded-sm shadow-lg" />
         </ScrollReveal>
-        <ScrollReveal direction="fadeOnly" delay={800} className="absolute bottom-[8%] left-[25%] md:left-[30%]" style={{ zIndex: 1 }}>
+        <ScrollReveal direction="fadeOnly" delay={800} className="absolute bottom-[8%] left-[25%] md:left-[30%] z-[1]">
           <img src={visionHero4} alt="" className="w-36 md:w-48 lg:w-56 rounded-sm shadow-lg" />
         </ScrollReveal>
 
