@@ -28,7 +28,7 @@ const Footer = () => {
               Navigate
             </h4>
             <div className="flex flex-col gap-2.5">
-{[{ label: "Vision", path: "vision" }, { label: "Team", path: "team" }, { label: "Build", path: "portfolio" }, { label: "Insights", path: "insights" }, { label: "Apply", path: "apply" }].map((item) => (
+{[{ label: "Vision", path: "vision" }, { label: "Team", path: "team" }, { label: "Build", path: "portfolio" }, {[{ label: "Vision", path: "vision" }, { label: "Team", path: "team" }, { label: "Build", path: "portfolio" }, { label: "Think", path: "think" }, { label: "Apply", path: "apply" }].map((item) => (, { label: "Apply", path: "apply" }].map((item) => (
                 <Link
                   key={item.path}
                   to={`/${item.path}`}
