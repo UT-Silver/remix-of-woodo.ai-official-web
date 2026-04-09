@@ -17,6 +17,9 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "paths": {
+      "@ahf/*": [
+        "./src/ai-hedge-fund/*"
+      ],
       "@/*": [
         "./src/*"
       ]
