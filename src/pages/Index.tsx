@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import MagneticButton from "../components/MagneticButton";
 import HeroParticleReveal from "../components/HeroParticleReveal";
@@ -119,8 +119,23 @@ const Index = () => {
   // Pillar hover state for image reveal
   const [hoveredPillar, setHoveredPillar] = useState<number | null>(null);
 
+  // Scroll-triggered light background
+  const [isLight, setIsLight] = useState(false);
+  const lightSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = lightSectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsLight(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="page-enter">
+    <div className="page-enter" style={{ backgroundColor: isLight ? '#FAF9F6' : '#111714', transition: 'background-color 0.8s ease' }}>
       {/* ===== 1. HERO — dark immersive, particles as visual ===== */}
       <section
         className="hero-section dark-section-glow particle-reveal-zone min-h-screen flex items-center relative overflow-hidden"
@@ -208,8 +223,9 @@ const Index = () => {
 
       {/* ===== 2. BRAND STORY — warm off-white ===== */}
       <section
+        ref={lightSectionRef}
         className="px-6"
-        style={{ background: "#FAF9F6", position: "relative", zIndex: 10, padding: "140px 24px" }}
+        style={{ position: "relative", zIndex: 10, padding: "140px 24px" }}
       >
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
           <ScrollReveal className="flex-1" direction="fadeOnly" duration={800}>
