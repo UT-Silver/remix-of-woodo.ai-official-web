@@ -16,6 +16,7 @@ const reportImages = [
 
 const Portfolio = () => {
   const [marqueePaused, setMarqueePaused] = useState(false);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
   return (
     <div className="page-enter pt-20">
@@ -96,13 +97,14 @@ const Portfolio = () => {
             {[...reportImages, ...reportImages, ...reportImages].map((img, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-500 ease-out hover:scale-110 hover:z-10 relative"
+                className="flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-500 ease-out hover:scale-110 hover:z-10 relative cursor-pointer"
                 style={{ width: "400px", height: "280px", backgroundColor: "#252525" }}
+                onDoubleClick={() => setLightboxSrc(img.src)}
               >
                 <img
                   src={img.src}
                   alt={img.alt}
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-top pointer-events-none"
                   draggable={false}
                 />
               </div>
@@ -146,6 +148,21 @@ const Portfolio = () => {
           </Link>
         </ScrollReveal>
       </section>
+
+      {/* Lightbox */}
+      {lightboxSrc && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm cursor-zoom-out animate-fade-in"
+          onClick={() => setLightboxSrc(null)}
+        >
+          <img
+            src={lightboxSrc}
+            alt="Report full view"
+            className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 };
