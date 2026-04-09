@@ -83,12 +83,14 @@ const ParticleBackground = () => {
       lastRectCheck = Date.now();
     };
 
-    const isInDarkZone = (y: number) => {
+    const isInDarkZone = (x: number, y: number) => {
       for (const r of darkRects) {
-        if (y >= r.top && y <= r.bottom) return true;
+        if (y >= r.top && y <= r.bottom && x >= r.left && x <= r.right) return true;
       }
       return false;
     };
+
+    const isMouseInDarkZone = () => isInDarkZone(mouseX, mouseY);
 
     const animate = () => {
       const W = canvas.width;
