@@ -18,7 +18,7 @@ const Vision = () => {
           <ScrollReveal className="flex-1" direction="left">
             <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-6">Our Vision</p>
             <h1 className="text-3xl md:text-5xl font-medium text-foreground leading-tight text-balance">
-              The world has more tools than ever. What it lacks are people with the <strong className="text-primary-dark font-bold">judgment</strong> to use them.
+              <strong className="text-primary-dark font-bold">Invention</strong> should not belong to the few.
             </h1>
           </ScrollReveal>
           <ScrollReveal className="flex-1 max-w-md w-full" direction="right">
