@@ -34,13 +34,6 @@ const ArticlePage = () => {
               style={{ maxHeight: "420px" }}
             />
           </div>
-                  <circle cx="100" cy="100" r="50" stroke="white" strokeWidth="0.5" />
-                  <circle cx="100" cy="100" r="20" stroke="white" strokeWidth="0.5" />
-                </svg>
-              </div>
-            </div>
-          </div>
-          <p className="text-xs mt-3" style={{ color: "#94A3B8" }}>Woodo.ai illustration.</p>
         </ScrollReveal>
       </section>
 
