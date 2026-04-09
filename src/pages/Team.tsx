@@ -136,26 +136,27 @@ const Team = () => {
         </div>
       </section>
 
-      {/* Network — warm off-white + dot grid */}
-      <section className="py-20 md:py-28 px-6 bg-warm-white dot-grid-bg">
+      {/* Network — dark bg with particle effect */}
+      <section className="py-20 md:py-28 px-6 bg-slate-dark dot-grid-bg-dark relative overflow-hidden">
         <ScrollReveal className="max-w-5xl mx-auto relative z-10">
-          <h2 className="text-2xl font-semibold text-foreground">Our <strong className="text-primary-dark">network</strong></h2>
-          <p className="mt-4 text-muted-foreground max-w-2xl">
+          <h2 className="text-2xl font-semibold text-white">Our <strong className="text-primary">network</strong></h2>
+          <p className="mt-4 text-neutral-400 max-w-2xl">
             We work with practitioners from leading AI labs, technology companies, investment institutions, and startups.
           </p>
-          <div className="mt-12 flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="flex-shrink-0 w-48 flex flex-col items-center gap-3 p-6 bg-background rounded-2xl border border-border card-hover">
-                <div className="w-16 h-16 rounded-full overflow-hidden">
-                  <ImagePlaceholder variant="neutral" circle className="w-full h-full" label="TBA" />
-                </div>
-                <span className="text-xs text-muted-foreground text-center">Announced soon</span>
-              </div>
-            ))}
+          <div className="mt-12 overflow-hidden">
+            <div className="flex gap-8 items-center w-max animate-marquee" style={{ animationDuration: '25s' }}>
+              {[...Array(2)].flatMap((_, dupeIdx) =>
+                Array.from({ length: 8 }).map((_, i) => (
+                  <div
+                    key={`${dupeIdx}-${i}`}
+                    className="flex-shrink-0 w-36 h-20 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-sm"
+                  >
+                    <span className="text-xs text-neutral-500 uppercase tracking-widest">Logo</span>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
-          <p className="mt-8 text-sm text-muted-foreground">
-            {"\n"}
-          </p>
         </ScrollReveal>
       </section>
 
