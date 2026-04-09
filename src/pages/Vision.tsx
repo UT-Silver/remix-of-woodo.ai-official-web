@@ -20,6 +20,7 @@ const Vision = () => {
             <h1 className="text-3xl md:text-5xl font-medium text-foreground leading-tight text-balance">
               <strong className="text-primary-dark font-bold">Invention</strong> should not belong to the few.
             </h1>
+            <p className="mt-4 text-lg text-muted-foreground">We exist to make sure it doesn't.</p>
           </ScrollReveal>
           <ScrollReveal className="flex-1 max-w-md w-full" direction="right">
             <ImagePlaceholder variant="green" className="w-full h-72 md:h-96" label="Vision Visual" />
