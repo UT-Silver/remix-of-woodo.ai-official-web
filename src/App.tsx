@@ -40,6 +40,7 @@ const App = () => {
         <Sonner />
         {showSplash && <SplashScreen onComplete={onSplashComplete} />}
         <BrowserRouter>
+          <ScrollToTop />
           <ParticleBackground />
           {!showSplash && <ScrollProgress />}
           {/* Nav is always rendered but hidden during splash so SplashScreen can measure its position */}
