@@ -4,10 +4,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { useNodeContext } from '@/contexts/node-context';
-import { formatTimeFromTimestamp } from '@/utils/date-utils';
-import { formatContent } from '@/utils/text-utils';
+} from '@ahf/components/ui/dialog';
+import { useNodeContext } from '@ahf/contexts/node-context';
+import { formatTimeFromTimestamp } from '@ahf/utils/date-utils';
+import { formatContent } from '@ahf/utils/text-utils';
 import { AlignJustify, Copy, Loader2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';

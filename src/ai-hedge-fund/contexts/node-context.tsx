@@ -1,4 +1,4 @@
-import { LanguageModel } from '@/data/models';
+import { LanguageModel } from '@ahf/data/models';
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
 export type NodeStatus = 'IDLE' | 'IN_PROGRESS' | 'COMPLETE' | 'ERROR';

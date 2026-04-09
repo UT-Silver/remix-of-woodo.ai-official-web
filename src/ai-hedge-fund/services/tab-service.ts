@@ -1,6 +1,6 @@
-import { Settings } from '@/components/settings/settings';
-import { FlowTabContent } from '@/components/tabs/flow-tab-content';
-import { Flow } from '@/types/flow';
+import { Settings } from '@ahf/components/settings/settings';
+import { FlowTabContent } from '@ahf/components/tabs/flow-tab-content';
+import { Flow } from '@ahf/types/flow';
 import { ReactNode, createElement } from 'react';
 
 export interface TabData {

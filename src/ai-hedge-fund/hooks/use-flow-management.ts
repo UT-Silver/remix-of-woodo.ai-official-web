@@ -1,14 +1,14 @@
-import { useFlowContext } from '@/contexts/flow-context';
-import { useNodeContext } from '@/contexts/node-context';
+import { useFlowContext } from '@ahf/contexts/flow-context';
+import { useNodeContext } from '@ahf/contexts/node-context';
 import {
   clearFlowNodeStates,
   getNodeInternalState,
   setNodeInternalState,
   setCurrentFlowId as setNodeStateFlowId
-} from '@/hooks/use-node-state';
-import { useToastManager } from '@/hooks/use-toast-manager';
-import { flowService } from '@/services/flow-service';
-import { Flow } from '@/types/flow';
+} from '@ahf/hooks/use-node-state';
+import { useToastManager } from '@ahf/hooks/use-toast-manager';
+import { flowService } from '@ahf/services/flow-service';
+import { Flow } from '@ahf/types/flow';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface UseFlowManagementReturn {

@@ -1,9 +1,9 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { useFlowConnectionState } from '@/hooks/use-flow-connection';
-import { cn } from '@/lib/utils';
-import { flowService } from '@/services/flow-service';
-import { Flow } from '@/types/flow';
+import { Badge } from '@ahf/components/ui/badge';
+import { Button } from '@ahf/components/ui/button';
+import { useFlowConnectionState } from '@ahf/hooks/use-flow-connection';
+import { cn } from '@ahf/lib/utils';
+import { flowService } from '@ahf/services/flow-service';
+import { Flow } from '@ahf/types/flow';
 import {
   Calendar,
   FileText,

@@ -17,12 +17,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import '@xyflow/react/dist/style.css';
 
-import { useFlowContext } from '@/contexts/flow-context';
-import { useEnhancedFlowActions } from '@/hooks/use-enhanced-flow-actions';
-import { useFlowHistory } from '@/hooks/use-flow-history';
-import { useFlowKeyboardShortcuts, useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts';
-import { useToastManager } from '@/hooks/use-toast-manager';
-import { AppNode } from '@/nodes/types';
+import { useFlowContext } from '@ahf/contexts/flow-context';
+import { useEnhancedFlowActions } from '@ahf/hooks/use-enhanced-flow-actions';
+import { useFlowHistory } from '@ahf/hooks/use-flow-history';
+import { useFlowKeyboardShortcuts, useKeyboardShortcuts } from '@ahf/hooks/use-keyboard-shortcuts';
+import { useToastManager } from '@ahf/hooks/use-toast-manager';
+import { AppNode } from '@ahf/nodes/types';
 import { edgeTypes } from '../edges';
 import { nodeTypes } from '../nodes';
 import { TooltipProvider } from './ui/tooltip';

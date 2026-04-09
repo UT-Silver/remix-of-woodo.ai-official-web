@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@ahf/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ahf/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@ahf/components/ui/tabs';
+import { cn } from '@ahf/lib/utils';
 import { useEffect, useState } from 'react';
 import { getActionColor, getDisplayName, getSignalColor, getStatusIcon } from './output-tab-utils';
 import { ReasoningContent } from './reasoning-content';

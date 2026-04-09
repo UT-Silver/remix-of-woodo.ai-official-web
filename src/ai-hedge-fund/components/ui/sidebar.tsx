@@ -3,25 +3,25 @@ import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
 import * as React from "react"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
+import { Button } from "@ahf/components/ui/button"
+import { Input } from "@ahf/components/ui/input"
+import { Separator } from "@ahf/components/ui/separator"
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet"
-import { Skeleton } from "@/components/ui/skeleton"
+} from "@ahf/components/ui/sheet"
+import { Skeleton } from "@ahf/components/ui/skeleton"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { cn } from "@/lib/utils"
+} from "@ahf/components/ui/tooltip"
+import { useIsMobile } from "@ahf/hooks/use-mobile"
+import { cn } from "@ahf/lib/utils"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

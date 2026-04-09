@@ -1,6 +1,6 @@
-import { useLayoutContext } from '@/contexts/layout-context';
-import { useResizable } from '@/hooks/use-resizable';
-import { cn } from '@/lib/utils';
+import { useLayoutContext } from '@ahf/contexts/layout-context';
+import { useResizable } from '@ahf/hooks/use-resizable';
+import { cn } from '@ahf/lib/utils';
 import { FileText, X } from 'lucide-react';
 import { ReactNode, useEffect } from 'react';
 import { Button } from '../../ui/button';

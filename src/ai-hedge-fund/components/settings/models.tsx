@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@ahf/lib/utils';
 import { Cloud, Server } from 'lucide-react';
 import { useState } from 'react';
 import { CloudModels } from './models/cloud';

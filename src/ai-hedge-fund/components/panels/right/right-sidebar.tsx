@@ -1,7 +1,7 @@
-import { ComponentGroup, getComponentGroups } from '@/data/sidebar-components';
-import { useComponentGroups } from '@/hooks/use-component-groups';
-import { useResizable } from '@/hooks/use-resizable';
-import { cn } from '@/lib/utils';
+import { ComponentGroup, getComponentGroups } from '@ahf/data/sidebar-components';
+import { useComponentGroups } from '@ahf/hooks/use-component-groups';
+import { useResizable } from '@ahf/hooks/use-resizable';
+import { cn } from '@ahf/lib/utils';
 import { ReactNode, useEffect, useState } from 'react';
 import { ComponentActions } from './component-actions';
 import { ComponentList } from './component-list';

@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
-import { useTabsContext } from '@/contexts/tabs-context';
-import { cn } from '@/lib/utils';
+import { Button } from '@ahf/components/ui/button';
+import { useTabsContext } from '@ahf/contexts/tabs-context';
+import { cn } from '@ahf/lib/utils';
 import { FileText, Layout, Settings, X } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 

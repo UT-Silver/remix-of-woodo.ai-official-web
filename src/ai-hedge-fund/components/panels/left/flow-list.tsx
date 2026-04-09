@@ -1,8 +1,8 @@
-import { FlowItemGroup } from '@/components/panels/left/flow-item-group';
-import { SearchBox } from '@/components/panels/search-box';
-import { Accordion } from '@/components/ui/accordion';
-import { useTabsContext } from '@/contexts/tabs-context';
-import { Flow } from '@/types/flow';
+import { FlowItemGroup } from '@ahf/components/panels/left/flow-item-group';
+import { SearchBox } from '@ahf/components/panels/search-box';
+import { Accordion } from '@ahf/components/ui/accordion';
+import { useTabsContext } from '@ahf/contexts/tabs-context';
+import { Flow } from '@ahf/types/flow';
 import { FolderOpen } from 'lucide-react';
 
 interface FlowListProps {

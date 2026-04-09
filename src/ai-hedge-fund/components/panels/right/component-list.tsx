@@ -1,5 +1,5 @@
-import { Accordion } from '@/components/ui/accordion';
-import { ComponentGroup } from '@/data/sidebar-components';
+import { Accordion } from '@ahf/components/ui/accordion';
+import { ComponentGroup } from '@ahf/data/sidebar-components';
 import { SearchBox } from '../search-box';
 import { ComponentItemGroup } from './component-item-group';
 

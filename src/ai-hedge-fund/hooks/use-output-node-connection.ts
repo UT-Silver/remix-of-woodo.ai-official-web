@@ -1,8 +1,8 @@
 import { getConnectedEdges, useReactFlow } from '@xyflow/react';
 import { useMemo } from 'react';
 
-import { useFlowContext } from '@/contexts/flow-context';
-import { useNodeContext } from '@/contexts/node-context';
+import { useFlowContext } from '@ahf/contexts/flow-context';
+import { useNodeContext } from '@ahf/contexts/node-context';
 
 /**
  * Custom hook to determine output node connection state and processing status

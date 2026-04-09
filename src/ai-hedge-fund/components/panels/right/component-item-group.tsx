@@ -1,7 +1,7 @@
-import ComponentItem from '@/components/panels/right/component-item';
-import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { useFlowContext } from '@/contexts/flow-context';
-import { ComponentGroup } from '@/data/sidebar-components';
+import ComponentItem from '@ahf/components/panels/right/component-item';
+import { AccordionContent, AccordionItem, AccordionTrigger } from '@ahf/components/ui/accordion';
+import { useFlowContext } from '@ahf/contexts/flow-context';
+import { ComponentGroup } from '@ahf/data/sidebar-components';
 
 interface ComponentItemGroupProps {
   group: ComponentGroup;

@@ -3,21 +3,21 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Badge } from '@/components/ui/badge';
+} from '@ahf/components/ui/accordion';
+import { Badge } from '@ahf/components/ui/badge';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@ahf/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@ahf/components/ui/dialog';
 import {
   Table,
   TableBody,
@@ -25,9 +25,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { extractBaseAgentKey } from '@/data/node-mappings';
-import { createAgentDisplayNames } from '@/utils/text-utils';
+} from '@ahf/components/ui/table';
+import { extractBaseAgentKey } from '@ahf/data/node-mappings';
+import { createAgentDisplayNames } from '@ahf/utils/text-utils';
 import { ArrowDown, ArrowUp, Minus } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';

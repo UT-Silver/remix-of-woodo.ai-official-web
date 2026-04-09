@@ -1,4 +1,4 @@
-import { AppNode } from "@/nodes/types";
+import { AppNode } from "@ahf/nodes/types";
 import { Agent, getAgents } from "./agents";
 
 // Map of sidebar item names to node creation functions

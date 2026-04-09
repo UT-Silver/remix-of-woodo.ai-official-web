@@ -1,8 +1,8 @@
 import { ChevronsUpDown } from "lucide-react"
 import * as React from "react"
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Badge } from "@ahf/components/ui/badge"
+import { Button } from "@ahf/components/ui/button"
 import {
   Command,
   CommandEmpty,
@@ -10,14 +10,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@ahf/components/ui/command"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { type LanguageModel } from "@/data/models"
-import { cn } from "@/lib/utils"
+} from "@ahf/components/ui/popover"
+import { type LanguageModel } from "@ahf/data/models"
+import { cn } from "@ahf/lib/utils"
 
 interface ModelSelectorProps {
   models: LanguageModel[];

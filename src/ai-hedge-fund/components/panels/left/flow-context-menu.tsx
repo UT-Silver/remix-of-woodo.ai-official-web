@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Button } from '@ahf/components/ui/button';
+import { cn } from '@ahf/lib/utils';
 import { Copy, Edit, Trash2 } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 

@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { Button } from '@ahf/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@ahf/components/ui/card';
+import { cn } from '@ahf/lib/utils';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 

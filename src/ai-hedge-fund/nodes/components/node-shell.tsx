@@ -1,5 +1,5 @@
-import { Card, CardHeader } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { Card, CardHeader } from '@ahf/components/ui/card';
+import { cn } from '@ahf/lib/utils';
 import { Handle, Position } from '@xyflow/react';
 import { ReactNode } from 'react';
 

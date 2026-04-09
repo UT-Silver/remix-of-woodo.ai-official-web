@@ -1,10 +1,10 @@
-import { Flow } from '@/components/Flow';
-import { useFlowContext } from '@/contexts/flow-context';
-import { useTabsContext } from '@/contexts/tabs-context';
-import { setNodeInternalState, setCurrentFlowId as setNodeStateFlowId } from '@/hooks/use-node-state';
-import { cn } from '@/lib/utils';
-import { flowService } from '@/services/flow-service';
-import { Flow as FlowType } from '@/types/flow';
+import { Flow } from '@ahf/components/Flow';
+import { useFlowContext } from '@ahf/contexts/flow-context';
+import { useTabsContext } from '@ahf/contexts/tabs-context';
+import { setNodeInternalState, setCurrentFlowId as setNodeStateFlowId } from '@ahf/hooks/use-node-state';
+import { cn } from '@ahf/lib/utils';
+import { flowService } from '@ahf/services/flow-service';
+import { Flow as FlowType } from '@ahf/types/flow';
 import { useEffect } from 'react';
 
 // Import the flow connection manager to check if flow is actively running

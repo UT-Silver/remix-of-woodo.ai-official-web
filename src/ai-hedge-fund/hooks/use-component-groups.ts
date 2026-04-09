@@ -1,4 +1,4 @@
-import { ComponentGroup } from '@/data/sidebar-components';
+import { ComponentGroup } from '@ahf/data/sidebar-components';
 import { useEffect, useMemo, useState } from 'react';
 
 export function useComponentGroups(componentGroups: ComponentGroup[]) {

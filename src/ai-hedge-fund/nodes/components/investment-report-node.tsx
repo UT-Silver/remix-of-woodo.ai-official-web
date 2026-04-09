@@ -2,10 +2,10 @@ import { type NodeProps } from '@xyflow/react';
 import { FileText } from 'lucide-react';
 import { useState } from 'react';
 
-import { CardContent } from '@/components/ui/card';
-import { useFlowContext } from '@/contexts/flow-context';
-import { useNodeContext } from '@/contexts/node-context';
-import { useOutputNodeConnection } from '@/hooks/use-output-node-connection';
+import { CardContent } from '@ahf/components/ui/card';
+import { useFlowContext } from '@ahf/contexts/flow-context';
+import { useNodeContext } from '@ahf/contexts/node-context';
+import { useOutputNodeConnection } from '@ahf/hooks/use-output-node-connection';
 import { type InvestmentReportNode } from '../types';
 import { InvestmentReportDialog } from './investment-report-dialog';
 import { NodeShell } from './node-shell';

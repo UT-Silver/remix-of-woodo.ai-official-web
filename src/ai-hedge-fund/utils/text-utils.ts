@@ -1,4 +1,4 @@
-import { extractBaseAgentKey } from '@/data/node-mappings';
+import { extractBaseAgentKey } from '@ahf/data/node-mappings';
 
 /**
  * Splits text into smaller paragraphs for better readability.

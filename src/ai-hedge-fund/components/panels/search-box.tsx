@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@ahf/components/ui/button';
 import { Search } from 'lucide-react';
 
 interface SearchBoxProps {

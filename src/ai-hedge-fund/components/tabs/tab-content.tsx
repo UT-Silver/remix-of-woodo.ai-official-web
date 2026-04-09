@@ -1,6 +1,6 @@
-import { useTabsContext } from '@/contexts/tabs-context';
-import { cn } from '@/lib/utils';
-import { TabService } from '@/services/tab-service';
+import { useTabsContext } from '@ahf/contexts/tabs-context';
+import { cn } from '@ahf/lib/utils';
+import { TabService } from '@ahf/services/tab-service';
 import { FileText, FolderOpen } from 'lucide-react';
 import { useEffect } from 'react';
 

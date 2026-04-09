@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Button } from '@ahf/components/ui/button';
+import { cn } from '@ahf/lib/utils';
 import { PanelBottom, PanelLeft, PanelRight, Settings } from 'lucide-react';
 
 interface TopBarProps {

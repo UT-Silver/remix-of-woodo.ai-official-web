@@ -1,5 +1,5 @@
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { Badge } from '@ahf/components/ui/badge';
+import { cn } from '@ahf/lib/utils';
 import { Cloud, RefreshCw } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

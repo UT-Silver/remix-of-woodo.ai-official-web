@@ -2,12 +2,12 @@ import { type NodeProps } from '@xyflow/react';
 import { FileJson } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { CardContent } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { useFlowContext } from '@/contexts/flow-context';
-import { useNodeContext } from '@/contexts/node-context';
-import { useOutputNodeConnection } from '@/hooks/use-output-node-connection';
-import { api } from '@/services/api';
+import { CardContent } from '@ahf/components/ui/card';
+import { Checkbox } from '@ahf/components/ui/checkbox';
+import { useFlowContext } from '@ahf/contexts/flow-context';
+import { useNodeContext } from '@ahf/contexts/node-context';
+import { useOutputNodeConnection } from '@ahf/hooks/use-output-node-connection';
+import { api } from '@ahf/services/api';
 import { type JsonOutputNode } from '../types';
 import { JsonOutputDialog } from './json-output-dialog';
 import { NodeShell } from './node-shell';

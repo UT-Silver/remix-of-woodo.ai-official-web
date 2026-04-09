@@ -1,7 +1,7 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
+import { Badge } from '@ahf/components/ui/badge';
+import { Button } from '@ahf/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@ahf/components/ui/dialog';
+import { cn } from '@ahf/lib/utils';
 import { AlertTriangle, Brain, CheckCircle, Download, Play, RefreshCw, Server, Square, Trash2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

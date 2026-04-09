@@ -1,4 +1,4 @@
-import { api } from '@/services/api';
+import { api } from '@ahf/services/api';
 
 export interface LanguageModel {
   display_name: string;

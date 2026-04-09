@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@ahf/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -6,12 +6,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { useTabsContext } from '@/contexts/tabs-context';
-import { useToastManager } from '@/hooks/use-toast-manager';
-import { flowService } from '@/services/flow-service';
-import { Flow } from '@/types/flow';
+} from '@ahf/components/ui/dialog';
+import { Input } from '@ahf/components/ui/input';
+import { useTabsContext } from '@ahf/contexts/tabs-context';
+import { useToastManager } from '@ahf/hooks/use-toast-manager';
+import { flowService } from '@ahf/services/flow-service';
+import { Flow } from '@ahf/types/flow';
 import { useEffect, useState } from 'react';
 
 interface FlowEditDialogProps {

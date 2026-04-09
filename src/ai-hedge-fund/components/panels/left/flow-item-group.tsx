@@ -1,6 +1,6 @@
-import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Separator } from '@/components/ui/separator';
-import { Flow } from '@/types/flow';
+import { AccordionContent, AccordionItem, AccordionTrigger } from '@ahf/components/ui/accordion';
+import { Separator } from '@ahf/components/ui/separator';
+import { Flow } from '@ahf/types/flow';
 import FlowItem from './flow-item';
 
 interface FlowItemGroupProps {

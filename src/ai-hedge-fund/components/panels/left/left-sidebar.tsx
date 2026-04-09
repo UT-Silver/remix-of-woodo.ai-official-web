@@ -1,6 +1,6 @@
-import { useFlowManagementTabs } from '@/hooks/use-flow-management-tabs';
-import { useResizable } from '@/hooks/use-resizable';
-import { cn } from '@/lib/utils';
+import { useFlowManagementTabs } from '@ahf/hooks/use-flow-management-tabs';
+import { useResizable } from '@ahf/hooks/use-resizable';
+import { cn } from '@ahf/lib/utils';
 import { ReactNode, useEffect } from 'react';
 import { FlowActions } from './flow-actions';
 import { FlowCreateDialog } from './flow-create-dialog';

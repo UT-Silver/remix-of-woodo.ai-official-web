@@ -1,12 +1,12 @@
-import { useFlowContext } from '@/contexts/flow-context';
-import { useNodeContext } from '@/contexts/node-context';
+import { useFlowContext } from '@ahf/contexts/flow-context';
+import { useNodeContext } from '@ahf/contexts/node-context';
 import {
     getNodeInternalState,
     setNodeInternalState,
     setCurrentFlowId as setNodeStateFlowId
-} from '@/hooks/use-node-state';
-import { flowService } from '@/services/flow-service';
-import { Flow } from '@/types/flow';
+} from '@ahf/hooks/use-node-state';
+import { flowService } from '@ahf/services/flow-service';
+import { Flow } from '@ahf/types/flow';
 import { useCallback } from 'react';
 
 /**

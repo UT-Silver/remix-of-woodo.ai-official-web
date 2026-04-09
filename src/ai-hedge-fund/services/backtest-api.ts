@@ -1,11 +1,11 @@
-import { NodeStatus, useNodeContext } from '@/contexts/node-context';
-import { extractBaseAgentKey } from '@/data/node-mappings';
-import { flowConnectionManager } from '@/hooks/use-flow-connection';
+import { NodeStatus, useNodeContext } from '@ahf/contexts/node-context';
+import { extractBaseAgentKey } from '@ahf/data/node-mappings';
+import { flowConnectionManager } from '@ahf/hooks/use-flow-connection';
 import {
   BacktestDayResult,
   BacktestPerformanceMetrics,
   BacktestRequest
-} from '@/services/types';
+} from '@ahf/services/types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 

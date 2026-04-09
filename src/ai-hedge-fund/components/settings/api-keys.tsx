@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { apiKeysService } from '@/services/api-keys-api';
+import { Button } from '@ahf/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@ahf/components/ui/card';
+import { Input } from '@ahf/components/ui/input';
+import { apiKeysService } from '@ahf/services/api-keys-api';
 import { Eye, EyeOff, Key, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

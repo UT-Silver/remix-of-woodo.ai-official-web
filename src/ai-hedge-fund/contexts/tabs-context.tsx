@@ -1,4 +1,4 @@
-import { Flow } from '@/types/flow';
+import { Flow } from '@ahf/types/flow';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 // Define tab types

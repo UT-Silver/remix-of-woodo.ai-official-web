@@ -1,9 +1,9 @@
-import { getMultiNodeDefinition, isMultiNodeComponent } from '@/data/multi-node-mappings';
-import { getNodeTypeDefinition } from '@/data/node-mappings';
-import { flowConnectionManager } from '@/hooks/use-flow-connection';
-import { clearAllNodeStates, getAllNodeStates, setNodeInternalState, setCurrentFlowId as setNodeStateFlowId } from '@/hooks/use-node-state';
-import { flowService } from '@/services/flow-service';
-import { Flow } from '@/types/flow';
+import { getMultiNodeDefinition, isMultiNodeComponent } from '@ahf/data/multi-node-mappings';
+import { getNodeTypeDefinition } from '@ahf/data/node-mappings';
+import { flowConnectionManager } from '@ahf/hooks/use-flow-connection';
+import { clearAllNodeStates, getAllNodeStates, setNodeInternalState, setCurrentFlowId as setNodeStateFlowId } from '@ahf/hooks/use-node-state';
+import { flowService } from '@ahf/services/flow-service';
+import { Flow } from '@ahf/types/flow';
 import { MarkerType, ReactFlowInstance, useReactFlow, XYPosition } from '@xyflow/react';
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 

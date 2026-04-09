@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { cn } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@ahf/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ahf/components/ui/table';
+import { cn } from '@ahf/lib/utils';
 import { MoreHorizontal } from 'lucide-react';
 import { getActionColor } from './output-tab-utils';
 

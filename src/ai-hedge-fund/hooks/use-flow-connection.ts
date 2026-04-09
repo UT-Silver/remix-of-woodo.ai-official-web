@@ -1,7 +1,7 @@
-import { useNodeContext } from '@/contexts/node-context';
-import { api } from '@/services/api';
-import { backtestApi } from '@/services/backtest-api';
-import { BacktestRequest, HedgeFundRequest } from '@/services/types';
+import { useNodeContext } from '@ahf/contexts/node-context';
+import { api } from '@ahf/services/api';
+import { backtestApi } from '@ahf/services/backtest-api';
+import { BacktestRequest, HedgeFundRequest } from '@ahf/services/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Connection state for a specific flow

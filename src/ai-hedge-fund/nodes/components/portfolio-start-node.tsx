@@ -2,29 +2,29 @@ import { useReactFlow, type NodeProps } from '@xyflow/react';
 import { ChevronDown, PieChart, Play, Plus, Square, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { CardContent } from '@/components/ui/card';
+import { Button } from '@ahf/components/ui/button';
+import { CardContent } from '@ahf/components/ui/card';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
-import { Input } from '@/components/ui/input';
+} from '@ahf/components/ui/command';
+import { Input } from '@ahf/components/ui/input';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useFlowContext } from '@/contexts/flow-context';
-import { useLayoutContext } from '@/contexts/layout-context';
-import { useNodeContext } from '@/contexts/node-context';
-import { useFlowConnection } from '@/hooks/use-flow-connection';
-import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts';
-import { useNodeState } from '@/hooks/use-node-state';
-import { cn, formatKeyboardShortcut } from '@/lib/utils';
+} from '@ahf/components/ui/popover';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@ahf/components/ui/tooltip';
+import { useFlowContext } from '@ahf/contexts/flow-context';
+import { useLayoutContext } from '@ahf/contexts/layout-context';
+import { useNodeContext } from '@ahf/contexts/node-context';
+import { useFlowConnection } from '@ahf/hooks/use-flow-connection';
+import { useKeyboardShortcuts } from '@ahf/hooks/use-keyboard-shortcuts';
+import { useNodeState } from '@ahf/hooks/use-node-state';
+import { cn, formatKeyboardShortcut } from '@ahf/lib/utils';
 import { type PortfolioStartNode } from '../types';
 import { NodeShell } from './node-shell';
 

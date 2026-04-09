@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@ahf/components/ui/button';
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-} from '@/components/ui/dialog';
+} from '@ahf/components/ui/dialog';
 
 interface JsonOutputDialogProps {
   isOpen: boolean;
