@@ -90,35 +90,51 @@ const Vision = () => {
         </div>
       </section>
 
-      {/* Convictions — alternating white / warm-white */}
+      {/* Convictions — accordion hover */}
       <section className="py-20 md:py-28 px-6">
         <div className="max-w-5xl mx-auto">
           <ScrollReveal direction="up">
-            <h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight mb-16">Our Vision</h2>
+            <h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight mb-12">Our Vision</h2>
           </ScrollReveal>
-          <div className="space-y-24">
-          {convictions.map((c, i) => (
-            <ScrollReveal key={c.title} delay={i * 150} direction={i % 2 === 0 ? "left" : "right"}>
-              <div className={`flex flex-col ${i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-10 items-center p-8 rounded-2xl ${i % 2 === 0 ? "bg-background" : "bg-warm-white"}`}>
-                <div className="flex-1">
-                  <div className="relative">
-                    <span className="absolute -top-6 -left-2 text-7xl font-bold text-primary-lightest select-none">{c.num}</span>
-                    <div className={`border-l-4 ${c.border} pl-8 py-2 relative z-10`}>
-                      <h3 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight">{c.title}</h3>
-                      <p className="mt-3 text-muted-foreground">{c.desc}</p>
+          <div className="space-y-2">
+            {convictions.map((c, i) => {
+              const isExpanded = hoveredIndex === i;
+              return (
+                <div
+                  key={c.title}
+                  onMouseEnter={() => setHoveredIndex(i)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  className={`rounded-2xl transition-all duration-500 ease-out cursor-pointer ${isExpanded ? 'bg-warm-white p-8 shadow-sm' : 'p-4'}`}
+                >
+                  {/* Title row — always visible */}
+                  <div className="flex items-center gap-4">
+                    <span className={`text-2xl font-bold transition-colors duration-300 ${isExpanded ? 'text-primary-dark' : 'text-muted-foreground/40'}`}>{c.num}</span>
+                    <div className={`w-px h-6 transition-colors duration-300 ${isExpanded ? c.border.replace('border-', 'bg-') : 'bg-muted-foreground/20'}`} />
+                    <h3 className={`text-xl md:text-2xl font-semibold tracking-tight transition-colors duration-300 ${isExpanded ? 'text-foreground' : 'text-muted-foreground'}`}>{c.title}</h3>
+                  </div>
+
+                  {/* Expandable content */}
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ease-out ${isExpanded ? 'max-h-[600px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}
+                  >
+                    <div className={`flex flex-col ${i % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-10 items-center`}>
+                      <div className="flex-1">
+                        <div className={`border-l-4 ${c.border} pl-8 py-2`}>
+                          <p className="text-muted-foreground">{c.desc}</p>
+                        </div>
+                      </div>
+                      <div className="flex-1 max-w-sm">
+                        {c.img ? (
+                          <img src={c.img} alt={c.title} className="w-full h-56 md:h-64 object-cover rounded-2xl shadow-lg" />
+                        ) : (
+                          <ImagePlaceholder variant={c.imgVariant} className="w-full h-56 md:h-64" label="Visual" aspectRatio="16/9" />
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="flex-1 max-w-sm">
-                  {c.img ? (
-                    <img src={c.img} alt={c.title} className="w-full h-56 md:h-64 object-cover rounded-2xl shadow-lg" />
-                  ) : (
-                    <ImagePlaceholder variant={c.imgVariant} className="w-full h-56 md:h-64" label="Visual" aspectRatio="16/9" />
-                  )}
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              );
+            })}
           </div>
         </div>
       </section>
