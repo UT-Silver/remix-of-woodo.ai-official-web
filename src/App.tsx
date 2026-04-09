@@ -18,6 +18,7 @@ import ArticlePage from "./pages/ArticlePage";
 import Apply from "./pages/Apply";
 import AiHedgeFund from "./pages/AiHedgeFund";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
