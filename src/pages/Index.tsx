@@ -94,7 +94,7 @@ const Index = () => {
     <div className="page-enter">
       {/* ===== 1. HERO — dark immersive, particles as visual ===== */}
       <section
-        className="hero-section min-h-screen flex items-center relative overflow-hidden"
+        className="hero-section dark-section-glow particle-reveal-zone min-h-screen flex items-center relative overflow-hidden"
         style={{
           background: "#0F1F0F",
           position: "relative",
