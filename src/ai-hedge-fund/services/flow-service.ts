@@ -1,6 +1,6 @@
 import { Flow } from '@ahf/types/flow';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = 'https://ai-hedge-fund-production-bee5.up.railway.app';
 
 export interface CreateFlowRequest {
   name: string;

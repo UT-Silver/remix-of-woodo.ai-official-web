@@ -5,7 +5,7 @@ import { cn } from '@ahf/lib/utils';
 import { AlertTriangle, Brain, CheckCircle, Download, Play, RefreshCw, Server, Square, Trash2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = 'https://ai-hedge-fund-production-bee5.up.railway.app';
 
 interface OllamaStatus {
   installed: boolean;
