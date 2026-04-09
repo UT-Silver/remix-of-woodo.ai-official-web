@@ -12,6 +12,8 @@ import moment1 from "../assets/moment-1.jpg";
 import moment2 from "../assets/moment-2.jpg";
 import moment3 from "../assets/moment-3.png";
 import moment4 from "../assets/moment-4.jpg";
+import moment5 from "../assets/moment-5.jpg";
+import moment6 from "../assets/moment-6.jpg";
 import articleHeroWoodo from "../assets/article-hero-woodo.png";
 import logoBytedance from "../assets/logo-bytedance.png";
 import logoAmazon from "../assets/logo-amazon.png";
@@ -74,6 +76,8 @@ const momentImages = [
   { src: moment2, alt: "Team gathering" },
   { src: moment3, alt: "Community workshop" },
   { src: moment4, alt: "Research poster presentation" },
+  { src: moment5, alt: "Panel discussion event" },
+  { src: moment6, alt: "Workshop session" },
 ];
 const teamMembers = [
   { name: "Silver Yin", school: "Columbia University", quote: "Building what education should have been all along.", avatar: avatarSilver },
