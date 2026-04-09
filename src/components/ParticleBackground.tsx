@@ -154,10 +154,55 @@ const ParticleBackground = () => {
         const dm = Math.sqrt((node.x - mouseX) ** 2 + (node.y - mouseY) ** 2);
         const isDark = isInDarkZone(node.y);
 
+        // Check if node is inside the reveal zone area
+        const nodeInRevealArea = inReveal && revealRect &&
+          node.x >= revealRect.left && node.x <= revealRect.right &&
+          node.y >= revealRect.top && node.y <= revealRect.bottom;
+
         let opacity = isDark ? 0.55 : 0.12;
         let size = isDark ? node.size * 1.3 : node.size;
 
-        if (dm < MOUSE_RADIUS) {
+        if (nodeInRevealArea && dm < REVEAL_RADIUS) {
+          // Reveal zone: bright glow effect
+          const p = 1 - dm / REVEAL_RADIUS;
+          opacity = 0.15 + p * 0.75;
+          size = node.size * 1.2 + p * 4;
+
+          // Outer glow halo
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, size * 4, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${node.color.r}, ${node.color.g}, ${node.color.b}, ${0.08 * p})`;
+          ctx.fill();
+
+          // Inner glow
+          if (p > 0.2) {
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, size * 2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${node.color.r}, ${node.color.g}, ${node.color.b}, ${0.15 * p})`;
+            ctx.fill();
+          }
+
+          // Draw connections to nearby revealed nodes
+          for (const other of nodes) {
+            if (other === node) continue;
+            const otherDm = Math.sqrt((other.x - mouseX) ** 2 + (other.y - mouseY) ** 2);
+            if (otherDm >= REVEAL_RADIUS) continue;
+            const dx = node.x - other.x, dy = node.y - other.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < CONNECT_DIST * 1.5) {
+              const np = 1 - dist / (CONNECT_DIST * 1.5);
+              const alpha = np * p * 0.4;
+              if (alpha > 0.01) {
+                ctx.beginPath();
+                ctx.moveTo(node.x, node.y);
+                ctx.lineTo(other.x, other.y);
+                ctx.strokeStyle = `rgba(${node.color.r}, ${node.color.g}, ${node.color.b}, ${alpha})`;
+                ctx.lineWidth = 0.5 + p * 1.5;
+                ctx.stroke();
+              }
+            }
+          }
+        } else if (dm < MOUSE_RADIUS) {
           const p = 1 - dm / MOUSE_RADIUS;
           opacity = (isDark ? 0.55 : 0.12) + p * 0.6;
           size = node.size + p * 3;
