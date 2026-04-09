@@ -10,6 +10,7 @@ import avatarKeer from "../assets/avatar-keer.jpg";
 import moment1 from "../assets/moment-1.jpg";
 import moment2 from "../assets/moment-2.jpg";
 import moment3 from "../assets/moment-3.png";
+import moment4 from "../assets/moment-4.jpg";
 import articleHeroWoodo from "../assets/article-hero-woodo.png";
 import logoBytedance from "../assets/logo-bytedance.png";
 import logoAmazon from "../assets/logo-amazon.png";
@@ -71,6 +72,7 @@ const momentImages = [
   { src: moment1, alt: "Meeting with industry leaders" },
   { src: moment2, alt: "Team gathering" },
   { src: moment3, alt: "Community workshop" },
+  { src: moment4, alt: "Research poster presentation" },
 ];
 const teamMembers = [
   { name: "Silver Yin", school: "Columbia University", quote: "Building what education should have been all along.", avatar: avatarSilver },
@@ -335,7 +337,7 @@ const Index = () => {
       {/* ===== 5. MOMENTS — warm off-white, infinite marquee ===== */}
       <section style={{ background: "#FAF9F6", position: "relative", zIndex: 10, padding: "140px 24px" }} className="overflow-hidden">
         <ScrollReveal direction="up" className="max-w-5xl mx-auto mb-12">
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight" style={{ color: "#1E293B" }}>Moments</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight" style={{ color: "#1E293B" }}>Moments</h2>
         </ScrollReveal>
         <div
           className="relative w-full"
