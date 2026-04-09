@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
+import { Layout } from "@ahf/components/Layout";
+import { Toaster } from "@ahf/components/ui/sonner";
+import { NodeProvider } from "@ahf/contexts/node-context";
+import { ThemeProvider } from "@ahf/providers/theme-provider";
+import "@xyflow/react/dist/style.css";
+import "@ahf/ahf-scoped.css";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import ComingSoonParticle from "../components/ComingSoonParticle";
 import heroBuild from "../assets/hero-build.png";
@@ -119,23 +125,24 @@ const Portfolio = () => {
           </h2>
           <p className="mt-3 text-center mb-10" style={{ color: "rgba(255,255,255,0.45)" }}>
             Meet your newest intern: Warren Buffett.
+            <Link to="/ai-hedge-fund" className="ml-3 text-primary-light underline underline-offset-4 hover:text-white transition-colors text-xs">
+              全屏模式 →
+            </Link>
           </p>
-          <Link
-            to="/ai-hedge-fund"
-            className="block rounded-2xl border border-border overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:scale-[1.01] group"
-            style={{ height: "400px", backgroundColor: "#1a1a1a" }}
-          >
-            <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-primary-light/10 flex items-center justify-center group-hover:bg-primary-light/20 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-primary-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-              </div>
-              <p className="text-white text-lg font-medium">Launch AI Hedge Fund</p>
-              <p className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>Interactive agent-based analysis platform</p>
-            </div>
-          </Link>
         </ScrollReveal>
+        <div
+          className="max-w-7xl mx-auto rounded-2xl overflow-hidden border border-border shadow-2xl"
+          style={{ height: "80vh", minHeight: "500px" }}
+        >
+          <ThemeProvider defaultTheme="dark" storageKey="ahf-theme">
+            <NodeProvider>
+              <div className="ahf-root dark" style={{ height: "100%", width: "100%", position: "relative" }}>
+                <Layout />
+                <Toaster />
+              </div>
+            </NodeProvider>
+          </ThemeProvider>
+        </div>
       </section>
 
 
