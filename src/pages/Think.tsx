@@ -5,6 +5,7 @@ import ImagePlaceholder from "../components/ImagePlaceholder";
 import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
 import avatarKeer from "../assets/avatar-keer.jpg";
+import articleHeroWoodo from "../assets/article-hero-woodo.png";
 
 const authorAvatars: Record<string, string> = {
   "Silver Yin": avatarSilver,
@@ -32,7 +33,7 @@ const Think = () => {
       {/* Featured Hero — dark with gradient overlay */}
       <section className="relative min-h-[70vh] flex items-end px-6 pb-16">
         <div className="absolute inset-0">
-          <ImagePlaceholder variant="green" className="w-full h-full" label="Featured article hero image" />
+          <img src={articleHeroWoodo} alt="Featured article hero" className="w-full h-full object-cover" />
         </div>
         <div className="absolute inset-0" style={{ background: "linear-gradient(transparent 30%, rgba(30,41,59,0.85) 100%)" }} />
         <ScrollReveal className="relative z-10 max-w-3xl mx-auto w-full">

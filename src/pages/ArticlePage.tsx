@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import avatarDavid from "../assets/avatar-david.png";
+import articleHeroWoodo from "../assets/article-hero-woodo.png";
 
 const ArticlePage = () => {
   const { slug } = useParams();
@@ -25,26 +26,14 @@ const ArticlePage = () => {
       {/* Hero image */}
       <section className="w-full max-w-4xl mx-auto px-6 pt-8 pb-2">
         <ScrollReveal>
-          <div className="rounded-2xl overflow-hidden" style={{ background: "linear-gradient(135deg, #1a3a2a 0%, #2d5a3d 40%, #1a3a2a 100%)" }}>
+          <div className="rounded-2xl overflow-hidden">
             <img
-              src="https://every.to/static/images/placeholder.png"
+              src={articleHeroWoodo}
               alt="Why We Started Woodo"
-              className="w-full h-auto"
-              style={{ display: "none" }}
+              className="w-full h-auto object-cover"
+              style={{ maxHeight: "420px" }}
             />
-            {/* Illustration-style hero placeholder matching the Every.co aesthetic */}
-            <div className="w-full" style={{ height: "420px", background: "linear-gradient(180deg, #1a3a2a 0%, #2d5a3d 50%, #1a4a30 100%)", position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 80%, rgba(34,197,94,0.15), transparent 70%)" }} />
-              <div className="flex items-center justify-center h-full" style={{ opacity: 0.12 }}>
-                <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
-                  <circle cx="100" cy="100" r="80" stroke="white" strokeWidth="0.5" />
-                  <circle cx="100" cy="100" r="50" stroke="white" strokeWidth="0.5" />
-                  <circle cx="100" cy="100" r="20" stroke="white" strokeWidth="0.5" />
-                </svg>
-              </div>
-            </div>
           </div>
-          <p className="text-xs mt-3" style={{ color: "#94A3B8" }}>Woodo.ai illustration.</p>
         </ScrollReveal>
       </section>
 
