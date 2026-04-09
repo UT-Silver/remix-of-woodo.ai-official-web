@@ -78,7 +78,7 @@ const ParticleBackground = () => {
     let lastRectCheck = 0;
 
     const refreshDarkRects = () => {
-      const selectors = '.bg-slate-dark, .dark-section-glow, .bg-cta-green';
+      const selectors = '[data-particle-zone]';
       darkRects = Array.from(document.querySelectorAll(selectors)).map(el => el.getBoundingClientRect());
       lastRectCheck = Date.now();
     };
