@@ -16,6 +16,7 @@ import Portfolio from "./pages/Portfolio";
 import Think from "./pages/Think";
 import ArticlePage from "./pages/ArticlePage";
 import Apply from "./pages/Apply";
+import AiHedgeFund from "./pages/AiHedgeFund";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -53,6 +54,7 @@ const App = () => {
               <Route path="/think" element={<Think />} />
               <Route path="/think/:slug" element={<ArticlePage />} />
               <Route path="/apply" element={<Apply />} />
+              <Route path="/ai-hedge-fund" element={<AiHedgeFund />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

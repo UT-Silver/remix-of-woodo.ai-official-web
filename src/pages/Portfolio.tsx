@@ -120,14 +120,21 @@ const Portfolio = () => {
           <p className="mt-3 text-center mb-10" style={{ color: "rgba(255,255,255,0.45)" }}>
             Meet your newest intern: Warren Buffett.
           </p>
-          <div className="rounded-2xl border border-border overflow-hidden shadow-lg" style={{ height: "80vh" }}>
-            <iframe
-              src="/ai-hedge-fund.html"
-              title="AI Hedge Fund Agent Team"
-              className="w-full h-full border-0"
-              loading="lazy"
-            />
-          </div>
+          <Link
+            to="/ai-hedge-fund"
+            className="block rounded-2xl border border-border overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:scale-[1.01] group"
+            style={{ height: "400px", backgroundColor: "#1a1a1a" }}
+          >
+            <div className="w-full h-full flex flex-col items-center justify-center gap-4">
+              <div className="w-16 h-16 rounded-full bg-primary-light/10 flex items-center justify-center group-hover:bg-primary-light/20 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-primary-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+              <p className="text-white text-lg font-medium">Launch AI Hedge Fund</p>
+              <p className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>Interactive agent-based analysis platform</p>
+            </div>
+          </Link>
         </ScrollReveal>
       </section>
 
