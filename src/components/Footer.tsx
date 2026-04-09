@@ -28,14 +28,14 @@ const Footer = () => {
               Navigate
             </h4>
             <div className="flex flex-col gap-2.5">
-              {["Vision", "Team", "Portfolio", "Insights", "Apply"].map((item) => (
+{[{ label: "Vision", path: "vision" }, { label: "Team", path: "team" }, { label: "Build", path: "portfolio" }, { label: "Insights", path: "insights" }, { label: "Apply", path: "apply" }].map((item) => (
                 <Link
-                  key={item}
-                  to={`/${item.toLowerCase()}`}
+                  key={item.path}
+                  to={`/${item.path}`}
                   className="text-sm transition-colors hover:text-white"
                   style={{ color: "#94A3B8" }}
                 >
-                  {item}
+                  {item.label}
                 </Link>
               ))}
             </div>

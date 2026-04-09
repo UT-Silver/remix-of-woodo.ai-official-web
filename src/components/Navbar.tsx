@@ -5,7 +5,7 @@ import Wordmark from "./Wordmark";
 const navLinks = [
   { label: "Vision", to: "/vision" },
   { label: "Team", to: "/team" },
-  { label: "Portfolio", to: "/portfolio" },
+  { label: "Build", to: "/portfolio" },
   { label: "Insights", to: "/insights" },
 ];
 

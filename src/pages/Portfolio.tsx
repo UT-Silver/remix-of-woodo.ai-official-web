@@ -8,7 +8,7 @@ const Portfolio = () => {
       {/* Header — warm white + dot grid */}
       <section className="py-20 md:py-28 px-6 text-center bg-warm-white dot-grid-bg">
         <ScrollReveal>
-          <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-4 relative z-10">Portfolio</p>
+          <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-4 relative z-10">Build</p>
           <h1 className="text-3xl md:text-4xl font-medium text-foreground relative z-10">
             What our builders <strong className="text-primary-dark font-bold">create</strong>.
           </h1>
