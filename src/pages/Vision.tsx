@@ -2,6 +2,10 @@ import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import CountUp from "../components/CountUp";
+import visionHero1 from "../assets/vision-hero-1.png";
+import visionHero2 from "../assets/vision-hero-2.png";
+import visionHero3 from "../assets/vision-hero-3.png";
+import visionHero4 from "../assets/vision-hero-4.png";
 
 const convictions = [
   { num: "01", border: "border-primary-dark", title: "Output over preparation.", desc: "We measure progress in things shipped, not knowledge absorbed.", imgVariant: "green" as const },
@@ -14,6 +18,20 @@ const Vision = () => {
     <div className="page-enter pt-20">
       {/* Opening — white + blue glow */}
       <section className="min-h-[80vh] flex items-center justify-center px-6 relative overflow-hidden glow-blue-bl dot-grid-bg">
+        {/* Scattered photos like Omidyar hero */}
+        <ScrollReveal direction="fadeOnly" delay={200} className="absolute top-[10%] left-[8%] md:left-[12%] z-0">
+          <img src={visionHero1} alt="" className="w-32 md:w-48 lg:w-56 object-cover rounded-sm shadow-lg" />
+        </ScrollReveal>
+        <ScrollReveal direction="fadeOnly" delay={400} className="absolute top-[6%] right-[20%] md:right-[25%] z-0">
+          <img src={visionHero2} alt="" className="w-28 md:w-40 lg:w-48 object-cover rounded-sm shadow-lg" />
+        </ScrollReveal>
+        <ScrollReveal direction="fadeOnly" delay={600} className="absolute bottom-[10%] right-[6%] md:right-[10%] z-0">
+          <img src={visionHero3} alt="" className="w-32 md:w-44 lg:w-52 object-cover rounded-sm shadow-lg" />
+        </ScrollReveal>
+        <ScrollReveal direction="fadeOnly" delay={800} className="absolute bottom-[8%] left-[25%] md:left-[30%] z-0">
+          <img src={visionHero4} alt="" className="w-36 md:w-48 lg:w-56 object-cover rounded-sm shadow-lg" />
+        </ScrollReveal>
+
         <div className="max-w-5xl w-full relative z-10">
           <ScrollReveal direction="left">
             <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-6">Our Vision</p>
