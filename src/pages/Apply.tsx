@@ -91,8 +91,8 @@ const Apply = () => {
         <ScrollReveal className="max-w-lg mx-auto bg-background/90 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-border relative z-10">
           {submitted ? (
             <div className="text-center py-16">
-              <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-                <ImagePlaceholder variant="green" circle className="w-20 h-20" label="Logo" />
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-2xl">🌿</span>
               </div>
               <svg width="48" height="48" viewBox="0 0 48 48" className="mx-auto mb-4">
                 <circle cx="24" cy="24" r="22" fill="none" stroke="hsl(var(--primary-dark))" strokeWidth="2" opacity="0.2" />
