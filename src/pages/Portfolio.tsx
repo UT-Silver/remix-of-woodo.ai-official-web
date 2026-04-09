@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import HeroDotGrid from "../components/HeroDotGrid";
