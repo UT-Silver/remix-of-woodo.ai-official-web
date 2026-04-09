@@ -11,6 +11,7 @@ import logoBcg from "../assets/logo-bcg.png";
 import logoCicc from "../assets/logo-cicc.png";
 import logoJpmorgan from "../assets/logo-jpmorgan.png";
 import logoAlibaba from "../assets/logo-alibaba.png";
+import logoDeutschebank from "../assets/logo-deutschebank.png";
 
 const networkLogos = [
   { src: logoBytedance, alt: "ByteDance" },
@@ -23,6 +24,7 @@ const networkLogos = [
   { src: logoCicc, alt: "CICC" },
   { src: logoJpmorgan, alt: "J.P.Morgan" },
   { src: logoAlibaba, alt: "Alibaba" },
+  { src: logoDeutschebank, alt: "Deutsche Bank" },
 ];
 import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
