@@ -15,13 +15,18 @@ import keerGallery2 from "../assets/keer-gallery-2.jpg";
 import keerGallery3 from "../assets/keer-gallery-3.jpg";
 import keerGallery4 from "../assets/keer-gallery-4.png";
 import keerGallery5 from "../assets/keer-gallery-5.jpg";
+import silverGallery1 from "../assets/silver-gallery-1.jpg";
+import silverGallery2 from "../assets/silver-gallery-2.png";
+import silverGallery3 from "../assets/silver-gallery-3.png";
+import silverGallery4 from "../assets/silver-gallery-4.jpg";
+import silverGallery5 from "../assets/silver-gallery-5.jpg";
 
 const founders = [
   {
     name: "Silver Yin", title: "Co-founder", school: "Columbia University",
     bio: "Silver left a conventional path to build what he believes is the most important educational intervention of the AI era — not teaching tools, but training the AI literacy to know what's worth building.",
     avatar: avatarSilver,
-    gallery: [] as string[],
+    gallery: [silverGallery1, silverGallery2, silverGallery3, silverGallery4, silverGallery5],
   },
   {
     name: "David Dong", title: "Co-founder", school: "Peking University, Guanghua School of Management",
