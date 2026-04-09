@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import avatarDavid from "../assets/avatar-david.png";
+import articleHeroWoodo from "../assets/article-hero-woodo.png";
 
 const ArticlePage = () => {
   const { slug } = useParams();
