@@ -1,10 +1,18 @@
 import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import report1 from "../assets/report-1.png";
 import report2 from "../assets/report-2.png";
 import report3 from "../assets/report-3.png";
 import report4 from "../assets/report-4.png";
+
+const reportImages = [
+  { src: report1, alt: "Investment report cover page" },
+  { src: report2, alt: "Financial analysis charts" },
+  { src: report3, alt: "Market data visualization" },
+  { src: report4, alt: "Company valuation summary" },
+];
 
 const Portfolio = () => {
   return (
