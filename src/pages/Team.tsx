@@ -1,18 +1,24 @@
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
+import avatarSilver from "../assets/avatar-silver.png";
+import avatarDavid from "../assets/avatar-david.png";
+import avatarKeer from "../assets/avatar-keer.jpg";
 
 const founders = [
   {
     name: "Silver Yin", title: "Co-founder", school: "Columbia University",
     bio: "Silver left a conventional path to build what she believes is the most important educational intervention of the AI era — not teaching tools, but training the judgment to know what's worth building.",
+    avatar: avatarSilver,
   },
   {
     name: "David Dong", title: "Co-founder", school: "Peking University, Guanghua School of Management",
     bio: "David brings operational precision and deep knowledge of the Chinese education landscape. He believes execution discipline is what separates ideas from impact.",
+    avatar: avatarDavid,
   },
   {
     name: "Keer Wang", title: "Co-founder", school: "Columbia University, SIPA",
     bio: "Keer leads community and mentorship — the human infrastructure that makes transformation possible. She believes education without genuine relationship is just content delivery.",
+    avatar: avatarKeer,
   },
 ];
 
