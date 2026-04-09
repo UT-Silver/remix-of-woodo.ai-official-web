@@ -8,6 +8,31 @@ import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
 import avatarKeer from "../assets/avatar-keer.jpg";
 import articleHeroWoodo from "../assets/article-hero-woodo.png";
+import logoBytedance from "../assets/logo-bytedance.png";
+import logoAmazon from "../assets/logo-amazon.png";
+import logoBilibili from "../assets/logo-bilibili.png";
+import logoMeta from "../assets/logo-meta.png";
+import logoTencent from "../assets/logo-tencent.png";
+import logoOpenai from "../assets/logo-openai.png";
+import logoBcg from "../assets/logo-bcg.png";
+import logoCicc from "../assets/logo-cicc.png";
+import logoJpmorgan from "../assets/logo-jpmorgan.png";
+import logoAlibaba from "../assets/logo-alibaba.png";
+import logoDeutschebank from "../assets/logo-deutschebank.png";
+
+const networkLogos = [
+  { src: logoBytedance, alt: "ByteDance" },
+  { src: logoAmazon, alt: "Amazon" },
+  { src: logoBilibili, alt: "Bilibili" },
+  { src: logoMeta, alt: "Meta" },
+  { src: logoTencent, alt: "Tencent" },
+  { src: logoOpenai, alt: "OpenAI" },
+  { src: logoBcg, alt: "BCG" },
+  { src: logoCicc, alt: "CICC" },
+  { src: logoJpmorgan, alt: "J.P.Morgan" },
+  { src: logoAlibaba, alt: "Alibaba" },
+  { src: logoDeutschebank, alt: "Deutsche Bank" },
+];
 
 const pillars = [
   {
