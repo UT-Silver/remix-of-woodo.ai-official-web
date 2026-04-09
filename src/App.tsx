@@ -13,7 +13,8 @@ import Index from "./pages/Index";
 import Vision from "./pages/Vision";
 import Team from "./pages/Team";
 import Portfolio from "./pages/Portfolio";
-import Insights from "./pages/Insights";
+import Think from "./pages/Think";
+import ArticlePage from "./pages/ArticlePage";
 import Apply from "./pages/Apply";
 import NotFound from "./pages/NotFound";
 
