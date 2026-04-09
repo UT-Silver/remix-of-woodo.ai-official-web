@@ -26,9 +26,22 @@ const reportImages = [
 const Portfolio = () => {
   const [marqueePaused, setMarqueePaused] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [isDark, setIsDark] = useState(false);
+  const darkSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = darkSectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsDark(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="page-enter pt-20">
+    <div className="page-enter pt-20" style={{ backgroundColor: isDark ? '#1a1a1a' : 'transparent', transition: 'background-color 0.8s ease' }}>
       <section className="dark-section-glow particle-reveal-zone relative w-full overflow-hidden" style={{ height: "70vh", minHeight: "480px" }}>
         <img
           src={heroBuild}
