@@ -1,19 +1,14 @@
 
 
-## 将 "Built by builders" 下方占位图替换为三位创始人头像
+## 给 Apply 表单区域添加粒子连接背景效果
 
-### 修改文件：`src/pages/Index.tsx`
+### 修改文件：`src/pages/Apply.tsx`
 
-1. **导入头像资源**：添加 `avatarSilver`、`avatarDavid`、`avatarKeer` 的 import（从 `../assets/` 目录）。
+1. **导入 `ParticleBackground`**：添加 `import ParticleBackground from "../components/ParticleBackground";`
 
-2. **给 `teamMembers` 数据添加头像字段**：
-   - Silver Yin → `avatarSilver`
-   - David Dong → `avatarDavid`
-   - Keer Wang → `avatarKeer`
+2. **在表单 section 中添加粒子背景**：在第 90 行的 `<section>` 内部（`relative` 已存在），添加 `<ParticleBackground />` 组件，使粒子效果作为表单区域的背景层显示。
 
-3. **替换占位 div 为真实头像**：将第 278-286 行的渐变占位 `<div>` 替换为 `<img>` 标签，显示对应头像，保持 `w-[180px] h-[220px] rounded-2xl overflow-hidden` 样式。
+3. **调整背景样式**：将 `bg-cool-gray dot-grid-bg-green` 改为深色背景（如 `bg-slate-dark`），使绿色粒子连线效果更明显可见。表单卡片保持 `bg-background/90 backdrop-blur-sm` 半透明效果，让粒子在卡片后方隐约可见。
 
-4. **添加悬浮弹起效果**：给每个卡片添加 `hover:-translate-y-2 transition-transform duration-300` 类，移除原来 David 的固定 `translateY(-24px)` 偏移。
-
-5. **整个卡片可点击跳转 Team 页**：将外层 `<div>` 改为 `<Link to="/team">`，点击头像即跳转。
+4. **添加 `particle-reveal-zone` class**：给该 section 添加此 class，使 `ParticleBackground` 识别此区域并在其中显示粒子效果。
 
