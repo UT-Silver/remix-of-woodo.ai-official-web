@@ -98,7 +98,7 @@ const Portfolio = () => {
               <div
                 key={i}
                 className="flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-500 ease-out hover:scale-110 hover:z-10 relative cursor-pointer"
-                style={{ width: "600px", height: "420px", backgroundColor: "#252525" }}
+                style={{ width: "400px", height: "280px", backgroundColor: "#252525" }}
                 onDoubleClick={() => setLightboxSrc(img.src)}
               >
                 <img
