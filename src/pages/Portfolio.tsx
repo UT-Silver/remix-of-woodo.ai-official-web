@@ -16,6 +16,7 @@ const reportImages = [
 
 const Portfolio = () => {
   const [marqueePaused, setMarqueePaused] = useState(false);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
   return (
     <div className="page-enter pt-20">
