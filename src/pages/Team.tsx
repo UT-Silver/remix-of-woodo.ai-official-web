@@ -4,25 +4,29 @@ import ImagePlaceholder from "../components/ImagePlaceholder";
 import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
 import avatarKeer from "../assets/avatar-keer.jpg";
+import davidGallery1 from "../assets/david-gallery-1.jpg";
+import davidGallery2 from "../assets/david-gallery-2.jpg";
+import davidGallery3 from "../assets/david-gallery-3.jpg";
+import davidGallery4 from "../assets/david-gallery-4.jpg";
 
 const founders = [
   {
     name: "Silver Yin", title: "Co-founder", school: "Columbia University",
     bio: "Silver left a conventional path to build what he believes is the most important educational intervention of the AI era — not teaching tools, but training the AI literacy to know what's worth building.",
     avatar: avatarSilver,
-    photoCount: 4,
+    gallery: [] as string[],
   },
   {
     name: "David Dong", title: "Co-founder", school: "Peking University, Guanghua School of Management",
     bio: "David brings operational precision and deep knowledge of the Chinese education landscape. He believes execution discipline is what separates ideas from impact.",
     avatar: avatarDavid,
-    photoCount: 4,
+    gallery: [davidGallery1, davidGallery2, davidGallery3, davidGallery4],
   },
   {
     name: "Keer Wang", title: "Co-founder", school: "Columbia University, SIPA",
     bio: "Keer leads community and mentorship — the human infrastructure that makes transformation possible. She believes education without genuine relationship is just content delivery.",
     avatar: avatarKeer,
-    photoCount: 4,
+    gallery: [] as string[],
   },
 ];
 
@@ -85,20 +89,27 @@ const Team = () => {
                       <p className="text-xs uppercase tracking-[2px] text-muted-foreground mb-4">Gallery</p>
                       <div className="overflow-hidden">
                         <div className="flex gap-4 w-max animate-marquee" style={{ animationDuration: '14s' }}>
-                          {[...Array(2)].flatMap((_, dupeIdx) =>
-                            Array.from({ length: f.photoCount }).map((_, j) => (
+                          {[...Array(2)].flatMap((_, dupeIdx) => {
+                            const items = f.gallery.length > 0
+                              ? f.gallery
+                              : Array.from({ length: 4 }, (_, j) => j);
+                            return items.map((item, j) => (
                               <div
                                 key={`${dupeIdx}-${j}`}
                                 className="flex-shrink-0 w-36 h-28 rounded-xl overflow-hidden border border-border"
                               >
-                                <ImagePlaceholder
-                                  variant="neutral"
-                                  className="w-full h-full"
-                                  label={`${f.name.split(" ")[0]} #${j + 1}`}
-                                />
+                                {typeof item === "string" ? (
+                                  <img src={item} alt={`${f.name} #${j + 1}`} className="w-full h-full object-cover" />
+                                ) : (
+                                  <ImagePlaceholder
+                                    variant="neutral"
+                                    className="w-full h-full"
+                                    label={`${f.name.split(" ")[0]} #${j + 1}`}
+                                  />
+                                )}
                               </div>
-                            ))
-                          )}
+                            ));
+                          })}
                         </div>
                       </div>
                     </div>
