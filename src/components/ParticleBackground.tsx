@@ -117,22 +117,31 @@ const ParticleBackground = () => {
         }
       }
 
+      // Detect dark sections under each node by sampling known dark regions
       // Draw nodes
       for (const node of nodes) {
         const dm = Math.sqrt((node.x - mouseX) ** 2 + (node.y - mouseY) ** 2);
 
-        let opacity = 0.12;
+        // Check if node is over a dark background element
+        const elBelow = document.elementFromPoint(node.x, node.y);
+        const isDark = elBelow ? (
+          elBelow.closest('.bg-slate-dark') !== null ||
+          elBelow.closest('.dark-section-glow') !== null ||
+          elBelow.closest('.bg-cta-green') !== null
+        ) : false;
+
+        let opacity = isDark ? 0.35 : 0.12;
         let size = node.size;
 
         if (dm < MOUSE_RADIUS) {
           const p = 1 - dm / MOUSE_RADIUS;
-          opacity = 0.12 + p * 0.55;
+          opacity = (isDark ? 0.35 : 0.12) + p * 0.55;
           size = node.size + p * 3;
 
           if (p > 0.3) {
             ctx.beginPath();
             ctx.arc(node.x, node.y, size * 3.5, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${node.color.r}, ${node.color.g}, ${node.color.b}, ${0.06 * p})`;
+            ctx.fillStyle = `rgba(${node.color.r}, ${node.color.g}, ${node.color.b}, ${0.06 * p * (isDark ? 2.5 : 1)})`;
             ctx.fill();
           }
         }
