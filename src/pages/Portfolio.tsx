@@ -37,6 +37,25 @@ const Portfolio = () => {
         </ScrollReveal>
       </section>
 
+      {/* AI Value Chain Interactive */}
+      <section className="py-20 md:py-28 px-6 bg-warm-white dot-grid-bg">
+        <ScrollReveal className="max-w-6xl mx-auto">
+          <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-4 text-center relative z-10">Explore</p>
+          <h2 className="text-2xl md:text-3xl font-medium text-foreground text-center relative z-10">
+            AI Value Chain — <strong className="text-primary-dark font-bold">April 2026</strong>
+          </h2>
+          <p className="mt-3 text-muted-foreground text-center relative z-10 mb-10">Click any node to explore details. Interactive visualization.</p>
+          <div className="rounded-2xl border border-border overflow-hidden shadow-lg relative z-10" style={{ height: "80vh" }}>
+            <iframe
+              src="/ai_value_chain.html"
+              title="AI Value Chain Interactive Visualization"
+              className="w-full h-full border-0"
+              loading="lazy"
+            />
+          </div>
+        </ScrollReveal>
+      </section>
+
       {/* Future Grid — cool gray */}
       <section className="py-20 md:py-28 px-6 bg-cool-gray dot-grid-bg">
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
