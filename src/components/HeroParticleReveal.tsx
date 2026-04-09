@@ -30,10 +30,7 @@ const HeroParticleReveal = () => {
 
     if (!container || !ctx) return;
 
-    const rootStyles = getComputedStyle(document.documentElement);
-    const colorTokens = ["--primary", "--secondary", "--accent"]
-      .map((token) => rootStyles.getPropertyValue(token).trim())
-      .filter(Boolean);
+    const WHITE_HSL = "0 0% 100%";
 
     let animationFrame = 0;
     let nodes: ParticleNode[] = [];
