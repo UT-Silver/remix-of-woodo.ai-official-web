@@ -83,11 +83,13 @@ const Think = () => {
           {filtered.length > 0 && (
             <ScrollReveal className="mb-8">
               <Link to={`/think/${filtered[0].slug}`} className="block border border-border rounded-2xl overflow-hidden bg-background card-hover cursor-pointer flex flex-col md:flex-row group">
-                <div className="w-full md:w-1/2 overflow-hidden">
-                  <div className="transition-transform duration-500 group-hover:scale-[1.06]">
-                    {filtered[0].cover ? <img src={filtered[0].cover} alt="Article Cover" className="w-full h-56 md:h-full min-h-[240px] object-cover" /> : <ImagePlaceholder variant="green" className="w-full h-56 md:h-full min-h-[240px]" label="Article Cover" aspectRatio="16/9" />}
+                {filtered[0].cover && (
+                  <div className="w-full md:w-1/2 overflow-hidden">
+                    <div className="transition-transform duration-500 group-hover:scale-[1.06]">
+                      <img src={filtered[0].cover} alt="Article Cover" className="w-full h-56 md:h-full min-h-[240px] object-cover" />
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="p-8 flex flex-col justify-center flex-1">
                   <div className="flex gap-2 mb-3">
                     <span className={`inline-block w-fit px-3 py-1 rounded-lg text-xs font-semibold ${filtered[0].color}`}>{filtered[0].category}</span>
@@ -110,11 +112,13 @@ const Think = () => {
             {filtered.slice(1).map((a, i) => (
               <ScrollReveal key={a.title} delay={i * 100}>
                 <Link to={`/think/${a.slug}`} className="block border border-border rounded-2xl overflow-hidden bg-background card-hover cursor-pointer group">
-                  <div className="overflow-hidden">
-                    <div className="transition-transform duration-500 group-hover:scale-[1.06]">
-                      {a.cover ? <img src={a.cover} alt="Article Cover" className="w-full h-44 object-cover" /> : <ImagePlaceholder variant={i % 2 === 0 ? "blue" : "neutral"} className="w-full h-44" label="Article Cover" aspectRatio="16/9" />}
+                  {a.cover && (
+                    <div className="overflow-hidden">
+                      <div className="transition-transform duration-500 group-hover:scale-[1.06]">
+                        <img src={a.cover} alt="Article Cover" className="w-full h-44 object-cover" />
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div className="p-6">
                     <div className="flex gap-2 mb-3">
                       <span className={`inline-block px-3 py-1 rounded-lg text-xs font-semibold ${a.color}`}>{a.category}</span>
