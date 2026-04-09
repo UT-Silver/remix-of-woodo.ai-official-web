@@ -1,3 +1,4 @@
+import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import avatarSilver from "../assets/avatar-silver.png";
@@ -9,20 +10,25 @@ const founders = [
     name: "Silver Yin", title: "Co-founder", school: "Columbia University",
     bio: "Silver left a conventional path to build what he believes is the most important educational intervention of the AI era — not teaching tools, but training the AI literacy to know what's worth building.",
     avatar: avatarSilver,
+    photoCount: 4,
   },
   {
     name: "David Dong", title: "Co-founder", school: "Peking University, Guanghua School of Management",
     bio: "David brings operational precision and deep knowledge of the Chinese education landscape. He believes execution discipline is what separates ideas from impact.",
     avatar: avatarDavid,
+    photoCount: 4,
   },
   {
     name: "Keer Wang", title: "Co-founder", school: "Columbia University, SIPA",
     bio: "Keer leads community and mentorship — the human infrastructure that makes transformation possible. She believes education without genuine relationship is just content delivery.",
     avatar: avatarKeer,
+    photoCount: 4,
   },
 ];
 
 const Team = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <div className="page-enter pt-20">
       {/* Header — white + green glow */}
@@ -42,23 +48,56 @@ const Team = () => {
           {founders.map((f, i) => (
             <div key={f.name}>
               <ScrollReveal delay={i * 150} direction={i % 2 === 0 ? "left" : "right"}>
-                <div className={`flex flex-col ${i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-10 items-center py-16 px-6 md:px-10 rounded-2xl ${i % 2 === 0 ? "bg-background" : "bg-cool-gray"}`}>
-                  <div className="flex-shrink-0">
-                    <div className="w-64 h-64 md:w-72 md:h-72 rounded-2xl overflow-hidden group border-2 border-transparent hover:border-primary transition-colors duration-300">
-                      <div className="w-full h-full transition-transform duration-500 group-hover:scale-105">
-                        <img
-                          src={f.avatar}
-                          alt={f.name}
-                          className="w-full h-full object-cover"
-                        />
+                <div className={`rounded-2xl ${i % 2 === 0 ? "bg-background" : "bg-cool-gray"}`}>
+                  <div className={`flex flex-col ${i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-10 items-center py-16 px-6 md:px-10`}>
+                    <div
+                      className="flex-shrink-0"
+                      onMouseEnter={() => setHoveredIndex(i)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                    >
+                      <div className="w-64 h-64 md:w-72 md:h-72 rounded-2xl overflow-hidden group border-2 border-transparent hover:border-primary transition-colors duration-300 cursor-pointer">
+                        <div className="w-full h-full transition-transform duration-500 group-hover:scale-105">
+                          <img
+                            src={f.avatar}
+                            alt={f.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                       </div>
                     </div>
+                    <div className={`flex-1 ${i % 2 === 1 ? "md:text-right" : ""}`}>
+                      <h3 className="text-2xl md:text-3xl font-semibold text-foreground">{f.name}</h3>
+                      <p className="text-xs text-muted-foreground mt-2 uppercase tracking-[2px]">{f.title}</p>
+                      <p className="text-sm text-muted-foreground mt-1">{f.school}</p>
+                      <p className="mt-5 text-muted-foreground">{f.bio}</p>
+                    </div>
                   </div>
-                  <div className={`flex-1 ${i % 2 === 1 ? "md:text-right" : ""}`}>
-                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground">{f.name}</h3>
-                    <p className="text-xs text-muted-foreground mt-2 uppercase tracking-[2px]">{f.title}</p>
-                    <p className="text-sm text-muted-foreground mt-1">{f.school}</p>
-                    <p className="mt-5 text-muted-foreground">{f.bio}</p>
+
+                  {/* Expandable photo gallery */}
+                  <div
+                    className="overflow-hidden transition-all duration-500 ease-in-out"
+                    style={{
+                      maxHeight: hoveredIndex === i ? "200px" : "0px",
+                      opacity: hoveredIndex === i ? 1 : 0,
+                    }}
+                  >
+                    <div className="px-6 md:px-10 pb-8">
+                      <p className="text-xs uppercase tracking-[2px] text-muted-foreground mb-4">Gallery</p>
+                      <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                        {Array.from({ length: f.photoCount }).map((_, j) => (
+                          <div
+                            key={j}
+                            className="flex-shrink-0 w-36 h-28 rounded-xl overflow-hidden border border-border"
+                          >
+                            <ImagePlaceholder
+                              variant="neutral"
+                              className="w-full h-full"
+                              label={`${f.name.split(" ")[0]} #${j + 1}`}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </ScrollReveal>
