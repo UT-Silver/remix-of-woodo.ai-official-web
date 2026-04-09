@@ -109,6 +109,8 @@ const ParticleBackground = () => {
       // Refresh dark section positions every 500ms
       if (Date.now() - lastRectCheck > 500) refreshDarkRects();
 
+      const inReveal = isMouseInRevealZone();
+
       // Update positions
       for (const node of nodes) {
         node.x = node.baseX + Math.sin(time * node.floatSpeed + node.phase) * node.floatRadius;
