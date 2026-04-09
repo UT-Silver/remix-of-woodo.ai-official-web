@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>AI Value Chain Primer | April 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#051C2C;--card:#0A3254;--hover:#134074;--accent:#034EA2;--hi:#2251FF;
+--cyan:#0097A9;--gold:#D4A843;--green:#00A878;--red:#E63946;--redgap:#E74C3C;
+--l2a:#22C55E;--l2b:#8B5CF6;--l2c:#F97316;--l2d:#3B82F6;--l2e:#10B981;--l2f:#F59E0B;
+--text:#E8EDF2;--muted:#8BA3BC;--dim:#5A7A96;
+}
+html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:11px;line-height:1.4}
+.header{height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:linear-gradient(90deg,#051C2C,#0A3254);border-bottom:1px solid #1a3a5c}
+.header h1{font-size:15px;font-weight:700;letter-spacing:0.5px}
+.header .meta{font-size:10px;color:var(--muted);display:flex;gap:16px;align-items:center}
+.header .tag{background:var(--gold);color:#051C2C;padding:2px 8px;border-radius:3px;font-weight:700;font-size:10px}
+.main{display:grid;grid-template-columns:22% 56% 22%;height:calc(100vh - 68px);gap:0}
+.col{padding:8px;overflow-y:auto;overflow-x:hidden}
+.col::-webkit-scrollbar{width:3px}
+.col::-webkit-scrollbar-thumb{background:#1a3a5c;border-radius:2px}
+.left-col{border-right:1px solid #1a3a5c}
+.right-col{border-left:1px solid #1a3a5c}
+.center-col{position:relative;display:flex;flex-direction:column;padding:6px 12px;overflow:hidden}
+.section-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:6px}
+th{text-align:left;padding:3px 4px;font-weight:600;color:var(--muted);border-bottom:1px solid #1a3a5c;font-size:9px;text-transform:uppercase;letter-spacing:0.5px}
+td{padding:3px 4px;border-bottom:1px solid rgba(26,58,92,0.5)}
+tr:hover{background:rgba(20,64,116,0.3)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.pos{color:var(--green)}
+.neg{color:var(--red)}
+.gold{color:var(--gold)}
+.cyan{color:var(--cyan)}
+.hi{color:var(--hi)}
+.muted{color:var(--muted)}
+.bold{font-weight:700}
+.mini-card{background:var(--card);border-radius:4px;padding:6px 8px;margin-bottom:5px;border:1px solid transparent;transition:all 0.2s}
+.mini-card:hover{border-color:var(--hi);background:var(--hover)}
+.mini-card h4{font-size:10px;font-weight:600;margin-bottom:2px}
+.mini-card p{font-size:9px;color:var(--muted);line-height:1.3}
+/* Flow chart layers */
+.flow-container{flex:1;display:flex;flex-direction:column;justify-content:space-between;position:relative;min-height:0}
+.layer{position:relative;z-index:2}
+.layer-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.layer-label{font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.5px}
+.layer-amount{font-size:11px;font-weight:700;margin-left:auto}
+.nodes{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.node{background:var(--card);border:1px solid #1a3a5c;border-radius:5px;padding:6px 8px;cursor:pointer;transition:all 0.25s;text-align:center;min-width:80px;flex:1;max-width:160px;position:relative}
+.node:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.4)}
+.node.active{border-color:var(--hi);box-shadow:0 0 12px rgba(34,81,255,0.3)}
+.node-id{font-size:8px;font-weight:700;opacity:0.6;margin-bottom:1px}
+.node-name{font-size:10px;font-weight:600;margin-bottom:2px}
+.node-stat{font-size:9px;color:var(--muted)}
+.node[data-color="green"]{border-left:3px solid var(--l2a)}
+.node[data-color="purple"]{border-left:3px solid var(--l2b)}
+.node[data-color="orange"]{border-left:3px solid var(--l2c)}
+.node[data-color="blue"]{border-left:3px solid var(--l2d)}
+.node[data-color="teal"]{border-left:3px solid var(--l2e)}
+.node[data-color="amber"]{border-left:3px solid var(--l2f)}
+.node[data-color="red"]{border-left:3px solid var(--red)}
+.node[data-color="cyan"]{border-left:3px solid var(--cyan)}
+.node[data-color="gold"]{border-left:3px solid var(--gold)}
+.node[data-color="hi"]{border-left:3px solid var(--hi)}
+/* Particle canvas */
+#particleCanvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none}
+/* Tooltip */
+.tooltip{position:fixed;background:#0d2137;border:1px solid var(--hi);border-radius:5px;padding:8px 10px;font-size:10px;max-width:260px;z-index:100;pointer-events:none;opacity:0;transition:opacity 0.15s;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
+.tooltip .tt-title{font-weight:700;font-size:11px;margin-bottom:4px}
+.tooltip .tt-row{display:flex;justify-content:space-between;gap:12px;padding:1px 0}
+.tooltip .tt-label{color:var(--muted)}
+.tooltip .tt-val{font-weight:600;font-variant-numeric:tabular-nums}
+/* Detail panel */
+.detail-overlay{position:fixed;bottom:0;left:0;right:0;height:0;background:rgba(5,28,44,0.97);z-index:50;transition:height 0.35s ease;overflow:hidden;border-top:2px solid var(--hi)}
+.detail-overlay.open{height:45vh}
+.detail-inner{padding:12px 24px;height:100%;overflow-y:auto}
+.detail-close{position:absolute;top:8px;right:16px;background:none;border:1px solid var(--muted);color:var(--muted);border-radius:3px;padding:2px 10px;cursor:pointer;font-size:10px;font-family:'Inter'}
+.detail-close:hover{border-color:var(--hi);color:var(--hi)}
+.detail-inner h2{font-size:14px;font-weight:700;margin-bottom:8px}
+.detail-inner h3{font-size:11px;font-weight:600;color:var(--cyan);margin:8px 0 4px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.detail-grid table{font-size:10px}
+.detail-points{list-style:none;padding:0}
+.detail-points li{padding:2px 0;font-size:10px;color:var(--muted)}
+.detail-points li::before{content:'▸ ';color:var(--cyan)}
+/* Accordion */
+.accordion{margin-bottom:4px}
+.acc-header{background:var(--card);padding:5px 8px;border-radius:4px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:600;border:1px solid transparent;transition:all 0.2s}
+.acc-header:hover{border-color:var(--hi)}
+.acc-arrow{transition:transform 0.2s;font-size:8px;color:var(--muted)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height 0.3s ease;padding:0 8px}
+.acc-body.open{max-height:300px}
+.acc-body p{font-size:9px;color:var(--muted);padding:4px 0;line-height:1.4}
+/* Footer */
+.footer{height:28px;display:flex;align-items:center;padding:0 20px;background:#061e30;border-top:1px solid #1a3a5c;gap:12px;font-size:10px}
+.gap-bar{flex:1;height:12px;background:#1a2a3a;border-radius:2px;position:relative;overflow:hidden}
+.gap-fill{height:100%;border-radius:2px;position:absolute;left:0;top:0}
+.gap-capex{background:linear-gradient(90deg,var(--gold),#c49a38);width:100%}
+.gap-rev{position:absolute;right:0;top:0;height:100%;background:repeating-linear-gradient(90deg,var(--redgap),var(--redgap) 2px,transparent 2px,transparent 4px);border-left:2px solid var(--redgap)}
+/* Value capture rating */
+.vc-max{color:var(--gold);font-weight:700}
+.vc-high{color:var(--green);font-weight:600}
+.vc-med{color:var(--cyan)}
+.vc-low{color:var(--muted)}
+.vc-neg{color:var(--red)}
+/* Bar chart in detail */
+.bar-chart{display:flex;align-items:end;gap:4px;height:60px;margin:6px 0}
+.bar{background:var(--hi);border-radius:2px 2px 0 0;min-width:20px;position:relative;transition:height 0.3s}
+.bar-label{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--muted);white-space:nowrap}
+.bar-val{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:600;white-space:nowrap}
+</style>
+</head>
+<body>
+<!-- HEADER -->
+<div class="header">
+  <h1>AI Value Chain Primer</h1>
+  <div class="meta">
+    <span>April 2026 | Industry Structure Analysis</span>
+    <span class="tag">2026E Capex: $660–690B</span>
+    <span style="color:var(--red);font-weight:600">Revenue Gap: 3–4×</span>
+  </div>
+</div>
+
+<!-- MAIN 3-COL LAYOUT -->
+<div class="main">
+
+<!-- LEFT COLUMN -->
+<div class="col left-col">
+  <div class="section-title">Hyperscaler Capex ($B)</div>
+  <table>
+    <tr><th>Company</th><th class="num">2024</th><th class="num">2025E</th><th class="num">2026E</th></tr>
+    <tr><td>Amazon</td><td class="num">78</td><td class="num">125</td><td class="num bold gold">200</td></tr>
+    <tr><td>Alphabet</td><td class="num">52</td><td class="num">85–93</td><td class="num bold gold">175–185</td></tr>
+    <tr><td>Microsoft</td><td class="num">56</td><td class="num">80–90</td><td class="num bold gold">120+</td></tr>
+    <tr><td>Meta</td><td class="num">37</td><td class="num">66–72</td><td class="num bold gold">115–135</td></tr>
+    <tr><td>Oracle</td><td class="num">11</td><td class="num">25</td><td class="num bold gold">50</td></tr>
+    <tr style="border-top:2px solid var(--gold)"><td class="bold">Total</td><td class="num bold">234</td><td class="num bold">380–405</td><td class="num bold gold">660–690</td></tr>
+  </table>
+
+  <div class="mini-card">
+    <h4>Capital Intensity</h4>
+    <p><span class="gold bold">45–57%</span> of revenue — levels of utilities, not tech. GS projects cumulative 2025–27 capex &gt; <span class="bold">$1.15T</span></p>
+  </div>
+  <div class="mini-card">
+    <h4>Funding Pressure</h4>
+    <p>$108B+ debt raised in 2025. Amazon FCF: <span class="neg">-$17B to -$28B</span> in 2026E. Prisoner's dilemma — no one can slow down.</p>
+  </div>
+  <div class="mini-card">
+    <h4>Demand Signal</h4>
+    <p>AWS backlog: <span class="pos">$200B</span> | GCP backlog: <span class="pos">$157B</span>. Supply-constrained, not demand-constrained.</p>
+  </div>
+
+  <div class="section-title" style="margin-top:8px">Value Capture by Layer</div>
+  <table>
+    <tr><th>Layer</th><th>GM%</th><th>Rating</th></tr>
+    <tr><td>GPU/Accelerator</td><td class="num">70–75%</td><td class="vc-max">Maximum</td></tr>
+    <tr><td>Custom ASIC</td><td class="num">65–67%</td><td class="vc-high">High</td></tr>
+    <tr><td>Memory (HBM)</td><td class="num">40–50%</td><td class="vc-med">Cyclical High</td></tr>
+    <tr><td>Networking</td><td class="num">62–63%</td><td class="vc-high">High</td></tr>
+    <tr><td>Servers/ODM</td><td class="num">15–30%</td><td class="vc-low">Low</td></tr>
+    <tr><td>Cooling/Power</td><td class="num">35–45%</td><td class="vc-med">Med-High</td></tr>
+    <tr><td>DC Operators</td><td class="num">45–55%</td><td class="vc-med">Medium</td></tr>
+    <tr><td>Cloud Platform</td><td class="num">30–40%</td><td class="vc-high">High</td></tr>
+    <tr><td>Foundation Models</td><td class="num">33–46%</td><td class="vc-neg">Negative*</td></tr>
+    <tr><td>AI Products</td><td class="num">Varies</td><td class="vc-max">Highest LT</td></tr>
+  </table>
+  <p style="font-size:8px;color:var(--dim);margin-top:2px">*Massive cash burn today, path to 70%+ GM by 2027–29</p>
+</div>
+
+<!-- CENTER COLUMN -->
+<div class="col center-col">
+  <canvas id="particleCanvas"></canvas>
+  <div class="flow-container">
+
+    <!-- LAYER 1 -->
+    <div class="layer" id="layer1">
+      <div class="layer-header">
+        <span class="layer-label" style="background:var(--gold);color:#051C2C">LAYER 1</span>
+        <span style="font-size:10px;font-weight:600">Hyperscaler Capex — Where the Money Comes From</span>
+        <span class="layer-amount gold">$660–690B</span>
+      </div>
+      <div class="nodes">
+        <div class="node" data-color="gold" data-detail="capex" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('capex')">
+          <div class="node-id">L1</div>
+          <div class="node-name">Hyperscaler Capex</div>
+          <div class="node-stat">$660–690B in 2026</div>
+          <div class="node-stat">75% → AI ($450B+)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow zone 1 -->
+    <div style="text-align:center;padding:4px 0;position:relative;z-index:2">
+      <svg width="200" height="20" style="display:block;margin:0 auto"><path d="M100,0 L100,20" stroke="var(--gold)" stroke-width="2" stroke-dasharray="4,3" opacity="0.6"/><polygon points="94,16 106,16 100,22" fill="var(--gold)" opacity="0.6"/></svg>
+      <span style="font-size:8px;color:var(--gold);opacity:0.7">Capital flows downstream →</span>
+    </div>
+
+    <!-- LAYER 2 -->
+    <div class="layer" id="layer2">
+      <div class="layer-header">
+        <span class="layer-label" style="background:var(--hi);color:white">LAYER 2</span>
+        <span style="font-size:10px;font-weight:600">Supply Chain — Where the Money Flows</span>
+        <span class="layer-amount" style="color:var(--hi)">$450B+ AI-directed</span>
+      </div>
+      <div class="nodes">
+        <div class="node" data-color="green" data-detail="compute" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('compute')">
+          <div class="node-id">2A</div>
+          <div class="node-name">Compute</div>
+          <div class="node-stat">NVDA $170B+</div>
+          <div class="node-stat">80–90% share</div>
+        </div>
+        <div class="node" data-color="purple" data-detail="memory" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('memory')">
+          <div class="node-id">2B</div>
+          <div class="node-name">Memory</div>
+          <div class="node-stat">HBM $20B+</div>
+          <div class="node-stat">Supply-constrained</div>
+        </div>
+        <div class="node" data-color="orange" data-detail="servers" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('servers')">
+          <div class="node-id">2C</div>
+          <div class="node-name">Servers</div>
+          <div class="node-stat">$50B+ AI servers</div>
+          <div class="node-stat">15–30% GM</div>
+        </div>
+        <div class="node" data-color="blue" data-detail="networking" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('networking')">
+          <div class="node-id">2D</div>
+          <div class="node-name">Networking</div>
+          <div class="node-stat">Arista $9B</div>
+          <div class="node-stat">IB vs Ethernet</div>
+        </div>
+        <div class="node" data-color="teal" data-detail="dcinfra" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('dcinfra')">
+          <div class="node-id">2E</div>
+          <div class="node-name">DC Infra</div>
+          <div class="node-stat">Vertiv $10B+</div>
+          <div class="node-stat">Liquid cooling</div>
+        </div>
+        <div class="node" data-color="amber" data-detail="power" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('power')">
+          <div class="node-id">2F</div>
+          <div class="node-name">Power</div>
+          <div class="node-stat">1–2% → 3–4%</div>
+          <div class="node-stat">True bottleneck</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow zone 2 -->
+    <div style="text-align:center;padding:4px 0;position:relative;z-index:2">
+      <svg width="200" height="20" style="display:block;margin:0 auto"><path d="M100,0 L100,20" stroke="var(--cyan)" stroke-width="2" stroke-dasharray="4,3" opacity="0.6"/><polygon points="94,16 106,16 100,22" fill="var(--cyan)" opacity="0.6"/></svg>
+      <span style="font-size:8px;color:var(--cyan);opacity:0.7">Infrastructure enables monetization →</span>
+    </div>
+
+    <!-- LAYER 3 -->
+    <div class="layer" id="layer3">
+      <div class="layer-header">
+        <span class="layer-label" style="background:var(--cyan);color:#051C2C">LAYER 3</span>
+        <span style="font-size:10px;font-weight:600">Monetization — Where Revenue Comes From</span>
+        <span class="layer-amount neg">$150–200B (est.)</span>
+      </div>
+      <div class="nodes">
+        <div class="node" data-color="cyan" data-detail="cloudai" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('cloudai')">
+          <div class="node-id">3A</div>
+          <div class="node-name">Cloud AI</div>
+          <div class="node-stat">$400–475B cloud</div>
+          <div class="node-stat">Big 3 = 63%</div>
+        </div>
+        <div class="node" data-color="hi" data-detail="foundation" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('foundation')">
+          <div class="node-id">3B</div>
+          <div class="node-name">Foundation Models</div>
+          <div class="node-stat">OpenAI $25B ARR</div>
+          <div class="node-stat">Anthropic $19B</div>
+        </div>
+        <div class="node" data-color="gold" data-detail="aiproducts" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('aiproducts')">
+          <div class="node-id">3C</div>
+          <div class="node-name">AI Products</div>
+          <div class="node-stat">Copilot, Ads, SaaS</div>
+          <div class="node-stat">Highest LT value</div>
+        </div>
+        <div class="node" data-color="red" data-detail="revgap" onmouseenter="showTooltip(event,this)" onmouseleave="hideTooltip()" onclick="toggleDetail('revgap')">
+          <div class="node-id">3D</div>
+          <div class="node-name">Revenue Gap</div>
+          <div class="node-stat neg">Capex/Rev = 3–4×</div>
+          <div class="node-stat">The core tension</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /flow-container -->
+</div><!-- /center-col -->
+<!-- RIGHT COLUMN -->
+<div class="col right-col">
+  <div class="section-title">Cloud AI Revenue (Q4 2025, $B)</div>
+  <table>
+    <tr><th>Provider</th><th class="num">Rev</th><th class="num">YoY</th><th class="num">Share</th><th class="num">AI Est/Q</th></tr>
+    <tr><td>AWS</td><td class="num">35.6</td><td class="num pos">+24%</td><td class="num">28%</td><td class="num cyan">8–10</td></tr>
+    <tr><td>Azure</td><td class="num">30.0</td><td class="num pos">+39%</td><td class="num">21%</td><td class="num cyan">12–15</td></tr>
+    <tr><td>GCP</td><td class="num">12.5</td><td class="num pos">+26–50%</td><td class="num">14%</td><td class="num cyan">3–5</td></tr>
+  </table>
+  <p style="font-size:8px;color:var(--dim);margin-top:1px">Annual cloud infra: $400–475B (2025) → $800B–1T (2028E). Big 3 = 63% share.</p>
+
+  <div class="section-title" style="margin-top:8px">Foundation Models (ARR, $B)</div>
+  <table>
+    <tr><th>Company</th><th class="num">'24 Rev</th><th class="num">'25 Rev</th><th class="num">ARR Now</th><th class="num">GM%</th></tr>
+    <tr><td>OpenAI</td><td class="num">3.7</td><td class="num">13</td><td class="num bold hi">25</td><td class="num">33–46%</td></tr>
+    <tr><td>Anthropic</td><td class="num">0.4</td><td class="num">4.5–9</td><td class="num bold hi">19</td><td class="num">38–40%</td></tr>
+  </table>
+  <div class="mini-card">
+    <h4>Key Dynamics</h4>
+    <p>Gap compressed to ~$6B ARR. Anthropic growing ~7×/yr, OpenAI ~3.4×. Epoch AI projects crossover mid-2026.</p>
+    <p style="margin-top:2px"><span class="cyan bold">Claude Code</span>: $2.5B ARR by Feb 2026 — breakout product category.</p>
+    <p style="margin-top:2px">Neither profitable. OpenAI: <span class="neg">-$14B loss</span> in 2026E, CF+ by 2030. Anthropic: CF breakeven 2027–28.</p>
+  </div>
+
+  <div class="section-title" style="margin-top:8px">Three Open Questions</div>
+
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <span>1. Is the capex cycle self-sustaining?</span>
+      <span class="acc-arrow">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>$660–690B capex on a bet AI revenue justifies over 5–10 yrs. Assets depreciate ~20%/yr → $400B annual depreciation by 2030. Need sustained 30%+ cloud AI growth. <span class="pos">Bull:</span> demand > supply, record backlogs. <span class="neg">Risk:</span> macro slowdown, model plateau, or efficiency breakthrough (DeepSeek). <span class="bold">Canary:</span> hyperscaler FCF — if deeply negative across multiple cos simultaneously, market prices in capex cuts.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <span>2. How much share can custom ASICs capture?</span>
+      <span class="acc-arrow">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>ASIC shipments +44.6% vs GPU +16.1% in 2026. NVDA share: 87% → 75%. But TAM expanding $242B → $1.2T (2030) — NVDA absolute rev can grow even as share falls. Key Q: do ASICs stay supplementary (15–25%) or become primary (40%+)? Google TPU → Anthropic deal is strongest evidence for external ASIC traction. <span class="bold">Watch:</span> inference cost curves — economics favor cheaper specialized chips.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <span>3. Which layer captures durable value?</span>
+      <span class="acc-arrow">▼</span>
+    </div>
+    <div class="acc-body">
+      <p>Today: NVDA captures most absolute profit. Historically, value migrates upward: hardware → platform → application. Cloud followed this (Dell/HPE compressed → AWS/Azure monopoly → SaaS highest multiples). If AI follows same pattern, long-term winners = application layer (Copilot, AI coding, AI ads) + platform (cloud). NVDA moat (CUDA, full-stack, annual cadence) deeper than any prior HW co — migration timeline may be longer. But gravity → software (marginal cost ≈ 0, high switching costs).</p>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:8px">Key Metrics to Track</div>
+  <div style="font-size:9px;color:var(--muted);line-height:1.5">
+    <div>▸ Hyperscaler capex guidance revisions</div>
+    <div>▸ NVDA DC revenue growth (watch &lt;30% YoY)</div>
+    <div>▸ Cloud AI revenue run rate</div>
+    <div>▸ OpenAI/Anthropic gross margins</div>
+    <div>▸ HBM pricing & lead times</div>
+    <div>▸ Power PPA pricing & availability</div>
+    <div>▸ Custom ASIC adoption rates</div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- FOOTER: Revenue Gap Bar -->
+<div class="footer">
+  <span class="bold gold">Capex $660–690B</span>
+  <div class="gap-bar">
+    <div class="gap-fill gap-capex"></div>
+    <div class="gap-rev" style="width:27%">
+      <span style="position:absolute;left:4px;top:-1px;font-size:9px;color:white;font-weight:600">AI Rev ~$150–200B</span>
+    </div>
+  </div>
+  <span class="bold neg">Gap = 3–4×</span>
+  <span class="muted" style="font-size:9px">Capex running far ahead of provable revenue</span>
+</div>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip"></div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detailPanel">
+  <div class="detail-inner" id="detailContent"></div>
+  <button class="detail-close" onclick="closeDetail()">✕ Close</button>
+</div>
+<script>
+// ===== TOOLTIP DATA =====
+const tooltipData = {
+  capex: {title:'Hyperscaler Capex',rows:[['2026E Total','$660–690B'],['AI-directed','~75% ($450B+)'],['Capital Intensity','45–57% of rev'],['Cumulative 25–27','$1.15T+']]},
+  compute: {title:'2A: Compute (GPU/ASIC)',rows:[['NVDA DC Rev FY26','$170B+'],['NVDA Share','80–90%'],['H100 Cost→Price','$3.3K→$28K (88% GM)'],['ASIC Growth','44.6% vs GPU 16.1%']]},
+  memory: {title:'2B: Memory (HBM)',rows:[['HBM Market','$20B+'],['SK Hynix Share','~50%'],['Lead Times','12–18 months'],['Next Gen','HBM4 w/ Vera Rubin']]},
+  servers: {title:'2C: Servers & Systems',rows:[['AI Server Market','$50B+'],['ODM Margin','10–20% GM'],['OEM Margin','25–35% GM'],['Key Players','SMCI, Dell, HPE, Quanta']]},
+  networking: {title:'2D: Networking',rows:[['Arista Rev 2025','$9B (+28.6%)'],['Arista AI Net Rev','$3.25B (2×)'],['Arista Op Margin','~47%'],['Shift','400G→800G→1.6T']]},
+  dcinfra: {title:'2E: DC Infrastructure',rows:[['Vertiv Rev','$10B+ (+29–35%)'],['AI Rack Power','40–100+ kW'],['Traditional Rack','5–15 kW'],['Key Shift','Air → Liquid cooling']]},
+  power: {title:'2F: Power',rows:[['DC % of World Elec','1–2% → 3–4% by 2030'],['AWS Capacity Plan','10GW → 20GW (26–27)'],['Funding','Multi-yr PPAs'],['SMR Nuclear','No commercial scale yet']]},
+  cloudai: {title:'3A: Cloud AI Services',rows:[['Q4 2025 Total','~$119B (+29% YoY)'],['Annual Market','$400–475B (2025)'],['2028E Projection','$800B–1T'],['Big 3 Share','63%']]},
+  foundation: {title:'3B: Foundation Models',rows:[['OpenAI ARR','$25B (85% consumer)'],['Anthropic ARR','$19B (85% enterprise)'],['Claude Code ARR','$2.5B (breakout)'],['Both GM Target','70%+ by 2027–29']]},
+  aiproducts: {title:'3C: AI-Enhanced Products',rows:[['Copilot','$30/user/mo enterprise'],['Google Ads','$60B+/Q (AI-optimized)'],['Meta Ads','AI rec → higher ARPU'],['SaaS AI','Salesforce, ServiceNow...']]},
+  revgap: {title:'3D: Revenue Gap',rows:[['2026 Capex','$660–690B'],['2026 AI Revenue','~$150–200B'],['Ratio','3–4× gap'],['Depreciation','~20%/yr on AI assets']]}
+};
+
+// ===== DETAIL PANEL DATA =====
+const detailData = {
+  capex: `<h2 style="color:var(--gold)">Layer 1: Hyperscaler Capex — Where the Money Comes From</h2>
+<div class="detail-grid"><div>
+<h3>The Numbers</h3>
+<table><tr><th>Company</th><th class="num">2024</th><th class="num">2025E</th><th class="num">2026E</th><th class="num">YoY</th></tr>
+<tr><td>Amazon</td><td class="num">$78B</td><td class="num">$125B</td><td class="num bold gold">$200B</td><td class="num pos">+60%</td></tr>
+<tr><td>Alphabet</td><td class="num">$52B</td><td class="num">$85–93B</td><td class="num bold gold">$175–185B</td><td class="num pos">+100%</td></tr>
+<tr><td>Microsoft</td><td class="num">$56B</td><td class="num">$80–90B</td><td class="num bold gold">$120B+</td><td class="num pos">+40%</td></tr>
+<tr><td>Meta</td><td class="num">$37B</td><td class="num">$66–72B</td><td class="num bold gold">$115–135B</td><td class="num pos">+80%</td></tr>
+<tr><td>Oracle</td><td class="num">$11B</td><td class="num">$25B</td><td class="num bold gold">$50B</td><td class="num pos">+100%</td></tr>
+<tr style="border-top:2px solid var(--gold)"><td class="bold">Total</td><td class="num bold">$234B</td><td class="num bold">$380–405B</td><td class="num bold gold">$660–690B</td><td class="num pos bold">+70%</td></tr></table>
+</div><div>
+<h3>Key Analysis</h3>
+<ul class="detail-points">
+<li>Capital intensity at 45–57% of revenue — utility-level, not tech</li>
+<li>Goldman Sachs: cumulative 2025–27 capex exceeds $1.15 trillion</li>
+<li>$108B+ debt raised in 2025; $1.5T projected total debt issuance</li>
+<li>Amazon projected negative FCF in 2026 (MS: -$17B, BofA: -$28B)</li>
+<li>Larry Page: "willing to go bankrupt rather than lose the AI race"</li>
+<li>Prisoner's dilemma: falling behind in AI infra may be permanent</li>
+<li>All hyperscalers report supply-constrained, not demand-constrained</li>
+<li>AWS backlog $200B, Google Cloud $157B — customers waiting</li>
+</ul></div></div>`,
+
+  compute: `<h2 style="color:var(--l2a)">2A: Compute — GPUs, Custom ASICs, CPUs</h2>
+<div class="detail-grid"><div>
+<h3>GPU Market (Nvidia Dominance)</h3>
+<table><tr><th>Metric</th><th>Value</th></tr>
+<tr><td>NVDA DC Rev FY2025</td><td class="bold">$115B (+142% YoY)</td></tr>
+<tr><td>NVDA DC Rev FY2026E</td><td class="bold gold">$170B+</td></tr>
+<tr><td>Market Share</td><td>80–90%</td></tr>
+<tr><td>H100 COGS → ASP</td><td>$3,320 → $28,000 (88% GM)</td></tr>
+<tr><td>Blackwell/Rubin Orders</td><td class="bold">$500B+</td></tr>
+<tr><td>Roadmap</td><td>Blackwell → Vera Rubin (H2'26) → Ultra (H2'27)</td></tr>
+<tr><td>AMD Share</td><td>5–8% (MI300X, MI450 Q3'26)</td></tr></table>
+<h3>Margin Structure</h3>
+<table><tr><th>Segment</th><th class="num">Gross Margin</th></tr>
+<tr><td>NVDA Flagship DC GPU</td><td class="num bold pos">85–90%</td></tr>
+<tr><td>NVDA Company-level</td><td class="num">70–75%</td></tr>
+<tr><td>Broadcom AI Semi</td><td class="num">~67% adj EBITDA</td></tr>
+<tr><td>AMD Data Center</td><td class="num">50–55%</td></tr>
+<tr><td>Custom ASIC TCO</td><td class="num">40–65% savings</td></tr></table>
+</div><div>
+<h3>Custom ASICs — The Structural Threat</h3>
+<table><tr><th>Program</th><th>Status</th></tr>
+<tr><td>Google TPU (Ironwood v7)</td><td>Most mature. ~58% custom cloud share. $8B/yr w/ AVGO</td></tr>
+<tr><td>AWS Trainium/Inferentia</td><td>Trainium2 at scale (400K+ chips). Trainium3 in 2026</td></tr>
+<tr><td>Microsoft Maia</td><td>Internal only. "Braga" delayed to 2026</td></tr>
+<tr><td>Meta MTIA</td><td>Early-stage, rec + some gen AI</td></tr>
+<tr><td>OpenAI Custom</td><td>w/ Broadcom, mass production 2026</td></tr></table>
+<ul class="detail-points">
+<li>ASIC shipments +44.6% in 2026 vs GPU +16.1%</li>
+<li>Custom works for internal predictable workloads</li>
+<li>Public cloud still needs GPU flexibility</li>
+<li>ASIC co-design duopoly: Broadcom (~60%) + Marvell (~8%)</li>
+<li>AVGO AI semi rev: $8.2B Q1 FY26 (+74% YoY)</li>
+</ul></div></div>`,
+
+  memory: `<h2 style="color:var(--l2b)">2B: Memory — HBM is the Bottleneck</h2>
+<div class="detail-grid"><div>
+<h3>Market Structure</h3>
+<table><tr><th>Vendor</th><th>HBM Share</th><th>Notes</th></tr>
+<tr><td class="bold">SK Hynix</td><td class="num">~50%</td><td>Market leader, first to HBM3E</td></tr>
+<tr><td>Samsung</td><td class="num">~30%</td><td>Catching up, yield improvements</td></tr>
+<tr><td>Micron</td><td class="num">~20%</td><td>US-based, growing share</td></tr></table>
+</div><div>
+<h3>Key Dynamics</h3>
+<ul class="detail-points">
+<li>AI workloads are memory-bandwidth-bound</li>
+<li>HBM market: $20B+ and growing rapidly</li>
+<li>HBM3E is current standard; HBM4 arrives with Vera Rubin (2026)</li>
+<li>Supply-constrained with 12–18 month lead times</li>
+<li>Memory vendors have pricing power they haven't had in years</li>
+<li>Gross margins: 40–50% (cyclical high)</li>
+</ul></div></div>`,
+
+  servers: `<h2 style="color:var(--l2c)">2C: Servers & Systems Integration</h2>
+<div class="detail-grid"><div>
+<h3>Key Players</h3>
+<table><tr><th>Company</th><th>Type</th><th>Notes</th></tr>
+<tr><td class="bold">Supermicro</td><td>AI Server</td><td>Fastest-growing, GPU-optimized. Volatile (accounting)</td></tr>
+<tr><td>Dell</td><td>Enterprise</td><td>AI server incumbent, strong IT relationships</td></tr>
+<tr><td>HPE</td><td>Enterprise</td><td>Acquired Juniper for networking integration</td></tr>
+<tr><td>Quanta/Foxconn</td><td>ODM</td><td>Massive scale for hyperscalers, lower margin</td></tr></table>
+</div><div>
+<h3>Economics</h3>
+<ul class="detail-points">
+<li>Total AI server market: $50B+</li>
+<li>ODM margins: 10–20% gross margin (thin)</li>
+<li>Branded OEM margins: 25–35% gross margin</li>
+<li>Value capture is in volume, not pricing power</li>
+<li>Assembles GPUs, CPUs, memory, networking, cooling into rack-scale systems</li>
+</ul></div></div>`,
+
+  networking: `<h2 style="color:var(--l2d)">2D: Networking — The Critical Bottleneck</h2>
+<div class="detail-grid"><div>
+<h3>Two Competing Paradigms</h3>
+<table><tr><th>Technology</th><th>Backing</th><th>Status</th></tr>
+<tr><td class="bold">NVDA InfiniBand</td><td>Proprietary</td><td>Dominant in large training clusters</td></tr>
+<tr><td class="bold">Ethernet (UEC)</td><td>Meta, MSFT, GOOG</td><td>Specs finalized 2025, volume 2026</td></tr></table>
+<h3>Arista Networks (Pure Play)</h3>
+<table><tr><th>Metric</th><th>Value</th></tr>
+<tr><td>2025 Revenue</td><td class="bold">$9B (+28.6% YoY)</td></tr>
+<tr><td>2026E Revenue</td><td class="bold">$10B+</td></tr>
+<tr><td>AI Networking Rev</td><td class="bold cyan">$3.25B (nearly 2×)</td></tr>
+<tr><td>Non-GAAP Op Margin</td><td>~47%</td></tr>
+<tr><td>Gross Margin</td><td>62–63%</td></tr></table>
+</div><div>
+<h3>Key Dynamics</h3>
+<ul class="detail-points">
+<li>GPU clusters scaling to 100,000+ chips — network is bottleneck</li>
+<li>Hyperscalers prefer Ethernet to avoid NVDA vendor lock-in</li>
+<li>Broadcom supplies both Ethernet switching ASICs and custom networking silicon</li>
+<li>Multi-year upgrade cycle: 400G → 800G → 1.6T</li>
+<li>Benefits Arista, Broadcom, optical suppliers (Amphenol, Corning, InnoLight, Lumentum)</li>
+</ul></div></div>`,
+
+  dcinfra: `<h2 style="color:var(--l2e)">2E: Data Center Physical Infrastructure</h2>
+<div class="detail-grid"><div>
+<h3>Key Players</h3>
+<table><tr><th>Company</th><th>Rev</th><th>Focus</th></tr>
+<tr><td class="bold">Vertiv (VRT)</td><td>$10B+ (+29–35%)</td><td>UPS, PDUs, liquid cooling, BESS</td></tr>
+<tr><td>Schneider Electric</td><td>~24% from DC</td><td>Broader industrial, massive scale</td></tr>
+<tr><td>Eaton (ETN)</td><td>~$7B relevant</td><td>"Grid-to-chip", acquired Boyd ($9.5B)</td></tr>
+<tr><td>Modine, nVent</td><td>Smaller</td><td>Heat exchangers, high-density power</td></tr></table>
+<h3>DC Operators/REITs</h3>
+<table><tr><th>Company</th><th>Type</th><th>Notes</th></tr>
+<tr><td>Equinix (EQIX)</td><td>REIT</td><td>260+ facilities, stable, dividend</td></tr>
+<tr><td>Digital Realty</td><td>REIT</td><td>Wholesale/hyperscale leasing</td></tr>
+<tr><td>CoreWeave</td><td>Neocloud</td><td>$12B OpenAI deal, IPO 2025</td></tr>
+<tr><td>APLD, CORZ</td><td>Converted</td><td>Crypto→AI, own grid connections</td></tr></table>
+</div><div>
+<h3>The Cooling Constraint</h3>
+<ul class="detail-points">
+<li>AI racks: 40–100+ kW each vs 5–15 kW traditional</li>
+<li>Fundamental shift from air cooling to liquid cooling</li>
+<li>Vertiv in dead heat with Schneider for global DCPI market share</li>
+<li>Margins: 35–45% gross margin (medium-high)</li>
+<li>Critical and growing, but valued as industrials not tech</li>
+</ul></div></div>`,
+
+  power: `<h2 style="color:var(--l2f)">2F: Power — The Physical-World Bottleneck</h2>
+<div class="detail-grid"><div>
+<h3>Key Players</h3>
+<table><tr><th>Company</th><th>Type</th></tr>
+<tr><td class="bold">Constellation Energy (CEG)</td><td>Nuclear operator, PPAs</td></tr>
+<tr><td>Vistra (VST)</td><td>Power generation</td></tr>
+<tr><td>NextEra Energy (NEE)</td><td>Renewables leader</td></tr>
+<tr><td>Talen Energy</td><td>Nuclear PPAs</td></tr>
+<tr><td>Eaton, GE Vernova</td><td>Transformers, switchgear</td></tr></table>
+</div><div>
+<h3>Key Dynamics</h3>
+<ul class="detail-points">
+<li>DCs consume 1–2% of world electricity → 3–4% by 2030</li>
+<li>Power availability — not capital — is the true bottleneck</li>
+<li>Hyperscalers signing multi-year PPAs with nuclear, gas, renewables</li>
+<li>AWS plans: 10GW → 20GW capacity (2026–2027)</li>
+<li>SMR nuclear is the long-duration dream — no commercial scale yet</li>
+<li>No amount of capital can instantly solve power constraints</li>
+</ul></div></div>`,
+
+  cloudai: `<h2 style="color:var(--cyan)">3A: Cloud AI Services — The Primary Revenue Engine</h2>
+<div class="detail-grid"><div>
+<h3>Q4 2025 Revenue</h3>
+<table><tr><th>Provider</th><th class="num">Revenue</th><th class="num">YoY</th><th class="num">Share</th><th class="num">AI Rev/Q</th></tr>
+<tr><td class="bold">AWS</td><td class="num">$35.6B</td><td class="num pos">+24%</td><td class="num">28%</td><td class="num cyan">$8–10B</td></tr>
+<tr><td class="bold">Azure</td><td class="num">$30B</td><td class="num pos">+39%</td><td class="num">21%</td><td class="num cyan">$12–15B</td></tr>
+<tr><td class="bold">GCP</td><td class="num">$12.5B</td><td class="num pos">+26–50%</td><td class="num">14%</td><td class="num cyan">$3–5B</td></tr>
+<tr style="border-top:1px solid var(--cyan)"><td class="bold">Total Q4</td><td class="num bold">~$119B</td><td class="num pos bold">+29%</td><td class="num">63%</td><td class="num cyan bold">$23–30B</td></tr></table>
+</div><div>
+<h3>Monetization Channels</h3>
+<ul class="detail-points">
+<li>Azure: OpenAI partnership is primary AI growth driver</li>
+<li>AWS: Bedrock (multi-model: Claude, Llama) + SageMaker</li>
+<li>GCP: Vertex AI platform</li>
+<li>Annual cloud infra market: $400–475B (2025) → $800B–1T (2028E)</li>
+<li>Big Three control 63% of the market</li>
+<li>Operating margins: 30–40% — distribution monopoly + customer lock-in</li>
+</ul></div></div>`,
+
+  foundation: `<h2 style="color:var(--hi)">3B: Foundation Models — Fastest-Growing Revenue Layer</h2>
+<div class="detail-grid"><div>
+<h3>Revenue Trajectory</h3>
+<table><tr><th>Metric</th><th>OpenAI</th><th>Anthropic</th></tr>
+<tr><td>2024 Revenue</td><td class="num">$3.7B</td><td class="num">$0.4B</td></tr>
+<tr><td>2025 Revenue</td><td class="num">$13B</td><td class="num">$4.5–9B</td></tr>
+<tr><td>Current ARR</td><td class="num bold hi">$25B</td><td class="num bold hi">$19B</td></tr>
+<tr><td>Growth Rate</td><td class="num">~3.4×/yr</td><td class="num pos">~7×/yr</td></tr>
+<tr><td>Revenue Mix</td><td>85% consumer</td><td>85% enterprise</td></tr>
+<tr><td>Gross Margin</td><td class="num">33–46%</td><td class="num">38–40%</td></tr>
+<tr><td>2026 Inference Cost</td><td class="num neg">$14.1B</td><td class="num">On GOOG/AMZN</td></tr>
+<tr><td>Profitability</td><td class="neg">-$14B loss '26</td><td class="neg">CF breakeven '27–28</td></tr></table>
+</div><div>
+<h3>Key Analysis</h3>
+<ul class="detail-points">
+<li>Gap compressed from insurmountable to ~$6B ARR</li>
+<li>Epoch AI projects revenue crossover by mid-2026</li>
+<li>Both project 70%+ gross margins by 2027–2029</li>
+<li>Path: custom chips + better efficiency → margin expansion</li>
+<li><span class="cyan bold">Claude Code</span>: $2.5B ARR by Feb 2026, doubling since start of year</li>
+<li>AI coding assistant = first category with clear PMF + measurable enterprise ROI</li>
+<li>OpenAI CF+ by 2030; Anthropic CF breakeven 2027–28</li>
+</ul></div></div>`,
+
+  aiproducts: `<h2 style="color:var(--gold)">3C: AI-Enhanced Products & Services</h2>
+<div class="detail-grid"><div>
+<h3>Major Products</h3>
+<table><tr><th>Product</th><th>Company</th><th>Details</th></tr>
+<tr><td class="bold">Copilot</td><td>Microsoft</td><td>$30/user/mo, across O365/GitHub/Dynamics</td></tr>
+<tr><td class="bold">AI in Search/Ads</td><td>Google</td><td>$60B+/Q ad rev, AI Overviews + Performance Max</td></tr>
+<tr><td class="bold">AI in Ads/Feed</td><td>Meta</td><td>Llama-based rec models → higher ARPU</td></tr>
+<tr><td class="bold">Enterprise SaaS</td><td>Various</td><td>Salesforce Einstein, ServiceNow AI, Notion AI</td></tr></table>
+</div><div>
+<h3>Key Dynamics</h3>
+<ul class="detail-points">
+<li>Copilot is primary driver of Azure's 39% growth</li>
+<li>Google AI ad optimization = arguably highest-ROI AI application today</li>
+<li>Meta AI rec models meaningfully increased ad revenue per user</li>
+<li>Enterprise SaaS AI = long tail, powered by API calls to foundation models</li>
+<li>Highest long-term value capture — marginal cost near zero</li>
+<li>Revenue hard to isolate from core products</li>
+</ul></div></div>`,
+
+  revgap: `<h2 style="color:var(--red)">3D: The Revenue Gap — The Core Tension</h2>
+<div class="detail-grid"><div>
+<h3>The Uncomfortable Math</h3>
+<table><tr><th>Metric</th><th>Value</th></tr>
+<tr><td>2026 Hyperscaler Capex</td><td class="num bold gold">$660–690B</td></tr>
+<tr><td>2026 Incremental AI Revenue</td><td class="num bold">~$150–200B</td></tr>
+<tr><td class="bold">Capex-to-Revenue Ratio</td><td class="num bold neg">3–4×</td></tr>
+<tr><td>Asset Depreciation Rate</td><td class="num">~20%/year</td></tr>
+<tr><td>2030 Annual Depreciation</td><td class="num neg">~$400B</td></tr></table>
+</div><div>
+<h3>Bull vs Bear</h3>
+<ul class="detail-points">
+<li><span class="pos bold">Bull:</span> Looks like early cloud (2010–2015) — AWS invested years ahead of revenue</li>
+<li><span class="neg bold">Bear:</span> $2T in planned AI assets by 2030 → $400B annual depreciation</li>
+<li>Assets must generate returns before they depreciate</li>
+<li>Need sustained 30%+ AI cloud revenue growth for years</li>
+<li>Incremental AI revenue = cloud AI + model vendors + Copilot-type products</li>
+<li>The fundamental tension: capex running far ahead of provable revenue</li>
+</ul></div></div>`
+};
+</script>
+<script>
+// ===== TOOLTIP =====
+const tooltip = document.getElementById('tooltip');
+function showTooltip(e, el) {
+  const key = el.dataset.detail;
+  const d = tooltipData[key];
+  if (!d) return;
+  let html = `<div class="tt-title">${d.title}</div>`;
+  d.rows.forEach(r => {
+    html += `<div class="tt-row"><span class="tt-label">${r[0]}</span><span class="tt-val">${r[1]}</span></div>`;
+  });
+  tooltip.innerHTML = html;
+  tooltip.style.opacity = '1';
+  positionTooltip(e);
+}
+function positionTooltip(e) {
+  const tt = tooltip;
+  const x = e.clientX + 12;
+  const y = e.clientY - 10;
+  tt.style.left = (x + tt.offsetWidth > window.innerWidth - 10 ? e.clientX - tt.offsetWidth - 12 : x) + 'px';
+  tt.style.top = (y + tt.offsetHeight > window.innerHeight - 10 ? e.clientY - tt.offsetHeight - 10 : y) + 'px';
+}
+function hideTooltip() {
+  tooltip.style.opacity = '0';
+}
+document.addEventListener('mousemove', e => {
+  if (tooltip.style.opacity === '1') positionTooltip(e);
+});
+
+// ===== DETAIL PANEL =====
+const detailPanel = document.getElementById('detailPanel');
+const detailContent = document.getElementById('detailContent');
+let activeDetail = null;
+
+function toggleDetail(key) {
+  // Deactivate all nodes
+  document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+  if (activeDetail === key) {
+    closeDetail();
+    return;
+  }
+  activeDetail = key;
+  const html = detailData[key];
+  if (!html) return;
+  detailContent.innerHTML = html;
+  detailPanel.classList.add('open');
+  // Highlight active node
+  const node = document.querySelector(`.node[data-detail="${key}"]`);
+  if (node) node.classList.add('active');
+  hideTooltip();
+}
+
+function closeDetail() {
+  detailPanel.classList.remove('open');
+  activeDetail = null;
+  document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+}
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDetail();
+});
+
+// ===== ACCORDION =====
+function toggleAcc(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.acc-arrow');
+  body.classList.toggle('open');
+  arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+
+// ===== PARTICLE ANIMATION =====
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+const PARTICLE_COUNT = 40;
+
+function resizeCanvas() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+}
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    // Flow from top to bottom (capex → supply chain → monetization)
+    this.x = canvas.width * (0.2 + Math.random() * 0.6);
+    this.y = -5;
+    this.speed = 0.4 + Math.random() * 0.8;
+    this.size = 1.5 + Math.random() * 2;
+    this.opacity = 0.3 + Math.random() * 0.5;
+    // Gold at top, transitions to cyan at bottom
+    this.phase = 0;
+    this.wobble = (Math.random() - 0.5) * 0.5;
+    this.life = 0;
+  }
+  update() {
+    this.y += this.speed;
+    this.x += Math.sin(this.life * 0.02) * this.wobble;
+    this.life++;
+    this.phase = Math.min(1, this.y / canvas.height);
+    if (this.y > canvas.height + 5) this.reset();
+  }
+  draw() {
+    // Interpolate gold → cyan
+    const r = Math.round(212 - this.phase * 212 + this.phase * 0);
+    const g = Math.round(168 - this.phase * 168 + this.phase * 151);
+    const b = Math.round(67 - this.phase * 67 + this.phase * 169);
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},${this.opacity})`;
+    ctx.fill();
+    // Glow
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},${this.opacity * 0.15})`;
+    ctx.fill();
+  }
+}
+
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    const p = new Particle();
+    p.y = Math.random() * canvas.height; // Spread initially
+    particles.push(p);
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+
+// ===== CROSS-LINKING: Left/Right hover highlights center nodes =====
+function setupCrossLinks() {
+  // Left column table rows → highlight corresponding center nodes
+  const leftCol = document.querySelector('.left-col');
+  const rightCol = document.querySelector('.right-col');
+
+  // Value capture table rows
+  const vcRows = leftCol.querySelectorAll('table:last-of-type tr');
+  const layerMap = {
+    'GPU/Accelerator': 'compute', 'Custom ASIC': 'compute',
+    'Memory (HBM)': 'memory', 'Networking': 'networking',
+    'Servers/ODM': 'servers', 'Cooling/Power': 'dcinfra',
+    'DC Operators': 'dcinfra', 'Cloud Platform': 'cloudai',
+    'Foundation Models': 'foundation', 'AI Products': 'aiproducts'
+  };
+
+  vcRows.forEach(row => {
+    const firstCell = row.querySelector('td');
+    if (!firstCell) return;
+    const text = firstCell.textContent.trim();
+    const nodeKey = layerMap[text];
+    if (!nodeKey) return;
+    row.style.cursor = 'pointer';
+    row.addEventListener('mouseenter', () => {
+      const node = document.querySelector(`.node[data-detail="${nodeKey}"]`);
+      if (node) { node.style.transform = 'translateY(-2px)'; node.style.boxShadow = '0 0 12px rgba(34,81,255,0.4)'; }
+    });
+    row.addEventListener('mouseleave', () => {
+      const node = document.querySelector(`.node[data-detail="${nodeKey}"]`);
+      if (node) { node.style.transform = ''; node.style.boxShadow = ''; }
+    });
+    row.addEventListener('click', () => toggleDetail(nodeKey));
+  });
+}
+
+// ===== INIT =====
+window.addEventListener('load', () => {
+  resizeCanvas();
+  initParticles();
+  animate();
+  setupCrossLinks();
+});
+window.addEventListener('resize', () => {
+  resizeCanvas();
+  initParticles();
+});
+</script>
+</body>
+</html>
