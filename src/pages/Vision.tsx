@@ -75,7 +75,12 @@ const Vision = () => {
 
       {/* What We Believe — scroll-triggered dark background */}
       <section ref={darkSectionRef} className="py-20 md:py-28 px-6">
-        <div className="max-w-5xl mx-auto flex justify-end">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+          <ScrollReveal className="w-full md:w-1/2" direction="left">
+            <div className="rounded-2xl overflow-hidden shadow-lg">
+              <img src={visionLaborMarket} alt="Labor market signals — AI skills in demand" className="w-full h-auto object-cover" />
+            </div>
+          </ScrollReveal>
           <div className="w-full md:w-1/2 space-y-6 text-lg">
             <ScrollReveal>
               <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>
