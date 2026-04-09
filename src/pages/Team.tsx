@@ -3,7 +3,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
-import avatarKeer from "../assets/keer-gallery-4.png";
+import avatarKeer from "../assets/avatar-keer.jpg";
 import davidGallery1 from "../assets/david-gallery-1.jpg";
 import davidGallery2 from "../assets/david-gallery-2.jpg";
 import davidGallery3 from "../assets/david-gallery-3.jpg";
