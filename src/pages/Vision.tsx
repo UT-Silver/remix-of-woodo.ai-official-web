@@ -40,9 +40,9 @@ const Vision = () => {
             <p>
               <span className="float-left text-7xl font-bold text-primary-dark mr-3 leading-[0.8] mt-1">A</span>I has democratized capability. Anyone can build. The question is: what should be built?
             </p>
-            <p>Education systems are still training people to optimize for known answers. The future belongs to those who can ask the right questions.</p>
-            <p>We believe the most important skill of the AI era is <strong className="text-foreground">judgment</strong> — the ability to see what matters, taste what's excellent, and have the courage to build something original.</p>
-            <p>We exist to train that judgment. Not through lectures, not through tool tutorials, but through the act of building real things with real stakes.</p>
+            <p>Education systems are still training people to optimize for known answers. The future belongs to those who can turn ideas into real things.</p>
+            <p>The labor market is already repricing for this in real time. The world's most sophisticated employers — top hedge funds, frontier startups, research labs — have stopped hiring for what candidates know, and started hiring for what they've built. Only those who cross from using AI to building with it will belong in what comes next.</p>
+            <p>We call that capability <strong className="text-foreground">agency</strong>. Woodo.ai exists to train it.</p>
           </ScrollReveal>
         </div>
       </section>
