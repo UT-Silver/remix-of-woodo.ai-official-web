@@ -6,7 +6,7 @@ const navLinks = [
   { label: "Vision", to: "/vision" },
   { label: "Team", to: "/team" },
   { label: "Build", to: "/portfolio" },
-  { label: "Insights", to: "/insights" },
+  { label: "Think", to: "/think" },
 ];
 
 const Navbar = () => {

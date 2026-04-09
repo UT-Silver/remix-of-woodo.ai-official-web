@@ -96,7 +96,7 @@ const Apply = () => {
                 <path d="M14 24L22 32L34 16" fill="none" stroke="hsl(var(--primary-dark))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="checkmark-draw" />
               </svg>
               <h3 className="text-2xl font-semibold text-foreground tracking-tight">Thank you. We'll be in touch.</h3>
-              <Link to="/insights" className="text-sm font-semibold text-primary-dark mt-6 inline-block hover:text-primary transition-colors group">
+              <Link to="/think" className="text-sm font-semibold text-primary-dark mt-6 inline-block hover:text-primary transition-colors group">
                 Meanwhile, read our thinking <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
               </Link>
             </div>

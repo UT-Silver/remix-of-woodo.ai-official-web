@@ -396,15 +396,15 @@ const Index = () => {
             <h2 className="text-[32px] md:text-[36px] font-semibold" style={{ color: "#1E293B" }}>
               How we <strong className="text-primary-dark">think</strong>
             </h2>
-            <Link to="/insights" className="text-sm font-semibold text-primary-dark hover:text-primary-darkest transition-colors group">
-              All insights <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+            <Link to="/think" className="text-sm font-semibold text-primary-dark hover:text-primary-darkest transition-colors group">
+              All articles <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </Link>
           </div>
 
           {/* Featured article */}
           <ScrollReveal className="mb-8">
             <Link
-              to="/insights"
+              to="/think/why-we-started-woodo"
               className="block rounded-2xl overflow-hidden card-hover group"
               style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
             >
@@ -417,9 +417,10 @@ const Index = () => {
                   }}
                 />
                 <div className="p-8 flex flex-col justify-center flex-1">
-                  <span className="inline-block w-fit px-3 py-1 rounded-lg text-xs font-semibold bg-primary/10 text-primary-dark mb-4">
-                    Founding
-                  </span>
+                  <div className="flex gap-2 mb-4">
+                    <span className="inline-block w-fit px-3 py-1 rounded-lg text-xs font-semibold bg-primary/10 text-primary-dark">Founding</span>
+                    <span className="inline-block w-fit px-3 py-1 rounded-lg text-xs font-semibold" style={{ background: "rgba(251,191,36,0.15)", color: "#92400E" }}>Manifesto</span>
+                  </div>
                   <h3 className="text-[22px] font-semibold" style={{ color: "#1E293B" }}>Why We Started Woodo</h3>
                   <p className="text-sm mt-3 max-w-sm" style={{ color: "#4B5563" }}>
                     The origin story of a conviction: that the world's most talented young people deserve more than another course catalog.
@@ -435,7 +436,7 @@ const Index = () => {
             {articles.slice(1).map((a, i) => (
               <ScrollReveal key={a.title} delay={i * 100} direction="scaleIn">
                 <Link
-                  to="/insights"
+                  to="/think"
                   className="block rounded-2xl overflow-hidden card-hover group"
                   style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
                 >
