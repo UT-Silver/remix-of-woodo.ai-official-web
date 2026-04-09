@@ -57,7 +57,7 @@ const HeroParticleReveal = () => {
             phase: Math.random() * Math.PI * 2,
             floatSpeed: 0.2 + Math.random() * 0.35,
             floatRadius: 1.5 + Math.random() * 3,
-            colorToken: colorTokens[Math.floor(Math.random() * colorTokens.length)] || "142 71% 45%",
+            colorToken: WHITE_HSL,
           });
         }
       }
