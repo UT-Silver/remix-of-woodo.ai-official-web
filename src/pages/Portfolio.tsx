@@ -60,7 +60,48 @@ const Portfolio = () => {
         </ScrollReveal>
       </section>
 
-      {/* Future Grid — cool gray */}
+      {/* Investment Reports Showcase — dark bento grid */}
+      <section className="py-20 md:py-28 px-6" style={{ backgroundColor: "#1a1a1a" }}>
+        <ScrollReveal className="max-w-6xl mx-auto">
+          <p className="text-xs uppercase tracking-[3px] mb-4 text-center" style={{ color: "rgba(255,255,255,0.45)" }}>Showcase</p>
+          <h2 className="text-2xl md:text-3xl font-medium text-center" style={{ color: "#fff" }}>
+            Crafting Wall Street Standard <strong className="text-primary-light font-bold">Investment Reports</strong>.
+          </h2>
+          <p className="mt-3 text-center mb-12" style={{ color: "rgba(255,255,255,0.45)" }}>
+            Institutional-grade research, beautifully presented.
+          </p>
+        </ScrollReveal>
+
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[220px] md:auto-rows-[260px]">
+          <ScrollReveal className="md:col-span-2 md:row-span-2" delay={0}>
+            <div className="rounded-2xl overflow-hidden h-full" style={{ backgroundColor: "#252525" }}>
+              <img src={report1} alt="Investment report cover page" className="w-full h-full object-cover object-top" />
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <div className="rounded-2xl overflow-hidden h-full" style={{ backgroundColor: "#252525" }}>
+              <img src={report2} alt="Financial analysis charts" className="w-full h-full object-cover object-top" />
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={200}>
+            <div className="rounded-2xl overflow-hidden h-full" style={{ backgroundColor: "#252525" }}>
+              <img src={report3} alt="Market data visualization" className="w-full h-full object-cover object-top" />
+            </div>
+          </ScrollReveal>
+          <ScrollReveal className="md:col-span-2" delay={300}>
+            <div className="rounded-2xl overflow-hidden h-full" style={{ backgroundColor: "#252525" }}>
+              <img src={report4} alt="Company valuation summary" className="w-full h-full object-cover object-center" />
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={400}>
+            <div className="rounded-2xl overflow-hidden h-full flex items-center justify-center" style={{ backgroundColor: "#252525", border: "2px dashed rgba(255,255,255,0.12)" }}>
+              <span className="text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>More coming soon</span>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+
       <section className="py-20 md:py-28 px-6 bg-cool-gray dot-grid-bg">
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
           {Array.from({ length: 6 }).map((_, i) => (
