@@ -134,7 +134,7 @@ const Portfolio = () => {
           style={{ height: "80vh", minHeight: "500px" }}
         >
           <NodeProvider>
-            <div className="ahf-root dark" style={{ height: "100%", width: "100%", position: "relative" }}>
+            <div className="ahf-root" style={{ height: "100%", width: "100%", position: "relative" }}>
               <Layout />
               <Toaster />
             </div>
