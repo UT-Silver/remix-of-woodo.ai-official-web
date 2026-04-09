@@ -6,12 +6,14 @@ import report1 from "../assets/report-1.png";
 import report2 from "../assets/report-2.png";
 import report3 from "../assets/report-3.png";
 import report4 from "../assets/report-4.png";
+import report5 from "../assets/report-5.png";
 
 const reportImages = [
   { src: report1, alt: "Investment report cover page" },
   { src: report2, alt: "Financial analysis charts" },
   { src: report3, alt: "Market data visualization" },
   { src: report4, alt: "Company valuation summary" },
+  { src: report5, alt: "Equity curve and trade log analysis" },
 ];
 
 const Portfolio = () => {
