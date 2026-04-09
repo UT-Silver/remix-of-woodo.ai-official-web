@@ -8,7 +8,7 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps) {
   return (
     <NextThemesProvider
-      attribute="data-theme"
+      attribute="class"
       defaultTheme="dark"
       enableSystem={false}
       storageKey="ahf-theme"
