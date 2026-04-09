@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import MagneticButton from "../components/MagneticButton";
 import HeroParticleReveal from "../components/HeroParticleReveal";
