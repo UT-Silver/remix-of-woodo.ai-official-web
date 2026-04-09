@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
+import report1 from "../assets/report-1.png";
+import report2 from "../assets/report-2.png";
+import report3 from "../assets/report-3.png";
+import report4 from "../assets/report-4.png";
 
 const Portfolio = () => {
   return (
