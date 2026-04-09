@@ -135,7 +135,7 @@ const Portfolio = () => {
       <section className="py-20 md:py-28 px-6" style={{ backgroundColor: "#111" }}>
         <ScrollReveal className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
-            <div className="flex-1 text-center md:text-left">
+            <div className="flex-1 text-center">
               <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium leading-[1.15] text-white">
                 More project samples<br />are <strong className="font-bold">coming soon</strong>.
               </h2>
