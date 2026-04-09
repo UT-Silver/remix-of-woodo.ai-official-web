@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
-import ImagePlaceholder from "../components/ImagePlaceholder";
+import HeroParticleReveal from "../components/HeroParticleReveal";
+import applyHeroBg from "../assets/apply-hero.png";
 import {
   Accordion,
   AccordionContent,
