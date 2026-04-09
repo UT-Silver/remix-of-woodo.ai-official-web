@@ -82,7 +82,7 @@ const Team = () => {
                   <div
                     className="overflow-hidden transition-all duration-500 ease-in-out"
                     style={{
-                      maxHeight: hoveredIndex === i ? "200px" : "0px",
+                      maxHeight: hoveredIndex === i ? "280px" : "0px",
                       opacity: hoveredIndex === i ? 1 : 0,
                     }}
                   >
