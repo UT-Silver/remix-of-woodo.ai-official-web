@@ -28,7 +28,7 @@ const Portfolio = () => {
   return (
     <div className="page-enter pt-20">
       {/* Hero — cinematic image with overlay text */}
-      <section data-particle-zone className="dark-section-glow relative w-full overflow-hidden" style={{ height: "70vh", minHeight: "480px" }}>
+      <section className="dark-section-glow relative w-full overflow-hidden" style={{ height: "70vh", minHeight: "480px" }}>
         <img
           src={heroBuild}
           alt="Human hand reaching toward robotic hand"
