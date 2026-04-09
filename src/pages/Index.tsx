@@ -102,15 +102,6 @@ const Index = () => {
           padding: "0 8%",
         }}
       >
-        {/* Hero gradient fade at bottom */}
-        <div
-          className="absolute bottom-0 left-0 right-0 pointer-events-none"
-          style={{
-            height: "120px",
-            background: "linear-gradient(to bottom, transparent, #FAF9F6)",
-            zIndex: 20,
-          }}
-        />
 
         <HeroParticleReveal />
 
