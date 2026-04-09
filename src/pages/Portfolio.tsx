@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
-import { Layout } from "@ahf/components/Layout";
-import { Toaster } from "@ahf/components/ui/sonner";
-import { ThemeProvider } from "@ahf/providers/theme-provider";
-import { NodeProvider } from "@ahf/contexts/node-context";
-import "@ahf/ahf-scoped.css";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import ComingSoonParticle from "../components/ComingSoonParticle";
 import heroBuild from "../assets/hero-build.png";
