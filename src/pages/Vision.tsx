@@ -74,21 +74,23 @@ const Vision = () => {
 
       {/* What We Believe — scroll-triggered dark background */}
       <section ref={darkSectionRef} className="py-20 md:py-28 px-6">
-        <div className="max-w-3xl mx-auto space-y-6 text-lg">
-          <ScrollReveal>
-            <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>
-              <span className={`float-left text-7xl font-bold mr-3 leading-[0.8] mt-1 transition-colors duration-700 ${isDark ? 'text-primary-light' : 'text-primary-dark'}`}>A</span>I has democratized capability. Anyone can build. The question is: what should be built?
-            </p>
-          </ScrollReveal>
-          <ScrollReveal>
-            <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>Education systems are still training people to optimize for known answers. The future belongs to those who can turn ideas into real things.</p>
-          </ScrollReveal>
-          <ScrollReveal>
-            <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>The labor market is already repricing for this in real time. The world's most sophisticated employers — top hedge funds, frontier startups, research labs — have stopped hiring for what candidates know, and started hiring for what they've built. Only those who cross from using AI to building with it will belong in what comes next.</p>
-          </ScrollReveal>
-          <ScrollReveal>
-            <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>We call that capability <strong className={`transition-colors duration-700 ${isDark ? 'text-white' : 'text-foreground'}`}>agency</strong>. Woodo.ai exists to train it.</p>
-          </ScrollReveal>
+        <div className="max-w-5xl mx-auto flex justify-end">
+          <div className="w-full md:w-1/2 space-y-6 text-lg">
+            <ScrollReveal>
+              <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>
+                <span className={`float-left text-7xl font-bold mr-3 leading-[0.8] mt-1 transition-colors duration-700 ${isDark ? 'text-primary-light' : 'text-primary-dark'}`}>AI</span> has democratized capability. Anyone can build. The question is: what should be built?
+              </p>
+            </ScrollReveal>
+            <ScrollReveal>
+              <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>Education systems are still training people to optimize for known answers. The future belongs to those who can turn ideas into real things.</p>
+            </ScrollReveal>
+            <ScrollReveal>
+              <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>The labor market is already repricing for this in real time. The world's most sophisticated employers — top hedge funds, frontier startups, research labs — have stopped hiring for what candidates know, and started hiring for what they've built. Only those who cross from using AI to building with it will belong in what comes next.</p>
+            </ScrollReveal>
+            <ScrollReveal>
+              <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>We call that capability <strong className={`transition-colors duration-700 ${isDark ? 'text-white' : 'text-foreground'}`}>agency</strong>. Woodo.ai exists to train it.</p>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
