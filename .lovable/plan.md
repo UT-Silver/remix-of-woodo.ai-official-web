@@ -1,27 +1,39 @@
 
 
-# Embed AI Value Chain Interactive Page in Build Page
+# Add Investment Report Screenshots Section to Build Page
 
 ## What we're building
-Adding the uploaded interactive AI Value Chain visualization (a full-page dashboard with tooltips, click-to-expand details, particle effects, and accordions) directly into the Build page so visitors can interact with it inline.
+A new section below the AI Value Chain iframe showcasing 4 investment report screenshots in a bento-grid layout inspired by the reference image (image 5 — the sync.com grid with mixed-size cards on a dark background).
 
-## Approach
-Since this is a self-contained HTML page (827 lines) with its own styles, scripts, and canvas — embedding it as an **iframe** pointing to a static file in `/public` is the cleanest approach. This avoids style conflicts with the existing Tailwind/React setup and preserves all interactivity.
+## Layout Design
+Based on the reference image's bento-grid style: a 3-column grid with varying card sizes. The 4 report screenshots will be arranged as:
+
+```text
+┌──────────────┬─────────┐
+│   Image 1    │ Image 2 │
+│  (large,     │ (small) │
+│   spans 2    │         │
+│   cols)      ├─────────┤
+│              │ Image 3 │
+├──────────────┤ (small) │
+│   Image 4    │         │
+│  (wide,      │         │
+│   spans 2)   │         │
+└──────────────┴─────────┘
+```
+
+Dark background (`bg-[#1a1a1a]`) with rounded-corner cards, matching the reference's premium feel and the site's existing dark sections.
 
 ## Changes
 
-### 1. Copy the HTML file to `public/`
-Place `ai_value_chain.html` at `public/ai_value_chain.html` so it's served as a static asset.
+### 1. Copy the 4 report screenshots to `src/assets/`
+Copy the 4 uploaded report images into the project for use as imports.
 
-### 2. Update `src/pages/Portfolio.tsx` (Build page)
-Add a new full-width section between the existing "Logo Centerpiece" and "Future Grid" sections containing an iframe:
-- Responsive container with a 16:9-ish aspect ratio (the page uses `overflow:hidden` and fixed viewport, so we'll set a tall height like `80vh`)
-- Rounded corners, border styling consistent with the site's design language
-- Section title like "AI Value Chain — April 2026" with a brief intro line
-- The iframe loads `/ai_value_chain.html` with `width:100%` and appropriate height
-
-### Technical notes
-- The original HTML uses `<meta name="viewport" content="width=1920">` — we may adjust this or let the iframe handle it naturally. The content will be scrollable/zoomable within the iframe.
-- No React conversion needed — the vanilla JS interactions (tooltips, detail panels, accordions, particle canvas) work as-is inside the iframe.
-- Zero risk of CSS conflicts since iframe content is sandboxed.
+### 2. Update `src/pages/Portfolio.tsx`
+Insert a new section between the AI Value Chain iframe section and the Future Grid section:
+- Section header: `"Crafting Wall Street Standard Investment Reports."` with subtitle
+- Dark background with bento-grid layout
+- 4 images displayed in rounded cards with `object-cover` / `object-top` cropping
+- ScrollReveal animations consistent with the rest of the page
+- Responsive: stacks to single column on mobile
 
