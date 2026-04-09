@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import report1 from "../assets/report-1.png";
@@ -6,7 +7,16 @@ import report2 from "../assets/report-2.png";
 import report3 from "../assets/report-3.png";
 import report4 from "../assets/report-4.png";
 
+const reportImages = [
+  { src: report1, alt: "Investment report cover page" },
+  { src: report2, alt: "Financial analysis charts" },
+  { src: report3, alt: "Market data visualization" },
+  { src: report4, alt: "Company valuation summary" },
+];
+
 const Portfolio = () => {
+  const [marqueePaused, setMarqueePaused] = useState(false);
+
   return (
     <div className="page-enter pt-20">
       {/* Header — warm white + dot grid */}
@@ -61,8 +71,8 @@ const Portfolio = () => {
       </section>
 
       {/* Investment Reports Showcase — dark bento grid */}
-      <section className="py-20 md:py-28 px-6" style={{ backgroundColor: "#1a1a1a" }}>
-        <ScrollReveal className="max-w-6xl mx-auto">
+      <section className="py-20 md:py-28 overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
+        <ScrollReveal className="px-6">
           <p className="text-xs uppercase tracking-[3px] mb-4 text-center" style={{ color: "rgba(255,255,255,0.45)" }}>Showcase</p>
           <h2 className="text-2xl md:text-3xl font-medium text-center" style={{ color: "#fff" }}>
             Crafting Wall Street Standard <strong className="text-primary-light font-bold">Investment Reports</strong>.
@@ -72,32 +82,32 @@ const Portfolio = () => {
           </p>
         </ScrollReveal>
 
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[220px] md:auto-rows-[260px]">
-          <ScrollReveal className="md:col-span-2 md:row-span-2" delay={0}>
-            <div className="rounded-2xl overflow-hidden h-full" style={{ backgroundColor: "#252525" }}>
-              <img src={report1} alt="Investment report cover page" className="w-full h-full object-cover object-top" />
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={100}>
-            <div className="rounded-2xl overflow-hidden h-full" style={{ backgroundColor: "#252525" }}>
-              <img src={report2} alt="Financial analysis charts" className="w-full h-full object-cover object-top" />
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={200}>
-            <div className="rounded-2xl overflow-hidden h-full" style={{ backgroundColor: "#252525" }}>
-              <img src={report3} alt="Market data visualization" className="w-full h-full object-cover object-top" />
-            </div>
-          </ScrollReveal>
-          <ScrollReveal className="md:col-span-2" delay={300}>
-            <div className="rounded-2xl overflow-hidden h-full" style={{ backgroundColor: "#252525" }}>
-              <img src={report4} alt="Company valuation summary" className="w-full h-full object-cover object-center" />
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={400}>
-            <div className="rounded-2xl overflow-hidden h-full flex items-center justify-center" style={{ backgroundColor: "#252525", border: "2px dashed rgba(255,255,255,0.12)" }}>
-              <span className="text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>More coming soon</span>
-            </div>
-          </ScrollReveal>
+        {/* Infinite marquee */}
+        <div
+          className="relative w-full"
+          onMouseEnter={() => setMarqueePaused(true)}
+          onMouseLeave={() => setMarqueePaused(false)}
+        >
+          <div
+            className="flex gap-6 marquee-track"
+            style={{ animationPlayState: marqueePaused ? "paused" : "running" }}
+          >
+            {/* Duplicate the set 3x for seamless loop */}
+            {[...reportImages, ...reportImages, ...reportImages].map((img, i) => (
+              <div
+                key={i}
+                className="flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-500 ease-out hover:scale-110 hover:z-10 relative"
+                style={{ width: "400px", height: "280px", backgroundColor: "#252525" }}
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="w-full h-full object-cover object-top"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
