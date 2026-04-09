@@ -1,3 +1,4 @@
+import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
@@ -7,6 +8,30 @@ import report3 from "../assets/report-3.png";
 import report4 from "../assets/report-4.png";
 
 const Portfolio = () => {
+  const triggerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = triggerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          document.documentElement.classList.add("portfolio-dark");
+        } else {
+          document.documentElement.classList.remove("portfolio-dark");
+        }
+      },
+      { threshold: 0, rootMargin: "-80px 0px 0px 0px" }
+    );
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("portfolio-dark");
+    };
+  }, []);
+
   return (
     <div className="page-enter pt-20">
       {/* Header — warm white + dot grid */}
@@ -60,6 +85,9 @@ const Portfolio = () => {
         </ScrollReveal>
       </section>
 
+      {/* Dark mode trigger */}
+      <div ref={triggerRef} className="h-0 w-full" />
+
       {/* Investment Reports Showcase — dark bento grid */}
       <section className="py-20 md:py-28 px-6" style={{ backgroundColor: "#1a1a1a" }}>
         <ScrollReveal className="max-w-6xl mx-auto">
@@ -101,19 +129,19 @@ const Portfolio = () => {
         </div>
       </section>
 
-
-      <section className="py-20 md:py-28 px-6 bg-cool-gray dot-grid-bg">
+      {/* Future project grid — transparent so dark html bg shows through */}
+      <section className="py-20 md:py-28 px-6" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
           {Array.from({ length: 6 }).map((_, i) => (
             <ScrollReveal key={i} delay={i * 100}>
-              <div className="bg-background border-2 border-dashed border-border rounded-2xl overflow-hidden card-hover group">
+              <div className="border-2 border-dashed rounded-2xl overflow-hidden card-hover group" style={{ backgroundColor: "#252525", borderColor: "rgba(255,255,255,0.12)" }}>
                 <div className="overflow-hidden">
                   <div className="transition-transform duration-500 group-hover:scale-[1.06]">
                     <ImagePlaceholder variant={i % 3 === 0 ? "green" : i % 3 === 1 ? "blue" : "neutral"} className="w-full h-36" label="Project" aspectRatio="16/10" />
                   </div>
                 </div>
                 <div className="p-6 text-center">
-                  <span className="text-sm text-muted-foreground">Coming soon</span>
+                  <span className="text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>Coming soon</span>
                 </div>
               </div>
             </ScrollReveal>
