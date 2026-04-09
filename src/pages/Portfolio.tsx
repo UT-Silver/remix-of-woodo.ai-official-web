@@ -25,24 +25,37 @@ const reportImages = [
 const Portfolio = () => {
   const [marqueePaused, setMarqueePaused] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [heroMouse, setHeroMouse] = useState({ x: 0, y: 0, inside: false });
+
+  const handleHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setHeroMouse({ x: e.clientX - rect.left, y: e.clientY - rect.top, inside: true });
+  };
+
+  const handleHeroMouseLeave = () => {
+    setHeroMouse((prev) => ({ ...prev, inside: false }));
+  };
 
   return (
     <div className="page-enter pt-20">
-      <section className="dark-section-glow particle-reveal-zone relative w-full overflow-hidden" style={{ height: "70vh", minHeight: "480px" }}>
+      <section
+        className="relative w-full overflow-hidden"
+        style={{ height: "90vh", minHeight: "480px" }}
+        onMouseMove={handleHeroMouseMove}
+        onMouseLeave={handleHeroMouseLeave}
+      >
         <img
           src={heroBuild}
           alt="Human hand reaching toward robotic hand"
           className="absolute inset-0 w-full h-full object-cover object-center"
           style={{ zIndex: 1 }}
         />
-        <div className="absolute inset-0" style={{ zIndex: 2, background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.05) 100%)" }} />
-        <HeroParticleReveal />
+        <div className="absolute inset-0" style={{ zIndex: 2, background: "rgba(21, 21, 21, 0.4)" }} />
+        <HeroDotGrid mouseX={heroMouse.x} mouseY={heroMouse.y} isInside={heroMouse.inside} />
         <ScrollReveal className="absolute bottom-12 left-8 md:left-16 z-10 max-w-2xl" direction="up">
-          <p className="text-xs uppercase tracking-[3px] mb-4" style={{ color: "rgba(255,255,255,0.6)" }}>Build</p>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.1] text-white">
-            What our builders<br /><strong className="font-bold">create</strong>.
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium leading-[1.15] text-white">
+            We envision a future where our shared humanity steers our <strong className="font-bold">digital future</strong>.
           </h1>
-          <p className="mt-4 text-lg" style={{ color: "rgba(255,255,255,0.6)" }}>The proof is in the projects.</p>
         </ScrollReveal>
       </section>
 
