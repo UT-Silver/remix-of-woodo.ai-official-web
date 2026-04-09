@@ -22,7 +22,7 @@ const founders = [
     name: "David Dong", title: "Co-founder", school: "Peking University, Guanghua School of Management",
     bio: "David brings operational precision and deep knowledge of the Chinese education landscape. He believes execution discipline is what separates ideas from impact.",
     avatar: avatarDavid,
-    gallery: [davidGallery1, davidGallery2, davidGallery3, davidGallery4, davidGallery5],
+    gallery: [davidGallery1, davidGallery2, davidGallery3, davidGallery4, davidGallery5, davidGallery6],
   },
   {
     name: "Keer Wang", title: "Co-founder", school: "Columbia University, SIPA",
