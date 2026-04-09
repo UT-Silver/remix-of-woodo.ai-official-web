@@ -3,9 +3,8 @@ import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import { Layout } from "@ahf/components/Layout";
 import { Toaster } from "@ahf/components/ui/sonner";
-import { NodeProvider } from "@ahf/contexts/node-context";
 import { ThemeProvider } from "@ahf/providers/theme-provider";
-import "@xyflow/react/dist/style.css";
+import { NodeProvider } from "@ahf/contexts/node-context";
 import "@ahf/ahf-scoped.css";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import ComingSoonParticle from "../components/ComingSoonParticle";
@@ -136,7 +135,7 @@ const Portfolio = () => {
         >
           <ThemeProvider>
             <NodeProvider>
-              <div className="ahf-root dark" style={{ height: "100%", width: "100%", position: "relative" }}>
+              <div className="ahf-root" style={{ height: "100%", width: "100%", position: "relative" }}>
                 <Layout />
                 <Toaster />
               </div>
