@@ -21,6 +21,7 @@ const COLORS = [
 const SPACING = 55;
 const MOUSE_RADIUS = 250;
 const CONNECT_DIST = 100;
+const REVEAL_RADIUS = 250;
 
 const ParticleBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
