@@ -6,10 +6,12 @@ import visionHero1 from "../assets/vision-hero-1.png";
 import visionHero2 from "../assets/vision-hero-2.png";
 import visionHero3 from "../assets/vision-hero-3.png";
 import visionHero4 from "../assets/vision-hero-4.png";
+import convictionImg1 from "../assets/vision-conviction-1.png";
+import convictionImg2 from "../assets/vision-conviction-2.png";
 
 const convictions = [
-  { num: "01", border: "border-primary-dark", title: "Democratize invention.", desc: "For most of history, turning an idea into a real product belonged to a narrow elite — those with years of technical training and institutional access. AI has dismantled that wall. We exist to make sure the next generation actually walks through the opening — so that building, not just learning, becomes the default for every ambitious young person.", imgVariant: "green" as const },
-  { num: "02", border: "border-secondary-dark", title: "Train agency, not tool fluency.", desc: "Using AI is not the same as creating with it. We don't teach students to operate chatbots; we teach them to identify real problems, design solutions, ship working prototypes, and iterate under real feedback. The goal is a new generation that can collaborate with AI, think independently, and make sound judgments in complex situations — the form of competitiveness that doesn't expire when the tools change.", imgVariant: "blue" as const },
+  { num: "01", border: "border-primary-dark", title: "Democratize invention.", desc: "For most of history, turning an idea into a real product belonged to a narrow elite — those with years of technical training and institutional access. AI has dismantled that wall. We exist to make sure the next generation actually walks through the opening — so that building, not just learning, becomes the default for every ambitious young person.", imgVariant: "green" as const, img: convictionImg1 },
+  { num: "02", border: "border-secondary-dark", title: "Train agency, not tool fluency.", desc: "Using AI is not the same as creating with it. We don't teach students to operate chatbots; we teach them to identify real problems, design solutions, ship working prototypes, and iterate under real feedback. The goal is a new generation that can collaborate with AI, think independently, and make sound judgments in complex situations — the form of competitiveness that doesn't expire when the tools change.", imgVariant: "blue" as const, img: convictionImg2 },
   { num: "03", border: "border-accent-dark", title: "Make every project count.", desc: "At Woodo.ai, education is not a course completed or a skill acquired. It is a full build loop — from problem to demo to real users to published work — that leaves behind something tangible: a product a hiring manager can open, a project an admissions officer will remember, a portfolio that compounds into a real advantage in a world where credentials alone no longer signal capability.", imgVariant: "neutral" as const },
 ];
 
@@ -102,7 +104,11 @@ const Vision = () => {
                   </div>
                 </div>
                 <div className="flex-1 max-w-sm">
-                  <ImagePlaceholder variant={c.imgVariant} className="w-full h-56 md:h-64" label="Visual" aspectRatio="16/9" />
+                  {c.img ? (
+                    <img src={c.img} alt={c.title} className="w-full h-56 md:h-64 object-cover rounded-2xl shadow-lg" />
+                  ) : (
+                    <ImagePlaceholder variant={c.imgVariant} className="w-full h-56 md:h-64" label="Visual" aspectRatio="16/9" />
+                  )}
                 </div>
               </div>
             </ScrollReveal>
