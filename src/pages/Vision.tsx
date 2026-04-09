@@ -17,7 +17,7 @@ const Vision = () => {
   return (
     <div className="page-enter pt-20">
       {/* Opening — white + blue glow */}
-      <section className="min-h-[80vh] flex items-center justify-center px-6 relative overflow-hidden bg-white">
+      <section className="min-h-[80vh] flex items-center justify-center px-6 relative overflow-hidden bg-white dot-grid-bg">
         {/* Scattered photos like Omidyar hero */}
         <ScrollReveal direction="fadeOnly" delay={200} className="absolute top-[10%] left-[8%] md:left-[12%] z-0">
           <img src={visionHero1} alt="" className="w-32 md:w-48 lg:w-56 rounded-sm shadow-lg" />
