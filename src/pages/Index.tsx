@@ -4,6 +4,9 @@ import ScrollReveal from "../components/ScrollReveal";
 import MagneticButton from "../components/MagneticButton";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import avatarSilver from "../assets/avatar-silver.png";
+import avatarDavid from "../assets/avatar-david.png";
+import avatarKeer from "../assets/avatar-keer.jpg";
 
 const pillars = [
   {
@@ -38,9 +41,9 @@ const articles = [
 const showcaseLabels = ["Team retreat", "Workshop", "Demo day", "Campus", "Mentorship", "Launch event"];
 
 const teamMembers = [
-  { name: "Silver Yin", school: "Columbia University", quote: "Building what education should have been all along." },
-  { name: "David Dong", school: "Peking University", quote: "Execution is the only honest form of conviction." },
-  { name: "Keer Wang", school: "Columbia University", quote: "The best learning happens in relationship, not isolation." },
+  { name: "Silver Yin", school: "Columbia University", quote: "Building what education should have been all along.", avatar: avatarSilver },
+  { name: "David Dong", school: "Peking University", quote: "Execution is the only honest form of conviction.", avatar: avatarDavid },
+  { name: "Keer Wang", school: "Columbia University", quote: "The best learning happens in relationship, not isolation.", avatar: avatarKeer },
 ];
 
 const Index = () => {
@@ -265,25 +268,19 @@ const Index = () => {
             Built by <strong style={{ color: "#86EFAC" }}>builders</strong>
           </h2>
           <div className="mt-14 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-10">
-            {teamMembers.map((f, i) => (
-              <div
+            {teamMembers.map((f) => (
+              <Link
                 key={f.name}
-                className="flex flex-col items-center gap-5 p-6 rounded-2xl transition-all duration-400 hover:bg-white/[0.08]"
+                to="/team"
+                className="flex flex-col items-center gap-5 p-6 rounded-2xl transition-all duration-300 hover:bg-white/[0.08] hover:-translate-y-2 cursor-pointer"
                 style={{
                   background: "rgba(255,255,255,0.04)",
                   border: "0.5px solid rgba(255,255,255,0.08)",
-                  transform: i === 1 ? "translateY(-24px)" : "none",
                 }}
               >
-                <div
-                  className="w-[180px] h-[220px] rounded-2xl overflow-hidden"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(34,197,94,0.15) 0%, rgba(56,189,248,0.1) 100%)",
-                    backgroundImage:
-                      "linear-gradient(135deg, rgba(34,197,94,0.15) 0%, rgba(56,189,248,0.1) 100%), radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
-                    backgroundSize: "100% 100%, 16px 16px",
-                  }}
-                />
+                <div className="w-[180px] h-[220px] rounded-2xl overflow-hidden">
+                  <img src={f.avatar} alt={f.name} className="w-full h-full object-cover" />
+                </div>
                 <div className="text-center">
                   <div className="text-lg font-semibold" style={{ color: "#FFFFFF" }}>{f.name}</div>
                   <p
@@ -296,7 +293,7 @@ const Index = () => {
                     Co-founder · {f.school}
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           <Link to="/team" className="inline-block mt-12 text-sm font-semibold transition-colors group" style={{ color: "#86EFAC" }}>
