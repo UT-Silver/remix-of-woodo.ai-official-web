@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
-import ImagePlaceholder from "../components/ImagePlaceholder";
 import HeroParticleReveal from "../components/HeroParticleReveal";
+import ComingSoonParticle from "../components/ComingSoonParticle";
 import heroBuild from "../assets/hero-build.png";
+import jellyfishImg from "../assets/jellyfish.png";
 import report1 from "../assets/report-1.png";
 import report2 from "../assets/report-2.png";
 import report3 from "../assets/report-3.png";
