@@ -46,10 +46,10 @@ const Team = () => {
                   <div className="flex-shrink-0">
                     <div className="w-64 h-64 md:w-72 md:h-72 rounded-2xl overflow-hidden group border-2 border-transparent hover:border-primary transition-colors duration-300">
                       <div className="w-full h-full transition-transform duration-500 group-hover:scale-105">
-                        <ImagePlaceholder
-                          variant={i === 0 ? "green" : i === 1 ? "blue" : "neutral"}
-                          className="w-full h-full"
-                          label="Photo"
+                        <img
+                          src={f.avatar}
+                          alt={f.name}
+                          className="w-full h-full object-cover"
                         />
                       </div>
                     </div>

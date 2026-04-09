@@ -1,6 +1,15 @@
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
+import avatarSilver from "../assets/avatar-silver.png";
+import avatarDavid from "../assets/avatar-david.png";
+import avatarKeer from "../assets/avatar-keer.jpg";
+
+const authorAvatars: Record<string, string> = {
+  "Silver Yin": avatarSilver,
+  "David Dong": avatarDavid,
+  "Keer Wang": avatarKeer,
+};
 
 const articles = [
   { category: "Founding", color: "bg-primary-dark/10 text-primary-dark", title: "Why We Started Woodo", author: "Silver Yin", date: "Mar 2026", excerpt: "The story behind building an education venture that refuses to look like one.", read: "5 min read" },
