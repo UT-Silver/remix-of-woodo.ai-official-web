@@ -104,7 +104,11 @@ const Vision = () => {
                   </div>
                 </div>
                 <div className="flex-1 max-w-sm">
-                  <ImagePlaceholder variant={c.imgVariant} className="w-full h-56 md:h-64" label="Visual" aspectRatio="16/9" />
+                  {c.img ? (
+                    <img src={c.img} alt={c.title} className="w-full h-56 md:h-64 object-cover rounded-2xl shadow-lg" />
+                  ) : (
+                    <ImagePlaceholder variant={c.imgVariant} className="w-full h-56 md:h-64" label="Visual" aspectRatio="16/9" />
+                  )}
                 </div>
               </div>
             </ScrollReveal>
