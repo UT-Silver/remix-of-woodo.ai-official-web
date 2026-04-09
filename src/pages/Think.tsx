@@ -112,7 +112,7 @@ const Think = () => {
                 <Link to={`/think/${a.slug}`} className="block border border-border rounded-2xl overflow-hidden bg-background card-hover cursor-pointer group">
                   <div className="overflow-hidden">
                     <div className="transition-transform duration-500 group-hover:scale-[1.06]">
-                      <ImagePlaceholder variant={i % 2 === 0 ? "blue" : "neutral"} className="w-full h-44" label="Article Cover" aspectRatio="16/9" />
+                      {a.cover ? <img src={a.cover} alt="Article Cover" className="w-full h-44 object-cover" /> : <ImagePlaceholder variant={i % 2 === 0 ? "blue" : "neutral"} className="w-full h-44" label="Article Cover" aspectRatio="16/9" />}
                     </div>
                   </div>
                   <div className="p-6">
