@@ -74,13 +74,16 @@ const ParticleBackground = () => {
       mouseY = e.clientY;
     };
 
-    // Cache dark section rects
+    // Cache dark section rects and reveal zone
     let darkRects: DOMRect[] = [];
+    let revealRect: DOMRect | null = null;
     let lastRectCheck = 0;
 
     const refreshDarkRects = () => {
       const selectors = '.bg-slate-dark, .dark-section-glow, .bg-cta-green';
       darkRects = Array.from(document.querySelectorAll(selectors)).map(el => el.getBoundingClientRect());
+      const revealEl = document.querySelector('.particle-reveal-zone');
+      revealRect = revealEl ? revealEl.getBoundingClientRect() : null;
       lastRectCheck = Date.now();
     };
 
@@ -89,6 +92,12 @@ const ParticleBackground = () => {
         if (y >= r.top && y <= r.bottom) return true;
       }
       return false;
+    };
+
+    const isMouseInRevealZone = () => {
+      if (!revealRect) return false;
+      return mouseX >= revealRect.left && mouseX <= revealRect.right &&
+             mouseY >= revealRect.top && mouseY <= revealRect.bottom;
     };
 
     const animate = () => {
