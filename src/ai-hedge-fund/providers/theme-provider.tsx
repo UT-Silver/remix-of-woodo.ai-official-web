@@ -8,12 +8,12 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps) {
   return (
     <NextThemesProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem={true}
-      storageKey="theme"
+      attribute="data-theme"
+      defaultTheme="dark"
+      enableSystem={false}
+      storageKey="ahf-theme"
     >
       {children}
     </NextThemesProvider>
   );
-} 
+}
