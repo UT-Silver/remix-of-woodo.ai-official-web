@@ -14,12 +14,12 @@ const authorAvatars: Record<string, string> = {
 };
 
 const articles = [
-  { category: "Founding", color: "bg-primary-dark/10 text-primary-dark", title: "Why We Started Woodo", author: "David Dong", date: "Mar 2026", excerpt: "The story behind building an education venture that refuses to look like one.", read: "12 min read", slug: "why-we-started-woodo", tags: ["Manifesto"] },
-  { category: "Education", color: "bg-primary-dark/10 text-primary-dark", title: "The Judgment Gap", author: "Silver Yin", date: "Mar 2026", excerpt: "Why knowing how to build is no longer enough — and what we should teach instead.", read: "4 min read", slug: "the-judgment-gap", tags: [] },
-  { category: "Education", color: "bg-secondary-dark/10 text-secondary-dark", title: "AI Literacy Is Not Enough", author: "Keer Wang", date: "Feb 2026", excerpt: "Literacy is baseline. We need fluency, taste, and the courage to create.", read: "6 min read", slug: "ai-literacy-is-not-enough", tags: [] },
-  { category: "Building", color: "bg-accent-dark/10 text-accent-dark", title: "What New Oriental Taught Us", author: "David Dong", date: "Feb 2026", excerpt: "Lessons from China's biggest education company — and why we chose a different path.", read: "7 min read", slug: "what-new-oriental-taught-us", tags: [] },
-  { category: "Education", color: "bg-primary-dark/10 text-primary-dark", title: "On Radical Honesty in Education", author: "Silver Yin", date: "Jan 2026", excerpt: "Why we tell students the truth even when it's uncomfortable.", read: "4 min read", slug: "on-radical-honesty", tags: [] },
-  { category: "AI", color: "bg-secondary-dark/10 text-secondary-dark", title: "Building vs. Optimizing: Two Mindsets", author: "Silver Yin", date: "Jan 2026", excerpt: "The difference between making things better and making things that matter.", read: "5 min read", slug: "building-vs-optimizing", tags: [] },
+  { category: "Founding", color: "bg-primary-dark/10 text-primary-dark", title: "Why We Started Woodo", author: "David Dong", date: "Mar 2026", excerpt: "The story behind building an education venture that refuses to look like one.", read: "12 min read", slug: "why-we-started-woodo", tags: ["Manifesto"], cover: articleHeroWoodo },
+  { category: "Education", color: "bg-primary-dark/10 text-primary-dark", title: "The Judgment Gap", author: "Silver Yin", date: "Mar 2026", excerpt: "Why knowing how to build is no longer enough — and what we should teach instead.", read: "4 min read", slug: "the-judgment-gap", tags: [], cover: null },
+  { category: "Education", color: "bg-secondary-dark/10 text-secondary-dark", title: "AI Literacy Is Not Enough", author: "Keer Wang", date: "Feb 2026", excerpt: "Literacy is baseline. We need fluency, taste, and the courage to create.", read: "6 min read", slug: "ai-literacy-is-not-enough", tags: [], cover: null },
+  { category: "Building", color: "bg-accent-dark/10 text-accent-dark", title: "What New Oriental Taught Us", author: "David Dong", date: "Feb 2026", excerpt: "Lessons from China's biggest education company — and why we chose a different path.", read: "7 min read", slug: "what-new-oriental-taught-us", tags: [], cover: null },
+  { category: "Education", color: "bg-primary-dark/10 text-primary-dark", title: "On Radical Honesty in Education", author: "Silver Yin", date: "Jan 2026", excerpt: "Why we tell students the truth even when it's uncomfortable.", read: "4 min read", slug: "on-radical-honesty", tags: [], cover: null },
+  { category: "AI", color: "bg-secondary-dark/10 text-secondary-dark", title: "Building vs. Optimizing: Two Mindsets", author: "Silver Yin", date: "Jan 2026", excerpt: "The difference between making things better and making things that matter.", read: "5 min read", slug: "building-vs-optimizing", tags: [], cover: null },
 ];
 
 const filters = ["All", "Education", "AI", "Building", "Founding"];
@@ -85,7 +85,7 @@ const Think = () => {
               <Link to={`/think/${filtered[0].slug}`} className="block border border-border rounded-2xl overflow-hidden bg-background card-hover cursor-pointer flex flex-col md:flex-row group">
                 <div className="w-full md:w-1/2 overflow-hidden">
                   <div className="transition-transform duration-500 group-hover:scale-[1.06]">
-                    <ImagePlaceholder variant="green" className="w-full h-56 md:h-full min-h-[240px]" label="Article Cover" aspectRatio="16/9" />
+                    {filtered[0].cover ? <img src={filtered[0].cover} alt="Article Cover" className="w-full h-56 md:h-full min-h-[240px] object-cover" /> : <ImagePlaceholder variant="green" className="w-full h-56 md:h-full min-h-[240px]" label="Article Cover" aspectRatio="16/9" />}
                   </div>
                 </div>
                 <div className="p-8 flex flex-col justify-center flex-1">
@@ -112,7 +112,7 @@ const Think = () => {
                 <Link to={`/think/${a.slug}`} className="block border border-border rounded-2xl overflow-hidden bg-background card-hover cursor-pointer group">
                   <div className="overflow-hidden">
                     <div className="transition-transform duration-500 group-hover:scale-[1.06]">
-                      <ImagePlaceholder variant={i % 2 === 0 ? "blue" : "neutral"} className="w-full h-44" label="Article Cover" aspectRatio="16/9" />
+                      {a.cover ? <img src={a.cover} alt="Article Cover" className="w-full h-44 object-cover" /> : <ImagePlaceholder variant={i % 2 === 0 ? "blue" : "neutral"} className="w-full h-44" label="Article Cover" aspectRatio="16/9" />}
                     </div>
                   </div>
                   <div className="p-6">
