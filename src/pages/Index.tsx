@@ -7,6 +7,7 @@ import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
 import avatarKeer from "../assets/avatar-keer.jpg";
+import articleHeroWoodo from "../assets/article-hero-woodo.png";
 
 const pillars = [
   {
@@ -386,13 +387,9 @@ const Index = () => {
               style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
             >
               <div className="flex flex-col md:flex-row" style={{ minHeight: "280px" }}>
-                <div
-                  className="w-full md:w-1/2 overflow-hidden"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(220,252,231,0.7), rgba(224,242,254,0.7), rgba(254,249,195,0.4))",
-                    minHeight: "200px",
-                  }}
-                />
+                <div className="w-full md:w-1/2 overflow-hidden" style={{ minHeight: "200px" }}>
+                  <img src={articleHeroWoodo} alt="Why We Started Woodo" className="w-full h-full object-cover" />
+                </div>
                 <div className="p-8 flex flex-col justify-center flex-1">
                   <div className="flex gap-2 mb-4">
                     <span className="inline-block w-fit px-3 py-1 rounded-lg text-xs font-semibold bg-primary/10 text-primary-dark">Founding</span>
@@ -408,33 +405,6 @@ const Index = () => {
             </Link>
           </ScrollReveal>
 
-          {/* Secondary articles */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {articles.slice(1).map((a, i) => (
-              <ScrollReveal key={a.title} delay={i * 100} direction="scaleIn">
-                <Link
-                  to="/think"
-                  className="block rounded-2xl overflow-hidden card-hover group"
-                  style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
-                >
-                  <div
-                    className="overflow-hidden h-40"
-                    style={{
-                      background:
-                        i === 0
-                          ? "linear-gradient(135deg, rgba(224,242,254,0.7), rgba(240,249,255,0.7))"
-                          : "linear-gradient(135deg, rgba(254,249,195,0.7), rgba(255,251,235,0.7))",
-                    }}
-                  />
-                  <div className="p-6">
-                    <span className={`inline-block px-3 py-1 rounded-lg text-xs font-semibold ${a.color} mb-3`}>{a.category}</span>
-                    <h3 className="text-lg font-semibold" style={{ color: "#1E293B" }}>{a.title}</h3>
-                    <p className="text-xs mt-2" style={{ color: "#94A3B8" }}>5 min read · {a.date}</p>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            ))}
-          </div>
         </ScrollReveal>
       </section>
 
