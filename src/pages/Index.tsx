@@ -41,9 +41,9 @@ const articles = [
 const showcaseLabels = ["Team retreat", "Workshop", "Demo day", "Campus", "Mentorship", "Launch event"];
 
 const teamMembers = [
-  { name: "Silver Yin", school: "Columbia University", quote: "Building what education should have been all along." },
-  { name: "David Dong", school: "Peking University", quote: "Execution is the only honest form of conviction." },
-  { name: "Keer Wang", school: "Columbia University", quote: "The best learning happens in relationship, not isolation." },
+  { name: "Silver Yin", school: "Columbia University", quote: "Building what education should have been all along.", avatar: avatarSilver },
+  { name: "David Dong", school: "Peking University", quote: "Execution is the only honest form of conviction.", avatar: avatarDavid },
+  { name: "Keer Wang", school: "Columbia University", quote: "The best learning happens in relationship, not isolation.", avatar: avatarKeer },
 ];
 
 const Index = () => {
