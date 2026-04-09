@@ -4,6 +4,9 @@ import ScrollReveal from "../components/ScrollReveal";
 import MagneticButton from "../components/MagneticButton";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import avatarSilver from "../assets/avatar-silver.png";
+import avatarDavid from "../assets/avatar-david.png";
+import avatarKeer from "../assets/avatar-keer.jpg";
 
 const pillars = [
   {
