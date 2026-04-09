@@ -57,7 +57,7 @@ export function AgentOutputDialog({
         const validDecisions = Object.entries(msg.analysis)
           .filter(([_, value]) => value !== null && value !== undefined)
           .reduce((obj, [key, value]) => {
-            obj[key] = value;
+            obj[key] = value as string;
             return obj;
           }, {} as Record<string, string>);
         
