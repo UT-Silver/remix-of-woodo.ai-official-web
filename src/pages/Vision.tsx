@@ -17,6 +17,7 @@ const convictions = [
 ];
 
 const Vision = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <div className="page-enter pt-20">
       {/* Opening — white + blue glow */}
