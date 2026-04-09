@@ -296,7 +296,7 @@ const Index = () => {
       </section>
 
       {/* ===== 4. TEAM — near-black, rectangular photos ===== */}
-      <section style={{ background: "#111714", position: "relative", zIndex: 10, padding: "140px 24px" }}>
+      <section style={{ background: "#111714", position: "relative", zIndex: 10, padding: "70px 24px 140px" }}>
         <ScrollReveal className="max-w-5xl mx-auto text-center relative z-10" direction="fadeOnly">
           <h2 className="text-[32px] md:text-[36px] font-semibold tracking-wide" style={{ color: "#FFFFFF" }}>
             Built by <strong style={{ color: "#86EFAC" }}>builders</strong>
