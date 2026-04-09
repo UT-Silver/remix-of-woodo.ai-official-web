@@ -134,7 +134,7 @@ const Portfolio = () => {
           className="max-w-7xl mx-auto rounded-2xl overflow-hidden border border-border shadow-2xl"
           style={{ height: "80vh", minHeight: "500px" }}
         >
-          <ThemeProvider defaultTheme="dark" storageKey="ahf-theme">
+          <ThemeProvider>
             <NodeProvider>
               <div className="ahf-root dark" style={{ height: "100%", width: "100%", position: "relative" }}>
                 <Layout />
