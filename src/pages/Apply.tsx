@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
-import ImagePlaceholder from "../components/ImagePlaceholder";
+import HeroParticleReveal from "../components/HeroParticleReveal";
+import applyHeroBg from "../assets/apply-hero.png";
 import {
   Accordion,
   AccordionContent,
@@ -58,27 +59,29 @@ const Apply = () => {
   return (
     <div className="page-enter pt-20">
       {/* Header — white + green glow */}
-      <section className="py-20 md:py-28 px-6 glow-green-tr dot-grid-bg">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-10">
-          <ScrollReveal className="flex-1" direction="left">
-            <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-4">Apply</p>
-            <h1 className="text-3xl md:text-4xl font-medium text-foreground">
-              Build with <strong className="text-primary-dark font-bold">us</strong>
+      <section className="relative py-20 md:py-28 px-6 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img src={applyHeroBg} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+        <HeroParticleReveal />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <ScrollReveal>
+            <p className="text-xs uppercase tracking-[3px] text-white/60 mb-4">Apply</p>
+            <h1 className="text-3xl md:text-4xl font-medium text-white">
+              Build with <strong className="text-primary-light font-bold">us</strong>
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-xl">
+            <p className="mt-4 text-lg text-white/70 max-w-xl">
               We're looking for the kind of people who'd rather build something imperfect than study something perfect.
             </p>
             <div className="mt-10 space-y-5">
               {qualifications.map((q) => (
                 <div key={q} className="flex items-start gap-4">
-                  <span className="w-2 h-2 rounded-full bg-primary-dark mt-2.5 flex-shrink-0" />
-                  <p className="text-muted-foreground">{q}</p>
+                  <span className="w-2 h-2 rounded-full bg-primary-light mt-2.5 flex-shrink-0" />
+                  <p className="text-white/70">{q}</p>
                 </div>
               ))}
             </div>
-          </ScrollReveal>
-          <ScrollReveal className="flex-1 max-w-sm" direction="right">
-            <ImagePlaceholder variant="green" className="w-full h-[400px]" label="Apply visual — what you'll be part of" />
           </ScrollReveal>
         </div>
       </section>
@@ -88,8 +91,8 @@ const Apply = () => {
         <ScrollReveal className="max-w-lg mx-auto bg-background/90 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-border relative z-10">
           {submitted ? (
             <div className="text-center py-16">
-              <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-                <ImagePlaceholder variant="green" circle className="w-20 h-20" label="Logo" />
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-2xl">🌿</span>
               </div>
               <svg width="48" height="48" viewBox="0 0 48 48" className="mx-auto mb-4">
                 <circle cx="24" cy="24" r="22" fill="none" stroke="hsl(var(--primary-dark))" strokeWidth="2" opacity="0.2" />
