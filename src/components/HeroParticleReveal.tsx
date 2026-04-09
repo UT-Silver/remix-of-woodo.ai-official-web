@@ -16,7 +16,7 @@ const SPACING = 56;
 const REVEAL_RADIUS = 250;
 const CONNECT_DIST = 110;
 
-const HeroParticleReveal = () => {
+const HeroParticleReveal = ({ color }: { color?: "white" | "black" }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const HeroParticleReveal = () => {
 
     if (!container || !ctx) return;
 
-    const WHITE_HSL = "0 0% 100%";
+    const COLOR_HSL = color === "black" ? "0 0% 0%" : "0 0% 100%";
 
     let animationFrame = 0;
     let nodes: ParticleNode[] = [];
@@ -57,7 +57,7 @@ const HeroParticleReveal = () => {
             phase: Math.random() * Math.PI * 2,
             floatSpeed: 0.2 + Math.random() * 0.35,
             floatRadius: 1.5 + Math.random() * 3,
-            colorToken: WHITE_HSL,
+            colorToken: COLOR_HSL,
           });
         }
       }
