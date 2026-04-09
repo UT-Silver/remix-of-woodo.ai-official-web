@@ -78,17 +78,19 @@ const ParticleBackground = () => {
     let lastRectCheck = 0;
 
     const refreshDarkRects = () => {
-      const selectors = '.bg-slate-dark, .dark-section-glow, .bg-cta-green';
+      const selectors = '[data-particle-zone]';
       darkRects = Array.from(document.querySelectorAll(selectors)).map(el => el.getBoundingClientRect());
       lastRectCheck = Date.now();
     };
 
-    const isInDarkZone = (y: number) => {
+    const isInDarkZone = (x: number, y: number) => {
       for (const r of darkRects) {
-        if (y >= r.top && y <= r.bottom) return true;
+        if (y >= r.top && y <= r.bottom && x >= r.left && x <= r.right) return true;
       }
       return false;
     };
+
+    const isMouseInDarkZone = () => isInDarkZone(mouseX, mouseY);
 
     const animate = () => {
       const W = canvas.width;
@@ -105,33 +107,40 @@ const ParticleBackground = () => {
         node.y = node.baseY + Math.cos(time * node.floatSpeed * 0.7 + node.phase) * node.floatRadius;
       }
 
-      // Draw connections (only near mouse)
-      const mouseRadiusOuter = MOUSE_RADIUS * 1.3;
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
-        const dma = Math.sqrt((a.x - mouseX) ** 2 + (a.y - mouseY) ** 2);
-        if (dma > mouseRadiusOuter) continue;
+      // Only draw connections & enhanced particles when mouse is in a dark zone
+      const mouseInDark = isMouseInDarkZone();
 
-        for (let j = i + 1; j < nodes.length; j++) {
-          const b = nodes[j];
-          const dmb = Math.sqrt((b.x - mouseX) ** 2 + (b.y - mouseY) ** 2);
-          if (dmb > mouseRadiusOuter) continue;
+      if (mouseInDark) {
+        // Draw connections (only near mouse, only in dark zones)
+        const mouseRadiusOuter = MOUSE_RADIUS * 1.3;
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i];
+          if (!isInDarkZone(a.x, a.y)) continue;
+          const dma = Math.sqrt((a.x - mouseX) ** 2 + (a.y - mouseY) ** 2);
+          if (dma > mouseRadiusOuter) continue;
 
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const nodeDist = Math.sqrt(dx * dx + dy * dy);
+          for (let j = i + 1; j < nodes.length; j++) {
+            const b = nodes[j];
+            if (!isInDarkZone(b.x, b.y)) continue;
+            const dmb = Math.sqrt((b.x - mouseX) ** 2 + (b.y - mouseY) ** 2);
+            if (dmb > mouseRadiusOuter) continue;
 
-          if (nodeDist < CONNECT_DIST) {
-            const np = 1 - nodeDist / CONNECT_DIST;
-            const mp = 1 - Math.max(dma, dmb) / mouseRadiusOuter;
-            const alpha = np * mp * 0.35;
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const nodeDist = Math.sqrt(dx * dx + dy * dy);
 
-            if (alpha > 0.01) {
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-              ctx.strokeStyle = `rgba(134, 239, 172, ${alpha})`;
-              ctx.lineWidth = 0.5 + mp * 1;
-              ctx.stroke();
+            if (nodeDist < CONNECT_DIST) {
+              const np = 1 - nodeDist / CONNECT_DIST;
+              const mp = 1 - Math.max(dma, dmb) / mouseRadiusOuter;
+              const alpha = np * mp * 0.35;
+
+              if (alpha > 0.01) {
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.strokeStyle = `rgba(134, 239, 172, ${alpha})`;
+                ctx.lineWidth = 0.5 + mp * 1;
+                ctx.stroke();
+              }
             }
           }
         }
@@ -140,20 +149,30 @@ const ParticleBackground = () => {
       // Draw nodes
       for (const node of nodes) {
         const dm = Math.sqrt((node.x - mouseX) ** 2 + (node.y - mouseY) ** 2);
-        const isDark = isInDarkZone(node.y);
+        const isDark = isInDarkZone(node.x, node.y);
 
-        let opacity = isDark ? 0.55 : 0.12;
-        let size = isDark ? node.size * 1.3 : node.size;
+        // In light zones at z-15 (above main content), skip rendering entirely
+        if (!isDark) {
+          // Draw very faint dots only (these will be hidden behind main content anyway at z-5 behavior)
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${node.color.r}, ${node.color.g}, ${node.color.b}, 0.04)`;
+          ctx.fill();
+          continue;
+        }
 
-        if (dm < MOUSE_RADIUS) {
+        let opacity = 0.55;
+        let size = node.size * 1.3;
+
+        if (dm < MOUSE_RADIUS && mouseInDark) {
           const p = 1 - dm / MOUSE_RADIUS;
-          opacity = (isDark ? 0.55 : 0.12) + p * 0.6;
+          opacity = 0.55 + p * 0.6;
           size = node.size + p * 3;
 
           if (p > 0.3) {
             ctx.beginPath();
             ctx.arc(node.x, node.y, size * 3.5, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${node.color.r}, ${node.color.g}, ${node.color.b}, ${0.06 * p * (isDark ? 2.5 : 1)})`;
+            ctx.fillStyle = `rgba(${node.color.r}, ${node.color.g}, ${node.color.b}, ${0.06 * p * 2.5})`;
             ctx.fill();
           }
         }
