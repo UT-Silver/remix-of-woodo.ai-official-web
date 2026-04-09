@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
-import { Layout } from "@ahf/components/Layout";
-import { Toaster } from "@ahf/components/ui/sonner";
-import { ThemeProvider } from "@ahf/providers/theme-provider";
-import { NodeProvider } from "@ahf/contexts/node-context";
-import "@ahf/ahf-scoped.css";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import ComingSoonParticle from "../components/ComingSoonParticle";
 import heroBuild from "../assets/hero-build.png";
@@ -133,14 +128,12 @@ const Portfolio = () => {
           className="max-w-7xl mx-auto rounded-2xl overflow-hidden border border-border shadow-2xl"
           style={{ height: "80vh", minHeight: "500px" }}
         >
-          <ThemeProvider>
-            <NodeProvider>
-              <div className="ahf-root" style={{ height: "100%", width: "100%", position: "relative" }}>
-                <Layout />
-                <Toaster />
-              </div>
-            </NodeProvider>
-          </ThemeProvider>
+          <iframe
+            src="/ai-hedge-fund"
+            title="AI Hedge Fund Agent Team"
+            className="w-full h-full border-0"
+            loading="lazy"
+          />
         </div>
       </section>
 
