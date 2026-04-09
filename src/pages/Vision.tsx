@@ -8,9 +8,6 @@ import visionHero3 from "../assets/vision-hero-3.png";
 import visionHero4 from "../assets/vision-hero-4.png";
 import convictionImg1 from "../assets/vision-conviction-1.png";
 import convictionImg2 from "../assets/vision-conviction-2.png";
-import jdTemasek from "../assets/vision-jd-temasek.png";
-import jdPoint72 from "../assets/vision-jd-point72.png";
-import jdMckinsey from "../assets/vision-jd-mckinsey.png";
 
 const convictions = [
   { num: "01", border: "border-primary-dark", title: "Democratize invention.", desc: "For most of history, turning an idea into a real product belonged to a narrow elite — those with years of technical training and institutional access. AI has dismantled that wall. We exist to make sure the next generation actually walks through the opening — so that building, not just learning, becomes the default for every ambitious young person.", img: convictionImg1 },
@@ -77,7 +74,7 @@ const Vision = () => {
 
       {/* What We Believe — scroll-triggered dark background */}
       <section ref={darkSectionRef} className="py-20 md:py-28 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-10">
+        <div className="max-w-5xl mx-auto flex justify-end">
           <div className="w-full md:w-1/2 space-y-6 text-lg">
             <ScrollReveal>
               <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>
@@ -92,17 +89,6 @@ const Vision = () => {
             </ScrollReveal>
             <ScrollReveal>
               <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>We call that capability <strong className={`transition-colors duration-700 ${isDark ? 'text-white' : 'text-foreground'}`}>agency</strong>. Woodo.ai exists to train it.</p>
-            </ScrollReveal>
-          </div>
-          <div className="w-full md:w-1/2 md:sticky md:top-32 self-start space-y-4">
-            <ScrollReveal delay={200}>
-              <img src={jdTemasek} alt="Temasek internship requiring AI agent building experience" className="w-full rounded-lg shadow-lg" />
-            </ScrollReveal>
-            <ScrollReveal delay={400}>
-              <img src={jdPoint72} alt="Point72 internship requiring AI tools and coding experience" className="w-full rounded-lg shadow-lg" />
-            </ScrollReveal>
-            <ScrollReveal delay={600}>
-              <img src={jdMckinsey} alt="McKinsey requiring graduates to master AI tools" className="w-full rounded-lg shadow-lg" />
             </ScrollReveal>
           </div>
         </div>
