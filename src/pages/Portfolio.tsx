@@ -132,23 +132,25 @@ const Portfolio = () => {
       </section>
 
 
-      <section className="py-20 md:py-28 px-6 bg-cool-gray dot-grid-bg">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <ScrollReveal key={i} delay={i * 100}>
-              <div className="bg-background border-2 border-dashed border-border rounded-2xl overflow-hidden card-hover group">
-                <div className="overflow-hidden">
-                  <div className="transition-transform duration-500 group-hover:scale-[1.06]">
-                    <ImagePlaceholder variant={i % 3 === 0 ? "green" : i % 3 === 1 ? "blue" : "neutral"} className="w-full h-36" label="Project" aspectRatio="16/10" />
-                  </div>
-                </div>
-                <div className="p-6 text-center">
-                  <span className="text-sm text-muted-foreground">Coming soon</span>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
+      <section className="py-20 md:py-28 px-6" style={{ backgroundColor: "#111" }}>
+        <ScrollReveal className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+            <div className="flex-1 text-center md:text-left">
+              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium leading-[1.15] text-white">
+                More project samples<br />are <strong className="font-bold">coming soon</strong>.
+              </h2>
+            </div>
+            <div className="relative flex-shrink-0 w-full md:w-[420px] h-[300px] md:h-[320px] rounded-2xl overflow-hidden">
+              <img
+                src={jellyfishImg}
+                alt="Jellyfish in shallow water"
+                className="absolute inset-0 w-full h-full object-cover"
+                draggable={false}
+              />
+              <ComingSoonParticle />
+            </div>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* Demo Day — dark with amber glow */}
