@@ -1,42 +1,40 @@
 
 
-## 可行性分析
+## 诊断结果
 
-完全可行。AI Hedge Fund 本身就是一个 React 组件树（`Layout` → `FlowProvider` → `ReactFlowProvider` 等），可以直接嵌入到 Portfolio 页面的 section 中，无需跳转。
+通过浏览器测试确认:
+- **所有 section 都正常渲染**（AI Value Chain iframe、Investment Reports marquee、Coming Soon、Demo Day）
+- **AI Hedge Fund 嵌入区域显示为全黑**——内部 DOM 元素存在（按钮、侧边栏、搜索框等），但视觉上不可见
 
-### 主要挑战
+## 根本原因
 
-1. **高度管理** — 当前组件用 `height: calc(100vh - 90px)` 占满全屏。嵌入 section 时需要改为固定高度（如 `80vh` 或 `700px`），并加 `overflow: hidden`。
-2. **样式隔离** — 已有 `.ahf-root` scoped CSS，嵌入后不会污染外部页面。
-3. **键盘快捷键冲突** — AHF 注册了 `Cmd+B/I/J/O` 等快捷键，嵌入后可能与浏览器或页面交互冲突，但属于次要问题。
+AHF 组件大量使用了自定义 Tailwind 类名如 `bg-panel`、`bg-ramp-grey-700`、`bg-ramp-grey-800`、`text-ramp-grey-*` 等。这些颜色虽然在 `.ahf-root` 的 CSS 变量中定义了（如 `--panel-bg`、`--ramp-grey-700`），但 **主项目的 `tailwind.config.ts` 没有注册这些颜色**，导致 Tailwind 不会生成对应的 utility 类。所以所有用到这些类的元素的背景和文字颜色都不生效，整个 UI 变成透明/黑色。
 
-### 实施步骤
+涉及 13 个文件、124 处使用。
 
-1. **修改 `src/pages/Portfolio.tsx`** — 将 "AI Hedge Fund Agent Team" section 中的 `<Link>` 卡片替换为直接渲染 AHF 组件：
-   - 导入 `ThemeProvider`、`NodeProvider`、`Layout`、`Toaster` 及相关 CSS
-   - 用一个固定高度（~80vh）的容器包裹，加 `rounded-2xl overflow-hidden border`
-   - 保留标题和描述文字
+## 修复方案
 
-2. **（可选）保留 `/ai-hedge-fund` 路由** — 作为全屏模式入口，在嵌入版本旁加一个"全屏"按钮链接过去。
+**修改 `tailwind.config.ts`**，在 `extend.colors` 中添加 AHF 需要的颜色映射:
 
-### 技术细节
-
-```text
-Portfolio.tsx section:
-  <section>
-    <h2>Solving Complexities...</h2>
-    <div style={{ height: "80vh" }} className="rounded-2xl overflow-hidden border">
-      <ThemeProvider>
-        <NodeProvider>
-          <div className="ahf-root dark" style={{ height: "100%", width: "100%" }}>
-            <Layout />
-            <Toaster />
-          </div>
-        </NodeProvider>
-      </ThemeProvider>
-    </div>
-  </section>
+```ts
+panel: "hsl(var(--panel-bg))",
+"ramp-grey": {
+  100: "var(--ramp-grey-100)",
+  200: "var(--ramp-grey-200)",
+  300: "var(--ramp-grey-300)",
+  400: "var(--ramp-grey-400)",
+  500: "var(--ramp-grey-500)",
+  600: "var(--ramp-grey-600)",
+  700: "var(--ramp-grey-700)",
+  800: "var(--ramp-grey-800)",
+  900: "var(--ramp-grey-900)",
+  1000: "var(--ramp-grey-1000)",
+},
 ```
 
-无需新增依赖，所有组件已在项目中。
+同时需要确保主站的 `:root` 也定义了这些 CSS 变量的默认值（在 `src/index.css` 中），避免在非 `.ahf-root` 区域使用时出错。或者更安全的做法是，在 `src/index.css` 的 `:root` 中添加这些变量的默认（浅色）值。
+
+### 涉及文件
+1. `tailwind.config.ts` — 添加 `panel` 和 `ramp-grey` 颜色
+2. `src/index.css` — 在 `:root` 中添加 `--panel-bg` 和 `--ramp-grey-*` 变量的默认值，防止泄漏到主站
 
