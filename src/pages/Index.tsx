@@ -119,8 +119,23 @@ const Index = () => {
   // Pillar hover state for image reveal
   const [hoveredPillar, setHoveredPillar] = useState<number | null>(null);
 
+  // Scroll-triggered light background
+  const [isLight, setIsLight] = useState(false);
+  const lightSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = lightSectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsLight(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="page-enter">
+    <div className="page-enter" style={{ backgroundColor: isLight ? '#FAF9F6' : '#111714', transition: 'background-color 0.8s ease' }}>
       {/* ===== 1. HERO — dark immersive, particles as visual ===== */}
       <section
         className="hero-section dark-section-glow particle-reveal-zone min-h-screen flex items-center relative overflow-hidden"
