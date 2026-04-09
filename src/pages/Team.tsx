@@ -1,18 +1,24 @@
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
+import avatarSilver from "../assets/avatar-silver.png";
+import avatarDavid from "../assets/avatar-david.png";
+import avatarKeer from "../assets/avatar-keer.jpg";
 
 const founders = [
   {
     name: "Silver Yin", title: "Co-founder", school: "Columbia University",
     bio: "Silver left a conventional path to build what she believes is the most important educational intervention of the AI era — not teaching tools, but training the judgment to know what's worth building.",
+    avatar: avatarSilver,
   },
   {
     name: "David Dong", title: "Co-founder", school: "Peking University, Guanghua School of Management",
     bio: "David brings operational precision and deep knowledge of the Chinese education landscape. He believes execution discipline is what separates ideas from impact.",
+    avatar: avatarDavid,
   },
   {
     name: "Keer Wang", title: "Co-founder", school: "Columbia University, SIPA",
     bio: "Keer leads community and mentorship — the human infrastructure that makes transformation possible. She believes education without genuine relationship is just content delivery.",
+    avatar: avatarKeer,
   },
 ];
 
@@ -40,10 +46,10 @@ const Team = () => {
                   <div className="flex-shrink-0">
                     <div className="w-64 h-64 md:w-72 md:h-72 rounded-2xl overflow-hidden group border-2 border-transparent hover:border-primary transition-colors duration-300">
                       <div className="w-full h-full transition-transform duration-500 group-hover:scale-105">
-                        <ImagePlaceholder
-                          variant={i === 0 ? "green" : i === 1 ? "blue" : "neutral"}
-                          className="w-full h-full"
-                          label="Photo"
+                        <img
+                          src={f.avatar}
+                          alt={f.name}
+                          className="w-full h-full object-cover"
                         />
                       </div>
                     </div>

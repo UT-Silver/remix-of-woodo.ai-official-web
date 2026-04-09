@@ -1,6 +1,15 @@
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
+import avatarSilver from "../assets/avatar-silver.png";
+import avatarDavid from "../assets/avatar-david.png";
+import avatarKeer from "../assets/avatar-keer.jpg";
+
+const authorAvatars: Record<string, string> = {
+  "Silver Yin": avatarSilver,
+  "David Dong": avatarDavid,
+  "Keer Wang": avatarKeer,
+};
 
 const articles = [
   { category: "Founding", color: "bg-primary-dark/10 text-primary-dark", title: "Why We Started Woodo", author: "Silver Yin", date: "Mar 2026", excerpt: "The story behind building an education venture that refuses to look like one.", read: "5 min read" },
@@ -79,7 +88,10 @@ const Insights = () => {
                   <span className={`inline-block w-fit px-3 py-1 rounded-lg text-xs font-semibold ${filtered[0].color} mb-3`}>{filtered[0].category}</span>
                   <h3 className="text-xl font-semibold text-foreground tracking-tight">{filtered[0].title}</h3>
                   <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{filtered[0].excerpt}</p>
-                  <p className="text-xs text-muted-foreground mt-4">{filtered[0].read} · {filtered[0].date} · {filtered[0].author}</p>
+                  <div className="flex items-center gap-2 mt-4">
+                    <img src={authorAvatars[filtered[0].author]} alt={filtered[0].author} className="w-6 h-6 rounded-full object-cover" />
+                    <p className="text-xs text-muted-foreground">{filtered[0].read} · {filtered[0].date} · {filtered[0].author}</p>
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
@@ -99,7 +111,10 @@ const Insights = () => {
                     <span className={`inline-block px-3 py-1 rounded-lg text-xs font-semibold ${a.color} mb-3`}>{a.category}</span>
                     <h3 className="text-lg font-semibold text-foreground tracking-tight">{a.title}</h3>
                     <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{a.excerpt}</p>
-                    <p className="text-xs text-muted-foreground mt-3">{a.read} · {a.date} · {a.author}</p>
+                    <div className="flex items-center gap-2 mt-3">
+                      <img src={authorAvatars[a.author]} alt={a.author} className="w-5 h-5 rounded-full object-cover" />
+                      <p className="text-xs text-muted-foreground">{a.read} · {a.date} · {a.author}</p>
+                    </div>
                   </div>
                 </div>
               </ScrollReveal>
