@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import report1 from "../assets/report-1.png";
@@ -15,6 +15,8 @@ const reportImages = [
 ];
 
 const Portfolio = () => {
+  const [marqueePaused, setMarqueePaused] = useState(false);
+
   return (
     <div className="page-enter pt-20">
       {/* Header — warm white + dot grid */}
