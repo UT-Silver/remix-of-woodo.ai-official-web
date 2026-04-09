@@ -290,7 +290,7 @@
 
 /* ========== HERO TEXT ========== */
 .hero-title {
-  font-size: 48px;
+  font-size: 38px;
   line-height: 1.18;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -298,10 +298,10 @@
   word-spacing: 0.05em;
 }
 @media (min-width: 768px) {
-  .hero-title { font-size: 56px; }
+  .hero-title { font-size: 44px; }
 }
 @media (min-width: 1200px) {
-  .hero-title { font-size: 64px; }
+  .hero-title { font-size: 50px; }
 }
 
 /* ========== PILLAR FLOAT ========== */

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import MagneticButton from "../components/MagneticButton";
+import HeroParticleReveal from "../components/HeroParticleReveal";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 
 const pillars = [
@@ -93,7 +94,7 @@ const Index = () => {
     <div className="page-enter">
       {/* ===== 1. HERO — dark immersive, particles as visual ===== */}
       <section
-        className="hero-section min-h-screen flex items-center relative overflow-hidden"
+        className="hero-section dark-section-glow particle-reveal-zone min-h-screen flex items-center relative overflow-hidden"
         style={{
           background: "#0F1F0F",
           position: "relative",
@@ -111,19 +112,7 @@ const Index = () => {
           }}
         />
 
-        {/* Subtle image area on right for future photo */}
-        <div
-          className="hidden lg:block absolute"
-          style={{
-            right: "5%",
-            top: "15%",
-            width: "45%",
-            height: "70%",
-            borderRadius: "20px",
-            background: "rgba(255,255,255,0.03)",
-            border: "0.5px solid rgba(255,255,255,0.06)",
-          }}
-        />
+        <HeroParticleReveal />
 
         <div className="relative z-10 max-w-[680px]">
           <p
