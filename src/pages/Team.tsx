@@ -89,37 +89,29 @@ const Team = () => {
                     <div className="px-6 md:px-10 pb-8">
                       <p className="text-xs uppercase tracking-[2px] text-muted-foreground mb-4">Gallery</p>
                       <div className="overflow-hidden">
-                        <div className="flex gap-4 items-end w-max animate-marquee" style={{ animationDuration: '18s' }}>
+                        <div className="flex gap-4 items-center w-max animate-marquee" style={{ animationDuration: '18s' }}>
                           {[...Array(2)].flatMap((_, dupeIdx) => {
-                            const sizes = [
-                              { w: 'w-52', h: 'h-40' },
-                              { w: 'w-44', h: 'h-48' },
-                              { w: 'w-56', h: 'h-36' },
-                              { w: 'w-48', h: 'h-44' },
-                              { w: 'w-40', h: 'h-52' },
-                            ];
                             const items = f.gallery.length > 0
                               ? f.gallery
                               : Array.from({ length: 4 }, (_, j) => j);
-                            return items.map((item, j) => {
-                              const size = sizes[j % sizes.length];
-                              return (
-                                <div
-                                  key={`${dupeIdx}-${j}`}
-                                  className={`flex-shrink-0 ${size.w} ${size.h} rounded-xl overflow-hidden border border-border`}
-                                >
-                                  {typeof item === "string" ? (
-                                    <img src={item} alt={`${f.name} #${j + 1}`} className="w-full h-full object-cover" />
-                                  ) : (
+                            return items.map((item, j) => (
+                              <div
+                                key={`${dupeIdx}-${j}`}
+                                className="flex-shrink-0 h-48 rounded-xl overflow-hidden border border-border"
+                              >
+                                {typeof item === "string" ? (
+                                  <img src={item} alt={`${f.name} #${j + 1}`} className="h-full w-auto object-contain" />
+                                ) : (
+                                  <div className="w-48 h-full">
                                     <ImagePlaceholder
                                       variant="neutral"
                                       className="w-full h-full"
                                       label={`${f.name.split(" ")[0]} #${j + 1}`}
                                     />
-                                  )}
-                                </div>
-                              );
-                            });
+                                  </div>
+                                )}
+                              </div>
+                            ));
                           })}
                         </div>
                       </div>
