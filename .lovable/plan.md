@@ -1,19 +1,36 @@
 
 
-## 将 "Built by builders" 下方占位图替换为三位创始人头像
+## 在 Portfolio 页面添加 AI Hedge Fund 展示 Section
 
-### 修改文件：`src/pages/Index.tsx`
+### 概述
+在 "Crafting Wall Street Standard Investment Reports" marquee section 之后，插入一个新的深色 section，嵌入上传的 `ai-hedge-fund.html` 作为 iframe 展示。
 
-1. **导入头像资源**：添加 `avatarSilver`、`avatarDavid`、`avatarKeer` 的 import（从 `../assets/` 目录）。
+### 修改文件
 
-2. **给 `teamMembers` 数据添加头像字段**：
-   - Silver Yin → `avatarSilver`
-   - David Dong → `avatarDavid`
-   - Keer Wang → `avatarKeer`
+**1. 复制上传文件到 `public/ai-hedge-fund.html`**
+- 将 `user-uploads://ai-hedge-fund.html` 复制到 `public/` 目录，使其可通过 iframe 加载。
 
-3. **替换占位 div 为真实头像**：将第 278-286 行的渐变占位 `<div>` 替换为 `<img>` 标签，显示对应头像，保持 `w-[180px] h-[220px] rounded-2xl overflow-hidden` 样式。
+**2. `src/pages/Portfolio.tsx`**
+- 在 marquee section（约第 108 行 `</section>` 之后）插入新 section：
+  - 深色背景风格，与上方 reports section 保持一致（`backgroundColor: "#1a1a1a"` 或稍有区分如 `#111`）
+  - 标题区使用 `ScrollReveal`：
+    - Showcase 标签
+    - 主标题：`Solving Complexities with an Elite <strong>Agent Team</strong>.`
+    - 小标题：`Meet your newest intern: Warren Buffett.`
+  - 展示区：一个 `rounded-2xl border overflow-hidden` 的 iframe 容器，高度 `80vh`，加载 `/ai-hedge-fund.html`
+  - 样式参考已有的 AI Value Chain section 的 iframe 嵌入方式
 
-4. **添加悬浮弹起效果**：给每个卡片添加 `hover:-translate-y-2 transition-transform duration-300` 类，移除原来 David 的固定 `translateY(-24px)` 偏移。
-
-5. **整个卡片可点击跳转 Team 页**：将外层 `<div>` 改为 `<Link to="/team">`，点击头像即跳转。
+### 新 Section 结构
+```text
+<section dark bg>
+  <ScrollReveal>
+    <p>Showcase</p>
+    <h2>Solving Complexities with an Elite <strong>Agent Team</strong>.</h2>
+    <p>Meet your newest intern: Warren Buffett.</p>
+  </ScrollReveal>
+  <div container>
+    <iframe src="/ai-hedge-fund.html" height="80vh" />
+  </div>
+</section>
+```
 
