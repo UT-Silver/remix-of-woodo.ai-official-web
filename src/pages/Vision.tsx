@@ -8,9 +8,9 @@ import visionHero3 from "../assets/vision-hero-3.png";
 import visionHero4 from "../assets/vision-hero-4.png";
 
 const convictions = [
-  { num: "01", border: "border-primary-dark", title: "Output over preparation.", desc: "We measure progress in things shipped, not knowledge absorbed.", imgVariant: "green" as const },
-  { num: "02", border: "border-secondary-dark", title: "AI as scaffold, not crutch.", desc: "We use AI to lower the floor and raise the ceiling — never to replace the thinking.", imgVariant: "blue" as const },
-  { num: "03", border: "border-accent-dark", title: "Accompaniment over instruction.", desc: "Great builders aren't mass-produced. They're grown through sustained, genuine investment in the person.", imgVariant: "neutral" as const },
+  { num: "01", border: "border-primary-dark", title: "Democratize invention.", desc: "For most of history, turning an idea into a real product belonged to a narrow elite — those with years of technical training and institutional access. AI has dismantled that wall. We exist to make sure the next generation actually walks through the opening — so that building, not just learning, becomes the default for every ambitious young person.", imgVariant: "green" as const },
+  { num: "02", border: "border-secondary-dark", title: "Train agency, not tool fluency.", desc: "Using AI is not the same as creating with it. We don't teach students to operate chatbots; we teach them to identify real problems, design solutions, ship working prototypes, and iterate under real feedback. The goal is a new generation that can collaborate with AI, think independently, and make sound judgments in complex situations — the form of competitiveness that doesn't expire when the tools change.", imgVariant: "blue" as const },
+  { num: "03", border: "border-accent-dark", title: "Make every project count.", desc: "At Woodo.ai, education is not a course completed or a skill acquired. It is a full build loop — from problem to demo to real users to published work — that leaves behind something tangible: a product a hiring manager can open, a project an admissions officer will remember, a portfolio that compounds into a real advantage in a world where credentials alone no longer signal capability.", imgVariant: "neutral" as const },
 ];
 
 const Vision = () => {
