@@ -33,8 +33,9 @@ const Portfolio = () => {
           src={heroBuild}
           alt="Human hand reaching toward robotic hand"
           className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ zIndex: 1 }}
         />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.05) 100%)" }} />
+        <div className="absolute inset-0" style={{ zIndex: 2, background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.05) 100%)" }} />
         <ScrollReveal className="absolute bottom-12 left-8 md:left-16 z-10 max-w-2xl" direction="up">
           <p className="text-xs uppercase tracking-[3px] mb-4" style={{ color: "rgba(255,255,255,0.6)" }}>Build</p>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.1] text-white">
