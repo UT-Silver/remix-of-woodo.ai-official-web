@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
+import HeroParticleReveal from "../components/HeroParticleReveal";
 
 import visionHero1 from "../assets/vision-hero-1.png";
 import visionHero2 from "../assets/vision-hero-2.png";
