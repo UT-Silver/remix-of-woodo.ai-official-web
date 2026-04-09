@@ -77,7 +77,7 @@ const Vision = () => {
 
       {/* What We Believe — scroll-triggered dark background */}
       <section ref={darkSectionRef} className="py-20 md:py-28 px-6">
-        <div className="max-w-5xl mx-auto flex justify-end">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-10">
           <div className="w-full md:w-1/2 space-y-6 text-lg">
             <ScrollReveal>
               <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>
@@ -92,6 +92,17 @@ const Vision = () => {
             </ScrollReveal>
             <ScrollReveal>
               <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>We call that capability <strong className={`transition-colors duration-700 ${isDark ? 'text-white' : 'text-foreground'}`}>agency</strong>. Woodo.ai exists to train it.</p>
+            </ScrollReveal>
+          </div>
+          <div className="w-full md:w-1/2 md:sticky md:top-32 self-start space-y-4">
+            <ScrollReveal delay={200}>
+              <img src={jdTemasek} alt="Temasek internship requiring AI agent building experience" className="w-full rounded-lg shadow-lg" />
+            </ScrollReveal>
+            <ScrollReveal delay={400}>
+              <img src={jdPoint72} alt="Point72 internship requiring AI tools and coding experience" className="w-full rounded-lg shadow-lg" />
+            </ScrollReveal>
+            <ScrollReveal delay={600}>
+              <img src={jdMckinsey} alt="McKinsey requiring graduates to master AI tools" className="w-full rounded-lg shadow-lg" />
             </ScrollReveal>
           </div>
         </div>
