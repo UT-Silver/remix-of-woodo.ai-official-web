@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
+import HeroParticleReveal from "../components/HeroParticleReveal";
 import heroBuild from "../assets/hero-build.png";
 import report1 from "../assets/report-1.png";
 import report2 from "../assets/report-2.png";
@@ -27,7 +28,6 @@ const Portfolio = () => {
 
   return (
     <div className="page-enter pt-20">
-      {/* Hero — cinematic image with overlay text */}
       <section className="dark-section-glow particle-reveal-zone relative w-full overflow-hidden" style={{ height: "70vh", minHeight: "480px" }}>
         <img
           src={heroBuild}
@@ -36,6 +36,7 @@ const Portfolio = () => {
           style={{ zIndex: 1 }}
         />
         <div className="absolute inset-0" style={{ zIndex: 2, background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.05) 100%)" }} />
+        <HeroParticleReveal />
         <ScrollReveal className="absolute bottom-12 left-8 md:left-16 z-10 max-w-2xl" direction="up">
           <p className="text-xs uppercase tracking-[3px] mb-4" style={{ color: "rgba(255,255,255,0.6)" }}>Build</p>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.1] text-white">
