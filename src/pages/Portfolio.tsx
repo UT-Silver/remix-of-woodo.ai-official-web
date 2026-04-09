@@ -109,6 +109,27 @@ const Portfolio = () => {
         </div>
       </section>
 
+      {/* AI Hedge Fund Agent Team */}
+      <section className="py-20 md:py-28 px-6" style={{ backgroundColor: "#111" }}>
+        <ScrollReveal className="max-w-6xl mx-auto">
+          <p className="text-xs uppercase tracking-[3px] mb-4 text-center" style={{ color: "rgba(255,255,255,0.45)" }}>Showcase</p>
+          <h2 className="text-2xl md:text-3xl font-medium text-center text-white">
+            Solving Complexities with an Elite <strong className="text-primary-light font-bold">Agent Team</strong>.
+          </h2>
+          <p className="mt-3 text-center mb-10" style={{ color: "rgba(255,255,255,0.45)" }}>
+            Meet your newest intern: Warren Buffett.
+          </p>
+          <div className="rounded-2xl border border-border overflow-hidden shadow-lg" style={{ height: "80vh" }}>
+            <iframe
+              src="/ai-hedge-fund.html"
+              title="AI Hedge Fund Agent Team"
+              className="w-full h-full border-0"
+              loading="lazy"
+            />
+          </div>
+        </ScrollReveal>
+      </section>
+
 
       <section className="py-20 md:py-28 px-6 bg-cool-gray dot-grid-bg">
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">

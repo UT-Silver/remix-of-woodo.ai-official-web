@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Hedge Fund V2</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg:#0a0e17; --surface:#111827; --surface2:#1e2536; --surface3:#2a3349;
+  --border:#2d3748; --border2:#4a5568; --text:#e2e8f0; --text2:#94a3b8; --text3:#64748b;
+  --accent:#8b5cf6; --accent2:#a78bfa; --green:#10b981; --green2:#34d399;
+  --red:#ef4444; --red2:#f87171; --yellow:#f59e0b; --yellow2:#fbbf24;
+  --blue:#3b82f6; --cyan:#06b6d4; --pink:#ec4899;
+  --font:'SF Pro Display','Inter',system-ui,-apple-system,sans-serif;
+}
+body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; }
+.container { max-width:1400px; margin:0 auto; padding:24px; }
+.header { display:flex; align-items:center; margin-bottom:28px; }
+.header h1 { font-size:26px; font-weight:700; }
+.header h1 span { background:linear-gradient(135deg,var(--accent),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.badge { font-size:11px; padding:3px 10px; border-radius:20px; background:var(--accent)22; color:var(--accent2); border:1px solid var(--accent)44; margin-left:12px; }
+.subtitle { color:var(--text2); font-size:13px; }
+.config-section { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; margin-bottom:16px; }
+.config-row { display:flex; gap:12px; flex-wrap:wrap; }
+.config-field { flex:1; min-width:180px; }
+.config-field label { display:block; font-size:11px; color:var(--text3); margin-bottom:5px; text-transform:uppercase; letter-spacing:0.8px; font-weight:600; }
+.config-field input { width:100%; padding:9px 12px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s; }
+.config-field input:focus { border-color:var(--accent); }
+.input-section { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:16px; }
+.section-title { font-size:14px; font-weight:600; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.ticker-row { display:flex; gap:12px; }
+.ticker-row input { flex:1; padding:11px 14px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:15px; outline:none; }
+.ticker-row input:focus { border-color:var(--accent); }
+.agent-group { margin-top:16px; }
+.agent-group-title { font-size:12px; color:var(--text3); text-transform:uppercase; letter-spacing:0.8px; font-weight:600; margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:6px; }
+.agent-group-title .dot { width:8px; height:8px; border-radius:50%; }
+.agent-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:8px; margin-bottom:14px; }
+.agent-chip { display:flex; align-items:center; gap:7px; padding:8px 12px; background:var(--surface2); border:2px solid transparent; border-radius:9px; cursor:pointer; transition:all .15s; user-select:none; font-size:12px; }
+.agent-chip:hover { border-color:var(--border2); }
+.agent-chip.selected { border-color:var(--accent); background:var(--accent)11; }
+.agent-chip .emoji { font-size:15px; flex-shrink:0; }
+.agent-chip .name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:500; }
+.select-actions { display:flex; gap:6px; margin-top:6px; }
+.select-actions button { padding:4px 12px; font-size:11px; background:transparent; border:1px solid var(--border); border-radius:6px; color:var(--text3); cursor:pointer; }
+.select-actions button:hover { border-color:var(--text2); color:var(--text); }
+.analyze-btn { width:100%; padding:13px; font-size:15px; font-weight:600; background:linear-gradient(135deg,var(--accent),#7c3aed); color:#fff; border:none; border-radius:10px; cursor:pointer; transition:all .2s; margin-bottom:16px; }
+.analyze-btn:hover { opacity:.92; transform:translateY(-1px); box-shadow:0 4px 20px var(--accent)44; }
+.analyze-btn:disabled { opacity:.4; cursor:not-allowed; transform:none; box-shadow:none; }
+.progress-section { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:16px; display:none; }
+.progress-section.active { display:block; }
+.progress-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+.progress-pct { font-size:13px; color:var(--accent2); font-weight:600; }
+.progress-phases { display:flex; gap:4px; margin:10px 0; }
+.progress-phase { flex:1; text-align:center; padding:6px 0; font-size:11px; color:var(--text3); border-radius:6px; background:var(--surface2); transition:all .3s; }
+.progress-phase.active { background:var(--accent)33; color:var(--accent2); }
+.progress-phase.done { background:var(--green)22; color:var(--green2); }
+.progress-bar-bg { height:4px; background:var(--surface2); border-radius:2px; margin:8px 0; overflow:hidden; }
+.progress-bar { height:100%; background:linear-gradient(90deg,var(--accent),var(--cyan)); border-radius:2px; transition:width .3s; width:0%; }
+.progress-status { font-size:12px; color:var(--text2); }
+.progress-log { margin-top:10px; max-height:140px; overflow-y:auto; font-size:11px; color:var(--text3); font-family:'SF Mono',Menlo,monospace; }
+.progress-log div { padding:2px 0; }
+.progress-log .done { color:var(--green); }
+.progress-log .running { color:var(--accent2); }
+.progress-log .error { color:var(--red2); }
+.tabs { display:flex; gap:4px; margin-bottom:16px; flex-wrap:wrap; }
+.tab { padding:7px 18px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:13px; color:var(--text2); font-weight:500; }
+.tab:hover { border-color:var(--border2); color:var(--text); }
+.tab.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.results-section { display:none; }
+.results-section.active { display:block; }
+.pm-card { background:linear-gradient(135deg,var(--surface),var(--surface2)); border:1px solid var(--accent)44; border-radius:14px; padding:24px; margin-bottom:20px; position:relative; overflow:hidden; }
+.pm-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--cyan),var(--accent)); }
+.pm-card h3 { font-size:16px; margin-bottom:14px; }
+.pm-action { display:inline-flex; align-items:center; gap:8px; padding:8px 20px; border-radius:24px; font-weight:700; font-size:16px; margin-bottom:14px; }
+.pm-action.strong-buy { background:var(--green)22; color:var(--green2); border:1px solid var(--green)44; }
+.pm-action.buy { background:var(--green)18; color:var(--green); border:1px solid var(--green)33; }
+.pm-action.hold { background:var(--yellow)18; color:var(--yellow2); border:1px solid var(--yellow)33; }
+.pm-action.sell { background:var(--red)18; color:var(--red); border:1px solid var(--red)33; }
+.pm-action.strong-sell { background:var(--red)22; color:var(--red2); border:1px solid var(--red)44; }
+.vote-summary { display:flex; gap:12px; margin:14px 0; flex-wrap:wrap; }
+.vote-item { padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; }
+.vote-item.bullish { background:var(--green)15; color:var(--green); }
+.vote-item.bearish { background:var(--red)15; color:var(--red); }
+.vote-item.neutral { background:var(--yellow)15; color:var(--yellow); }
+.pm-reasoning { font-size:13px; line-height:1.75; color:var(--text); white-space:pre-wrap; margin-top:12px; }
+.risk-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:20px; }
+.risk-card h3 { font-size:15px; margin-bottom:12px; }
+.risk-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+.risk-item { background:var(--surface2); border-radius:8px; padding:12px; }
+.risk-item .label { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+.risk-item .value { font-size:18px; font-weight:700; }
+.risk-item .value.low { color:var(--green); }
+.risk-item .value.medium { color:var(--yellow); }
+.risk-item .value.high { color:var(--red); }
+.analysis-cards-title,.investor-cards-title { font-size:14px; font-weight:600; margin-bottom:12px; color:var(--text2); }
+.analysis-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; margin-bottom:20px; }
+.analysis-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; }
+.analysis-card-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.analysis-card-header .emoji { font-size:20px; }
+.analysis-card-header h4 { font-size:13px; font-weight:600; }
+.analysis-card-header .type { font-size:10px; color:var(--text3); text-transform:uppercase; }
+.analysis-signal { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.score-bar { display:flex; align-items:center; gap:6px; margin:4px 0; }
+.score-bar .label { font-size:11px; color:var(--text3); min-width:80px; }
+.score-bar .bar-bg { flex:1; height:6px; background:var(--surface2); border-radius:3px; overflow:hidden; }
+.score-bar .bar-fill { height:100%; border-radius:3px; transition:width .5s; }
+.score-bar .val { font-size:11px; color:var(--text2); min-width:28px; text-align:right; font-weight:600; }
+.analysis-summary { font-size:12px; color:var(--text2); line-height:1.6; margin-top:8px; }
+.investor-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:14px; margin-bottom:20px; }
+.investor-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; transition:border-color .2s; }
+.investor-card:hover { border-color:var(--accent)66; }
+.investor-card-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.investor-card-header .avatar { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.investor-card-header h4 { font-size:14px; font-weight:600; }
+.investor-card-header .style { font-size:11px; color:var(--text3); }
+.investor-signal { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.signal-badge { padding:4px 12px; border-radius:12px; font-size:11px; font-weight:700; text-transform:uppercase; }
+.signal-badge.bullish { background:var(--green)22; color:var(--green); }
+.signal-badge.bearish { background:var(--red)22; color:var(--red); }
+.signal-badge.neutral { background:var(--yellow)22; color:var(--yellow); }
+.confidence-bar { flex:1; height:5px; background:var(--surface2); border-radius:3px; overflow:hidden; }
+.confidence-fill { height:100%; border-radius:3px; transition:width .5s; }
+.confidence-label { font-size:11px; color:var(--text2); min-width:32px; text-align:right; font-weight:600; }
+.weighted-score { font-size:12px; color:var(--text3); margin-bottom:8px; }
+.weighted-score span { color:var(--accent2); font-weight:700; font-size:14px; }
+.investor-scores { display:grid; grid-template-columns:1fr 1fr; gap:3px 12px; margin-bottom:10px; }
+.investor-reasoning { font-size:12px; line-height:1.65; color:var(--text2); white-space:pre-wrap; max-height:200px; overflow-y:auto; }
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+@media(max-width:768px) { .config-row{flex-direction:column} .investor-cards{grid-template-columns:1fr} .agent-grid{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:480px) { .analysis-cards{grid-template-columns:1fr} .agent-grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1>AI <span>Hedge Fund</span> <span class="badge">V2 · 20 Agents</span></h1>
+        <p class="subtitle">5 Analysis + 13 Investors + Risk Manager + Portfolio Manager</p>
+      </div>
+    </div>
+    <div class="config-section">
+      <div class="config-row">
+        <div class="config-field" style="flex:2">
+          <label>API Key</label>
+          <input type="password" id="apiKey" placeholder="sk-..." />
+        </div>
+        <div class="config-field">
+          <label>Base URL</label>
+          <input type="text" id="baseUrl" value="https://api.openai.com" />
+        </div>
+        <div class="config-field">
+          <label>Model</label>
+          <input type="text" id="model" value="gpt-4o" />
+        </div>
+      </div>
+    </div>
+    <div class="input-section">
+      <div class="section-title">📊 股票代码</div>
+      <div class="ticker-row">
+        <input type="text" id="tickers" placeholder="输入股票代码，逗号分隔（如 AAPL, MSFT, NVDA）" />
+      </div>
+      <div class="agent-group">
+        <div class="agent-group-title"><span class="dot" style="background:var(--cyan)"></span> 分析 Agent（Phase 1）</div>
+        <div class="agent-grid" id="analysisAgentGrid"></div>
+      </div>
+      <div class="agent-group">
+        <div class="agent-group-title"><span class="dot" style="background:var(--accent)"></span> 投资者 Agent（Phase 2）</div>
+        <div class="agent-grid" id="investorAgentGrid"></div>
+      </div>
+      <div class="agent-group">
+        <div class="agent-group-title"><span class="dot" style="background:var(--green)"></span> 管理 Agent（Phase 3）</div>
+        <div class="agent-grid" id="mgmtAgentGrid"></div>
+      </div>
+      <div class="select-actions">
+        <button onclick="toggleAllAgents(true)">全选</button>
+        <button onclick="toggleAllAgents(false)">全不选</button>
+      </div>
+    </div>
+    <button class="analyze-btn" id="analyzeBtn" onclick="startAnalysis()">开始分析</button>
+    <div class="progress-section" id="progressSection">
+      <div class="progress-header">
+        <strong id="progressTitle">分析中...</strong>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="progress-phases">
+        <div class="progress-phase" id="phase1">Phase 1: 基础分析</div>
+        <div class="progress-phase" id="phase2">Phase 2: 投资者分析</div>
+        <div class="progress-phase" id="phase3">Phase 3: 风控+汇总</div>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-status" id="progressStatus"></div>
+      <div class="progress-log" id="progressLog"></div>
+    </div>
+    <div class="results-section" id="resultsSection">
+      <div class="tabs" id="tickerTabs"></div>
+      <div id="resultsContent"></div>
+    </div>
+  </div>
+</div>
+<script>
+const ANALYSIS_AGENTS = [
+  { id:'fundamentals', name:'Fundamentals', emoji:'📊', color:'#3b82f6', type:'analysis',
+    dimensions:['profitability','growth','financial_health','valuation'],
+    prompt:'你是专业基本面分析师。按以下维度评估(0-10分)：1.盈利能力(ROE/净利率/毛利率) 2.成长性(营收/盈利增长率) 3.财务健康(流动比率/负债率/FCF) 4.估值(P/E/P/B/P/S)。返回JSON：{"ticker":"XXX","scores":{"profitability":{"score":8,"detail":"..."},"growth":{"score":7,"detail":"..."},"financial_health":{"score":6,"detail":"..."},"valuation":{"score":5,"detail":"..."}},"overall_score":6.5,"signal":"bullish","confidence":70,"summary":"总结"}' },
+  { id:'valuation', name:'Valuation', emoji:'💰', color:'#f59e0b', type:'analysis',
+    dimensions:['owner_earnings','dcf','ev_ebitda','relative_valuation'],
+    prompt:'你是专业估值分析师。按以下维度评估(0-10分)：1.Owner Earnings估值 2.DCF分析(熊/基/牛三场景) 3.EV/EBITDA倍数 4.相对估值(同行对比)。返回JSON：{"ticker":"XXX","scores":{"owner_earnings":{"score":7,"detail":"..."},"dcf":{"score":6,"detail":"..."},"ev_ebitda":{"score":7,"detail":"..."},"relative_valuation":{"score":5,"detail":"..."}},"overall_score":6.3,"signal":"neutral","confidence":65,"summary":"总结"}' },
+  { id:'technicals', name:'Technicals', emoji:'📈', color:'#06b6d4', type:'analysis',
+    dimensions:['trend','mean_reversion','momentum','volatility'],
+    prompt:'你是专业技术分析师。按以下维度评估(0-10分)：1.趋势(均线排列/ADX) 2.均值回归(RSI/布林带) 3.动量(1/3/6月回报) 4.波动率(历史波动率/ATR)。返回JSON：{"ticker":"XXX","scores":{"trend":{"score":7,"detail":"..."},"mean_reversion":{"score":5,"detail":"..."},"momentum":{"score":8,"detail":"..."},"volatility":{"score":6,"detail":"..."}},"overall_score":6.5,"signal":"bullish","confidence":60,"summary":"总结"}' },
+  { id:'sentiment', name:'Sentiment', emoji:'🎭', color:'#ec4899', type:'analysis',
+    dimensions:['news_sentiment','analyst_ratings','insider_activity','social_buzz'],
+    prompt:'你是市场情绪分析师。按以下维度评估(0-10分)：1.新闻情绪 2.分析师评级 3.内部人交易 4.社交媒体热度。返回JSON：{"ticker":"XXX","scores":{"news_sentiment":{"score":7,"detail":"..."},"analyst_ratings":{"score":6,"detail":"..."},"insider_activity":{"score":5,"detail":"..."},"social_buzz":{"score":6,"detail":"..."}},"overall_score":6.0,"signal":"neutral","confidence":55,"summary":"总结"}' },
+  { id:'growth_analyst', name:'Growth', emoji:'🌱', color:'#10b981', type:'analysis',
+    dimensions:['revenue_growth','earnings_growth','margin_trend','financial_strength'],
+    prompt:'你是成长性分析师。按以下维度评估(0-10分)：1.营收增长(CAGR/趋势) 2.盈利增长(EPS/FCF增长) 3.利润率趋势 4.财务实力。返回JSON：{"ticker":"XXX","scores":{"revenue_growth":{"score":8,"detail":"..."},"earnings_growth":{"score":7,"detail":"..."},"margin_trend":{"score":6,"detail":"..."},"financial_strength":{"score":7,"detail":"..."}},"overall_score":7.0,"signal":"bullish","confidence":70,"summary":"总结"}' }
+];
+
+const INVESTOR_AGENTS = [
+  { id:'buffett', name:'Warren Buffett', emoji:'🎩', color:'#8b5cf6', type:'investor', style:'护城河·内在价值·安全边际',
+    dimensions:['moat_strength','management_quality','financial_predictability','valuation_margin','capital_allocation'],
+    prompt:'你是沃伦·巴菲特。寻找持久竞争优势(护城河)企业，关注ROE>15%、利润率稳定、自由现金流，要求安全边际，偏好可预测有定价权的商业模式，管理层必须诚实能干。' },
+  { id:'munger', name:'Charlie Munger', emoji:'📚', color:'#10b981', type:'investor', style:'心智模型·管理层·可预测性',
+    dimensions:['business_quality','management_integrity','predictability','mental_models','avoiding_stupidity'],
+    prompt:'你是查理·芒格。运用多学科心智模型分析，关注ROIC和护城河持久性，极度重视管理层质量和企业文化，偏好简单可预测的商业模式，"反过来想，总是反过来想"。' },
+  { id:'graham', name:'Ben Graham', emoji:'📐', color:'#3b82f6', type:'investor', style:'安全边际·净资产·保守估值',
+    dimensions:['margin_of_safety','balance_sheet_strength','earnings_stability','dividend_record','valuation_ratios'],
+    prompt:'你是本杰明·格雷厄姆。标准极严格：流动比率≥2，P/E≤15，P/B≤1.5，P/E×P/B≤22.5，10年盈利不间断，安全边际是最重要概念。' },
+  { id:'ackman', name:'Bill Ackman', emoji:'🎯', color:'#ef4444', type:'investor', style:'激进主义·品牌·运营改善',
+    dimensions:['brand_power','operational_efficiency','balance_sheet','growth_potential','activist_opportunity'],
+    prompt:'你是比尔·阿克曼。集中持仓深度研究，寻找强品牌但运营可改善的企业，关注利润率提升空间，愿意推动管理层变革释放价值。' },
+  { id:'wood', name:'Cathie Wood', emoji:'🚀', color:'#ec4899', type:'investor', style:'颠覆式创新·指数增长·TAM',
+    dimensions:['disruptive_potential','tam_size','innovation_pace','revenue_acceleration','wrights_law'],
+    prompt:'你是凯西·伍德。聚焦颠覆式创新(AI/机器人/基因编辑)，关注5年后的世界，重视R&D投入，寻找营收加速拐点，TAM必须足够大。' },
+  { id:'burry', name:'Michael Burry', emoji:'🔍', color:'#06b6d4', type:'investor', style:'深度价值·逆向·FCF',
+    dimensions:['fcf_yield','hidden_value','contrarian_signal','downside_risk','catalyst'],
+    prompt:'你是迈克尔·伯里。深度价值投资，核心看FCF收益率和EV/EBIT，逆向思维质疑市场共识，关注隐藏价值或风险，警惕宏观泡沫。' },
+  { id:'lynch', name:'Peter Lynch', emoji:'🛒', color:'#a78bfa', type:'investor', style:'GARP·PEG·生活中选股',
+    dimensions:['peg_ratio','business_category','earnings_predictability','balance_sheet','growth_story'],
+    prompt:'你是彼得·林奇。GARP框架，PEG<1低估/1-2合理/>2偏贵，将公司分类(慢速/稳健/快速成长/周期/困境反转/隐蔽资产)，从日常生活发现机会。' },
+  { id:'fisher', name:'Phil Fisher', emoji:'🔬', color:'#34d399', type:'investor', style:'质量成长·管理卓越·R&D',
+    dimensions:['market_potential','rd_effectiveness','sales_capability','profit_margins','management_depth'],
+    prompt:'你是菲利普·费雪。关注产品市场潜力、管理层开发新产品决心、R&D投入、销售能力、利润率改善趋势、管理层深度和接班人培养。' },
+  { id:'druckenmiller', name:'S. Druckenmiller', emoji:'⚡', color:'#fbbf24', type:'investor', style:'不对称回报·动量·宏观',
+    dimensions:['risk_reward_asymmetry','earnings_momentum','macro_tailwind','market_expectations','position_sizing'],
+    prompt:'你是德鲁肯米勒。寻找不对称风险回报机会，关注盈利加速拐点，结合动量和基本面，判断对时下重注，关注宏观环境和市场预期差。' },
+  { id:'taleb', name:'Nassim Taleb', emoji:'🦢', color:'#94a3b8', type:'investor', style:'反脆弱·尾部风险·凸性',
+    dimensions:['antifragility','tail_risk','convexity','balance_sheet_robustness','optionality'],
+    prompt:'你是塔勒布。评估反脆弱性(能否从混乱中受益)、尾部风险(最坏情况)、凸性(上行vs下行)、资产负债表强度、警惕火鸡问题。' },
+  { id:'pabrai', name:'Mohnish Pabrai', emoji:'♠️', color:'#f87171', type:'investor', style:'下行保护·翻倍潜力·简单',
+    dimensions:['downside_protection','upside_potential','business_simplicity','fcf_yield','cloning_quality'],
+    prompt:'你是帕布莱。Dhandho框架：下行极小上行巨大，FCF收益率>8%，商业模式一句话说清，集中持仓只投最有信心的想法。' },
+  { id:'jhunjhunwala', name:'R. Jhunjhunwala', emoji:'🐂', color:'#f59e0b', type:'investor', style:'成长+盈利·长期持有',
+    dimensions:['growth_profitability','structural_trend','management_execution','roic_vs_wacc','long_term_compounding'],
+    prompt:'你是金君瓦拉。寻找高成长且已盈利企业，营收增长>15%，运营利润率扩张，ROIC高于资本成本，偏好长期结构性趋势。' },
+  { id:'damodaran', name:'A. Damodaran', emoji:'📏', color:'#60a5fa', type:'investor', style:'DCF·WACC·内在价值',
+    dimensions:['dcf_quality','growth_reinvestment_consistency','risk_assessment','relative_valuation','narrative_numbers_fit'],
+    prompt:'你是达摩达兰。DCF估值(FCFF折现)，WACC作折现率，相对估值对比同行，关注增长率/再投资率/资本回报率一致性，故事和数字必须匹配。' }
+];
+
+const MGMT_AGENTS = [
+  { id:'risk_manager', name:'Risk Manager', emoji:'🛡️', color:'#f59e0b', type:'management' },
+  { id:'portfolio_manager', name:'Portfolio Manager', emoji:'📋', color:'#8b5cf6', type:'management' }
+];
+const ALL_AGENTS = [...ANALYSIS_AGENTS, ...INVESTOR_AGENTS, ...MGMT_AGENTS];
+
+// API Call - supports OpenAI and Anthropic format
+async function callLLM(systemPrompt, userPrompt) {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const baseUrl = document.getElementById('baseUrl').value.trim().replace(/\/+$/, '');
+  const model = document.getElementById('model').value.trim();
+  const isAnthropic = baseUrl.includes('anthropic') || baseUrl.includes('zhongzhuan');
+  if (isAnthropic) {
+    const resp = await fetch(`${baseUrl}/v1/messages`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model, max_tokens:3000, system:systemPrompt, messages:[{role:'user',content:userPrompt}]})
+    });
+    if (!resp.ok) throw new Error(`API ${resp.status}: ${(await resp.text()).slice(0,200)}`);
+    return (await resp.json()).content[0].text;
+  } else {
+    const resp = await fetch(`${baseUrl}/v1/chat/completions`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
+      body:JSON.stringify({model, max_tokens:3000, messages:[{role:'system',content:systemPrompt},{role:'user',content:userPrompt}]})
+    });
+    if (!resp.ok) throw new Error(`API ${resp.status}: ${(await resp.text()).slice(0,200)}`);
+    return (await resp.json()).choices[0].message.content;
+  }
+}
+
+function parseResponse(text) {
+  try {
+    let s = text;
+    const fenced = s.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (fenced) s = fenced[1];
+    const i = s.indexOf('{'), j = s.lastIndexOf('}');
+    if (i !== -1 && j > i) {
+      const p = JSON.parse(s.slice(i, j+1));
+      p.signal = (p.signal||'neutral').toLowerCase().trim();
+      if (!['bullish','bearish','neutral'].includes(p.signal)) p.signal = 'neutral';
+      p.confidence = Math.max(0, Math.min(100, parseInt(p.confidence)||50));
+      return p;
+    }
+  } catch(e) {}
+  const signal = /bullish/i.test(text)?'bullish':/bearish/i.test(text)?'bearish':'neutral';
+  const cm = text.match(/confidence["\s:]*(\d+)/i);
+  return {signal, confidence:cm?Math.min(100,parseInt(cm[1])):50, reasoning:text, summary:text.slice(0,300), scores:{}, overall_score:5};
+}
+
+function computeRiskManager(analysis, investors) {
+  const all = [...Object.values(analysis), ...Object.values(investors)];
+  const total = all.length;
+  if (!total) return {risk_level:'medium',consensus_direction:'neutral',consensus_ratio:50,avg_confidence:50,volatility_risk:'medium',max_position:10,vote_counts:{bullish:0,bearish:0,neutral:0},details:{bullish_pct:33,bearish_pct:33,neutral_pct:34}};
+  const counts = {bullish:0,bearish:0,neutral:0};
+  let totalConf = 0;
+  all.forEach(r => { counts[r.signal||'neutral']++; totalConf += (r.confidence||50); });
+  const avgConf = totalConf/total;
+  const maxCount = Math.max(counts.bullish,counts.bearish,counts.neutral);
+  const ratio = maxCount/total;
+  let volScore = 5;
+  if (analysis.technicals && analysis.technicals.scores && analysis.technicals.scores.volatility)
+    volScore = analysis.technicals.scores.volatility.score || 5;
+  let riskLevel, maxPos;
+  if (ratio>=0.7 && avgConf>=65 && volScore<=6) { riskLevel='low'; maxPos=25; }
+  else if (ratio<0.4 || avgConf<45 || volScore>=8) { riskLevel='high'; maxPos=5; }
+  else { riskLevel='medium'; maxPos=15; }
+  let dir = 'neutral';
+  if (counts.bullish>counts.bearish && counts.bullish>counts.neutral) dir='bullish';
+  else if (counts.bearish>counts.bullish && counts.bearish>counts.neutral) dir='bearish';
+  return {risk_level:riskLevel, consensus_direction:dir, consensus_ratio:Math.round(ratio*100), avg_confidence:Math.round(avgConf), volatility_risk:volScore>=7?'high':volScore>=4?'medium':'low', max_position:maxPos, vote_counts:counts, total_agents:total, details:{bullish_pct:Math.round(counts.bullish/total*100), bearish_pct:Math.round(counts.bearish/total*100), neutral_pct:Math.round(counts.neutral/total*100)}};
+}
+
+let results = {}, activeTicker = '';
+function showProgress(s) { document.getElementById('progressSection').classList.toggle('active',s); }
+function setPhase(p) { [1,2,3].forEach(i => { const e=document.getElementById('phase'+i); e.classList.remove('active','done'); if(i<p)e.classList.add('done'); else if(i===p)e.classList.add('active'); }); }
+function updateProgress(pct,st) { document.getElementById('progressBar').style.width=pct+'%'; document.getElementById('progressPct').textContent=Math.round(pct)+'%'; if(st)document.getElementById('progressStatus').textContent=st; }
+function addLog(msg,cls) { const l=document.getElementById('progressLog'),d=document.createElement('div'); d.className=cls||''; d.textContent=msg; l.appendChild(d); l.scrollTop=l.scrollHeight; }
+
+async function startAnalysis() {
+  const apiKey=document.getElementById('apiKey').value.trim();
+  if(!apiKey){alert('请输入 API Key');return;}
+  const tickerStr=document.getElementById('tickers').value.trim().toUpperCase();
+  if(!tickerStr){alert('请输入股票代码');return;}
+  const tickers=tickerStr.split(/[,，\s]+/).filter(Boolean);
+  const selA=ANALYSIS_AGENTS.filter(a=>selectedAgents.has(a.id));
+  const selI=INVESTOR_AGENTS.filter(a=>selectedAgents.has(a.id));
+  const hasRisk=selectedAgents.has('risk_manager'), hasPM=selectedAgents.has('portfolio_manager');
+  if(!selA.length&&!selI.length){alert('请至少选择一个Agent');return;}
+  const btn=document.getElementById('analyzeBtn');
+  btn.disabled=true; btn.textContent='分析中...';
+  document.getElementById('progressLog').innerHTML='';
+  showProgress(true);
+  document.getElementById('resultsSection').classList.remove('active');
+  results={};
+  const stepsPerT=selA.length+selI.length+(hasPM?1:0), totalSteps=tickers.length*stepsPerT;
+  let done=0;
+  for (const ticker of tickers) {
+    results[ticker]={analysis:{},investors:{},risk:null,pm:null};
+    // Phase 1
+    if(selA.length){setPhase(1);updateProgress(done/totalSteps*100,'Phase 1: '+ticker);addLog('── Phase 1: '+ticker+' ──','running');
+      await Promise.all(selA.map(async ag=>{addLog('  ▶ '+ag.emoji+' '+ag.name+' '+ticker,'running');
+        try{const r=parseResponse(await callLLM(ag.prompt,'请分析股票：'+ticker+'\n请严格按JSON格式返回，中文分析。'));results[ticker].analysis[ag.id]=r;addLog('  ✓ '+ag.emoji+' '+ag.name+': '+r.signal+' ('+r.confidence+'%)','done');}
+        catch(e){addLog('  ✗ '+ag.emoji+' '+ag.name+': '+e.message,'error');results[ticker].analysis[ag.id]={signal:'neutral',confidence:0,scores:{},overall_score:5,summary:'失败:'+e.message};}
+        done++;updateProgress(done/totalSteps*100);
+      }));
+    }
+    // Build analysis summary for investors
+    const aSum=Object.entries(results[ticker].analysis).map(([id,r])=>{const ag=ANALYSIS_AGENTS.find(a=>a.id===id);const sc=r.scores?Object.entries(r.scores).map(([k,v])=>'  '+k+': '+(typeof v==='object'?v.score+'/10':v)).join('\n'):'';return '【'+(ag?ag.name:id)+'】'+r.signal+' '+r.confidence+'% '+r.overall_score+'/10\n'+sc+'\n'+(r.summary||'');}).join('\n\n');
+    // Phase 2
+    if(selI.length){setPhase(2);updateProgress(done/totalSteps*100,'Phase 2: '+ticker);addLog('── Phase 2: '+ticker+' ──','running');
+      await Promise.all(selI.map(async ag=>{addLog('  ▶ '+ag.emoji+' '+ag.name+' '+ticker,'running');
+        try{const dims=ag.dimensions.map((d,i)=>(i+1)+'. '+d).join('\n');
+          const up='请分析股票：'+ticker+'\n\n参考分析数据：\n'+(aSum||'无')+'\n\n按你的框架对以下维度打分(0-10)：\n'+dims+'\n\n返回JSON：{"ticker":"'+ticker+'","scores":{"维度":{"score":8,"detail":"理由"}},"weighted_score":7.2,"signal":"bullish","confidence":72,"reasoning":"详细分析(中文)"}';
+          const r=parseResponse(await callLLM(ag.prompt,up));results[ticker].investors[ag.id]=r;addLog('  ✓ '+ag.emoji+' '+ag.name+': '+r.signal+' ('+r.confidence+'%)','done');}
+        catch(e){addLog('  ✗ '+ag.emoji+' '+ag.name+': '+e.message,'error');results[ticker].investors[ag.id]={signal:'neutral',confidence:0,scores:{},weighted_score:5,reasoning:'失败:'+e.message};}
+        done++;updateProgress(done/totalSteps*100);
+      }));
+    }
+    // Phase 3
+    setPhase(3);
+    if(hasRisk){addLog('  ▶ 🛡️ Risk Manager '+ticker,'running');results[ticker].risk=computeRiskManager(results[ticker].analysis,results[ticker].investors);addLog('  ✓ 🛡️ Risk Manager: '+results[ticker].risk.risk_level+' 仓位≤'+results[ticker].risk.max_position+'%','done');}
+    if(hasPM){updateProgress(done/totalSteps*100,'Phase 3: PM '+ticker);addLog('  ▶ 📋 Portfolio Manager '+ticker,'running');
+      try{const allSum=[...Object.entries(results[ticker].analysis).map(([id,r])=>{const a=ANALYSIS_AGENTS.find(x=>x.id===id);return '[分析]'+(a?a.name:id)+': '+r.signal+' '+r.confidence+'% — '+(r.summary||'').slice(0,200)}),...Object.entries(results[ticker].investors).map(([id,r])=>{const a=INVESTOR_AGENTS.find(x=>x.id===id);return '[投资者]'+(a?a.name:id)+': '+r.signal+' '+r.confidence+'% — '+(r.reasoning||'').slice(0,200)})].join('\n');
+        const riskSum=results[ticker].risk?'\n\n【Risk Manager】风险:'+results[ticker].risk.risk_level+' 共识:'+results[ticker].risk.consensus_direction+'('+results[ticker].risk.consensus_ratio+'%) 仓位≤'+results[ticker].risk.max_position+'%':'';
+        const pmSys='你是投资组合经理。综合所有分析师和投资者意见+风险约束，给出最终建议(Strong Buy/Buy/Hold/Sell/Strong Sell)，不是简单多数投票而是深度综合。';
+        const pmUsr='请对'+ticker+'给出最终建议。\n\n所有Agent结果：\n'+allSum+riskSum+'\n\n返回JSON：{"ticker":"'+ticker+'","action":"Strong Buy/Buy/Hold/Sell/Strong Sell","signal":"bullish/bearish/neutral","confidence":0-100,"reasoning":"综合分析(中文)"}';
+        const pmR=parseResponse(await callLLM(pmSys,pmUsr));
+        if(!pmR.action){const s=pmR.signal,c=pmR.confidence||50;if(s==='bullish')pmR.action=c>=75?'Strong Buy':'Buy';else if(s==='bearish')pmR.action=c>=75?'Strong Sell':'Sell';else pmR.action='Hold';}
+        results[ticker].pm=pmR;addLog('  ✓ 📋 PM: '+pmR.action+' ('+pmR.confidence+'%)','done');
+      }catch(e){addLog('  ✗ PM: '+e.message,'error');results[ticker].pm={action:'Hold',signal:'neutral',confidence:0,reasoning:'失败:'+e.message};}
+      done++;
+    }
+  }
+  updateProgress(100,'分析完成！');['phase1','phase2','phase3'].forEach(id=>{const e=document.getElementById(id);e.classList.remove('active');e.classList.add('done');});
+  btn.disabled=false;btn.textContent='开始分析';
+  activeTicker=tickers[0];renderResults(tickers);
+}
+
+const SIG_E={bullish:'🟢 看多',bearish:'🔴 看空',neutral:'🟡 中性'};
+const SIG_C={bullish:'var(--green)',bearish:'var(--red)',neutral:'var(--yellow)'};
+const ACT_C={'Strong Buy':'strong-buy','Buy':'buy','Hold':'hold','Sell':'sell','Strong Sell':'strong-sell'};
+const ACT_E={'Strong Buy':'🟢🟢','Buy':'🟢','Hold':'🟡','Sell':'🔴','Strong Sell':'🔴🔴'};
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function renderResults(tickers){
+  document.getElementById('resultsSection').classList.add('active');
+  document.getElementById('tickerTabs').innerHTML=tickers.map(t=>'<div class="tab '+(t===activeTicker?'active':'')+'" onclick="switchTicker(\''+t+'\')">'+t+'</div>').join('');
+  renderTickerResult(activeTicker);
+}
+function switchTicker(t){activeTicker=t;document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('active',e.textContent===t));renderTickerResult(t);}
+
+function renderTickerResult(ticker){
+  const data=results[ticker]; if(!data)return;
+  const c=document.getElementById('resultsContent'); let h='';
+  const allR=[...Object.values(data.analysis),...Object.values(data.investors)];
+  const votes={bullish:0,bearish:0,neutral:0}; allR.forEach(a=>votes[a.signal||'neutral']++);
+  // PM Card
+  if(data.pm){const pm=data.pm,act=pm.action||'Hold',cls=ACT_C[act]||'hold',em=ACT_E[act]||'🟡';
+    h+='<div class="pm-card"><h3>📋 Portfolio Manager — '+ticker+'</h3><div class="pm-action '+cls+'">'+em+' '+act+' · 置信度 '+pm.confidence+'%</div><div class="vote-summary"><div class="vote-item bullish">🟢 看多 '+votes.bullish+'</div><div class="vote-item bearish">🔴 看空 '+votes.bearish+'</div><div class="vote-item neutral">🟡 中性 '+votes.neutral+'</div></div><div class="pm-reasoning">'+esc(pm.reasoning||'')+'</div></div>';}
+  // Risk Card
+  if(data.risk){const r=data.risk,rc=r.risk_level==='low'?'low':r.risk_level==='high'?'high':'medium',vc=r.volatility_risk==='low'?'low':r.volatility_risk==='high'?'high':'medium';
+    h+='<div class="risk-card"><h3>🛡️ Risk Manager — '+ticker+'</h3><div class="risk-grid"><div class="risk-item"><div class="label">风险等级</div><div class="value '+rc+'">'+r.risk_level.toUpperCase()+'</div></div><div class="risk-item"><div class="label">共识方向</div><div class="value" style="color:'+(SIG_C[r.consensus_direction]||'var(--text)')+'">'+r.consensus_direction+' ('+r.consensus_ratio+'%)</div></div><div class="risk-item"><div class="label">平均置信度</div><div class="value">'+r.avg_confidence+'%</div></div><div class="risk-item"><div class="label">波动率风险</div><div class="value '+vc+'">'+r.volatility_risk.toUpperCase()+'</div></div><div class="risk-item"><div class="label">建议最大仓位</div><div class="value">'+r.max_position+'%</div></div><div class="risk-item"><div class="label">投票分布</div><div class="value" style="font-size:13px">🟢'+r.details.bullish_pct+'% 🔴'+r.details.bearish_pct+'% 🟡'+r.details.neutral_pct+'%</div></div></div></div>';}
+  // Analysis Cards
+  const aE=Object.entries(data.analysis);
+  if(aE.length){h+='<div class="analysis-cards-title">📊 基础分析 Agent（'+aE.length+'）</div><div class="analysis-cards">';
+    aE.forEach(([id,r])=>{const ag=ANALYSIS_AGENTS.find(a=>a.id===id);if(!ag)return;
+      let bars='';if(r.scores&&typeof r.scores==='object'){Object.entries(r.scores).forEach(([dim,val])=>{const sc=typeof val==='object'?(val.score||0):(val||0);const col=sc>=7?'var(--green)':sc>=4?'var(--yellow)':'var(--red)';bars+='<div class="score-bar"><span class="label">'+dim+'</span><div class="bar-bg"><div class="bar-fill" style="width:'+sc*10+'%;background:'+col+'"></div></div><span class="val">'+sc+'</span></div>';});}
+      h+='<div class="analysis-card"><div class="analysis-card-header"><span class="emoji">'+ag.emoji+'</span><div><h4>'+ag.name+'</h4><div class="type">Analysis Agent</div></div></div><div class="analysis-signal"><span class="signal-badge '+r.signal+'">'+(SIG_E[r.signal]||r.signal)+'</span><span class="confidence-label">'+r.confidence+'%</span><span style="color:var(--accent2);font-weight:700;font-size:14px;margin-left:auto">'+(r.overall_score||'-')+'/10</span></div>'+bars+'<div class="analysis-summary">'+esc(r.summary||'')+'</div></div>';});
+    h+='</div>';}
+  // Investor Cards
+  const iE=Object.entries(data.investors);
+  if(iE.length){h+='<div class="investor-cards-title">🎩 投资者 Agent（'+iE.length+'）</div><div class="investor-cards">';
+    iE.forEach(([id,r])=>{const ag=INVESTOR_AGENTS.find(a=>a.id===id);if(!ag)return;const fc=SIG_C[r.signal]||'var(--text3)';const ws=r.weighted_score||r.overall_score||'-';
+      let dims='';if(r.scores&&typeof r.scores==='object'){dims='<div class="investor-scores">';Object.entries(r.scores).forEach(([dim,val])=>{const sc=typeof val==='object'?(val.score||0):(val||0);const col=sc>=7?'var(--green)':sc>=4?'var(--yellow)':'var(--red)';dims+='<div class="score-bar"><span class="label">'+dim+'</span><div class="bar-bg"><div class="bar-fill" style="width:'+sc*10+'%;background:'+col+'"></div></div><span class="val">'+sc+'</span></div>';});dims+='</div>';}
+      h+='<div class="investor-card"><div class="investor-card-header"><div class="avatar" style="background:'+ag.color+'22;color:'+ag.color+'">'+ag.emoji+'</div><div><h4>'+ag.name+'</h4><div class="style">'+ag.style+'</div></div></div><div class="investor-signal"><span class="signal-badge '+r.signal+'">'+(SIG_E[r.signal]||r.signal)+'</span><div class="confidence-bar"><div class="confidence-fill" style="width:'+r.confidence+'%;background:'+fc+'"></div></div><span class="confidence-label">'+r.confidence+'%</span></div><div class="weighted-score">加权总分: <span>'+ws+'</span></div>'+dims+'<div class="investor-reasoning">'+esc(r.reasoning||r.summary||'')+'</div></div>';});
+    h+='</div>';}
+  c.innerHTML=h;
+}
+
+const selectedAgents = new Set(ALL_AGENTS.map(a=>a.id));
+function renderAgentGrids(){renderGrid('analysisAgentGrid',ANALYSIS_AGENTS);renderGrid('investorAgentGrid',INVESTOR_AGENTS);renderGrid('mgmtAgentGrid',MGMT_AGENTS);}
+function renderGrid(cid,agents){document.getElementById(cid).innerHTML=agents.map(a=>'<div class="agent-chip '+(selectedAgents.has(a.id)?'selected':'')+'" data-id="'+a.id+'" onclick="toggleAgent(\''+a.id+'\',this)"><span class="emoji">'+a.emoji+'</span><span class="name">'+a.name+'</span></div>').join('');}
+function toggleAgent(id,el){if(selectedAgents.has(id)){selectedAgents.delete(id);el.classList.remove('selected');}else{selectedAgents.add(id);el.classList.add('selected');}}
+function toggleAllAgents(sel){selectedAgents.clear();if(sel)ALL_AGENTS.forEach(a=>selectedAgents.add(a.id));renderAgentGrids();}
+renderAgentGrids();
+</script>
+</body>
+</html>
