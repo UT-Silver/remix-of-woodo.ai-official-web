@@ -8,6 +8,7 @@ import visionHero3 from "../assets/vision-hero-3.png";
 import visionHero4 from "../assets/vision-hero-4.png";
 import convictionImg1 from "../assets/vision-conviction-1.png";
 import convictionImg2 from "../assets/vision-conviction-2.png";
+import visionLaborMarket from "../assets/vision-labor-market.png";
 
 const convictions = [
   { num: "01", border: "border-primary-dark", title: "Democratize invention.", desc: "For most of history, turning an idea into a real product belonged to a narrow elite — those with years of technical training and institutional access. AI has dismantled that wall. We exist to make sure the next generation actually walks through the opening — so that building, not just learning, becomes the default for every ambitious young person.", img: convictionImg1 },
@@ -74,7 +75,12 @@ const Vision = () => {
 
       {/* What We Believe — scroll-triggered dark background */}
       <section ref={darkSectionRef} className="py-20 md:py-28 px-6">
-        <div className="max-w-5xl mx-auto flex justify-end">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+          <ScrollReveal className="w-full md:w-1/2" direction="left">
+            <div className="rounded-2xl overflow-hidden shadow-lg">
+              <img src={visionLaborMarket} alt="Labor market signals — AI skills in demand" className="w-full h-auto object-cover" />
+            </div>
+          </ScrollReveal>
           <div className="w-full md:w-1/2 space-y-6 text-lg">
             <ScrollReveal>
               <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>
