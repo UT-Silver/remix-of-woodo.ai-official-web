@@ -85,7 +85,7 @@ const Think = () => {
               <Link to={`/think/${filtered[0].slug}`} className="block border border-border rounded-2xl overflow-hidden bg-background card-hover cursor-pointer flex flex-col md:flex-row group">
                 <div className="w-full md:w-1/2 overflow-hidden">
                   <div className="transition-transform duration-500 group-hover:scale-[1.06]">
-                    <ImagePlaceholder variant="green" className="w-full h-56 md:h-full min-h-[240px]" label="Article Cover" aspectRatio="16/9" />
+                    {filtered[0].cover ? <img src={filtered[0].cover} alt="Article Cover" className="w-full h-56 md:h-full min-h-[240px] object-cover" /> : <ImagePlaceholder variant="green" className="w-full h-56 md:h-full min-h-[240px]" label="Article Cover" aspectRatio="16/9" />}
                   </div>
                 </div>
                 <div className="p-8 flex flex-col justify-center flex-1">
