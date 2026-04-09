@@ -334,6 +334,9 @@ const Index = () => {
 
       {/* ===== 5. MOMENTS — warm off-white, infinite marquee ===== */}
       <section style={{ background: "#FAF9F6", position: "relative", zIndex: 10, padding: "140px 24px" }} className="overflow-hidden">
+        <ScrollReveal direction="up" className="max-w-5xl mx-auto mb-12">
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight" style={{ color: "#1E293B" }}>Moments</h2>
+        </ScrollReveal>
         <div
           className="relative w-full"
           onMouseEnter={() => setMarqueePaused(true)}
