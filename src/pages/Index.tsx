@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import MagneticButton from "../components/MagneticButton";
 import HeroParticleReveal from "../components/HeroParticleReveal";
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
 import avatarKeer from "../assets/avatar-keer.jpg";
+import moment1 from "../assets/moment-1.jpg";
+import moment2 from "../assets/moment-2.jpg";
+import moment3 from "../assets/moment-3.png";
 import articleHeroWoodo from "../assets/article-hero-woodo.png";
 import logoBytedance from "../assets/logo-bytedance.png";
 import logoAmazon from "../assets/logo-amazon.png";
@@ -64,8 +67,11 @@ const articles = [
   { category: "AI", color: "bg-accent/10 text-accent-dark", title: "AI Literacy Is Not Enough", date: "Feb 2026" },
 ];
 
-const showcaseLabels = ["Team retreat", "Workshop", "Demo day", "Campus", "Mentorship", "Launch event"];
-
+const momentImages = [
+  { src: moment1, alt: "Meeting with industry leaders" },
+  { src: moment2, alt: "Team gathering" },
+  { src: moment3, alt: "Community workshop" },
+];
 const teamMembers = [
   { name: "Silver Yin", school: "Columbia University", quote: "Building what education should have been all along.", avatar: avatarSilver },
   { name: "David Dong", school: "Peking University", quote: "Execution is the only honest form of conviction.", avatar: avatarDavid },
@@ -75,46 +81,7 @@ const teamMembers = [
 const Index = () => {
   const heroText = "The world's best young minds don't need another course. They need a";
 
-  // Carousel state
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStartX = useRef(0);
-  const scrollStartX = useRef(0);
-
-  const checkScroll = () => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 10);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
-  };
-
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    el.addEventListener("scroll", checkScroll);
-    checkScroll();
-    return () => el.removeEventListener("scroll", checkScroll);
-  }, []);
-
-  const scrollCarousel = (dir: number) => {
-    scrollContainerRef.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
-  };
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    dragStartX.current = e.clientX;
-    scrollStartX.current = scrollContainerRef.current?.scrollLeft || 0;
-  };
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    const dx = e.clientX - dragStartX.current;
-    if (scrollContainerRef.current) scrollContainerRef.current.scrollLeft = scrollStartX.current - dx;
-  };
-  const onMouseUp = () => setIsDragging(false);
-
-  const cardSizes = [320, 240, 320, 240, 320, 240];
+  const [marqueePaused, setMarqueePaused] = useState(false);
 
   // Pillar hover state for image reveal
   const [hoveredPillar, setHoveredPillar] = useState<number | null>(null);
@@ -365,68 +332,38 @@ const Index = () => {
         </ScrollReveal>
       </section>
 
-      {/* ===== 5. MOMENTS CAROUSEL — warm off-white ===== */}
+      {/* ===== 5. MOMENTS — warm off-white, infinite marquee ===== */}
       <section style={{ background: "#FAF9F6", position: "relative", zIndex: 10, padding: "140px 24px" }} className="overflow-hidden">
         <ScrollReveal>
           <div className="max-w-5xl mx-auto mb-8">
             <p className="text-xs uppercase tracking-[3px]" style={{ color: "#94A3B8" }}>Moments</p>
           </div>
-          <div className="relative max-w-5xl mx-auto">
-            {/* Edge fades */}
-            <div className="absolute left-0 top-0 bottom-0 w-16 z-20 pointer-events-none" style={{ background: "linear-gradient(to right, #FAF9F6, transparent)" }} />
-            <div className="absolute right-0 top-0 bottom-0 w-16 z-20 pointer-events-none" style={{ background: "linear-gradient(to left, #FAF9F6, transparent)" }} />
-
-            {canScrollLeft && (
-              <button
-                onClick={() => scrollCarousel(-1)}
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-shadow"
-                style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
-              >
-                <ChevronLeft className="w-5 h-5" style={{ color: "#1E293B" }} />
-              </button>
-            )}
-            {canScrollRight && (
-              <button
-                onClick={() => scrollCarousel(1)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-shadow"
-                style={{ background: "#FAF9F6", border: "0.5px solid #E8E5E0" }}
-              >
-                <ChevronRight className="w-5 h-5" style={{ color: "#1E293B" }} />
-              </button>
-            )}
-
-            <div
-              ref={scrollContainerRef}
-              className="flex gap-4 overflow-x-auto scrollbar-hide py-2"
-              style={{ cursor: isDragging ? "grabbing" : "grab" }}
-              onMouseDown={onMouseDown}
-              onMouseMove={onMouseMove}
-              onMouseUp={onMouseUp}
-              onMouseLeave={onMouseUp}
-            >
-              {showcaseLabels.map((label, i) => {
-                const w = cardSizes[i % cardSizes.length];
-                const h = i % 2 === 0 ? 200 : 180;
-                const colors = [
-                  "linear-gradient(135deg, rgba(220,252,231,0.7), rgba(224,242,254,0.7))",
-                  "linear-gradient(135deg, rgba(224,242,254,0.7), rgba(240,249,255,0.7))",
-                  "linear-gradient(135deg, rgba(254,249,195,0.7), rgba(255,251,235,0.7))",
-                ];
-                return (
-                  <div
-                    key={i}
-                    className="flex-shrink-0 rounded-xl overflow-hidden select-none"
-                    style={{ width: `${w}px`, height: `${h}px`, background: colors[i % 3] }}
-                  >
-                    <div className="w-full h-full flex items-end p-4">
-                      <span className="text-xs uppercase tracking-[2px] font-medium" style={{ color: "#64748B" }}>{label}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
         </ScrollReveal>
+        <div
+          className="relative w-full"
+          onMouseEnter={() => setMarqueePaused(true)}
+          onMouseLeave={() => setMarqueePaused(false)}
+        >
+          <div
+            className="flex gap-6 marquee-track"
+            style={{ animationPlayState: marqueePaused ? "paused" : "running" }}
+          >
+            {[...momentImages, ...momentImages, ...momentImages].map((img, i) => (
+              <div
+                key={i}
+                className="flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-500 ease-out hover:scale-105 hover:z-10 relative"
+                style={{ width: "400px", height: "280px", backgroundColor: "#E8E5E0" }}
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="w-full h-full object-cover pointer-events-none"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ===== 6. INSIGHTS — warm gray ===== */}
