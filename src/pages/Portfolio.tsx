@@ -8,10 +8,12 @@ import report3 from "../assets/report-3.png";
 import report4 from "../assets/report-4.png";
 import report5 from "../assets/report-5.png";
 import report6 from "../assets/report-6.png";
+import report7 from "../assets/report-7.png";
 
 const reportImages = [
   { src: report1, alt: "Investment report cover page" },
   { src: report2, alt: "Financial analysis charts" },
+  { src: report7, alt: "Cloud AI revenue monetization analysis" },
   { src: report3, alt: "Market data visualization" },
   { src: report6, alt: "NVIDIA catalyst review chart" },
   { src: report4, alt: "Company valuation summary" },
