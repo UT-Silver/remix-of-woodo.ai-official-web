@@ -46,26 +46,6 @@ const Portfolio = () => {
         </ScrollReveal>
       </section>
 
-      {/* Logo Centerpiece — white */}
-      <section className="py-16 px-6 bg-background">
-        <ScrollReveal className="flex flex-col items-center relative">
-          <div className="relative w-80 h-80 md:w-[420px] md:h-[420px] flex items-center justify-center">
-            <div className="ripple-ring absolute rounded-full border-2 border-primary-lightest" style={{ width: "100%", height: "100%" }} />
-            <div className="ripple-ring absolute rounded-full border border-primary-lightest" style={{ width: "85%", height: "85%" }} />
-            <div className="ripple-ring absolute rounded-full border border-primary-lightest" style={{ width: "70%", height: "70%" }} />
-            <div className="absolute inset-0 rounded-full bg-primary opacity-[0.04]" style={{ filter: "blur(40px)" }} />
-            <div className="logo-pulse relative z-10">
-              <ImagePlaceholder variant="green" className="w-56 h-56 md:w-72 md:h-72 rounded-2xl" label="Woodo Logo — 300px" />
-            </div>
-          </div>
-
-          <div className="relative mt-8 text-center">
-            <span className="absolute -top-16 left-1/2 -translate-x-1/2 text-[120px] font-bold select-none pointer-events-none leading-none" style={{ color: "#F8FAFC" }}>2026</span>
-            <h3 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight relative z-10">Building in progress.</h3>
-            <p className="text-muted-foreground mt-2 relative z-10">First projects launching 2026.</p>
-          </div>
-        </ScrollReveal>
-      </section>
 
 
       {/* AI Value Chain Interactive */}
