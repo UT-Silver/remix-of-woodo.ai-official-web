@@ -8,6 +8,9 @@ import visionHero3 from "../assets/vision-hero-3.png";
 import visionHero4 from "../assets/vision-hero-4.png";
 import convictionImg1 from "../assets/vision-conviction-1.png";
 import convictionImg2 from "../assets/vision-conviction-2.png";
+import jdTemasek from "../assets/vision-jd-temasek.png";
+import jdPoint72 from "../assets/vision-jd-point72.png";
+import jdMckinsey from "../assets/vision-jd-mckinsey.png";
 
 const convictions = [
   { num: "01", border: "border-primary-dark", title: "Democratize invention.", desc: "For most of history, turning an idea into a real product belonged to a narrow elite — those with years of technical training and institutional access. AI has dismantled that wall. We exist to make sure the next generation actually walks through the opening — so that building, not just learning, becomes the default for every ambitious young person.", img: convictionImg1 },
@@ -74,8 +77,18 @@ const Vision = () => {
 
       {/* What We Believe — scroll-triggered dark background */}
       <section ref={darkSectionRef} className="py-20 md:py-28 px-6">
-        <div className="max-w-5xl mx-auto flex justify-end">
-          <div className="w-full md:w-1/2 space-y-6 text-lg">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-10">
+          <div className="hidden md:flex md:w-2/5 flex-col gap-4 md:sticky md:top-32 self-start">
+            {[jdTemasek, jdPoint72, jdMckinsey].map((src, i) => (
+              <img
+                key={i}
+                src={src}
+                alt=""
+                className={`w-44 rounded-lg shadow-md transition-all duration-700 ${isDark ? 'opacity-80 brightness-90' : 'opacity-60'}`}
+              />
+            ))}
+          </div>
+          <div className="w-full md:w-1/2 space-y-6 text-lg md:ml-auto">
             <ScrollReveal>
               <p className={`transition-colors duration-700 ${isDark ? 'text-gray-300' : 'text-muted-foreground'}`}>
                 <span className={`float-left text-7xl font-bold mr-3 leading-[0.8] mt-1 transition-colors duration-700 ${isDark ? 'text-primary-light' : 'text-primary-dark'}`}>AI</span> has democratized capability. Anyone can build. The question is: what should be built?
