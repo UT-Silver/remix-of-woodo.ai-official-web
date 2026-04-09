@@ -42,9 +42,9 @@ const Portfolio = () => {
         <ScrollReveal className="max-w-6xl mx-auto">
           <p className="text-xs uppercase tracking-[3px] text-muted-foreground mb-4 text-center relative z-10">Explore</p>
           <h2 className="text-2xl md:text-3xl font-medium text-foreground text-center relative z-10">
-            AI Value Chain — <strong className="text-primary-dark font-bold">April 2026</strong>
+            From Flat Reports to <strong className="text-primary-dark font-bold">Dynamic Web Pages</strong>.
           </h2>
-          <p className="mt-3 text-muted-foreground text-center relative z-10 mb-10">Click any node to explore details. Interactive visualization.</p>
+          <p className="mt-3 text-muted-foreground text-center relative z-10 mb-10">Showcase: AI Value Chain Primer</p>
           <div className="rounded-2xl border border-border overflow-hidden shadow-lg relative z-10" style={{ height: "80vh" }}>
             <iframe
               src="/ai_value_chain.html"
