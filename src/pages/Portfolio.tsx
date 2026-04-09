@@ -4,6 +4,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import { Layout } from "@ahf/components/Layout";
 import { Toaster } from "@ahf/components/ui/sonner";
 import { ThemeProvider } from "@ahf/providers/theme-provider";
+import { NodeProvider } from "@ahf/contexts/node-context";
 import "@xyflow/react/dist/style.css";
 import "@ahf/ahf-scoped.css";
 import HeroParticleReveal from "../components/HeroParticleReveal";
