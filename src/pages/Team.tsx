@@ -7,7 +7,7 @@ import avatarKeer from "../assets/avatar-keer.jpg";
 const founders = [
   {
     name: "Silver Yin", title: "Co-founder", school: "Columbia University",
-    bio: "Silver left a conventional path to build what she believes is the most important educational intervention of the AI era — not teaching tools, but training the judgment to know what's worth building.",
+    bio: "Silver left a conventional path to build what he believes is the most important educational intervention of the AI era — not teaching tools, but training the AI literacy to know what's worth building.",
     avatar: avatarSilver,
   },
   {
