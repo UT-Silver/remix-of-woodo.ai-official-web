@@ -137,8 +137,8 @@ const AiSummitArticle = () => {
       {/* Hero placeholder for future cover image */}
       <section className="w-full max-w-4xl mx-auto px-6 pt-8 pb-2">
         <ScrollReveal>
-          <div className="rounded-2xl overflow-hidden bg-muted flex items-center justify-center" style={{ minHeight: "280px" }}>
-            <p className="text-muted-foreground text-sm italic">Cover image coming soon</p>
+          <div className="rounded-2xl overflow-hidden">
+            <img src={aiSummitCover} alt="AI Summit 2026 at Columbia University" className="w-full h-auto object-cover" />
           </div>
         </ScrollReveal>
       </section>
