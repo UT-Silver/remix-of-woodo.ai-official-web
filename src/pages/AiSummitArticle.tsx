@@ -202,6 +202,11 @@ const AiSummitArticle = () => {
                       {s.bio}
                     </p>
                   ))}
+                  {pi === 0 && (
+                    <div className="mt-6 mb-2 rounded-xl overflow-hidden">
+                      <img src={aiEnergySpeakers} alt="AI x Energy & Finance speakers" className="w-full h-auto object-cover" />
+                    </div>
+                  )}
                 </div>
               ))}
 
