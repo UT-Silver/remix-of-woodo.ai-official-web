@@ -200,8 +200,8 @@ const AiSummitArticle = () => {
                 <div key={pi} className="mb-8">
                   <h3 className="text-lg font-semibold text-foreground mb-2">{panel.title}</h3>
                   <p className="mb-4">{panel.intro}</p>
-                  <div className="mb-4 flex justify-center">
-                    <img src={panelImages[pi]} alt={panel.title} className="rounded-xl" style={{ height: 280, width: 'auto', maxWidth: '100%' }} />
+                  <div className="mb-4 rounded-xl overflow-hidden bg-[#e8edf4]" style={{ aspectRatio: '16/5' }}>
+                    <img src={panelImages[pi]} alt={panel.title} className="w-full h-full object-contain" />
                   </div>
                   {panel.speakers.map((s, si) => (
                     <p key={si}>
