@@ -6,6 +6,7 @@ import avatarSilver from "../assets/avatar-silver.png";
 import avatarDavid from "../assets/avatar-david.png";
 import avatarKeer from "../assets/avatar-keer.jpg";
 import articleHeroWoodo from "../assets/article-hero-woodo.png";
+import aiSummitCover from "../assets/ai-summit-cover.jpg";
 
 const authorAvatars: Record<string, string> = {
   "Silver Yin": avatarSilver,
