@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import avatarDavid from "../assets/avatar-david.png";
@@ -136,7 +136,17 @@ const contentCN = {
 
 const AiSummitArticle = () => {
   const [lang, setLang] = useState<"en" | "cn">("en");
+  const [refHeight, setRefHeight] = useState<number | null>(null);
   const c = lang === "en" ? contentEN : contentCN;
+
+  const govRef = useCallback((el: HTMLImageElement | null) => {
+    if (!el) return;
+    const update = () => setRefHeight(el.getBoundingClientRect().height);
+    if (el.complete) update();
+    else el.onload = update;
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+  }, []);
 
   return (
     <div className="page-enter pt-20">
@@ -200,21 +210,16 @@ const AiSummitArticle = () => {
                 <div key={pi} className="mb-8">
                   <h3 className="text-lg font-semibold text-foreground mb-2">{panel.title}</h3>
                   <p className="mb-4">{panel.intro}</p>
-                  <div className={`mb-4 flex ${pi === 3 ? 'justify-center' : 'justify-center'}`}>
+                  <div className="mb-4 flex justify-center">
                     <img
                       src={panelImages[pi]}
                       alt={panel.title}
-                      className={`rounded-xl ${pi === 3 ? 'w-full h-auto' : ''}`}
-                      style={pi !== 3 ? { height: 'var(--panel-img-h)', width: 'auto', maxWidth: '100%' } : undefined}
-                      ref={pi === 3 ? (el) => {
-                        if (el) {
-                          const observer = new ResizeObserver(() => {
-                            const h = el.getBoundingClientRect().height;
-                            (el.closest('.prose-article') as HTMLElement)?.style.setProperty('--panel-img-h', `${h}px`);
-                          });
-                          observer.observe(el);
-                        }
-                      } : undefined}
+                      className="rounded-xl"
+                      ref={pi === 3 ? govRef : undefined}
+                      style={pi === 3
+                        ? { width: '100%', height: 'auto' }
+                        : { height: refHeight ?? 'auto', width: 'auto', maxWidth: '100%' }
+                      }
                     />
                   </div>
                   {panel.speakers.map((s, si) => (
