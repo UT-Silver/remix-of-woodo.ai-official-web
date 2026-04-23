@@ -156,9 +156,8 @@ const AiSummitArticle = () => {
               {/* Language toggle */}
               <button
                 onClick={() => setLang(lang === "en" ? "cn" : "en")}
-                className="mt-2 px-3 py-1.5 rounded-lg text-xs font-semibold border border-border bg-background hover:bg-muted transition-colors flex items-center gap-1.5"
+                className="mt-2 px-3 py-1.5 rounded-lg text-xs font-semibold border border-border bg-background hover:bg-muted transition-colors"
               >
-                <span className="text-base leading-none">{lang === "en" ? "🇨🇳" : "🇺🇸"}</span>
                 {lang === "en" ? "中文版" : "English"}
               </button>
             </div>
