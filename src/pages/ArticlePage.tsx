@@ -2,9 +2,14 @@ import { useParams, Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import avatarDavid from "../assets/avatar-david.png";
 import articleHeroWoodo from "../assets/article-hero-woodo.png";
+import AiSummitArticle from "./AiSummitArticle";
 
 const ArticlePage = () => {
   const { slug } = useParams();
+
+  if (slug === "ai-summit-columbia") {
+    return <AiSummitArticle />;
+  }
 
   // For now, only the manifesto article has content
   if (slug !== "why-we-started-woodo") {
