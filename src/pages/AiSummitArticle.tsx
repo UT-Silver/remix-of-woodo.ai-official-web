@@ -210,7 +210,7 @@ const AiSummitArticle = () => {
                         if (el) {
                           const observer = new ResizeObserver(() => {
                             const h = el.getBoundingClientRect().height;
-                            el.closest('.prose-article')?.style.setProperty('--panel-img-h', `${h}px`);
+                            (el.closest('.prose-article') as HTMLElement)?.style.setProperty('--panel-img-h', `${h}px`);
                           });
                           observer.observe(el);
                         }
