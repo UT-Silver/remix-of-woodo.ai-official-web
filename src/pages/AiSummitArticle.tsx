@@ -200,8 +200,8 @@ const AiSummitArticle = () => {
                 <div key={pi} className="mb-8">
                   <h3 className="text-lg font-semibold text-foreground mb-2">{panel.title}</h3>
                   <p className="mb-4">{panel.intro}</p>
-                  <div className="mb-4 rounded-xl overflow-hidden">
-                    <img src={panelImages[pi]} alt={panel.title} className="w-full h-auto object-cover" />
+                  <div className="mb-4 rounded-xl overflow-hidden" style={{ maxHeight: 280 }}>
+                    <img src={panelImages[pi]} alt={panel.title} className="w-full h-full object-cover" />
                   </div>
                   {panel.speakers.map((s, si) => (
                     <p key={si}>
