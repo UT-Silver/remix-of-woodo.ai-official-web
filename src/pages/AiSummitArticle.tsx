@@ -170,7 +170,11 @@ const AiSummitArticle = () => {
               className="font-serif text-3xl md:text-[42px] leading-[1.15] font-medium text-foreground tracking-tight mb-4"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              {c.title}
+              {lang === "en" ? (
+                <>Woodo.ai Hosts Inaugural AI Summit at Columbia University, <span className="text-2xl md:text-[32px]">Featuring Leaders from Google, Microsoft, Morgan Stanley, and More</span></>
+              ) : (
+                <>Woodo.ai 于哥伦比亚大学举办首届AI Summit，<span className="text-2xl md:text-[32px]">汇聚Google、Microsoft、Morgan Stanley等机构行业领袖</span></>
+              )}
             </h1>
             <p className="text-sm text-muted-foreground mb-8 font-medium">{c.subtitle}</p>
 
