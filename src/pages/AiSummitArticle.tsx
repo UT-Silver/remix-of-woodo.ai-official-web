@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import avatarDavid from "../assets/avatar-david.png";
 import aiSummitCover from "../assets/ai-summit-cover.jpg";
-import aiEnergySpeakers from "../assets/ai-energy-speakers.png";
+import panelEnergy from "../assets/panel-energy.png";
+import panelFinance from "../assets/panel-finance.png";
+import panelBlockchain from "../assets/panel-blockchain.png";
+import panelGovernance from "../assets/panel-governance.png";
+
+const panelImages = [panelEnergy, panelFinance, panelBlockchain, panelGovernance];
 
 const contentEN = {
   title: "Woodo.ai Hosts Inaugural AI Summit at Columbia University, Featuring Leaders from Google, Microsoft, Morgan Stanley, and More",
@@ -195,6 +200,9 @@ const AiSummitArticle = () => {
                 <div key={pi} className="mb-8">
                   <h3 className="text-lg font-semibold text-foreground mb-2">{panel.title}</h3>
                   <p className="mb-4">{panel.intro}</p>
+                  <div className="mb-4 rounded-xl overflow-hidden">
+                    <img src={panelImages[pi]} alt={panel.title} className="w-full h-auto object-cover" />
+                  </div>
                   {panel.speakers.map((s, si) => (
                     <p key={si}>
                       <strong>{s.name}</strong>
@@ -202,11 +210,6 @@ const AiSummitArticle = () => {
                       {s.bio}
                     </p>
                   ))}
-                  {pi === 0 && (
-                    <div className="mt-6 mb-2 rounded-xl overflow-hidden">
-                      <img src={aiEnergySpeakers} alt="AI x Energy & Finance speakers" className="w-full h-auto object-cover" />
-                    </div>
-                  )}
                 </div>
               ))}
 
