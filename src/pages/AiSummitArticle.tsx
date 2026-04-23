@@ -200,8 +200,22 @@ const AiSummitArticle = () => {
                 <div key={pi} className="mb-8">
                   <h3 className="text-lg font-semibold text-foreground mb-2">{panel.title}</h3>
                   <p className="mb-4">{panel.intro}</p>
-                  <div className="mb-4 rounded-xl overflow-hidden bg-[#e8edf4]" style={{ aspectRatio: '16/5' }}>
-                    <img src={panelImages[pi]} alt={panel.title} className="w-full h-full object-contain" />
+                  <div className={`mb-4 flex ${pi === 3 ? 'justify-center' : 'justify-center'}`}>
+                    <img
+                      src={panelImages[pi]}
+                      alt={panel.title}
+                      className={`rounded-xl ${pi === 3 ? 'w-full h-auto' : ''}`}
+                      style={pi !== 3 ? { height: 'var(--panel-img-h)', width: 'auto', maxWidth: '100%' } : undefined}
+                      ref={pi === 3 ? (el) => {
+                        if (el) {
+                          const observer = new ResizeObserver(() => {
+                            const h = el.getBoundingClientRect().height;
+                            el.closest('.prose-article')?.style.setProperty('--panel-img-h', `${h}px`);
+                          });
+                          observer.observe(el);
+                        }
+                      } : undefined}
+                    />
                   </div>
                   {panel.speakers.map((s, si) => (
                     <p key={si}>
