@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import avatarDavid from "../assets/avatar-david.png";
+import aiSummitCover from "../assets/ai-summit-cover.jpg";
 
 const contentEN = {
   title: "Woodo.ai Hosts Inaugural AI Summit at Columbia University, Featuring Leaders from Google, Microsoft, Morgan Stanley, and More",
