@@ -11,7 +11,7 @@ import panelGovernance from "../assets/panel-governance.png";
 const panelImages = [panelEnergy, panelFinance, panelBlockchain, panelGovernance];
 
 const contentEN = {
-  title: "Woodo.ai Hosts Inaugural AI Summit at Columbia University, Featuring Leaders from Google, Microsoft, Morgan Stanley, and More",
+  title: "Woodo.ai Co-Hosts Inaugural AI Summit at Columbia University, Featuring Leaders from Google, Microsoft, Morgan Stanley, and More",
   subtitle: "New York, April 2026",
   intro: [
     "On April 26, Woodo.ai will convene its inaugural AI Summit at Columbia University, bringing together senior practitioners from some of the world's most influential technology and financial institutions for a half-day program exploring how artificial intelligence is reshaping energy, finance, blockchain infrastructure, and public governance.",
@@ -73,7 +73,7 @@ const contentEN = {
 };
 
 const contentCN = {
-  title: "Woodo.ai 于哥伦比亚大学举办首届AI Summit，汇聚Google、Microsoft、Morgan Stanley等机构行业领袖",
+  title: "Woodo.ai 与哥伦比亚大学联合举办首届AI Summit，汇聚Google、Microsoft、Morgan Stanley等机构行业领袖",
   subtitle: "纽约，2026年4月",
   intro: [
     "4月26日，Woodo.ai 将于哥伦比亚大学举办首届AI Summit。本次峰会联合哥伦比亚大学AI社团（CUB — Columbia AI Club）共同呈现，邀请来自全球顶尖科技与金融机构的资深从业者，围绕AI在能源、金融、区块链基础设施与公共治理四大领域的深层变革展开半日制深度对话。",
@@ -183,13 +183,13 @@ const AiSummitArticle = () => {
           {/* Article body */}
           <ScrollReveal className="flex-1 min-w-0" delay={200}>
             <h1
-              className="font-serif text-3xl md:text-[42px] leading-[1.15] font-medium text-foreground tracking-tight mb-4"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              className="text-3xl md:text-[42px] leading-[1.15] font-medium text-foreground tracking-tight mb-4"
+              style={lang === "en" ? { fontFamily: "'Playfair Display', Georgia, serif" } : undefined}
             >
               {lang === "en" ? (
-                <>Woodo.ai Hosts Inaugural AI Summit at Columbia University, <span className="text-2xl md:text-[32px]">Featuring Leaders from Google, Microsoft, Morgan Stanley, and More</span></>
+                <>Woodo.ai Co-Hosts Inaugural AI Summit at Columbia University, <span className="text-2xl md:text-[32px]">Featuring Leaders from Google, Microsoft, Morgan Stanley, and More</span></>
               ) : (
-                <>Woodo.ai 于哥伦比亚大学举办首届AI Summit，<span className="text-2xl md:text-[32px]">汇聚Google、Microsoft、Morgan Stanley等机构行业领袖</span></>
+                <>Woodo.ai 与哥伦比亚大学联合举办首届AI Summit，<span className="text-2xl md:text-[32px]">汇聚Google、Microsoft、Morgan Stanley等机构行业领袖</span></>
               )}
             </h1>
             <p className="text-sm text-muted-foreground mb-8 font-medium">{c.subtitle}</p>
