@@ -322,7 +322,7 @@ const Index = () => {
                 <div className="text-center">
                   <div className="text-lg font-semibold" style={{ color: "#FFFFFF" }}>{f.name}</div>
                   <p
-                    className="text-sm mt-1 max-w-[200px]"
+                    className="text-sm mt-1 max-w-[200px] mx-auto text-center"
                     style={{ color: "#CBD5E1", fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
                   >
                     "{f.quote}"
