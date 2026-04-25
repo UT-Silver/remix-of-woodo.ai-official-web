@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
-import avatarSilver from "../assets/avatar-silver.png";
-import avatarDavid from "../assets/avatar-david.png";
-import avatarKeer from "../assets/avatar-keer.jpg";
-import articleHeroWoodo from "../assets/article-hero-woodo.png";
-import aiSummitCover from "../assets/ai-summit-cover.jpg";
+import avatarSilver from "../assets/avatar-silver.webp";
+import avatarDavid from "../assets/avatar-david.webp";
+import avatarKeer from "../assets/avatar-keer.webp";
+import articleHeroWoodo from "../assets/article-hero-woodo.webp";
+import aiSummitCover from "../assets/ai-summit-cover.webp";
 
 const authorAvatars: Record<string, string> = {
   "Silver Yin": avatarSilver,

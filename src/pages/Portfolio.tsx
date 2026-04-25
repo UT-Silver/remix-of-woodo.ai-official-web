@@ -4,14 +4,14 @@ import ScrollReveal from "../components/ScrollReveal";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import ComingSoonParticle from "../components/ComingSoonParticle";
 import heroBuild from "../assets/hero-build.webp";
-import jellyfishImg from "../assets/jellyfish.png";
-import report1 from "../assets/report-1.png";
-import report2 from "../assets/report-2.png";
-import report3 from "../assets/report-3.png";
-import report4 from "../assets/report-4.png";
-import report5 from "../assets/report-5.png";
-import report6 from "../assets/report-6.png";
-import report7 from "../assets/report-7.png";
+import jellyfishImg from "../assets/jellyfish.webp";
+import report1 from "../assets/report-1.webp";
+import report2 from "../assets/report-2.webp";
+import report3 from "../assets/report-3.webp";
+import report4 from "../assets/report-4.webp";
+import report5 from "../assets/report-5.webp";
+import report6 from "../assets/report-6.webp";
+import report7 from "../assets/report-7.webp";
 
 const reportImages = [
   { src: report1, alt: "Investment report cover page" },
