@@ -27,7 +27,15 @@ const Portfolio = () => {
   const [marqueePaused, setMarqueePaused] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(false);
+  const [heroLoaded, setHeroLoaded] = useState(false);
   const darkSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setHeroLoaded(true);
+    img.onerror = () => setHeroLoaded(true);
+    img.src = heroBuild;
+  }, []);
 
   useEffect(() => {
     const el = darkSectionRef.current;
