@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import ComingSoonParticle from "../components/ComingSoonParticle";
-import heroBuild from "../assets/hero-build.png";
+import heroBuild from "../assets/hero-build.webp";
 import jellyfishImg from "../assets/jellyfish.png";
 import report1 from "../assets/report-1.png";
 import report2 from "../assets/report-2.png";
@@ -46,6 +46,9 @@ const Portfolio = () => {
         <img
           src={heroBuild}
           alt="Human hand reaching toward robotic hand"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover object-center"
           style={{ zIndex: 1 }}
         />
