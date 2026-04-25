@@ -47,16 +47,16 @@ const Vision = () => {
       {/* Opening — white + blue glow */}
       <section className="min-h-[80vh] flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute top-[5%] left-1/2 -translate-x-1/2 md:left-[38%] md:translate-x-0 z-0">
-          <img src={visionHero1} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-28 md:w-40 lg:w-48 rounded-lg shadow-lg vision-fade" style={{ animationDelay: "200ms" }} />
+          <img src={visionHero1} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-28 md:w-40 lg:w-48 rounded-lg shadow-lg vision-fade" />
         </div>
         <div className="absolute top-[20%] left-[2%] md:left-[5%] z-0">
-          <img src={visionHero2} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-32 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade" style={{ animationDelay: "400ms" }} />
+          <img src={visionHero2} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-32 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade" />
         </div>
         <div className="absolute top-[30%] right-[2%] md:right-[5%] z-0">
-          <img src={visionHero3} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-28 md:w-40 lg:w-48 rounded-lg shadow-lg vision-fade" style={{ animationDelay: "600ms" }} />
+          <img src={visionHero3} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-28 md:w-40 lg:w-48 rounded-lg shadow-lg vision-fade" />
         </div>
         <div className="absolute bottom-[5%] left-1/2 -translate-x-1/4 z-0">
-          <img src={visionHero4} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-36 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade" style={{ animationDelay: "800ms" }} />
+          <img src={visionHero4} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-36 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade" />
         </div>
 
         <div className="relative z-10 text-center">
