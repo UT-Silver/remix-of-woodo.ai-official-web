@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 
-import visionHero1 from "../assets/vision-hero-1.png";
-import visionHero2 from "../assets/vision-hero-2.png";
-import visionHero3 from "../assets/vision-hero-3.png";
-import visionHero4 from "../assets/vision-hero-4.png";
+import visionHero1 from "../assets/vision-hero-1.webp";
+import visionHero2 from "../assets/vision-hero-2.webp";
+import visionHero3 from "../assets/vision-hero-3.webp";
+import visionHero4 from "../assets/vision-hero-4.webp";
 import convictionImg1 from "../assets/vision-conviction-1.png";
 import convictionImg2 from "../assets/vision-conviction-2.png";
 import visionLaborMarket from "../assets/vision-labor-market.png";
@@ -46,18 +46,18 @@ const Vision = () => {
     >
       {/* Opening — white + blue glow */}
       <section className="min-h-[80vh] flex items-center justify-center px-6 relative overflow-hidden">
-        <ScrollReveal direction="fadeOnly" delay={200} className="absolute top-[5%] left-1/2 -translate-x-1/2 md:left-[38%] md:translate-x-0 z-0">
-          <img src={visionHero1} alt="" className="w-28 md:w-40 lg:w-48 rounded-lg shadow-lg" />
-        </ScrollReveal>
-        <ScrollReveal direction="fadeOnly" delay={400} className="absolute top-[20%] left-[2%] md:left-[5%] z-0">
-          <img src={visionHero2} alt="" className="w-32 md:w-48 lg:w-56 rounded-lg shadow-lg" />
-        </ScrollReveal>
-        <ScrollReveal direction="fadeOnly" delay={600} className="absolute top-[30%] right-[2%] md:right-[5%] z-0">
-          <img src={visionHero3} alt="" className="w-28 md:w-40 lg:w-48 rounded-lg shadow-lg" />
-        </ScrollReveal>
-        <ScrollReveal direction="fadeOnly" delay={800} className="absolute bottom-[5%] left-1/2 -translate-x-1/4 z-0">
-          <img src={visionHero4} alt="" className="w-36 md:w-48 lg:w-56 rounded-lg shadow-lg" />
-        </ScrollReveal>
+        <div className="absolute top-[5%] left-1/2 -translate-x-1/2 md:left-[38%] md:translate-x-0 z-0">
+          <img src={visionHero1} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-28 md:w-40 lg:w-48 rounded-lg shadow-lg vision-fade" style={{ animationDelay: "200ms" }} />
+        </div>
+        <div className="absolute top-[20%] left-[2%] md:left-[5%] z-0">
+          <img src={visionHero2} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-32 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade" style={{ animationDelay: "400ms" }} />
+        </div>
+        <div className="absolute top-[30%] right-[2%] md:right-[5%] z-0">
+          <img src={visionHero3} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-28 md:w-40 lg:w-48 rounded-lg shadow-lg vision-fade" style={{ animationDelay: "600ms" }} />
+        </div>
+        <div className="absolute bottom-[5%] left-1/2 -translate-x-1/4 z-0">
+          <img src={visionHero4} alt="" loading="eager" decoding="async" fetchPriority="high" className="w-36 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade" style={{ animationDelay: "800ms" }} />
+        </div>
 
         <div className="relative z-10 text-center">
           <ScrollReveal direction="up">
