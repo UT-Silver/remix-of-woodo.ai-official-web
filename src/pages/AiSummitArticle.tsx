@@ -1,12 +1,12 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
-import avatarDavid from "../assets/avatar-david.png";
-import aiSummitCover from "../assets/ai-summit-cover.jpg";
-import panelEnergy from "../assets/panel-energy.png";
-import panelFinance from "../assets/panel-finance.png";
-import panelBlockchain from "../assets/panel-blockchain.png";
-import panelGovernance from "../assets/panel-governance.png";
+import avatarDavid from "../assets/avatar-david.webp";
+import aiSummitCover from "../assets/ai-summit-cover.webp";
+import panelEnergy from "../assets/panel-energy.webp";
+import panelFinance from "../assets/panel-finance.webp";
+import panelBlockchain from "../assets/panel-blockchain.webp";
+import panelGovernance from "../assets/panel-governance.webp";
 
 const panelImages = [panelEnergy, panelFinance, panelBlockchain, panelGovernance];
 

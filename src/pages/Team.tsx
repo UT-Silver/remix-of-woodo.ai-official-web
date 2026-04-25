@@ -1,17 +1,17 @@
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
-import logoBytedance from "../assets/logo-bytedance.png";
-import logoAmazon from "../assets/logo-amazon.png";
-import logoBilibili from "../assets/logo-bilibili.png";
-import logoMeta from "../assets/logo-meta.png";
-import logoTencent from "../assets/logo-tencent.png";
-import logoOpenai from "../assets/logo-openai.png";
-import logoBcg from "../assets/logo-bcg.png";
-import logoCicc from "../assets/logo-cicc.png";
-import logoJpmorgan from "../assets/logo-jpmorgan.png";
-import logoAlibaba from "../assets/logo-alibaba.png";
-import logoDeutschebank from "../assets/logo-deutschebank.png";
+import logoBytedance from "../assets/logo-bytedance.webp";
+import logoAmazon from "../assets/logo-amazon.webp";
+import logoBilibili from "../assets/logo-bilibili.webp";
+import logoMeta from "../assets/logo-meta.webp";
+import logoTencent from "../assets/logo-tencent.webp";
+import logoOpenai from "../assets/logo-openai.webp";
+import logoBcg from "../assets/logo-bcg.webp";
+import logoCicc from "../assets/logo-cicc.webp";
+import logoJpmorgan from "../assets/logo-jpmorgan.webp";
+import logoAlibaba from "../assets/logo-alibaba.webp";
+import logoDeutschebank from "../assets/logo-deutschebank.webp";
 
 const networkLogos = [
   { src: logoBytedance, alt: "ByteDance" },
@@ -26,25 +26,25 @@ const networkLogos = [
   { src: logoAlibaba, alt: "Alibaba" },
   { src: logoDeutschebank, alt: "Deutsche Bank" },
 ];
-import avatarSilver from "../assets/avatar-silver.png";
-import avatarDavid from "../assets/avatar-david.png";
-import avatarKeer from "../assets/avatar-keer.jpg";
-import davidGallery1 from "../assets/david-gallery-1.jpg";
-import davidGallery2 from "../assets/david-gallery-2.jpg";
-import davidGallery3 from "../assets/david-gallery-3.jpg";
-import davidGallery4 from "../assets/david-gallery-4.jpg";
-import davidGallery5 from "../assets/david-gallery-5.jpg";
-import davidGallery6 from "../assets/david-gallery-6.jpg";
-import keerGallery1 from "../assets/keer-gallery-1.png";
-import keerGallery2 from "../assets/keer-gallery-2.jpg";
-import keerGallery3 from "../assets/keer-gallery-3.jpg";
-import keerGallery4 from "../assets/keer-gallery-4.png";
-import keerGallery5 from "../assets/keer-gallery-5.jpg";
-import silverGallery1 from "../assets/silver-gallery-1.jpg";
-import silverGallery2 from "../assets/silver-gallery-2.png";
-import silverGallery3 from "../assets/silver-gallery-3.png";
-import silverGallery4 from "../assets/silver-gallery-4.jpg";
-import silverGallery5 from "../assets/silver-gallery-5.jpg";
+import avatarSilver from "../assets/avatar-silver.webp";
+import avatarDavid from "../assets/avatar-david.webp";
+import avatarKeer from "../assets/avatar-keer.webp";
+import davidGallery1 from "../assets/david-gallery-1.webp";
+import davidGallery2 from "../assets/david-gallery-2.webp";
+import davidGallery3 from "../assets/david-gallery-3.webp";
+import davidGallery4 from "../assets/david-gallery-4.webp";
+import davidGallery5 from "../assets/david-gallery-5.webp";
+import davidGallery6 from "../assets/david-gallery-6.webp";
+import keerGallery1 from "../assets/keer-gallery-1.webp";
+import keerGallery2 from "../assets/keer-gallery-2.webp";
+import keerGallery3 from "../assets/keer-gallery-3.webp";
+import keerGallery4 from "../assets/keer-gallery-4.webp";
+import keerGallery5 from "../assets/keer-gallery-5.webp";
+import silverGallery1 from "../assets/silver-gallery-1.webp";
+import silverGallery2 from "../assets/silver-gallery-2.webp";
+import silverGallery3 from "../assets/silver-gallery-3.webp";
+import silverGallery4 from "../assets/silver-gallery-4.webp";
+import silverGallery5 from "../assets/silver-gallery-5.webp";
 
 const founders = [
   {

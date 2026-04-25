@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
 import HeroParticleReveal from "../components/HeroParticleReveal";
 import LightParticleReveal from "../components/LightParticleReveal";
-import applyHeroBg from "../assets/apply-hero.png";
+import applyHeroBg from "../assets/apply-hero.webp";
 import wechatQr from "../assets/wechat-qr.png";
 import {
   Accordion,

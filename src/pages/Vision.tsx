@@ -6,9 +6,9 @@ import visionHero1 from "../assets/vision-hero-1.webp";
 import visionHero2 from "../assets/vision-hero-2.webp";
 import visionHero3 from "../assets/vision-hero-3.webp";
 import visionHero4 from "../assets/vision-hero-4.webp";
-import convictionImg1 from "../assets/vision-conviction-1.png";
-import convictionImg2 from "../assets/vision-conviction-2.png";
-import visionLaborMarket from "../assets/vision-labor-market.png";
+import convictionImg1 from "../assets/vision-conviction-1.webp";
+import convictionImg2 from "../assets/vision-conviction-2.webp";
+import visionLaborMarket from "../assets/vision-labor-market.webp";
 
 const convictions = [
   { num: "01", border: "border-primary-dark", title: "Democratize invention.", desc: "For most of history, turning an idea into a real product belonged to a narrow elite — those with years of technical training and institutional access. AI has dismantled that wall. We exist to make sure the next generation actually walks through the opening — so that building, not just learning, becomes the default for every ambitious young person.", img: convictionImg1 },
