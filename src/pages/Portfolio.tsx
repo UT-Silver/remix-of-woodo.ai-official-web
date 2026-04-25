@@ -27,7 +27,15 @@ const Portfolio = () => {
   const [marqueePaused, setMarqueePaused] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(false);
+  const [heroLoaded, setHeroLoaded] = useState(false);
   const darkSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setHeroLoaded(true);
+    img.onerror = () => setHeroLoaded(true);
+    img.src = heroBuild;
+  }, []);
 
   useEffect(() => {
     const el = darkSectionRef.current;
@@ -50,7 +58,12 @@ const Portfolio = () => {
           decoding="async"
           fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover object-center"
-          style={{ zIndex: 1 }}
+          style={{
+            zIndex: 1,
+            filter: 'brightness(0.65)',
+            opacity: heroLoaded ? 1 : 0,
+            transition: 'opacity 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          }}
         />
         <div className="absolute inset-0" style={{ zIndex: 2, background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.05) 100%)" }} />
         <HeroParticleReveal />
