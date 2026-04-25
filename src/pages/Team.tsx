@@ -70,6 +70,38 @@ const founders = [
 
 const Team = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [galleriesLoaded, setGalleriesLoaded] = useState<boolean[]>(() => founders.map(() => false));
+
+  useEffect(() => {
+    founders.forEach((f, idx) => {
+      const sources = f.gallery.filter((s): s is string => typeof s === "string");
+      if (sources.length === 0) {
+        setGalleriesLoaded((prev) => {
+          const next = [...prev];
+          next[idx] = true;
+          return next;
+        });
+        return;
+      }
+      Promise.all(
+        sources.map(
+          (src) =>
+            new Promise<void>((resolve) => {
+              const img = new Image();
+              img.onload = () => resolve();
+              img.onerror = () => resolve();
+              img.src = src;
+            })
+        )
+      ).then(() => {
+        setGalleriesLoaded((prev) => {
+          const next = [...prev];
+          next[idx] = true;
+          return next;
+        });
+      });
+    });
+  }, []);
 
   return (
     <div className="page-enter pt-20">
