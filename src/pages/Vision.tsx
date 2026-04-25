@@ -19,7 +19,29 @@ const convictions = [
 const Vision = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isDark, setIsDark] = useState(false);
+  const [heroLoaded, setHeroLoaded] = useState(false);
   const darkSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const sources = [visionHero1, visionHero2, visionHero3, visionHero4];
+    Promise.all(
+      sources.map(
+        (src) =>
+          new Promise<void>((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+            img.src = src;
+          })
+      )
+    ).then(() => {
+      if (!cancelled) setHeroLoaded(true);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const el = darkSectionRef.current;
