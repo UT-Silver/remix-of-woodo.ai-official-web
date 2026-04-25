@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Loader2 } from "lucide-react";
 import ScrollReveal from "../components/ScrollReveal";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import logoBytedance from "../assets/logo-bytedance.webp";
@@ -69,6 +70,38 @@ const founders = [
 
 const Team = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [galleriesLoaded, setGalleriesLoaded] = useState<boolean[]>(() => founders.map(() => false));
+
+  useEffect(() => {
+    founders.forEach((f, idx) => {
+      const sources = f.gallery.filter((s): s is string => typeof s === "string");
+      if (sources.length === 0) {
+        setGalleriesLoaded((prev) => {
+          const next = [...prev];
+          next[idx] = true;
+          return next;
+        });
+        return;
+      }
+      Promise.all(
+        sources.map(
+          (src) =>
+            new Promise<void>((resolve) => {
+              const img = new Image();
+              img.onload = () => resolve();
+              img.onerror = () => resolve();
+              img.src = src;
+            })
+        )
+      ).then(() => {
+        setGalleriesLoaded((prev) => {
+          const next = [...prev];
+          next[idx] = true;
+          return next;
+        });
+      });
+    });
+  }, []);
 
   return (
     <div className="page-enter pt-20">
@@ -124,33 +157,40 @@ const Team = () => {
                   >
                     <div className="px-6 md:px-10 pb-8">
                       <p className="text-xs uppercase tracking-[2px] text-muted-foreground mb-4">Gallery</p>
-                      <div className="overflow-hidden">
-                        <div className="flex gap-4 items-center w-max animate-marquee" style={{ animationDuration: '18s' }}>
-                          {[...Array(2)].flatMap((_, dupeIdx) => {
-                            const items = f.gallery.length > 0
-                              ? f.gallery
-                              : Array.from({ length: 4 }, (_, j) => j);
-                            return items.map((item, j) => (
-                              <div
-                                key={`${dupeIdx}-${j}`}
-                                className="flex-shrink-0 h-48 rounded-xl overflow-hidden border border-border"
-                              >
-                                {typeof item === "string" ? (
-                                  <img src={item} alt={`${f.name} #${j + 1}`} className="h-full w-auto object-contain" />
-                                ) : (
-                                  <div className="w-48 h-full">
-                                    <ImagePlaceholder
-                                      variant="neutral"
-                                      className="w-full h-full"
-                                      label={`${f.name.split(" ")[0]} #${j + 1}`}
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            ));
-                          })}
+                      {!galleriesLoaded[i] ? (
+                        <div className="h-48 flex items-center justify-center gap-3 text-muted-foreground">
+                          <Loader2 className="w-5 h-5 animate-spin" style={{ color: '#22C55E' }} />
+                          <span className="text-sm">正在加载</span>
                         </div>
-                      </div>
+                      ) : (
+                        <div className="overflow-hidden">
+                          <div className="flex gap-4 items-center w-max animate-marquee" style={{ animationDuration: '18s' }}>
+                            {[...Array(2)].flatMap((_, dupeIdx) => {
+                              const items = f.gallery.length > 0
+                                ? f.gallery
+                                : Array.from({ length: 4 }, (_, j) => j);
+                              return items.map((item, j) => (
+                                <div
+                                  key={`${dupeIdx}-${j}`}
+                                  className="flex-shrink-0 h-48 rounded-xl overflow-hidden border border-border"
+                                >
+                                  {typeof item === "string" ? (
+                                    <img src={item} alt={`${f.name} #${j + 1}`} className="h-full w-auto object-contain" />
+                                  ) : (
+                                    <div className="w-48 h-full">
+                                      <ImagePlaceholder
+                                        variant="neutral"
+                                        className="w-full h-full"
+                                        label={`${f.name.split(" ")[0]} #${j + 1}`}
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              ));
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
