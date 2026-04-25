@@ -72,13 +72,13 @@ const Vision = () => {
           <img src={visionHero1} alt="" loading="eager" decoding="async" fetchPriority="high" className={`w-28 md:w-40 lg:w-48 rounded-lg shadow-lg vision-fade ${heroLoaded ? 'is-visible' : ''}`} style={{ animationDelay: '0s' }} />
         </div>
         <div className="absolute top-[20%] left-[2%] md:left-[5%] z-0">
-          <img src={visionHero2} alt="" loading="eager" decoding="async" fetchPriority="high" className={`w-32 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade ${heroLoaded ? 'is-visible' : ''}`} style={{ animationDelay: '0.5s' }} />
+          <img src={visionHero2} alt="" loading="eager" decoding="async" fetchPriority="high" className={`w-32 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade ${heroLoaded ? 'is-visible' : ''}`} style={{ animationDelay: '0.3s' }} />
         </div>
         <div className="absolute top-[30%] right-[2%] md:right-[5%] z-0">
-          <img src={visionHero3} alt="" loading="eager" decoding="async" fetchPriority="high" className={`w-28 md:w-40 lg:w-48 rounded-lg shadow-lg vision-fade ${heroLoaded ? 'is-visible' : ''}`} style={{ animationDelay: '1.5s' }} />
+          <img src={visionHero3} alt="" loading="eager" decoding="async" fetchPriority="high" className={`w-28 md:w-40 lg:w-48 rounded-lg shadow-lg vision-fade ${heroLoaded ? 'is-visible' : ''}`} style={{ animationDelay: '0.9s' }} />
         </div>
         <div className="absolute bottom-[5%] left-1/2 -translate-x-1/4 z-0">
-          <img src={visionHero4} alt="" loading="eager" decoding="async" fetchPriority="high" className={`w-36 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade ${heroLoaded ? 'is-visible' : ''}`} style={{ animationDelay: '1s' }} />
+          <img src={visionHero4} alt="" loading="eager" decoding="async" fetchPriority="high" className={`w-36 md:w-48 lg:w-56 rounded-lg shadow-lg vision-fade ${heroLoaded ? 'is-visible' : ''}`} style={{ animationDelay: '0.6s' }} />
         </div>
 
         <div className="relative z-10 text-center">
