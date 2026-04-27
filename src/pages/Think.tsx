@@ -6,7 +6,7 @@ import avatarSilver from "../assets/avatar-silver.webp";
 import avatarDavid from "../assets/avatar-david.webp";
 import avatarKeer from "../assets/avatar-keer.webp";
 import articleHeroWoodo from "../assets/article-hero-woodo.webp";
-import aiSummitCover from "../assets/ai-summit-cover.webp";
+
 
 const authorAvatars: Record<string, string> = {
   "Silver Yin": avatarSilver,
