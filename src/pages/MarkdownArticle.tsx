@@ -73,27 +73,29 @@ const MarkdownArticle = ({ slug }: { slug: string }) => {
           </aside>
 
           <div className="flex-1 min-w-0">
-            <h1
-              className="font-serif text-3xl md:text-[42px] leading-[1.15] font-medium text-foreground tracking-tight mb-8"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              {meta.title}
-            </h1>
-
-            <article className="markdown-article">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  table: ({ children }) => (
-                    <div className="markdown-table-wrap">
-                      <table>{children}</table>
-                    </div>
-                  ),
-                }}
+            <div className="relative bg-[#F4F4F2] rounded-2xl px-6 py-10 md:px-12 md:py-14 shadow-sm">
+              <h1
+                className="font-serif text-3xl md:text-[42px] leading-[1.15] font-medium text-foreground tracking-tight mb-8"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                {body}
-              </ReactMarkdown>
-            </article>
+                {meta.title}
+              </h1>
+
+              <article className="markdown-article">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    table: ({ children }) => (
+                      <div className="markdown-table-wrap">
+                        <table>{children}</table>
+                      </div>
+                    ),
+                  }}
+                >
+                  {body}
+                </ReactMarkdown>
+              </article>
+            </div>
           </div>
         </div>
       </section>
