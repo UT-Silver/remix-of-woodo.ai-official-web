@@ -1,7 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import ScrollReveal from "../components/ScrollReveal";
 import avatarSilver from "../assets/avatar-silver.webp";
+
 
 import nvidiaMd from "../content/think/semis-primer-nvidia.md?raw";
 import backendMd from "../content/think/semis-backend-test.md?raw";
@@ -61,7 +61,7 @@ const MarkdownArticle = ({ slug }: { slug: string }) => {
     <div className="page-enter pt-20">
       <section className="max-w-4xl mx-auto px-6 pb-20">
         <div className="flex flex-col md:flex-row gap-10 md:gap-16 pt-8">
-          <ScrollReveal className="md:w-48 flex-shrink-0" delay={100}>
+          <aside className="md:w-48 flex-shrink-0">
             <div className="flex md:flex-col items-center md:items-start gap-4 md:gap-3 md:sticky md:top-28">
               <img src={meta.avatar} alt={meta.author} className="w-12 h-12 rounded-full object-cover" />
               <div>
@@ -70,9 +70,9 @@ const MarkdownArticle = ({ slug }: { slug: string }) => {
                 <p className="text-xs text-muted-foreground mt-2">{meta.date} · {meta.read}</p>
               </div>
             </div>
-          </ScrollReveal>
+          </aside>
 
-          <ScrollReveal className="flex-1 min-w-0" delay={200}>
+          <div className="flex-1 min-w-0">
             <h1
               className="font-serif text-3xl md:text-[42px] leading-[1.15] font-medium text-foreground tracking-tight mb-8"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
@@ -94,11 +94,12 @@ const MarkdownArticle = ({ slug }: { slug: string }) => {
                 {body}
               </ReactMarkdown>
             </article>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
     </div>
   );
 };
+
 
 export default MarkdownArticle;
