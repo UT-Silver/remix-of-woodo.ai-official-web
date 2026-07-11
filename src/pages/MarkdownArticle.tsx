@@ -53,10 +53,27 @@ function stripLeadingH1(md: string): string {
   return md.replace(/^\s*#\s+.*\n+/, "");
 }
 
+// CommonMark's emphasis flanking rules don't treat CJK characters as word boundaries,
+// so patterns like `**学习曲线。**制造良率` render as literal asterisks.
+// Convert all **...** / __...__ / *...* / _..._ into explicit <strong>/<em> tags,
+// skipping fenced code blocks and inline code spans.
+function normalizeCjkEmphasis(md: string): string {
+  const parts = md.split(/(```[\s\S]*?```|`[^`\n]*`)/g);
+  return parts
+    .map((chunk, i) => {
+      if (i % 2 === 1) return chunk; // preserve code as-is
+      return chunk
+        .replace(/\*\*([^\s*][^*\n]*?[^\s*]|[^\s*])\*\*/g, "<strong>$1</strong>")
+        .replace(/__([^\s_][^_\n]*?[^\s_]|[^\s_])__/g, "<strong>$1</strong>")
+        .replace(/(^|[^\*])\*([^\s*][^*\n]*?[^\s*]|[^\s*])\*(?!\*)/g, "$1<em>$2</em>");
+    })
+    .join("");
+}
+
 const MarkdownArticle = ({ slug }: { slug: string }) => {
   const meta = MARKDOWN_ARTICLES[slug];
   if (!meta) return null;
-  const body = stripLeadingH1(meta.content);
+  const body = normalizeCjkEmphasis(stripLeadingH1(meta.content));
 
   return (
     <div className="page-enter pt-20">
