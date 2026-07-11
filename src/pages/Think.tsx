@@ -21,6 +21,9 @@ const articles = [
   { category: "Building", color: "bg-accent-dark/10 text-accent-dark", title: "What New Oriental Taught Us", author: "David Dong", date: "Feb 2026", excerpt: "Lessons from China's biggest education company — and why we chose a different path.", read: "7 min read", slug: "what-new-oriental-taught-us", tags: [], cover: null },
   { category: "Education", color: "bg-primary-dark/10 text-primary-dark", title: "On Radical Honesty in Education", author: "Silver Yin", date: "Jan 2026", excerpt: "Why we tell students the truth even when it's uncomfortable.", read: "4 min read", slug: "on-radical-honesty", tags: [], cover: null },
   { category: "AI", color: "bg-secondary-dark/10 text-secondary-dark", title: "Building vs. Optimizing: Two Mindsets", author: "Silver Yin", date: "Jan 2026", excerpt: "The difference between making things better and making things that matter.", read: "5 min read", slug: "building-vs-optimizing", tags: [], cover: null },
+  { category: "AI", color: "bg-secondary-dark/10 text-secondary-dark", title: "以NVIDIA为锚：半导体行业入门", author: "Silver Yin", date: "Jul 2026", excerpt: "写给基本面投资人的概念地图——从产业链坐标到CUDA护城河，一次看懂AI算力供应链。", read: "45 min read", slug: "semis-primer-nvidia", tags: [], cover: null },
+  { category: "AI", color: "bg-secondary-dark/10 text-secondary-dark", title: "后道：封装与测试", author: "Silver Yin", date: "Jul 2026", excerpt: "AI 把后道从「低毛利尾巴」变成了瓶颈与定价权环节——半导体行业学习第二册。", read: "35 min read", slug: "semis-backend-test", tags: [], cover: null },
+  { category: "AI", color: "bg-secondary-dark/10 text-secondary-dark", title: "测试强度：ATE 投资人的量化建模与跟踪框架", author: "Silver Yin", date: "Jul 2026", excerpt: "把事实串成一台可运算、可证伪、可逐月跟踪的引擎——半导体行业学习第三册。", read: "25 min read", slug: "semis-test-intensity", tags: [], cover: null },
 ];
 
 const filters = ["All", "Education", "AI", "Building", "Founding"];
