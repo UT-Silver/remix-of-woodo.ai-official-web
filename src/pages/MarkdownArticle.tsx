@@ -77,7 +77,7 @@ const MarkdownArticle = ({ slug }: { slug: string }) => {
 
   return (
     <div className="page-enter pt-20">
-      <section className="max-w-4xl mx-auto px-6 pb-20">
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-10 pb-20">
         <div className="flex flex-col md:flex-row gap-10 md:gap-16 pt-8">
           <aside className="md:w-48 flex-shrink-0">
             <div className="flex md:flex-col items-center md:items-start gap-4 md:gap-3 md:sticky md:top-28">
