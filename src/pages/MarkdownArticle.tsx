@@ -102,6 +102,7 @@ const MarkdownArticle = ({ slug }: { slug: string }) => {
               <article className="markdown-article">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
                   components={{
                     table: ({ children }) => (
                       <div className="markdown-table-wrap">
