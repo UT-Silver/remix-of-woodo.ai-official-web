@@ -3,6 +3,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import avatarDavid from "../assets/avatar-david.webp";
 import articleHeroWoodo from "../assets/article-hero-woodo.webp";
 import AiSummitArticle from "./AiSummitArticle";
+import MarkdownArticle, { MARKDOWN_ARTICLES } from "./MarkdownArticle";
 
 const ArticlePage = () => {
   const { slug } = useParams();
@@ -10,6 +11,11 @@ const ArticlePage = () => {
   if (slug === "ai-summit-columbia") {
     return <AiSummitArticle />;
   }
+
+  if (slug && MARKDOWN_ARTICLES[slug]) {
+    return <MarkdownArticle slug={slug} />;
+  }
+
 
   // For now, only the manifesto article has content
   if (slug !== "why-we-started-woodo") {
