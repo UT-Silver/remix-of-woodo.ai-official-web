@@ -17,6 +17,8 @@ import Think from "./pages/Think";
 import ArticlePage from "./pages/ArticlePage";
 import Apply from "./pages/Apply";
 import AiHedgeFund from "./pages/AiHedgeFund";
+import Resources from "./pages/Resources";
+import ResourcesAdmin from "./pages/ResourcesAdmin";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -57,6 +59,8 @@ const App = () => {
               <Route path="/think/:slug" element={<ArticlePage />} />
               <Route path="/apply" element={<Apply />} />
               <Route path="/ai-hedge-fund" element={<AiHedgeFund />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/resources/admin" element={<ResourcesAdmin />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
