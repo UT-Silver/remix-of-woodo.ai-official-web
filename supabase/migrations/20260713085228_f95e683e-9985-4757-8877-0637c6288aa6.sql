@@ -1,0 +1,2 @@
+UPDATE public.resources SET title='SoC Testing Time Reference' WHERE id='a8b97af3-096f-47eb-a4f2-834b3e93eccd';
+UPDATE public.resources SET title='SoC Testing Time Model' WHERE id='ae1aa2ac-5186-40c6-a906-eaee284ad354';
