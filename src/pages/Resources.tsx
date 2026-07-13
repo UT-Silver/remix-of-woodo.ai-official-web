@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FileSpreadsheet, FileText, Presentation, FileArchive, File as FileIcon, Download, Loader2, Settings } from "lucide-react";
+import { FileSpreadsheet, FileText, Presentation, FileArchive, File as FileIcon, Download, Loader2, Settings, Globe, ArrowUpRight } from "lucide-react";
 import ScrollReveal from "../components/ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -20,6 +20,7 @@ type Resource = {
 export const CATEGORIES = ["Reports", "Decks", "Data", "Other"] as const;
 
 const iconFor = (fileType: string, fileName: string) => {
+  if (fileType === "html") return Globe;
   const n = fileName.toLowerCase();
   if (n.endsWith(".xlsx") || n.endsWith(".xls") || n.endsWith(".csv")) return FileSpreadsheet;
   if (n.endsWith(".pdf")) return FileText;
