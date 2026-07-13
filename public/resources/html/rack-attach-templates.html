@@ -1,0 +1,3069 @@
+<title>AI 机柜配比模板库 · 2022-2030</title>
+<style>
+:root{
+  --bg:#fbfbf9;--panel:#ffffff;--panel2:#f3f4f0;--line:#e3e4de;--ink:#181a1f;--ink2:#565962;--ink3:#8b8e96;
+  --acc:#2a78d6;--acc-soft:#e8f0fb;
+  --nv:#2a78d6;--amd:#e34948;--goog:#eda100;--asic:#4a3aa7;
+  --ok:#0a7d43;--warn:#a05a00;--bad:#b3261e;--assume:#fdf3d8;--assume-ink:#7a5a00;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#16181d;--panel:#1d2026;--panel2:#23262d;--line:#31343c;--ink:#eceef2;--ink2:#a6aab4;--ink3:#767a85;
+  --acc:#3987e5;--acc-soft:#1c2c42;
+  --nv:#3987e5;--amd:#e66767;--goog:#c98500;--asic:#9085e9;
+  --ok:#3fae72;--warn:#d59a3d;--bad:#e5695f;--assume:#3a3320;--assume-ink:#dcbd6a;
+}}
+:root[data-theme="dark"]{
+  --bg:#16181d;--panel:#1d2026;--panel2:#23262d;--line:#31343c;--ink:#eceef2;--ink2:#a6aab4;--ink3:#767a85;
+  --acc:#3987e5;--acc-soft:#1c2c42;
+  --nv:#3987e5;--amd:#e66767;--goog:#c98500;--asic:#9085e9;
+  --ok:#3fae72;--warn:#d59a3d;--bad:#e5695f;--assume:#3a3320;--assume-ink:#dcbd6a;
+}
+:root[data-theme="light"]{
+  --bg:#fbfbf9;--panel:#ffffff;--panel2:#f3f4f0;--line:#e3e4de;--ink:#181a1f;--ink2:#565962;--ink3:#8b8e96;
+  --acc:#2a78d6;--acc-soft:#e8f0fb;
+  --nv:#2a78d6;--amd:#e34948;--goog:#eda100;--asic:#4a3aa7;
+  --ok:#0a7d43;--warn:#a05a00;--bad:#b3261e;--assume:#fdf3d8;--assume-ink:#7a5a00;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.65 var(--sans)}
+.wrap{max-width:1280px;margin:0 auto;padding:20px 22px 80px}
+header.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 18px;padding:6px 0 14px;border-bottom:2px solid var(--ink)}
+header.top h1{font-size:21px;margin:0;letter-spacing:.02em}
+header.top .sub{color:var(--ink2);font-size:12.5px}
+.eyebrow{font-size:11px;letter-spacing:.14em;color:var(--acc);font-weight:700;text-transform:uppercase;width:100%}
+nav.tabs{display:flex;gap:4px;margin:16px 0 20px;flex-wrap:wrap;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:30;padding-top:6px}
+nav.tabs button{font:600 13.5px var(--sans);color:var(--ink2);background:none;border:none;border-bottom:2.5px solid transparent;padding:8px 14px 9px;cursor:pointer}
+nav.tabs button.on{color:var(--acc);border-bottom-color:var(--acc)}
+nav.tabs button:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.tabpane{display:none}.tabpane.on{display:block}
+h2{font-size:16px;margin:26px 0 10px;letter-spacing:.01em;text-wrap:balance}
+h2 .n{color:var(--ink3);font-weight:400;font-size:12.5px;margin-left:8px}
+.note{color:var(--ink2);font-size:12.5px;margin:4px 0 12px;max-width:72em}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin:16px 0}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.tile .k{font-size:11.5px;color:var(--ink2);letter-spacing:.04em}
+.tile .v{font:700 21px/1.25 var(--sans);margin-top:3px;font-variant-numeric:tabular-nums}
+.tile .d{font-size:11.5px;color:var(--ink3);margin-top:4px}
+.tile .v small{font-size:12px;font-weight:500;color:var(--ink2)}
+.chip{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:700;color:#fff;vertical-align:1px}
+.chip.nv{background:var(--nv)}.chip.amd{background:var(--amd)}.chip.goog{background:var(--goog);color:#241a00}.chip.asic{background:var(--asic)}
+.tag{display:inline-block;padding:0 7px;border-radius:4px;font-size:11px;font-weight:600;border:1px solid var(--line);color:var(--ink2);margin-left:6px}
+.tag.assume{background:var(--assume);color:var(--assume-ink);border-color:transparent}
+.tag.ok{color:var(--ok);border-color:var(--ok)}
+.tag.warn{color:var(--warn);border-color:var(--warn)}
+.tag.bad{color:var(--bad);border-color:var(--bad)}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{background:var(--panel2);color:var(--ink2);font-weight:700;text-align:left;padding:7px 10px;white-space:nowrap;position:sticky;top:0}
+td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+tr.exp>td{background:var(--panel2);font-size:12px}
+tr.click{cursor:pointer}
+tr.click:hover td{background:var(--acc-soft)}
+.src{color:var(--ink2);font-size:11.5px;line-height:1.7}
+.src li{margin-bottom:3px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 12px}
+.filters button{font:600 12px var(--sans);border:1px solid var(--line);background:var(--panel);color:var(--ink2);border-radius:14px;padding:3px 12px;cursor:pointer}
+.filters button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.card h3{margin:0 0 4px;font-size:13.5px}
+.card .sub{color:var(--ink3);font-size:11.5px;margin-bottom:8px}
+svg text{font-family:var(--sans)}
+.tl{border-left:2px solid var(--line);margin:8px 0 8px 6px;padding-left:16px}
+.tl .ev{margin-bottom:14px;position:relative}
+.tl .ev::before{content:"";position:absolute;left:-21.5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--acc);border:2px solid var(--bg)}
+.tl .when{font:700 12px var(--mono);color:var(--acc)}
+.tl .what{margin:2px 0}
+.tl .s{font-size:11.5px;color:var(--ink3)}
+.vd{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:10px 14px;margin-bottom:10px}
+.vd .c{font-weight:600}
+.vd .e{font-size:12px;color:var(--ink2);margin-top:4px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2);margin:2px 0 6px}
+.legend .it::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;background:var(--c)}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font:12px var(--sans);padding:5px 9px;border-radius:4px;z-index:99;display:none;max-width:280px}
+footer{margin-top:44px;color:var(--ink3);font-size:11.5px;border-top:1px solid var(--line);padding-top:10px}
+@media (prefers-reduced-motion:no-preference){nav.tabs button{transition:color .15s}}
+</style>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">SEMIS · TESTING SPE 框架 · 配比层</div>
+  <h1>AI 机柜配比模板库 <span style="color:var(--ink3);font-weight:400">2022 → 2030</span></h1>
+  <div class="sub">GPU : CPU : Networking 逐型号配比 · 每数字带来源 · 33 系统模板 · 10 条对抗核查 · 2026-07-12</div>
+</header>
+<nav class="tabs" id="tabs">
+  <button data-t="ov" class="on">① 总览</button>
+  <button data-t="tpl">② 模板库</button>
+  <button data-t="tr">③ 趋势 2022-2030</button>
+  <button data-t="so">④ Scale-out 参考</button>
+  <button data-t="fw">⑤ 前瞻与核查</button>
+</nav>
+
+<div class="tabpane on" id="p-ov">
+  <div class="tiles">
+    <div class="tile"><div class="k">NVL72 机柜出货(大摩 2025-12)</div><div class="v">27,300 <small>→ 7-8万台 2026E</small></div><div class="d">NVL 化率的核心锚:2025 实际 → 2026 预期 ≈2.7×</div></div>
+    <div class="tile"><div class="k">GPU : CPU 代际轨迹</div><div class="v">4:1 → 2:1 → 1:1?</div><div class="d">HGX(x86)→ NVL72(captive Grace/Vera)→ Kyber 原口径(改版待定)</div></div>
+    <div class="tile"><div class="k">NIC 配比拐点(VR200,2026H2)</div><div class="v">1:1 → 2:1 <small>×800G</small></div><div class="d">CX-9 每 GPU 2 颗,聚合 1.6T——颗数比首次翻倍而非单纯提速</div></div>
+    <div class="tile"><div class="k">Scale-up switch / GPU</div><div class="v">0.25 → 0.5</div><div class="d">NVL72 18/72 → VR200 36/72(SemiAnalysis);TPU 恒为 0(OCS)</div></div>
+  </div>
+  <h2>一页读懂:配比随代际怎么走</h2>
+  <div class="note">加速器一律 package 口径。黄色标签 = 无公开数据 / 模型假设;来源逐条见「模板库」Tab 展开行与 Excel 的 Sources 列。</div>
+  <div class="tblwrap"><table id="ovtable"></table></div>
+  <h2>四个结构性结论(对配比建模的含义)</h2>
+  <div class="grid2">
+    <div class="card"><h3>1 · 配比是 rack 模板的属性,不是芯片代际的属性</h3><div class="note" style="margin:0">同一颗 B200 在 HGX(8:2 x86)与 NVL72(72:36 Grace)下拖带的伴生硅完全不同。预测输入应是 <b>rack mix(NVL 化率)</b>,不是"每代一个配比 range"。2025 NVL 占 Blackwell 出货约 38%(大摩 racks 口径粗算),2026E 显著上行。</div></div>
+    <div class="card"><h3>2 · CPU 的关键分叉:captive vs merchant</h3><div class="note" style="margin:0">NVL 化每推进一步,captive CPU(Grace/Vera)结构性侵蚀 merchant x86 的 AI 附着;AMD 全程恒守 4:1 merchant EPYC;Google/AWS 2026-27 起 host CPU 转自研(Axion/Graviton)→ x86 在 AI 伴生盘的份额三面受压。另:Vera CPU Rack(256 颗/柜)使 captive CPU 首次与 GPU 出货解耦。</div></div>
+    <div class="card"><h3>3 · Networking 三分天下,不可用一个系数</h3><div class="note" style="margin:0">NVIDIA 系:CX NIC 1:1→2:1 锁定 + NVSwitch 铜背板;AMD Helios:UALink-over-Ethernet,scale-up 硅归 Broadcom TH6,NIC 弹性 1-3 颗×800G;ASIC 阵营:TPU 用 OCS(零电 switch)、Maia NIC 片上集成(离散 NIC=0)、OpenAI 纯 Ethernet 交 Broadcom 包办——三种结构对测试需求的形态完全不同。</div></div>
+    <div class="card"><h3>4 · 2027-28 最大分歧点在 Kyber</h3><div class="note" style="margin:0">Rubin Ultra 已从 4-die 改 2-die/8HBM(多源,NVIDIA 未确认);Kyber 机柜 SemiAnalysis 称延至 2028(78 层 midplane 瓶颈),NVIDIA 否认。若延期成立,2027 出货几乎 100% 仍为 Oberon 形态(VR200 NVL72)——直接改写 2027 的 CoWoS 面积、HBM 栈数与配比假设。</div></div>
+  </div>
+</div>
+
+<div class="tabpane" id="p-tpl">
+  <h2>系统模板库<span class="n">33 个模板 · 点击行展开完整配置与逐字段来源</span></h2>
+  <div class="filters" id="fEco"></div>
+  <div class="tblwrap"><table id="tpltable"></table></div>
+</div>
+
+<div class="tabpane" id="p-tr">
+  <h2>Blended 配比与测试强度趋势<span class="n">2022-2030 · Share 权重=模型假设,请用你的 CoWoS 模型出货结构替换(Excel Trend 表可改)</span></h2>
+  <div class="note">测试强度用 v7 引擎 canon 锚点(H100=360s / B200=1080s / Rubin=1512s 校准);按你的要求,本层只框数量配比与方向,CPU/Networking 的 tester time 留待 scenario 阶段。</div>
+  <div class="grid2" id="charts"></div>
+  <h2>数据表<span class="n">Blended 输出(与 Excel Trend 表公式一致)</span></h2>
+  <div class="tblwrap"><table id="trtable"></table></div>
+</div>
+
+<div class="tabpane" id="p-so">
+  <h2>Scale-out / 前端网络参考<span class="n">NIC 带宽轨迹与每 1k GPU 交换芯片密度(拓扑代际)</span></h2>
+  <div class="note">核心结论(模型推算,经核查):radix 每代翻倍恰好抵消每 GPU 带宽翻倍——同拓扑层级下「每 1k GPU 交换芯片颗数」大致守恒(约 23-80 颗),增长体现在单颗价值量;IB 侧(Quantum-3 单 ASIC radix=36)芯片数约为以太网 TH6 侧的 3.6 倍。你听到的「CPU 大 TAM 来自 scale-up」对应本库两个变量:NVL 化率 ×(captive CPU 配比),而 scale-out 只是速率替代。</div>
+  <div class="tblwrap"><table id="sotable"></table></div>
+  <h2>每 1k GPU 的 leaf/spine 交换芯片颗数<span class="n">非阻塞 fat-tree:2-tier=3N/R,3-tier=5N/R(模型推算)</span></h2>
+  <div class="tblwrap"><table id="sochips"></table></div>
+</div>
+
+<div class="tabpane" id="p-fw">
+  <h2>前瞻配比变化时间轴<span class="n">2025 → 2028,含分歧点</span></h2>
+  <div class="tl" id="fwtl"></div>
+  <h2>关键数字对抗核查<span class="n">10 条,零 refuted</span></h2>
+  <div id="vds"></div>
+  <h2>数据缺口(待渠道核实)</h2>
+  <ol class="src" id="oq"></ol>
+</div>
+<footer>方法:6 域研究(每字段带来源与置信档)→ 关键断言对抗核查 → 手工整编。配套 Excel:~/semis-learning/rack-attach-model.xlsx(内容一致,Trend 全活公式)。口径:加速器 package 计数;GPU:CPU 为 package:socket。默认值中的模型假设均以黄色标注,不作投资建议。</footer>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const DATA={
+ "templates": [
+  {
+   "eco": "NVIDIA",
+   "system": "DGX A100(HGX A100 8-GPU baseboard 同口径)",
+   "deploy": "2020-Q2",
+   "years": "2021-2023(2022-2023 仍是存量主力,任务窗口内在役)",
+   "acc_full": "A100 SXM4 | user_sku: A100 | 8 颗/系统(monolithic,package=die)",
+   "cpu_full": "AMD EPYC 7742(Rome 64核)| 2 颗 | merchant x86 | GPU:CPU = 4:1",
+   "swu_full": "NVSwitch gen2 | 6 颗板载 baseboard | NVLink3 板内铜互连(无独立 switch tray)",
+   "nic_full": "ConnectX-6 VPI | 8× 单口 200G HDR(compute,1:1 per GPU)+ 1× 双口 CX-6(storage/mgmt),共 9 adapter",
+   "dpu_full": "无(DGX A100 无 DPU)",
+   "notes": "8:2:6:8(+1) 是全表最早锚点;HGX A100 也有 4-GPU 无 NVSwitch 变体,占比小",
+   "sources": [
+    "全部字段→NVIDIA DGX A100 官方 datasheet(2020-05)https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/nvidia-dgx-a100-datasheet.pdf | 置信:官方",
+    "NVSwitch 6 颗、9 NIC 明细→DGX A100 User Guide(2023-04)https://docs.nvidia.com/dgx/dgxa100-user-guide/introduction-to-dgxa100.html | 官方"
+   ],
+   "acc_n": "8",
+   "cpu": "EPYC 7742 (Rome) ×2",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "NVSwitch gen2 ×6 板载",
+   "nicr": "1:1 ×200G (CX-6)",
+   "gbps": 200,
+   "dpu": "无",
+   "rack": "节点",
+   "status": "已出货"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "DGX H100 / HGX H100 8-GPU",
+   "deploy": "2022-Q4(H100 GA 2022-10,DGX/OEM 批量 2023-Q1 起)",
+   "years": "2023-2024",
+   "acc_full": "H100 SXM5 | user_sku: H100 | 8 颗/系统(monolithic,package=die)",
+   "cpu_full": "Intel Xeon Platinum 8480C(Sapphire Rapids 56核)| 2 颗(DGX 口径;OEM 可配 SPR 其他 SKU/EPYC Genoa)| merchant x86 | 4:1",
+   "swu_full": "NVSwitch gen3(NVLink4)| 4 颗板载 baseboard | 板内铜(已核查事实)",
+   "nic_full": "ConnectX-7 | 8× 单口 400G(经 2 张 Cedar7 mezzanine,4 OSFP 口)+ 2× 双口 QSFP112 CX-7(in-band/storage)| compute NIC:GPU = 1:1,rail-optimized",
+   "dpu_full": "DGX 标配无独立 BlueField;BasePOD 部署中 BF-3(NIC mode)为可选替代 | 分母=node,0-2 可变",
+   "notes": "8:2:4:8 —— Hopper 世代 HGX 形态即全部出货形态,无 NVL 机架版",
+   "sources": [
+    "CPU/NIC→DGX H100 datasheet(2024-04 版)https://lambda.ai/hubfs/4.%20Resources/Datasheets/NVIDIA%20DGX/2024-04-nvidia-dgx-h100-datasheet-nvidia-us-web.pdf | 官方",
+    "Cedar7 上 8 颗 CX-7 IC→DGX H100/H200 User Guide https://docs.nvidia.com/dgx/dgxh100-user-guide/introduction-to-dgxh100.html | 官方",
+    "BF-3 NIC-mode 可选→DGX BasePOD RA https://docs.nvidia.com/dgx-basepod/reference-architecture-infrastructure-foundation-enterprise-ai/latest/core-components.html | 官方",
+    "4× NVSwitch gen3→任务已核查事实 | 官方"
+   ],
+   "acc_n": "8",
+   "cpu": "Xeon 8480C (SPR) ×2",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "NVSwitch gen3 ×4 板载",
+   "nicr": "1:1 ×400G (CX-7)",
+   "gbps": 400,
+   "dpu": "BF-3 可选 0-2",
+   "rack": "节点",
+   "status": "已出货"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "DGX H200 / HGX H200(与 H100 同板)",
+   "deploy": "2024-Q2(GA)",
+   "years": "2024-2025",
+   "acc_full": "H200 SXM5 | user_sku: H200 | 8 颗/系统(package=die)",
+   "cpu_full": "Intel Xeon Platinum 8480C | 2 颗 | merchant | 4:1(与 DGX H100 完全同平台)",
+   "swu_full": "NVSwitch gen3 | 4 颗板载 | 板内铜",
+   "nic_full": "ConnectX-7 | 8× 单口 400G + 2× 双口 | 1:1",
+   "dpu_full": "同 H100:参考设计无,BasePOD 可选 BF-3",
+   "notes": "仅换 HBM(141GB HBM3e),配比与 H100 逐字段相同;H20(中国)为 HGX 8-GPU 同构形态,本轮未单独核",
+   "sources": [
+    "同平台声明→NVIDIA DGX H100/H200 User Guide(合并文档)https://docs.nvidia.com/dgx/dgxh100-user-guide/introduction-to-dgxh100.html | 官方"
+   ],
+   "acc_n": "8",
+   "cpu": "Xeon 8480C ×2",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "NVSwitch gen3 ×4",
+   "nicr": "1:1 ×400G (CX-7)",
+   "gbps": 400,
+   "dpu": "同 H100",
+   "rack": "节点",
+   "status": "已出货"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "GB200 NVL72(DGX GB200 / MGX Oberon rack)",
+   "deploy": "2024-Q4(首批 2024-12 交付 Azure/CoreWeave 等;量产峰值 2Q-3Q25)",
+   "years": "2025-2026",
+   "acc_full": "B200(GB200 形态 Blackwell)| user_sku: B200 | 72 packages/rack(每 package 2 die,die 口径 144)",
+   "cpu_full": "Grace(Arm Neoverse V2 72核,monolithic 4N)| 36 颗/rack(18 compute tray × 2 Bianca × 1 Grace)| captive | GPU:CPU = 2:1",
+   "swu_full": "NVSwitch gen4(NVLink5,TSMC 4N monolithic 294mm²)| 18 颗/rack(9 switch tray × 2)| NVLink 铜背板",
+   "nic_full": "ConnectX-7 400G | 4 颗/compute tray × 18 = 72 颗/rack | NIC:GPU = 1:1(DGX 参考设计)",
+   "dpu_full": "BlueField-3 | 参考设计 2 颗/compute tray → 36/rack;OEM 可变项 | 分母=compute tray(node)",
+   "notes": "72:36:18 与 4×CX-7/tray、36 BF-3 均为任务已核查事实,此处仅登记来源",
+   "sources": [
+    "72:36:18、CX-7×4/tray、BF-3 口径→任务已核查事实(NVIDIA DGX 参考设计)| 官方",
+    "tray 结构佐证→DGX GB Rack Scale Systems User Guide https://docs.nvidia.com/dgx/dgxgb200-user-guide/hardware.html | 官方",
+    "首批交付时点→DCD 报道(2024-12)https://www.datacenterdynamics.com/en/news/nvidia-server-makers-solve-blackwell-technical-issues-ramp-up-shipments-of-gb200-racks-report/ | 媒体/渠道",
+    "峰值时点→TrendForce(2024-12-17)https://www.trendforce.com/presscenter/news/20241217-12412.html | broker·渠道"
+   ],
+   "acc_n": "72",
+   "cpu": "Grace ×36",
+   "ratio": "2:1",
+   "captive": "captive Arm",
+   "swu": "NVSwitch gen4 ×18 (9 tray×2)",
+   "nicr": "1:1 ×400G (CX-7)",
+   "gbps": 400,
+   "dpu": "BF-3 ×36 (参考设计,OEM可变)",
+   "rack": "rack-scale",
+   "status": "已出货"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "GB200 NVL36(单 rack)/ NVL36×2",
+   "deploy": "2024-Q4(与 NVL72 同窗;实际以 NVL72 为主)",
+   "years": "2025(占比小)",
+   "acc_full": "B200 | user_sku: B200 | 36 packages/rack(die 口径 72)",
+   "cpu_full": "Grace | 18 颗/rack(9 compute tray × 2 Bianca)| captive | 2:1",
+   "swu_full": "NVSwitch gen4 | 18 颗/rack(9 switch tray × 2 ASIC)——NVL36×2 双 rack 72 GPU 共 36 颗 NVSwitch,为 NVL72 的 2 倍 | NVLink 铜背板 + 跨 rack 线缆",
+   "nic_full": "ConnectX-7 400G | 比率同参考设计 1:1(36 颗/rack)| 无独立公开 datasheet,按 Bianca 板口径推",
+   "dpu_full": "BlueField-3 | 同参考设计口径 2/tray → 18/rack | OEM 可变",
+   "notes": "SemiAnalysis 2024-07 曾预期 '多数 GB200 用 NVL36×2';后 TrendForce 2024-12 转为 NVL72 占最高 80%——两口径打架,以后者(更晚)为准",
+   "sources": [
+    "36 GPU/18 Grace/9 compute tray、每 switch tray 2 颗 NVSwitch5→NVIDIA GB200 NVL Multi-Node Tuning Guide https://docs.nvidia.com/multi-node-nvlink-systems/multi-node-tuning-guide/system.html | 官方",
+    "NVL36×2 双倍 NVSwitch、Bianca 结构→SemiAnalysis GB200 Hardware Architecture(2024-07-17)https://newsletter.semianalysis.com/p/gb200-hardware-architecture-and-component | 研究机构/teardown 级",
+    "NIC/DPU 颗数→模型假设(按参考设计比率外推,无独立公开 BOM)"
+   ],
+   "acc_n": "36",
+   "cpu": "Grace ×18",
+   "ratio": "2:1",
+   "captive": "captive Arm",
+   "swu": "NVSwitch gen4 ×18 (每GPU switch为NVL72两倍)",
+   "nicr": "1:1 ×400G",
+   "gbps": 400,
+   "dpu": "BF-3 ×18 (推)",
+   "rack": "rack-scale",
+   "status": "已出货(占比小)"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "DGX B200 / HGX B200 8-GPU",
+   "deploy": "2024-Q4 送样,2025-Q1 量产(Supermicro 2025-02 宣布 full production)",
+   "years": "2025-2026",
+   "acc_full": "B200 SXM6 | user_sku: B200 | 8 packages/系统(die 口径 16)",
+   "cpu_full": "DGX 口径:Intel Xeon Platinum 8570(Emerald Rapids 56核)× 2 | merchant x86 | 4:1;OEM HGX 可选:5th Gen Xeon(EMR)/ Xeon 6900P·6700P(Granite Rapids)/ EPYC 9004/9005(Genoa/Turin,如 Dell XE9685L)——SPR 基本退出,EMR+GNR+Turin 并行",
+   "swu_full": "NVSwitch gen4(NVLink5)| 2 颗板载 baseboard(较 Hopper 的 4 颗减半)| 板内铜",
+   "nic_full": "ConnectX-7 | 8× 单口 400G(4 OSFP)| 1:1",
+   "dpu_full": "BlueField-3 双口 | 2 颗/node(DGX 配置,storage/in-band)",
+   "notes": "B100 实质取消(SemiAnalysis 2024-08 Blackwell Reworked);B200A/GB200A NVL36 air-cooled 方案出货量无公开数据",
+   "sources": [
+    "CPU 8570、2× NVLink switch(14.4TB/s)、8 CX-7、2 BF-3→DGX B200 datasheet https://resources.nvidia.com/en-us-dgx-systems/dgx-b200-datasheet 及配置商页(Broadberry/Exxact,2025)| 官方",
+    "OEM CPU 选项→Dell PowerEdge XE 系列 spec sheet https://www.delltechnologies.com/asset/en-us/products/servers/technical-support/poweredge-xe-ai-spec-sheet.pdf;Supermicro HGX B200 平台(Xeon 6900P/4th·5th Gen Xeon/EPYC 9004·9005 三选)https://www.theserver.group/blogs/news/supermicro-nvidia-blackwell-hgx-b200 | 官方/渠道",
+    "量产时点→Supermicro 公告(2025-02),经 Introl 汇总 https://introl.com/blog/nvidia-b200-vs-gb200-deployment-guide | 渠道",
+    "B100 取消/GB200A→SemiAnalysis(2024-08)https://newsletter.semianalysis.com/p/nvidias-blackwell-reworked-shipment | 研究机构"
+   ],
+   "acc_n": "8",
+   "cpu": "Xeon 8570 (EMR) ×2;OEM: GNR/Turin",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "NVSwitch gen4 ×2 (较Hopper减半)",
+   "nicr": "1:1 ×400G (CX-7)",
+   "gbps": 400,
+   "dpu": "BF-3 ×2/node",
+   "rack": "节点",
+   "status": "已出货"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "HGX B300 NVL16(8-GPU baseboard)",
+   "deploy": "2025-Q4(GTC 2025-03 发布,OEM 系统 2025 年末起量)",
+   "years": "2026",
+   "acc_full": "B300(Blackwell Ultra)SXM | user_sku: B300 | 8 packages/系统('NVL16' 按 die 口径命名:8 package × 2 die = 16 die)",
+   "cpu_full": "x86 × 2 | merchant | 4:1;主流配对 Xeon 6700P/6500P(Granite Rapids,如 Supermicro 用 6767P 64核;ASRock Rack GNR2)+ EPYC Turin 平台并存——Hopper 时代的 SPR 已完全退出",
+   "swu_full": "NVSwitch gen4(NVLink5)| 2 颗板载(推断:与 HGX B200 同代同拓扑;本轮未检得官方逐颗清单,见 open_questions)| 板内铜",
+   "nic_full": "ConnectX-8 SuperNIC 800G | 8 颗直接集成在 HGX baseboard(HGX 首次 NIC 上板)| 1:1",
+   "dpu_full": "BlueField-3(N/S 侧,OEM 可选)| 无统一颗数",
+   "notes": "与 B200 的关键差异:NIC 从主机 PCIe 卡移到 baseboard 且 400G→800G;'NVL16' 命名口径变化易引起 package/die 混淆",
+   "sources": [
+    "8 SXM(dual-die)×8 CX-8 on-board、NVL16=die 计数→ServeTheHome 'The NVIDIA HGX B300 NVL16 is Massively Different'(2025)https://www.servethehome.com/the-nvidia-hgx-b300-nvl16-is-massively-different/ | teardown/媒体实测",
+    "CX-8 800G E/W→NVIDIA HGX AI Factory RA https://docs.nvidia.com/enterprise-reference-architectures/hgx-ai-factory/latest/components.html | 官方",
+    "CPU 6767P→Supermicro HGX B300 datasheet https://www.supermicro.com/datasheet/datasheet_SuperCluster_B300_Front_IO.pdf;ASRock 8U16X-GNR2 https://www.asrockrack.com/GENERAL/productdetail.asp?Model=8U16X-GNR2+B300 | 官方",
+    "NVSwitch 颗数=2→模型假设(同代推断,待核)"
+   ],
+   "acc_n": "8 (16 die)",
+   "cpu": "Xeon 6700P (GNR) / EPYC Turin ×2",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "NVSwitch gen4 ×2 (推断,同代同拓扑)",
+   "nicr": "1:1 ×800G (CX-8 首次上板)",
+   "gbps": 800,
+   "dpu": "BF-3 可选",
+   "rack": "节点",
+   "status": "已出货"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "GB300 NVL72",
+   "deploy": "2025-Q3(TrendForce:3Q25 全机架逐步放量)",
+   "years": "2026",
+   "acc_full": "B300(Blackwell Ultra)| user_sku: B300 | 72 packages/rack(die 口径 144;288GB HBM3e/GPU)",
+   "cpu_full": "Grace | 36 颗/rack(18× 1RU compute tray,每 tray 2 Grace + 4 GPU)| captive | 2:1",
+   "swu_full": "NVSwitch gen4(NVLink5)| 18 颗/rack(9 switch tray × 2 ASIC;每 GPU 18 条 NVLink5,每 NVSwitch 1 条)| NVLink 铜背板",
+   "nic_full": "ConnectX-8 SuperNIC 800G | 4 颗/compute tray × 18 = 72 颗/rack | 1:1 per GPU(NVIDIA RA:每 tray 4× CX-8,tray 聚合 3200Gb/s;Lenovo 口径为 4× dual-port)",
+   "dpu_full": "BlueField-3(≤400G,N/S)| 每 compute tray 配 BF-3,颗数为 OEM 可变项,无统一公开口径(任务已核查)",
+   "notes": "与 GB200 NVL72 唯一结构性变化:CX-7→CX-8(400G→800G),switch tray 数与 NVSwitch 颗数不变",
+   "sources": [
+    "18 tray×(2 Grace+4 GPU)、9 switch tray×2 ASIC、4 CX-8/tray、BF-3→NVIDIA NVL72 AI Factory RA(components 页)https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory/latest/components.html | 官方",
+    "dual-port CX-8 口径→Lenovo Press LP2357(GB300 NVL72 product guide)https://lenovopress.lenovo.com/lp2357-lenovo-nvidia-gb300-nvl72-rack-scale-ai | 官方(OEM)",
+    "3Q25 放量→TrendForce(2025-03-18)https://www.trendforce.com/presscenter/news/20250318-12522.html | broker·渠道"
+   ],
+   "acc_n": "72",
+   "cpu": "Grace ×36",
+   "ratio": "2:1",
+   "captive": "captive Arm",
+   "swu": "NVSwitch gen4 ×18",
+   "nicr": "1:1 ×800G (CX-8)",
+   "gbps": 800,
+   "dpu": "BF-3 OEM可变",
+   "rack": "rack-scale",
+   "status": "已出货"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "Vera Rubin VR200 NVL72(原名 VR200 NVL144,2026-01 改为 package 口径命名;Oberon 机柜)",
+   "deploy": "2026-Q3(机柜组装量产 3Q26 末,H2 2026 出货)",
+   "years": "2026H2-2027",
+   "acc_full": "Rubin R200 | user_sku=Rubin | 72 packages/rack(package口径;每package 2 compute die,共144 die;288GB HBM4 @22TB/s、50 PFLOPS NVFP4/package)。18 compute tray × 4 package",
+   "cpu_full": "Vera(88核 Olympus,chiplet:3nm compute die+IO)| 36 颗/rack(2/compute tray)| captive Arm | 1 CPU : 2 GPU package(与 GB200/GB300 的 2:1 延续)",
+   "swu_full": "NVLink 6 / NVSwitch gen6 | 9 switch tray/rack(官方);ASIC 颗数官方未披露,SemiAnalysis 口径 4颗/tray=36颗/rack(vs GB200 的 2颗/tray=18颗)| NVLink 铜背板(5,000根铜缆),3.6TB/s per GPU、260TB/s per rack",
+   "nic_full": "ConnectX-9 SuperNIC | 144 颗/rack(8/compute tray,官方)| 2 颗 per GPU package(=1 per die)| 1.6Tb/s——NIC:GPU package 比从 GB300 的 1:1 翻倍到 2:1",
+   "dpu_full": "BlueField-4 | 1 颗/compute tray = 18 颗/rack(分母=compute tray;官方参考设计口径,少于 GB200 参考设计的 36 BF3,OEM 可变)",
+   "notes": "两档 power profile:Max Q ~190kW(GPU TGP 1.8kW)/ Max P ~230kW(GPU 2.3kW);SemiAnalysis 口径 180-220kW。Morgan Stanley:整柜 ODM 价值 ~$7.8M(vs GB300 ~$4.0M),memory 含量 ~$2.0M(+435%),GPU 占系统成本 63%→51%。Kuo:VR200 是 54V Oberon 架构最后一代,之后转 800V HVDC Kyber。TrendForce:800V power rack 在 Vera Rubin 世代仅为可选配置",
+   "sources": [
+    "72 pkg/36 Vera/18 compute tray/9 switch tray/144 CX-9/18 BF4/3.6TB/s/260TB/s → NVIDIA 官方 developer blog《Vera Rubin POD: Seven Chips, Five Rack-Scale Systems》2026-03-16, https://developer.nvidia.com/blog/nvidia-vera-rubin-pod-seven-chips-five-rack-scale-systems-one-ai-supercomputer/ (官方)",
+    "NVSwitch gen6 36颗/rack(4/tray)、180-220kW、CX-9 8/tray → SemiAnalysis《Vera Rubin – Extreme Co-Design》2026-02-25, https://newsletter.semianalysis.com/p/vera-rubin-extreme-co-design-an-evolution (分析师/渠道;ASIC颗数官方未披露)",
+    "NVL144→NVL72 改名、Max Q/Max P 190/230kW、3Q26末量产、H2 2026 出货5,000-7,000柜 → 郭明錤 X, 2026-01(CES 2026后), https://x.com/mingchikuo/status/2008439734536986852 (broker·渠道)",
+    "$7.8M/rack、memory +435% → Morgan Stanley(经 Futu/wccftech 转述, 2026), https://news.futunn.com/en/post/73488163/morgan-stanley-nvidia-s-vera-rubin-rack-is-priced-at ; https://wccftech.com/nvidia-vera-rubin-rack-hit-with-memory-price-surge-pushing-hbm4-lpddr5x-bill-to-2m-of-7-8m-total/ (broker)",
+    "800V 为 Vera Rubin 可选、Rubin Ultra 起放量 → TrendForce 2026-06-25, https://www.trendforce.com/presscenter/news/20260625-13121.html (行业调研)"
+   ],
+   "acc_n": "72 pkg (144 die)",
+   "cpu": "Vera (88核 chiplet) ×36",
+   "ratio": "2:1",
+   "captive": "captive Arm",
+   "swu": "NVSwitch gen6;9 tray官方;×36颗 (SemiAnalysis 4/tray)",
+   "nicr": "2:1 ×800G (CX-9,聚合1.6T/GPU) — 颗数比首次翻倍",
+   "gbps": 1600,
+   "dpu": "BF-4 ×18 (1/tray)",
+   "rack": "rack-scale",
+   "status": "量产爬坡 2026H2"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "Rubin Ultra Kyber 机柜(原名 NVL576=die口径;package口径下渠道已称 Kyber NVL144)",
+   "deploy": "官方口径 2027-H2;SemiAnalysis 2026-07-06 称延期12个月以上至 2028(NVIDIA 回应 roadmap is intact,未证实)",
+   "years": "2028-2029(若延期成立);官方口径 2027H2-2028",
+   "acc_full": "Rubin Ultra R300 | user_sku=Rubin Ultra | 原 GTC 2025 官方设计:144 packages/rack、每package 4 compute die(~9x reticle)+16 HBM4E stacks=1TB → 576 die/rack;2026-06 起多家报道 4-die 因 manufacturing execution 问题取消、改 2-die/package(8 HBM4E stacks,单package性能约减半)。改版后每rack package数是否仍144、die总数(288?)均无公开确认",
+   "cpu_full": "Vera | 原设计 144 颗/rack(GTC 2025 官方口径 12,672 Vera核 ÷ 88核 = 144)→ GPU package:CPU = 1:1(die口径 4:1);2-die 改版后 CPU 配比无公开数据",
+   "swu_full": "NVLink 7 / NVSwitch gen7 | 原 GTC 2025 官方口径 144 颗 NVLink7 switch/rack(1,500 PB/s)| NVLink 铜,经 78 层 orthogonal midplane PCB(trace ≤25μm,448G+ SerDes)——该 midplane 正是延期主因",
+   "nic_full": "无公开数据(官方 GTC 2025 未披露 Kyber NIC 型号/颗数;按代际推测 CX-9 或 CX-10,模型假设)",
+   "dpu_full": "无公开数据(推测 BlueField-4,模型假设)",
+   "notes": "600kW/rack、800V HVDC、4 pods × 18 垂直blade = 72 blade(原设计每blade 8 die=2×4-die package);过渡方案 NVL72x2(双柜铜NVLink)因CSP反对非常规设计与运维负担已被砍掉;NVL576 原指单rack 576 die + 8 rack光互连扩展。若延期成立,2027 主力仍为 VR200 NVL72(及可能的 Oberon 版 Rubin Ultra 过渡SKU,无公开信息)",
+   "sources": [
+    "144 pkg×4die/576 die/12,672 Vera核/144 NVLink7/600kW/2027H2 → NVIDIA GTC 2025 keynote(经 tweaktown 2025-03 https://www.tweaktown.com/news/104002/nvidias-next-gen-vera-rubin-nvl576-ai-server-576-gpus-12672c-25344t-cpu-new-hbm4/index.html 与 Tom's Hardware 2025-03 https://www.tomshardware.com/pc-components/gpus/nvidia-shows-off-rubin-ultra-with-600-000-watt-kyber-racks-and-infrastructure-coming-in-2027)(官方发布)",
+    "4-die 取消改 2-die(8 HBM4E stacks、性能约减半、manufacturing execution concerns)→ Tom's Hardware 2026-06 报道(经 icharles 2026-07 汇总 https://icharles.com/articles/nvidia-kyber-nvl144-delay-rubin-ultra)(媒体/渠道,NVIDIA未官方确认)",
+    "Kyber 延期至 2028、midplane 78层PCB为瓶颈、NVL72x2 stopgap 取消 → SemiAnalysis 2026-07-06(经 Tom's Hardware https://www.tomshardware.com/pc-components/gpus/nvidias-kyber-rack-for-rubin-ultra-slips-to-2028 与 icharles 转述)(分析师/渠道)",
+    "NVIDIA 否认:chip roadmap is intact → wccftech 2026-07, https://wccftech.com/nvidia-quashes-rubin-kyber-rack-delay-rumors-says-chip-roadmap-is-intact/ (官方声明,但未逐条反驳)"
+   ],
+   "acc_n": "144 pkg (原4-die→2026-06改2-die)",
+   "cpu": "Vera ×144 (原口径 1:1)",
+   "ratio": "1:1 (原口径,改版待定)",
+   "captive": "captive Arm",
+   "swu": "NVLink7 ×144 (原口径)",
+   "nicr": "无公开",
+   "gbps": null,
+   "dpu": "无公开",
+   "rack": "rack-scale",
+   "status": "延期分歧:官方2027H2 vs SemiAnalysis 2028"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "Rubin CPX rack(Vera Rubin NVL144 CPX,GDDR7 prefill 推理伴生)——状态:已于 GTC 2026 移出 roadmap",
+   "deploy": "原计划 2026 年底;GTC 2026(2026-03)从公开 roadmap 移除,被 Groq 3 LPX 取代;Ian Buck 称类似方案可能随 Feynman 回归",
+   "years": "不适用(取消/搁置)",
+   "acc_full": "Rubin CPX | user_sku=Rubin(CPX变体) | 原设计:monolithic die(非CoWoS/非HBM),128GB GDDR7,3x GB300 attention 性能;原 CPX rack 口径 144 CPX/rack 与 VR200 同柜/伴生柜(2025-09 AI Infra Summit 官方)。The Elec:CPX 的 memory/substrate 订单一直未落地",
+   "cpu_full": "沿用宿主 VR200 的 36 Vera(CPX 自身不带CPU)| captive | 不适用",
+   "swu_full": "无(CPX 不入 NVLink scale-up 域,PCIe/以太挂载)",
+   "nic_full": "无公开独立配比(随宿主机柜 CX-9)",
+   "dpu_full": "无公开数据",
+   "notes": "取消经济逻辑:memory 短缺下 DRAM(GDDR7)与 HBM 价差收敛,独立 prefill 芯片的性价比消失。替代方案 Groq 3 LPX rack:256 颗 SRAM LPU/rack,Samsung 4nm,来自 2025-12 NVIDIA 对 Groq $20B licensing 交易——已进入官方 seven chips / five rack-scale systems 序列。对配比表的含义:2026-2027 NVIDIA 推理伴生硅从 GDDR7 GPU 变为非CoWoS SRAM ASIC",
+   "sources": [
+    "CPX 移出 roadmap、Groq 3 LPX 上位 → Tom's Hardware 2026-03, https://www.tomshardware.com/pc-components/gpus/nvidia-removes-rubin-cpx-accelerators-from-its-roadmap-groq-3-lpus-take-center-stage-as-cpx-is-removed (媒体,基于GTC 2026官方材料)",
+    "$20B Groq licensing、Samsung 4nm SRAM 芯片 → Tom's Hardware, https://www.tomshardware.com/tech-industry/semiconductors/nvidias-20-billion-groq-deal-produces-its-first-chip (媒体)",
+    "Groq 3 LPX 256 LPU/rack 列入官方 five rack-scale systems → NVIDIA developer blog 2026-03-16(官方)",
+    "CPX memory/substrate 订单未落地 → The Elec, https://www.thelec.net/news/articleView.html?idxno=10763 (渠道)",
+    "CPX 原规格(128GB GDDR7、prefill专用、2026底)→ SemiAnalysis 2025-09 https://newsletter.semianalysis.com/p/another-giant-leap-the-rubin-cpx-specialized-accelerator-rack + NVIDIA AI Infra Summit 2025-09(官方发布)",
+    "CPX 理念或随 Feynman 回归(Ian Buck)→ wccftech 2026, https://wccftech.com/nvidia-rubin-cpx-is-off-the-roadmap-but-may-return-with-feynman-in-2028/ (媒体引述官方)"
+   ],
+   "acc_n": "144 (原设计)",
+   "cpu": "随宿主 VR200",
+   "ratio": "—",
+   "captive": "—",
+   "swu": "无 (PCIe/以太挂载)",
+   "nicr": "随宿主",
+   "gbps": null,
+   "dpu": "—",
+   "rack": "伴生柜",
+   "status": "已取消 (GTC 2026移出;Groq 3 LPX 256颗/rack接替)"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "Vera CPU Rack(独立 CPU 机柜,RL/agentic sandboxing 用)",
+   "deploy": "2026(与 Vera Rubin 平台同期,GTC 2026 官方)",
+   "years": "2026-2028",
+   "acc_full": "无 GPU(纯 CPU 机柜)",
+   "cpu_full": "Vera | 256 颗/rack | captive Arm | 不适用(无GPU)",
+   "swu_full": "无公开数据",
+   "nic_full": "无公开数据",
+   "dpu_full": "无公开数据",
+   "notes": "对配比模型的意义:Vera 出货不再 1:2 锁死在 GPU 机柜内,RL/推理编排带来独立 CPU 增量,GPU:CPU 全局比将低于机柜内比值",
+   "sources": [
+    "256 Vera/rack、用途 → NVIDIA developer blog 2026-03-16, https://developer.nvidia.com/blog/nvidia-vera-rubin-pod-seven-chips-five-rack-scale-systems-one-ai-supercomputer/ (官方)"
+   ],
+   "acc_n": "0 (纯CPU柜)",
+   "cpu": "Vera ×256",
+   "ratio": "纯CPU",
+   "captive": "captive Arm",
+   "swu": "无公开",
+   "nicr": "无公开",
+   "gbps": null,
+   "dpu": "无公开",
+   "rack": "rack-scale",
+   "status": "已官宣 2026"
+  },
+  {
+   "eco": "NVIDIA",
+   "system": "Feynman 世代(2028,roadmap 级别,无系统规格)",
+   "deploy": "2028(官方 roadmap)",
+   "years": "2028-2029",
+   "acc_full": "Feynman | user_sku=Feynman | 每系统颗数无公开数据;已知方向:3D die stacking、custom/next-gen HBM(HBM4e 或 HBM5,未定)。第三方推测 TDP ~4.4kW、400GB-1TB+ HBM——均为估算,非官方",
+   "cpu_full": "官方 GTC 2025 roadmap 标注沿用 Vera;另有报道称配新 Rosa CPU 平台——信源分歧,无定论 | 颗数无公开 | captive",
+   "swu_full": "NVSwitch gen8 / NVLink-Next(NVLink 8)| 颗数无公开 | 介质未定,NVIDIA 已表态 Feynman 世代引入 CPO(co-packaged optics)提前量产",
+   "nic_full": "ConnectX-10 | 颗数/速率无公开 | 配套 Spectrum-7(204T,CPO)",
+   "dpu_full": "BlueField-5 | 颗数无公开",
+   "notes": "全部为 roadmap 口径,不应进入定量配比表,仅作占位;CPX 类 prefill 伴生芯片可能在此世代回归(Ian Buck)",
+   "sources": [
+    "2028、Vera 配套、NVLink8/CX-10/Spectrum-7/BF5 → NVIDIA GTC 2025/2026 roadmap(经 wccftech https://wccftech.com/nvidia-next-gen-feynman-gpu-updated-roadmap-arriving-2028-next-gen-hbm-memory/ 与 Tom's Hardware https://www.tomshardware.com/tech-industry/semiconductors/nvidia-enterprise-roadmap-rubin-rubin-ultra-feynman-and-silicon-photonics)(官方roadmap经媒体)",
+    "Rosa CPU 说法 → guru3d, https://www.guru3d.com/story/nvidia-feynman-architecture-targets-2028-with-custom-hbm-and-rosa-cpu-platform/ (媒体,与官方Vera口径冲突)",
+    "CPO 提前至 Feynman → wccftech, https://wccftech.com/nvidia-fast-forwarded-co-packaged-optics-five-years-ahead-arriving-with-feynman-gpus/ (媒体)",
+    "TDP 4.4kW/HBM5 容量 → 第三方估算(tweaktown https://www.tweaktown.com/news/110521/ 等),置信档:模型假设,不建议入表"
+   ],
+   "acc_n": "无公开",
+   "cpu": "Vera 或新 Rosa (信源分歧)",
+   "ratio": "无公开",
+   "captive": "captive",
+   "swu": "NVSwitch gen8;CPO 引入",
+   "nicr": "CX-10 (无颗数)",
+   "gbps": null,
+   "dpu": "BF-5",
+   "rack": "—",
+   "status": "roadmap 2028 (占位,不入定量表)"
+  },
+  {
+   "eco": "AMD",
+   "system": "MI300X 8-OAM UBB 平台(OEM HGX 等效)",
+   "deploy": "2023-Q4",
+   "years": "2024-2025",
+   "acc_full": "MI300X | user_sku: MI300X | 8颗/system(package口径;每package内含8 XCD+4 IOD chiplets,die口径为12 die/package)",
+   "cpu_full": "2× EPYC 9004 'Genoa'(常见9534/9654,部分OEM配Turin)| 2颗 | merchant x86 | GPU:CPU = 4:1",
+   "swu_full": "无 scale-up switch | 0颗 | 8-OAM Infinity Fabric 全 mesh 直连(每GPU 7条IF链路)",
+   "nic_full": "backend 8× 400G,每GPU 1颗(1:1)| 2024年实配以 Broadcom Thor2 (BCM957608) 与 NVIDIA CX-7 为主(Pollara 当时未出货,微软Azure ND MI300X用CX-7属teardown/渠道口径);AMD官方参考架构双认证 Thor2 + Pollara 400 | 400G",
+   "dpu_full": "无固定DPU;前端2×200/400G NIC为OEM可变项",
+   "notes": "AMD官方MI3XX reference cluster design明确backend每GPU一颗400G NIC;Juniper JVD实测集群用Thor2。Pollara 400于2024-10-10发布、2025-H1才规模出货,故MI300X存量部署NIC基本非AMD自家(置信:官方文档+渠道)。",
+   "sources": [
+    "8 GPU:2 CPU、IF mesh → AMD Instinct MI300X Platform datasheet + AMD MI3XX Reference Cluster Design PDF (instinct.docs.amd.com, 2024) https://instinct.docs.amd.com/projects/gpu-cluster-networking/en/latest/_static/cluster/128-1024-gpu-reference-cluster-design.pdf | 官方",
+    "每GPU 1×400G backend NIC(Thor2/Pollara双认证)→ 同上reference design + Broadcom 'Ethernet Networking Guide for AMD Instinct MI300X' (docs.broadcom.com, 957608-AN2XX) | 官方",
+    "Thor2实配 → Juniper JVD 'AI DC with Apstra, AMD GPUs, Broadcom Thor2' (juniper.net, 2024) https://www.juniper.net/documentation/us/en/software/jvd/jvd-ai-dc-apstra-amd/jvd-ai-dc-apstra-amd.pdf | 官方(Juniper验证设计)",
+    "上市时点 → AMD Advancing AI 发布会 2023-12-06 | 官方"
+   ],
+   "acc_n": "8",
+   "cpu": "EPYC Genoa ×2",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "无 — 8-OAM IF mesh 直连",
+   "nicr": "1:1 ×400G (实配 Thor2/CX-7;Pollara未出)",
+   "gbps": 400,
+   "dpu": "前端可变",
+   "rack": "节点",
+   "status": "已出货"
+  },
+  {
+   "eco": "AMD",
+   "system": "MI325X 8-OAM UBB 平台",
+   "deploy": "2025-Q1(2024-Q4量产,系统2025-Q1 GA)",
+   "years": "2025",
+   "acc_full": "MI325X | user_sku: MI325X | 8颗/system(package口径,die结构同MI300X)",
+   "cpu_full": "2× EPYC 9005 'Turin'(或Genoa,OEM可选)| 2颗 | merchant x86 | GPU:CPU = 4:1",
+   "swu_full": "无 scale-up switch | 0颗 | 8-OAM Infinity Fabric mesh",
+   "nic_full": "8× AMD Pensando Pollara 400(单口400G)| 每GPU 1颗(1:1)| 400G;Thor2 仍为认证替代项",
+   "dpu_full": "无固定DPU;前端 Pensando Salina 400 DPU 为CSP前端可选项(2颗/node量级,OEM可变,无统一公开数)",
+   "notes": "MI325X 世代起 AMD 官方参考集群把 Pollara 400 写进 BOM(Supermicro validated design 明确 8×Pollara/node);这是 AMD NIC attach 从 0 → 1:1 的起点。",
+   "sources": [
+    "上市时点+Pollara 400 2025-Q1可用 → AMD press release 2024-10-10 https://ir.amd.com/news-events/press-releases/detail/1220/ | 官方",
+    "8×Pollara 400/node → Supermicro 'AMD Instinct MI325X Pensando Pollara GPU Cluster' validated design PDF (supermicro.com, 2025) https://www.supermicro.com/solutions/validated-design/AMD-Instinct-MI325X-Pensando-Pollara-GPU-Cluster.pdf | 官方(OEM验证设计)",
+    "Thor2/Pollara双支持 → AMD instinct.docs.amd.com hardware support matrix | 官方"
+   ],
+   "acc_n": "8",
+   "cpu": "EPYC Turin ×2",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "无 — IF mesh",
+   "nicr": "1:1 ×400G (Pollara 400 进官方BOM起点)",
+   "gbps": 400,
+   "dpu": "Salina 400 可选",
+   "rack": "节点",
+   "status": "已出货"
+  },
+  {
+   "eco": "AMD",
+   "system": "MI355X UBB8 节点 / 128-GPU DLC 'ORv3' rack",
+   "deploy": "2025-Q3(2025-06-12 Advancing AI发布)",
+   "years": "2025-2026",
+   "acc_full": "MI355X | user_sku: MI350/355X | 8颗/node(UBB 2.0);DLC rack = 16 node × 8 = 128颗/rack;风冷rack = 8 node × 8 = 64颗/rack(package口径;每package 2个base die+8 XCD)",
+   "cpu_full": "2× EPYC 9005 'Turin' per node | DLC rack共32颗 | merchant x86 | GPU:CPU = 4:1",
+   "swu_full": "无 scale-up switch | 0颗 | scale-up域仍为node内8-OAM IF mesh —— 128-GPU rack只是16个独立8-GPU节点共机柜,不是rack-scale互联(已核查事实,SemiAnalysis亦确认'scale-up仅8')",
+   "nic_full": "8× 400G per node(Pollara 400为AMD主推,Thor2认证)| 每GPU 1颗(1:1)| 400G",
+   "dpu_full": "前端 Salina 400 DPU 可选,颗数OEM可变,无统一公开数",
+   "notes": "MI355X 1400W DLC。'128 GPU/rack'口径对测算意义:提高了机柜密度但不改变 GPU:CPU:NIC 配比,也不新增任何 scale-up switch 硅。",
+   "sources": [
+    "8-OAM UBB 2.0、288GB HBM3E → AMD Instinct MI355X Platform datasheet https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/product-briefs/amd-instinct-miI355x-platform-brochure.pdf | 官方",
+    "128 GPU DLC rack = 16×UBB8、scale-up仍为8 → SemiAnalysis 'AMD Advancing AI: MI350X and MI400 UALoE72, MI500 UAL256' 2025-06 https://newsletter.semianalysis.com/p/amd-advancing-ai-mi350x-and-mi400-ualoe72-mi500-ual256 | SemiAnalysis(分析师)",
+    "128-GPU DLC rack、2.6EF FP4 → TechRadar 2025-06 https://www.techradar.com/pro/amd-sheds-more-light-on-128-gpu-mi355x-dlc-rack | 媒体",
+    "MI350/355 scale-out 400Gbit/s per GPU → 同SemiAnalysis文 | 分析师"
+   ],
+   "acc_n": "8/node (DLC rack=128)",
+   "cpu": "EPYC Turin ×2/node",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "无 — rack只是密度打包,scale-up仍为8-OAM mesh",
+   "nicr": "1:1 ×400G (Pollara 400)",
+   "gbps": 400,
+   "dpu": "Salina 可选",
+   "rack": "节点(密度rack)",
+   "status": "已出货"
+  },
+  {
+   "eco": "AMD",
+   "system": "Helios MI450/MI455X UALoE72 rack",
+   "deploy": "2026-Q3(AMD称initial volume Q3'26,Q4'26-Q1'27放量)",
+   "years": "2027-2028",
+   "acc_full": "MI450/MI455X | user_sku: MI455X | 72颗/rack = 18 compute tray × 4 GPU(package口径;每package 2 compute die + media die,432GB HBM4)",
+   "cpu_full": "EPYC 'Venice'(Zen 6,SP7,最高256核,2nm)| 每tray 1颗 → 18颗/rack | merchant x86(但OpenAI版为custom MI450+Venice组合)| GPU:CPU = 4:1",
+   "swu_full": "Broadcom Tomahawk 6(102.4T)| 芯片颗数无公开数据(switch tray数未披露)| 介质:UALink-over-Ethernet(UALoE)铜背板,72-GPU域260 TB/s聚合——注意:scale-up硅是Broadcom merchant Ethernet,不是UALink原生ASIC,也不是AMD自研",
+   "nic_full": "Pensando 'Vulcano' 800G AI-NIC(UEC 1.0)| 最多3颗/GPU → 最多216颗/rack | 3:1 | 800G(对应scale-out 300 GB/s≈2.4Tbps per GPU;'up to 3'为AMD官方口径,实配可能2-3颗,无逐客户公开数)",
+   "dpu_full": "Pensando Salina 400 DPU(前端)| 颗数无公开数据(分母=rack,OEM可变)",
+   "notes": "已知订单均为rack形态:OpenAI 6GW协议(首GW 2H26,2025-10-06)、Oracle 50,000 MI450(2026-Q3起,2025-10-14)、Meta。是否存在非rack的MI430X/IF64 8-OAM变体无近期公开确认。",
+   "sources": [
+    "18 tray × 4 GPU × 1 Venice = 72:18 → ServeTheHome CES 2026报道 2026-01-07 https://www.servethehome.com/amds-epyc-venice-instinct-mi455x-helios-hardware-on-display-for-first-time-at-ces-2026/ | 官方展示/teardown级",
+    "72 GPU、432GB HBM4、Vulcano up to 3×800G per GPU、UALink+UEC → AMD官方博客 'AMD Delivering Open Rack Scale AI Infrastructure' 2025-10 https://www.amd.com/en/blogs/2025/amd-delivering-open-rack-scale-ai-infrastructure-to-unlock-agentic-ai.html + NextBigFuture 2025-10 https://www.nextbigfuture.com/2025/10/amd-liquid-cooled-72-gpu-helios-racks.html | 官方",
+    "scale-up = Tomahawk 6 UALoE → HPE press release 2025-12 https://www.hpe.com/us/en/newsroom/press-release/2025/12/hpe-accelerates-ai-deployments-with-first-amd-helios-ai-rack-scale-architecture-with-open-scale-up-networking-built-with-broadcom.html + SemiAnalysis 2025-06(MI400 scale-up用Broadcom TH6)| 官方+分析师",
+    "260 TB/s聚合scale-up、300GB/s scale-out per GPU → MLQ/Spheron引AMD材料 2025-10~2026 https://mlq.ai/news/amd-helios-mi455x-rack-scale-platform-surfaces-with-72-gpu-design-ualink-over-ethernet-interconnect/ | 官方转述",
+    "Vulcano 2H26才量产出货 → SemiAnalysis 2025-06 | 分析师",
+    "Q3'26 initial volume、Q4放量 → NextPlatform 2026-02-23 https://www.nextplatform.com/compute/2026/02/23/amd-says-helios-racks-and-mi400-series-gpus-on-track-for-2h-2026/ | 官方(财报口径)"
+   ],
+   "acc_n": "72",
+   "cpu": "EPYC Venice (Zen6) ×18 (1/tray)",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "Broadcom TH6 (UALink-over-Ethernet) 颗数未披露",
+   "nicr": "最多3:1 ×800G (Vulcano;实配1-3分歧)",
+   "gbps": 2400,
+   "dpu": "Salina 400 前端(颗数未公开)",
+   "rack": "rack-scale",
+   "status": "量产爬坡 2026Q3"
+  },
+  {
+   "eco": "AMD",
+   "system": "MI500X UAL256 'Mega Pod'(3-rack scale-up pod)",
+   "deploy": "2027-H2(预期,对标NVIDIA Kyber VR300 NVL576)",
+   "years": "2028",
+   "acc_full": "MI500/MI500X | user_sku: MI500X | 256颗/pod(package口径,'256 physical/logical chips')= 64 compute tray × 4 GPU,分布在2个外侧rack(各32 tray)",
+   "cpu_full": "EPYC 'Verano'(Zen 7,SP7延续,支持LPDDR5X SOCAMM2)| 64颗/pod(每tray 1颗)| merchant x86 | GPU:CPU = 4:1",
+   "swu_full": "中间rack 18个switch tray | 芯片型号与颗数无公开数据(UALink 256域,大概率仍UALoE/Broadcom后继芯片,未官宣)| 介质:rack间scale-up互联(铜/光未披露),全液冷",
+   "nic_full": "无公开数据(推断为Vulcano后继800G+,比例未披露)",
+   "dpu_full": "无公开数据",
+   "notes": "整体为泄露/早期披露口径,置信度低于Helios;仅GPU/CPU/tray拓扑有多源交叉。",
+   "sources": [
+    "256 GPU : 64 Verano、3-rack、64 compute tray + 18 switch tray → Tom's Hardware 2025-09 https://www.tomshardware.com/pc-components/gpus/amd-preps-mega-pod-with-256-instinct-mi500-gpus-verano-cpus-leak-suggests-platform-with-better-scalability-than-nvidia-will-arrive-in-2027 + TweakTown https://www.tweaktown.com/news/107548/ | 渠道/泄露",
+    "UAL256命名、2027、256 vs NVL576对比 → SemiAnalysis 2025-06 + AMD FAD 2025-11(Verano/MI500官宣,Tom's Hardware 2025-11 https://www.tomshardware.com/pc-components/cpus/amd-unwraps-2027-ai-plans-verano-cpu-instinct-mi500x-gpu-next-gen-ai-rack)| 官方(存在性)+渠道(细节)"
+   ],
+   "acc_n": "256 (3-rack pod)",
+   "cpu": "EPYC Verano ×64",
+   "ratio": "4:1",
+   "captive": "merchant x86",
+   "swu": "中置rack 18 switch tray (型号未官宣)",
+   "nicr": "无公开 (推 Vulcano后继)",
+   "gbps": null,
+   "dpu": "无公开",
+   "rack": "pod",
+   "status": "泄露口径 2027H2"
+  },
+  {
+   "eco": "Google",
+   "system": "TPU v4 pod(训练线)",
+   "deploy": "2020内部部署 / 2022-Q2 Cloud 对外(官方论文称2020年起服役)",
+   "years": "2022-2025",
+   "acc_full": "TPU v4 | user_sku: TPU v4 | 4,096颗/pod(package口径,单compute die);64颗/rack(16 tray × 4 package)",
+   "cpu_full": "官方未公布型号 | 每host 4 TPU : 1 host(ct4p-hightpu-4t,240 vCPU/407GB,官方)→ 1,024 host/pod;240 vCPU 暗示双路x86 → TPU:CPU socket ≈ 2:1(双路为模型假设);业界普遍认为是 AMD EPYC Rome 定制款(7B12),但本次未找到官方确认 | merchant x86",
+   "swu_full": "ICI 3D torus(4×4×4 cube)+ 48台 Palomar MEMS OCS(136×136端口)| 电packet switch ASIC = 0颗(已核查,OCS零ATE贡献)| 介质:ICI铜(cube内)+ OCS光(cube间)",
+   "nic_full": "无公开数据(host DCN带宽/NIC型号官方未披露)",
+   "dpu_full": "无公开数据(无独立DPU芯片披露)",
+   "notes": "pod = 64 rack × 64 chip;每rack 16个host机箱;OCS可重构拓扑,故障绕行。host CPU vendor是本代最大数据缺口。",
+   "sources": [
+    "4096/pod、48 OCS、64/rack、16 host/rack → TPU v4 ISCA 2023论文(Jouppi et al., 2023-04, https://arxiv.org/abs/2304.01433)| 官方",
+    "4 chips/host、240 vCPU、407GB → Google Cloud GKE plan-tpus 文档(访问2026-07, https://docs.cloud.google.com/kubernetes-engine/docs/concepts/plan-tpus)| 官方",
+    "3D mesh/torus、pod规格 → Google Cloud TPU v4 doc(https://docs.cloud.google.com/tpu/docs/v4)| 官方",
+    "AMD Rome host说法 → 业界流传,未获官方文档确认 | 渠道/推断",
+    "双路socket假设 → 由240 vCPU推断 | 模型假设"
+   ],
+   "acc_n": "4096/pod;64/rack",
+   "cpu": "x86 (疑EPYC Rome定制) 4TPU:1host",
+   "ratio": "socket≈2:1",
+   "captive": "merchant x86",
+   "swu": "0 电switch — ICI + 48台 Palomar OCS",
+   "nicr": "DCN 无公开",
+   "gbps": null,
+   "dpu": "无",
+   "rack": "pod",
+   "status": "已出货"
+  },
+  {
+   "eco": "Google",
+   "system": "TPU v5p pod(训练线)",
+   "deploy": "2023-Q4(2023-12 Cloud Next 发布preview,2024年初GA)",
+   "years": "2024-2026",
+   "acc_full": "TPU v5p | user_sku: TPU v5p | 8,960颗/pod(16×20×28 3D torus,package口径);4颗/host tray",
+   "cpu_full": "Intel Sapphire Rapids(官方machine-types文档)| 每host 4 TPU(ct5p-hightpu-4t,208 vCPU)→ 2,240 host/pod | 208 vCPU 暗示双路 → TPU:CPU socket ≈ 2:1(双路为推断)| merchant x86。注意:host CPU 从 v4 的(疑似)AMD 切到 Intel SPR",
+   "swu_full": "ICI 3D torus + OCS(官方确认用OCS互连cube)| OCS台数:48台/13,824光端口为第三方推算,非官方 | 电packet switch ASIC = 0颗",
+   "nic_full": "无公开数据(host DCN带宽官方规格页未列,本次未核实到具体数字)",
+   "dpu_full": "无公开数据",
+   "notes": "8960 = 16×20×28,非对称torus;与v4同为4-chip host、2x2x1拓扑。",
+   "sources": [
+    "8960/pod → Google Cloud TPU v5p doc(https://docs.cloud.google.com/tpu/docs/v5p)| 官方",
+    "ct5p-hightpu-4t、4 chips/VM、208 vCPU、Intel Sapphire Rapids → Google Cloud tpu-machines doc(访问2026-07, https://docs.cloud.google.com/compute/docs/tpus/tpu-machines)| 官方",
+    "16×20×28拓扑、4 chips/host(2x2x1) → jax-ml scaling book(https://jax-ml.github.io/scaling-book/tpus/)| 第三方(Google研究员撰写)",
+    "48 OCS/13,824端口 → FiberMall blog(https://www.fibermall.com/blog/unveiling-google-tpu-architecture.htm)+ NextBigFuture(2025-11, https://www.nextbigfuture.com/2025/11/highly-customized-optical-networking-critical-for-googles-tensor-processing-units-tpus.html)| 第三方推算,非官方",
+    "双路socket → 由208 vCPU推断 | 模型假设"
+   ],
+   "acc_n": "8960/pod",
+   "cpu": "Xeon SPR;4TPU/host",
+   "ratio": "socket≈2:1",
+   "captive": "merchant x86",
+   "swu": "0 电switch — ICI+OCS",
+   "nicr": "DCN 50G/chip",
+   "gbps": 50,
+   "dpu": "无",
+   "rack": "pod",
+   "status": "已出货"
+  },
+  {
+   "eco": "Google",
+   "system": "TPU v6e Trillium 256-chip pod(推理/中训线)",
+   "deploy": "2024-Q4(2024-05发布,2024-12 GA)",
+   "years": "2025-2026",
+   "acc_full": "TPU v6e Trillium | user_sku: TPU v6 | 256颗/pod(16×16 2D torus,package口径);8颗/host(4×2)",
+   "cpu_full": "AMD EPYC Genoa(官方machine-types文档)| 每host 8 TPU(ct6e-standard-8t,360 vCPU,双路,每socket挂4颗TPU)→ TPU:CPU socket = 4:1 | 32 host/pod | merchant x86。推理线TPU:CPU密度是训练线2倍",
+   "swu_full": "固定ICI 2D torus,pod内无OCS、无packet switch ASIC(0颗);256-chip pod为scale-up上限,跨pod走DCN Ethernet(scale-out)",
+   "nic_full": "4 × 200 Gbps / 8-chip host(= 100G/chip)| 型号无公开(Google自研/Titanium体系)",
+   "dpu_full": "无公开数据",
+   "notes": "与v5e同形态(v5e亦8 chips/host、256/pod)。Multislice经DCN扩展。",
+   "sources": [
+    "256/pod、16×16 → Google Cloud TPU v6e doc(https://docs.cloud.google.com/tpu/docs/v6e)| 官方",
+    "ct6e-standard-8t、360 vCPU、AMD EPYC Genoa → Google Cloud tpu-machines doc(访问2026-07, https://docs.cloud.google.com/compute/docs/tpus/tpu-machines)| 官方",
+    "8 chips/host(4×2)、2D torus无OCS → jax-ml scaling book(https://jax-ml.github.io/scaling-book/tpus/)| 第三方",
+    "4×200Gbps host网络、每socket 4 TPU → AI Wiki/Trillium条目转述官方规格(https://aiwiki.ai/wiki/google_trillium)| 第三方转述官方"
+   ],
+   "acc_n": "256/pod;8/host",
+   "cpu": "EPYC Genoa;8TPU/host",
+   "ratio": "socket=4:1",
+   "captive": "merchant x86",
+   "swu": "0 — 固定2D torus,无OCS无switch",
+   "nicr": "0.5:1 ×200G (4×200G/host)",
+   "gbps": 100,
+   "dpu": "无",
+   "rack": "pod",
+   "status": "已出货"
+  },
+  {
+   "eco": "Google",
+   "system": "TPU v7 Ironwood(TPU7x)pod(训练+推理)",
+   "deploy": "2025-Q2 preview(2025-04 Cloud Next发布),2025-Q4 GA",
+   "years": "2026-2027",
+   "acc_full": "TPU v7 Ironwood | user_sku: TPU v7 | 9,216颗/pod = 144个4×4×4 cube(package口径;die口径:有报道称双compute die/package,本次未核实,颗数一律按package计);64颗/rack(16 TPU tray × 4 package)",
+   "cpu_full": "Intel Emerald Rapids(官方machine-types文档,tpu7x-standard-4t,224 vCPU/960GB)| 每VM 4 TPU,全host 4-chip VM | SemiAnalysis:每rack 16或8个host CPU tray(视风冷/液冷配置)→ TPU:host tray = 4:1 或 8:1 | 224 vCPU 暗示双路 → TPU:CPU socket ≈ 2:1(双路为推断)| merchant x86",
+   "swu_full": "ICI 3D torus(bidirectional 200GB/s每轴)+ 48台 144×144 OCS/pod(已核查)| 电packet switch ASIC = 0颗 | 光模块attach:1.5个800G transceiver/TPU ≈ 13,824个/满pod(SemiAnalysis)",
+   "nic_full": "DCN 100 Gbps/chip(官方)→ 400G/4-chip host | 具体NIC/IPU硬件型号无公开;host配Google自研 Titanium offload controller(官方blog);Falcon为传输协议(经OCP开源,与NVIDIA共建),非NIC型号",
+   "dpu_full": "Titanium controller(官方blog确认存在,型号/颗数无公开;分母=host node)",
+   "notes": "Anthropic百万TPU/1GW级订单为2026年需求主力;9216/pod、64/rack、48 OCS已在上游核查,此处仅引用。",
+   "sources": [
+    "9216/pod、4 chips/VM、224 vCPU、DCN 100Gbps/chip、3D torus → Google Cloud TPU7x doc(https://docs.cloud.google.com/tpu/docs/tpu7x)| 官方",
+    "Intel Emerald Rapids host → Google Cloud tpu-machines doc(访问2026-07, https://docs.cloud.google.com/compute/docs/tpus/tpu-machines)| 官方",
+    "64/rack(16 tray×4)、16或8 host tray/rack、48台144×144 OCS、1.5transceiver/TPU、800G → SemiAnalysis《TPUv7: Google Takes A Swing…》(2025-11/2026-01, https://newsletter.semianalysis.com/p/tpuv7-google-takes-a-swing-at-the)| 第三方深度分析",
+    "Titanium offload、GA时点 → Google Cloud blog《Ironwood TPUs and new Axion-based VMs》(2025-11, https://cloud.google.com/blog/products/compute/ironwood-tpus-and-new-axion-based-vms-for-your-ai-workloads/)| 官方",
+    "双路socket → 由224 vCPU推断 | 模型假设"
+   ],
+   "acc_n": "9216/pod;64/rack",
+   "cpu": "Xeon EMR;4TPU/VM",
+   "ratio": "socket≈2:1",
+   "captive": "merchant x86",
+   "swu": "0 电switch — ICI + 48台OCS;光模块1.5×800G/TPU",
+   "nicr": "DCN 100G/chip (Titanium)",
+   "gbps": 100,
+   "dpu": "Titanium (型号未公开)",
+   "rack": "pod",
+   "status": "已出货"
+  },
+  {
+   "eco": "Google",
+   "system": "TPU 8t Sunfish 训练pod(前瞻,2026E-2027E)",
+   "deploy": "2026-Q4E(2026-04 Cloud Next 2026发布,官方称2026年内GA;另有报道称TSMC 2nm版本2027年末——分歧点)",
+   "years": "2027-2028E",
+   "acc_full": "TPU 8t Sunfish | user_sku: TPU v8p | 9,600颗/superpod(121 FP4 ExaFLOPs、2PB HBM);单DC fabric可达134,000颗,跨site >100万颗",
+   "cpu_full": "Google Axion(自研Arm,captive)——host CPU 从 merchant x86 转 captive,TPU:CPU比无公开数据",
+   "swu_full": "3D torus + OCS(延续,ICI带宽较Ironwood翻倍)| 电packet switch ASIC预期仍为0颗(模型假设:延续OCS架构)",
+   "nic_full": "无公开数据",
+   "dpu_full": "预期延续Titanium体系(模型假设),无公开数据",
+   "notes": "分歧点①:GA时点——官方口径2026年内 vs 早期供应链报道2nm末2027;可能是首版N3E+后续2nm两阶段。分歧点②:Broadcom已签至2031年TPU+网络长约(2026-04-06)。",
+   "sources": [
+    "9,600/superpod、121 EF、2PB HBM、134k/1M cluster、Axion host、2026 GA → HyperFrame Research对Cloud Next 2026的报道(2026-04-22, https://hyperframeresearch.com/2026/04/22/google-cloud-next-2026-google-cloud-bifurcates-the-ai-future-specialized-tpu-8t-and-8i-architectures-signal-the-end-of-general-purpose-silicon/)| 媒体转述官方发布",
+    "Sunfish=Broadcom训练、TSMC 2nm、late 2027 → wccftech(https://wccftech.com/google-splits-tpuv8-strategy-two-chips-broadcom-training-mediatek-inference-duties/)+ TheNextWeb(https://thenextweb.com/news/google-inference-chips-nvidia-challenge-supply-chain)| 媒体/供应链",
+    "Broadcom 2031长约 → TheNextWeb同文 | 媒体",
+    "1M TPU/cluster → Tom's Hardware(https://www.tomshardware.com/tech-industry/semiconductors/google-splits-its-tpu-into-two-chips-for-the-first-time-with-training-and-inference-variants)| 媒体"
+   ],
+   "acc_n": "9600/superpod",
+   "cpu": "Axion (captive Arm) 比例未公开",
+   "ratio": "无公开",
+   "captive": "captive Arm (自2026转)",
+   "swu": "OCS延续 (0 电switch,假设)",
+   "nicr": "无公开",
+   "gbps": null,
+   "dpu": "无公开",
+   "rack": "pod",
+   "status": "2026-04官宣;GA时点分歧2026 vs 2027"
+  },
+  {
+   "eco": "Google",
+   "system": "TPU 8i Zebrafish 推理pod(前瞻,2026E-2027E)",
+   "deploy": "2026-Q4E(与8t同窗口发布,2026年内GA口径)",
+   "years": "2027-2028E",
+   "acc_full": "TPU 8i Zebrafish | user_sku: TPU v8t/v9e(用户MTK推理线命名)| 1,152颗/pod(11.6 FP8 EF、288GB HBM/chip、384MB SRAM);chiplet设计(2 Tensor Core + 1 Collectives Acceleration Engine per chiplet)——die口径≠package口径,需注意",
+   "cpu_full": "Google Axion(captive Arm),TPU:CPU比无公开数据",
+   "swu_full": "Boardfly拓扑(1,024-chip网络直径16跳→7跳),ICI 19.2 Tb/s;是否仍纯直连/OCS无switch ASIC——无公开确认(推理线pod从256扩到1,152,拓扑换代)",
+   "nic_full": "无公开数据",
+   "dpu_full": "无公开数据",
+   "notes": "制造成本较Broadcom方案低20-30%(MTK已通过Ironwood I/O模块验证)。推理线pod规模从v6e的256跳至1,152,是推理scale-up的代际跃迁。",
+   "sources": [
+    "1,152/pod、11.6 EF、288GB HBM、Boardfly、19.2Tb/s ICI、Axion host → HyperFrame Research(2026-04-22,URL同上)| 媒体转述官方发布",
+    "Zebrafish=MediaTek、成本低20-30%、2nm late 2027 → wccftech + TheNextWeb(URL同上)| 媒体/供应链",
+    "MTK供Ironwood I/O模块 → 台湾《天下杂志》英文版(2026-05-15, https://english.cw.com.tw/article/article.action?id=4774)| 媒体/供应链"
+   ],
+   "acc_n": "1152/pod",
+   "cpu": "Axion",
+   "ratio": "无公开",
+   "captive": "captive Arm",
+   "swu": "Boardfly拓扑 (是否引入switch未确认)",
+   "nicr": "无公开",
+   "gbps": null,
+   "dpu": "无公开",
+   "rack": "pod",
+   "status": "2026-04官宣"
+  },
+  {
+   "eco": "Google",
+   "system": "TPU v9 Triggerfish(前瞻,2028E,信息极少)",
+   "deploy": "2028E(无官方时点)",
+   "years": "2028E+",
+   "acc_full": "TPU v9 Triggerfish | user_sku: v9e(MTK线)| 传闻:CPU die + compute die 同package融合封装,面向agentic AI;pod规模无公开数据。用户v9p(BRCM训练线)、v10p:无任何公开数据",
+   "cpu_full": "若CPU-XPU同封装属实,独立host CPU attach比将结构性下降(传闻级)",
+   "swu_full": "无公开数据",
+   "nic_full": "无公开数据",
+   "dpu_full": "无公开数据",
+   "notes": "仅单一媒体源(wccftech),本次抓取被403拦截,仅标题级信息;置信档最低,不建议入模,仅作监测项。",
+   "sources": [
+    "Triggerfish=MTK、CPU+compute die同package → wccftech标题(https://wccftech.com/google-mediatek-build-tpuv9-triggerfish-cpu-compute-die-one-package-agentic-ai/)| 媒体传闻(未能全文核实)"
+   ],
+   "acc_n": "无公开",
+   "cpu": "传CPU-XPU同封装",
+   "ratio": "若属实→独立CPU attach下降",
+   "captive": "—",
+   "swu": "无公开",
+   "nicr": "无公开",
+   "gbps": null,
+   "dpu": "无公开",
+   "rack": "—",
+   "status": "传闻级 2028E(仅监测)"
+  },
+  {
+   "eco": "ASIC-其他",
+   "system": "AWS Trn2 UltraServer (NL64, 4x4x4 3D Torus)",
+   "deploy": "2024-Q4 (GA 2024-12-03, re:Invent 2024)",
+   "years": "2025-2026",
+   "acc_full": "Trainium2 | user_sku=Trainium2 | 64 chip/UltraServer(=4台16-chip服务器);package口径64;die口径注意:每package含2颗compute die(SemiAnalysis teardown口径),die口径=128",
+   "cpu_full": "Intel Xeon Sapphire Rapids | 2颗/16-chip服务器(头节点CPU tray),UltraServer合计8颗 | merchant x86(非Graviton!) | CPU:XPU = 1:8;compute tray为无CPU的JBOG",
+   "swu_full": "无scale-up交换芯片 | 0颗 | NeuronLink-v3直连:instance内4x4 2D torus(1,024GB/s/chip),跨instance组4x4x4 3D torus(X/Y轴128GB/s、Z轴64GB/s),PCIe Gen5 phy + OSFP-XD AEC铜缆",
+   "nic_full": "EFAv3 (Nitro) 200G | 官方口径:3.2Tbps/16-chip instance = 每GPU比1:1×200G(UltraServer 12.8Tbps);SemiAnalysis:每2-chip tray最多8×200G(即上限800G/chip,按配置可变) | 200-800Gbps/chip",
+   "dpu_full": "Nitro卡 | 每16-chip服务器另有1×100G ENA前端卡 + 1×80G EBS存储卡(分母=16-chip node);EFA Nitro卡另计于NIC栏 | AWS captive",
+   "notes": "关键结构差异:Trn2代头节点仍是merchant x86而非Graviton;scale-up零switch芯片(纯直连torus),与NVL72的18颗NVSwitch形成对照。2 servers/rack,UltraServer跨2 rack。",
+   "sources": [
+    "accelerator/拓扑/EFA带宽→AWS News Blog 2024-12-03 https://aws.amazon.com/blogs/aws/amazon-ec2-trn2-instances-and-trn2-ultraservers-for-aiml-training-and-inference-is-now-available/(官方)+ AWS Neuron docs https://awsdocs-neuron.readthedocs-hosted.com/en/latest/about-neuron/arch/neuron-hardware/trn2-arch.html(官方:4x4 2D torus 1024GB/s、跨instance 256GB/s/chip、EFAv3 3200Gbps)",
+    "头节点2×Sapphire Rapids、JBOG 8 tray×2 chip、每tray最多8×200G EFAv3、ENA/EBS Nitro卡、3D torus轴带宽、OSFP-XD AEC→SemiAnalysis 'Amazon's AI Self-Sufficiency' 2024-12-03 https://newsletter.semianalysis.com/p/amazons-ai-self-sufficiency-trainium2-architecture-networking(teardown/研究机构档)",
+    "die口径2 compute die/package→同上SemiAnalysis(teardown档)"
+   ],
+   "acc_n": "64/UltraServer (128 die)",
+   "cpu": "Xeon SPR ×8 (2/16-chip头节点)",
+   "ratio": "1:8",
+   "captive": "merchant x86 (非Graviton!)",
+   "swu": "0 — NeuronLink v3 直连 3D torus",
+   "nicr": "EFAv3 Nitro ≈200G/chip",
+   "gbps": 200,
+   "dpu": "Nitro ENA+EBS/node",
+   "rack": "multi-rack域",
+   "status": "已出货"
+  },
+  {
+   "eco": "ASIC-其他",
+   "system": "AWS Trn3 UltraServer NL72x2 Switched (Teton3 MAX, 144-chip)",
+   "deploy": "2025-Q4 (GA 2025-12-02, re:Invent 2025)",
+   "years": "2026-2027",
+   "acc_full": "Trainium3 (TSMC N3P, 144GB HBM3E/chip) | user_sku=Trainium3 | 144 chip/UltraServer = 2 rack × 18 compute tray × 4 chip;package口径144",
+   "cpu_full": "Graviton4 | 1颗/compute tray → 36颗/UltraServer | captive Arm(自Trn2的x86切换为自研) | CPU:XPU = 1:4",
+   "swu_full": "NeuronSwitch-v1 tray | 10 switch tray/rack × 2 rack = 20 tray/UltraServer;每tray内芯片颗数无公开数据 | 介质:PCIe Gen6 switched fabric+铜背板(64 lane到本tray加速器、80 backplane lane、16跨rack AEC lane);SemiAnalysis指认Gen1硅为Astera Labs Scorpio-X 160-lane(20端口),Gen2为320-lane,Gen3拟转UALink——官方未证实具体硅",
+   "nic_full": "Nitro-v6 EFA | 2个400G模块(2×200G)/compute tray | 每GPU比=200Gbps/chip(1:0.5个400G口) | 前端ENA与后端EFA共用ToR(converged)",
+   "dpu_full": "Nitro-v6 | 2颗/compute tray(分母=4-chip tray),The Register确认每blade'一对Nitro DPU' | AWS captive",
+   "notes": "液冷。功率~150-160kW/rack。与NVL72结构趋同(switched scale-up)。",
+   "sources": [
+    "144 chip、362 FP8 PF、20.7TB HBM3e、NeuronSwitch-v1、<10μs→AWS What's New 2025-12-02 https://aws.amazon.com/about-aws/whats-new/2025/12/amazon-ec2-trn3-ultraservers/ + DCD 2025-12 https://www.datacenterdynamics.com/en/news/aws-makes-trainium3-ultraservers-generally-available/(官方/媒体)",
+    "18 compute tray/rack、4 Trn3+1 Graviton4/tray、10 NeuronLink switch tray/rack、PCIe6 Scorpio-X路线图、2×Nitro-v6 400G/tray、150-160kW/rack、N3P、144GB HBM3E→SemiAnalysis 'AWS Trainium3 Deep Dive' 2025-12 https://newsletter.semianalysis.com/p/aws-trainium3-deep-dive-a-potential(研究机构/渠道档;Scorpio-X归属未获AWS官方确认)",
+    "36 blade、每blade 1 Graviton+4 Trn3+2 Nitro DPU、'约20个NeuronSwitch'、跨两个MGX式rack→The Register 2025-12-07 https://www.theregister.com/2025/12/07/trainium3_all_nvidia_nvl72_mold/(媒体档,AWS工程师访谈)"
+   ],
+   "acc_n": "144 (2 rack×18 tray×4)",
+   "cpu": "Graviton4 ×36 (1/tray)",
+   "ratio": "1:4",
+   "captive": "captive Arm (自Trn3切换)",
+   "swu": "NeuronSwitch v1 ×20 tray (PCIe G6;SemiAnalysis指Astera Scorpio-X;每tray颗数未公开)",
+   "nicr": "Nitro-v6 0.5:1 ×400G (=200G/chip)",
+   "gbps": 200,
+   "dpu": "Nitro-v6 ×2/tray",
+   "rack": "rack-scale",
+   "status": "已出货 2025Q4"
+  },
+  {
+   "eco": "ASIC-其他",
+   "system": "AWS Trn3 NL32x2 Switched (Teton3 PDS, 64-chip 风冷) — 2026出货主力SKU",
+   "deploy": "2026-H1(SemiAnalysis:2026年Trainium3多数出货为此SKU)",
+   "years": "2026-2027",
+   "acc_full": "Trainium3 | user_sku=Trainium3 | 64 chip = 2 rack × 16 JBOG tray × 2 chip;package口径64",
+   "cpu_full": "分离式CPU节点(disaggregated,tray内无CPU) | 颗数与型号无公开数据 | captive(推测Graviton,模型假设档) | tray内CPU:XPU = 0",
+   "swu_full": "NeuronSwitch(同NL72x2的PCIe Gen6 switch路线) | 每rack switch tray数无公开数据 | PCIe Gen6铜背板",
+   "nic_full": "Nitro-v6 | 1×400G/2 chip | 每GPU比=200Gbps/chip",
+   "dpu_full": "Nitro-v6 | 1颗/2-chip tray(分母=tray) | captive",
+   "notes": "风冷、time-to-market SKU。对CPU配比建模重要:此SKU使rack内CPU:XPU比降为0(CPU移出rack),与NL72x2的1:4并存。",
+   "sources": [
+    "全部字段→SemiAnalysis 'AWS Trainium3 Deep Dive' 2025-12 https://newsletter.semianalysis.com/p/aws-trainium3-deep-dive-a-potential(研究机构档;'Majority of Trainium3 delivered in the NL32x2 SKU in 2026'为其判断)"
+   ],
+   "acc_n": "64 (2 rack×16 tray×2)",
+   "cpu": "CPU移出rack (disaggregated)",
+   "ratio": "rack内 0",
+   "captive": "推 Graviton (假设)",
+   "swu": "NeuronSwitch (tray数未公开)",
+   "nicr": "Nitro-v6 0.5:1 (=200G/chip)",
+   "gbps": 200,
+   "dpu": "Nitro-v6 ×1/tray",
+   "rack": "rack-scale",
+   "status": "2026 出货主力 SKU"
+  },
+  {
+   "eco": "ASIC-其他",
+   "system": "AWS Trainium4 / NVLink Fusion NVL72式机柜(2027E,预期)",
+   "deploy": "2027E(re:Invent 2025预告,多代合作的第一代)",
+   "years": "2027-2028E",
+   "acc_full": "Trainium4 | user_sku=Trainium4 | 预期最多72 ASIC/scale-up域(NVLink Fusion口径);官方仅给出≥3x FP8、4x内存带宽 vs Trn3,颗数为NVIDIA方案上限而非AWS最终配置(模型假设档)",
+   "cpu_full": "预期Graviton(官方称NVLink Fusion同时用于Trainium4与Graviton) | 颗数无公开数据 | captive",
+   "swu_full": "NVIDIA NVLink 6th-gen Switch tray(Vera-Rubin世代) | 芯片颗数无公开数据 | NVLink铜背板,3.6TB/s/ASIC all-to-all,合计260TB/s;基于NVIDIA MGX机架",
+   "nic_full": "无公开数据(预期仍为Nitro EFA,模型假设档)",
+   "dpu_full": "无公开数据",
+   "notes": "分歧点:AWS是否全量转NVLink Fusion、还是自研NeuronSwitch(PCIe6→UALink)与NVLink Fusion并行双轨——SemiAnalysis的switch路线图(Gen2/Gen3)暗示自研线不放弃,无定论。",
+   "sources": [
+    "NVLink Fusion+MGX、72 ASIC×3.6TB/s、260TB/s、多代合作→NVIDIA Dev Blog 2025-12-02 https://developer.nvidia.com/blog/aws-integrates-ai-infrastructure-with-nvidia-nvlink-fusion-for-trainium4-deployment/(官方)+ The Register 2025-12-02 https://www.theregister.com/2025/12/02/amazon_nvidia_trainium/(媒体)",
+    "Trainium4 ≥3x FP8、4x内存带宽 vs Trn3→AWS re:Invent 2025预告,转引DCD https://www.datacenterdynamics.com/en/news/aws-makes-trainium3-ultraservers-generally-available/(官方口径/媒体转述)"
+   ],
+   "acc_n": "≤72/scale-up域 (NVLink Fusion口径)",
+   "cpu": "Graviton (预期)",
+   "ratio": "无公开",
+   "captive": "captive Arm",
+   "swu": "NVIDIA NVLink6 switch tray (分歧:自研NeuronSwitch双轨?)",
+   "nicr": "无公开 (预期Nitro)",
+   "gbps": null,
+   "dpu": "无公开",
+   "rack": "rack-scale",
+   "status": "2027E 预期"
+  },
+  {
+   "eco": "ASIC-其他",
+   "system": "Meta MTIA v2 (2i) 推理机柜(非Grand Teton GPU柜,自研rack)",
+   "deploy": "2024-Q2(2024-04-10发布,'已在16个region上线')",
+   "years": "2024-2026",
+   "acc_full": "MTIA v2 (TSMC N5, 90W) | user_sku=(MTIA 300前代,用户SKU表外) | 72 chip/rack = 3 chassis × 12 board × 2 chip;package口径72",
+   "cpu_full": "x86 host CPU(具体型号无公开数据) | 2颗/24-chip chassis → 6颗/rack | merchant x86 | CPU:XPU = 1:12",
+   "swu_full": "PCIe Gen5 switch fabric(rack内加速器间与host-加速器互联) | switch芯片型号与颗数无公开数据 | 介质:PCIe铜,非Ethernet、非专有fabric",
+   "nic_full": "可选RDMA NIC per enclosure(超出单rack扩展时);型号/颗数无公开数据 | 每GPU比不适用(推理rack,前端网络为主)",
+   "dpu_full": "无 | 0",
+   "notes": "",
+   "sources": [
+    "72/rack、3 chassis×12 board×2 chip、PCIe Gen5、可选RDMA NIC→Meta AI Blog 2024-04-10 https://ai.meta.com/blog/next-generation-meta-training-inference-accelerator-AI-MTIA/(官方)+ The Next Platform 2024-04-10 https://www.nextplatform.com/2024/04/10/with-mtia-v2-chip-meta-can-do-ai-training-as-well-as-inference/(媒体)",
+    "每server 2 CPU + 24 MTIA 2i→Meta ISCA'25论文 'Meta's Second Generation AI Chip' https://dl.acm.org/doi/10.1145/3695053.3731409(官方论文档)"
+   ],
+   "acc_n": "72/rack (3 chassis×12 board×2)",
+   "cpu": "x86 ×6 (2/chassis)",
+   "ratio": "1:12",
+   "captive": "merchant x86",
+   "swu": "PCIe Gen5 switch fabric (型号/颗数未公开)",
+   "nicr": "RDMA NIC 可选",
+   "gbps": null,
+   "dpu": "无",
+   "rack": "rack",
+   "status": "已出货"
+  },
+  {
+   "eco": "ASIC-其他",
+   "system": "Meta MTIA 300 机柜(R&R训练)+ MTIA 400/450/500 路线",
+   "deploy": "2026-Q1(2026-03官宣'已在生产';MTIA 400/450/500 2026-2027陆续部署,6个月节奏)",
+   "years": "2026-2028",
+   "acc_full": "MTIA 300 | user_sku=MTIA 300 | 每rack颗数无官方数字;官方称'模块化设计使新芯片直接落入现有rack基础设施'→沿用72 chip/rack为合理基线(模型假设档,基于官方drop-in表述);die口径注意:MTIA 300 = 1 compute chiplet + 2 network chiplet + HBM,logic die口径=3×package数",
+   "cpu_full": "无公开数据;若沿用MTIA v2机箱结构则为2 x86/chassis即1:12(模型假设档)",
+   "swu_full": "无公开数据;前代为PCIe switch fabric,MTIA 300新增2颗network chiplet暗示网络能力上收至package(推测档)",
+   "nic_full": "无公开数据(前代为可选RDMA NIC)",
+   "dpu_full": "无 | 0",
+   "notes": "用户SKU'MTIA 400'对应官方2026-2027 GenAI推理线;每rack颗数、CPU配比、NIC均无公开数字——建模只能引用72/rack+1:12的前代延续假设并明确标注。",
+   "sources": [
+    "MTIA 300已在R&R训练生产、400/450/500覆盖GenAI推理、drop-in现有rack、两年四芯→Meta官方 2026-03 https://about.fb.com/news/2026/03/expanding-metas-custom-silicon-to-power-our-ai-workloads/(官方)+ CNBC 2026-03-11 https://www.cnbc.com/2026/03/11/meta-ai-mtia-chip-data-center.html(媒体)",
+    "MTIA 300 = 1 compute chiplet + 2 network chiplet + HBM stacks→Tom's Hardware 2026-03 https://www.tomshardware.com/tech-industry/semiconductors/meta-reveals-four-new-mtia-chips-built-for-ai-inference(媒体档)+ DCD https://www.datacenterdynamics.com/en/news/meta-unveils-next-four-generations-of-its-mtia-chip/"
+   ],
+   "acc_n": "72/rack (drop-in假设)",
+   "cpu": "无公开 (1:12 前代延续假设)",
+   "ratio": "1:12 (假设)",
+   "captive": "merchant x86 (假设)",
+   "swu": "无公开 — 2颗network chiplet暗示网络上收package",
+   "nicr": "无公开",
+   "gbps": null,
+   "dpu": "无",
+   "rack": "rack",
+   "status": "已量产 2026Q1"
+  },
+  {
+   "eco": "ASIC-其他",
+   "system": "Microsoft Maia 200 机柜(推理)",
+   "deploy": "2026-Q1(2026-01-26官宣,US Central已部署,US West 3其次)",
+   "years": "2026-2027",
+   "acc_full": "Maia 200 (TSMC N3P, 836mm², 216GB HBM3e, 750W) | user_sku=Maia 200 | 4 chip/blade(官方);18 blade × 4 = 72 chip/rack(NextBigFuture/NAND整理,非官方文档明示——中置信);package口径",
+   "cpu_full": "Cobalt 200(2 chiplet×66 Neoverse V3核=132核) | 1颗/blade → 若18 blade则18颗/rack | captive Arm | CPU:XPU = 1:4",
+   "swu_full": "两层标准Ethernet(Maia AI Transport Layer/ATL) | tier-1=blade内4 chip全互联直连(无switch芯片,官方);tier-2 rack级Ethernet switch硅未公开——'与Marvell共同开发/或Teralynx 10'仅为渠道传闻(低置信) | 介质:Ethernet铜/光,2.8TB/s双向scale-up带宽/chip(56×400G SerDes)",
+   "nic_full": "NIC集成于Maia 200 die上('integrated NIC design eliminates discrete network adapters',官方) | 独立NIC颗数=0 | 每GPU比:0颗离散NIC",
+   "dpu_full": "无公开数据(Azure Boost DPU未确认用于此rack) | 无则写无:官方材料未提及",
+   "notes": "结构差异要点:scale-up走标准Ethernet+片上NIC,rack BOM中离散NIC/DPU≈0,networking价值量向switch硅与光/铜互连转移。",
+   "sources": [
+    "4 chip/blade直连、两层Ethernet ATL、2.8TB/s/chip、216GB HBM3e 7TB/s、N3、750W、6144-chip cluster、部署region→Microsoft官方Blog 2026-01-26 https://blogs.microsoft.com/blog/2026/01/26/maia-200-the-ai-accelerator-built-for-inference/(官方)",
+    "1 Cobalt 200/blade、1536 node×4=6144→The Next Platform 2026-01-28 https://www.nextplatform.com/ai/2026/01/28/microsoft-takes-on-other-clouds-with-braga-maia-200-ai-compute-engines/4092134 + NAND Research 2026-01 https://nand-research.com/research-note-microsoft-azure-maia-200-inference-accelerator/(媒体/研究机构档)",
+    "18 blade/rack=72 chip、~65kW/rack、Cobalt 200双chiplet 132核、Marvell/Teralynx 10传闻→NextBigFuture 2026-01 https://www.nextbigfuture.com/2026/01/microsoft-maya-200.html(低置信聚合博客档,rack数字待官方确认)"
+   ],
+   "acc_n": "72/rack (18 blade×4,中置信)",
+   "cpu": "Cobalt 200 ×18 (1/blade)",
+   "ratio": "1:4",
+   "captive": "captive Arm",
+   "swu": "Ethernet两层:tier1 blade内直连0颗;tier2 rack级switch硅未公开",
+   "nicr": "0 — NIC片上集成,离散NIC=0",
+   "gbps": 0,
+   "dpu": "无公开",
+   "rack": "rack",
+   "status": "已部署 2026Q1"
+  },
+  {
+   "eco": "ASIC-其他",
+   "system": "OpenAI XPU (BRCM) 机柜:Titan训练线 / Jalapeño推理芯片",
+   "deploy": "2026-H2(官方:racks 2026下半年开始部署,2029年底前完成10GW;Jalapeño首批服务器2026年底上线)",
+   "years": "2027-2029E",
+   "acc_full": "OpenAI XPU | user_sku=OpenAI XPU(BRCM) | 每rack颗数无公开数据;训练XPU代号'Titan'(The Next Platform),推理芯片'Jalapeño'(2026-06官宣);package细节无公开数据",
+   "cpu_full": "无公开数据(是否含CPU、何种CPU均未披露)",
+   "swu_full": "Broadcom Ethernet全栈 | 型号:Tomahawk系(Tomahawk 6 102.4T已量产,Jalapeño机柜明确采用Tomahawk系交换+拥塞管理引擎);每rack switch颗数无公开数据 | 介质:Ethernet(官方:racks 'scaled entirely with Ethernet')——业内唯一官宣纯Ethernet scale-up的大型训练XPU",
+   "nic_full": "无公开数据(Broadcom方案可能用NIC或XPU内嵌以太MAC,未披露)",
+   "dpu_full": "无公开数据",
+   "notes": "每rack XPU颗数、CPU:XPU比、NIC结构全部无公开数据——这是2027-2028 CoWoS/网络配比模型中最大的未知项之一,只能以Broadcom标准Ethernet scale-up参考架构(如Tomahawk 6 NVL72等效方案)做模型假设并显著标注。",
+   "sources": [
+    "10GW、2026H2起部署至2029、Ethernet scale-up+scale-out全用Broadcom→OpenAI/Broadcom联合官宣 2025-10-13 https://openai.com/index/openai-and-broadcom-announce-strategic-collaboration/ 与 https://investors.broadcom.com/news-releases/news-release-details/openai-and-broadcom-announce-strategic-collaboration-deploy-10(官方)",
+    "'Titan' XPU代号→The Next Platform 2025-09-05 https://www.nextplatform.com/compute/2025/09/05/broadcom-lands-shepherding-deal-for-openai-titan-xpu/1636460(媒体/渠道档)",
+    "Jalapeño推理芯片、Tomahawk 6、Celestica整机、2026年底上线、多代平台第一步→OpenAI官宣 2026-06-24 https://openai.com/index/openai-broadcom-jalapeno-inference-chip/ + SiliconANGLE 2026-06-24 https://siliconangle.com/2026/06/24/openai-broadcom-debut-custom-jalapeno-chip-llm-inference/(官方+媒体)"
+   ],
+   "acc_n": "无公开",
+   "cpu": "无公开",
+   "ratio": "无公开",
+   "captive": "—",
+   "swu": "Broadcom Tomahawk 全栈 (纯Ethernet scale-up官宣)",
+   "nicr": "无公开",
+   "gbps": null,
+   "dpu": "无公开",
+   "rack": "rack",
+   "status": "2026H2 起部署"
+  }
+ ],
+ "scaleout": [
+  {
+   "system_name": "DGX A100(scale-out视角)",
+   "vendor": "NVIDIA",
+   "deploy_start": "2020-Q2(集群主流部署2021-2022)",
+   "mainstream_years": "2021-2023",
+   "accelerator": "A100 | A100 | 8颗/node(package口径)",
+   "cpu": "2× AMD EPYC 7742 | 2颗 | merchant x86 | 1:4 CPU:GPU(官方datasheet)",
+   "scaleup_switch": "板载NVSwitch gen2 6颗(HGX A100 baseboard,不在本研究范围,引用context)",
+   "nic": "compute fabric:8× 单口ConnectX-6 VPI 200G(HDR IB/200GbE)| 8颗/node | 1:1 NIC:GPU、200G/GPU | 交换侧配Quantum QM8700(40×200G/ASIC)",
+   "dpu": "无DPU;存储/前端:1-2× 双口CX-6 200G/node(官方,可选第2张)",
+   "notes": "200G/GPU 1:1 rail结构自A100代确立,此后每代NIC带宽翻倍但1:1端口比不变",
+   "sources": [
+    "NIC配比→NVIDIA DGX A100 Datasheet, 2020-05, https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/nvidia-dgx-a100-datasheet.pdf | 官方",
+    "存储/前端口→DGX A100 User Guide, https://docs.nvidia.com/dgx/dgxa100-user-guide/introduction-to-dgxa100.html | 官方"
+   ]
+  },
+  {
+   "system_name": "DGX/HGX H100(scale-out视角)",
+   "vendor": "NVIDIA",
+   "deploy_start": "2022-Q4",
+   "mainstream_years": "2023-2025",
+   "accelerator": "H100 | H100 | 8颗/node(package口径)",
+   "cpu": "2× Intel Xeon 8480C | 2颗 | merchant x86(引用context)",
+   "scaleup_switch": "板载NVSwitch gen3 4颗(引用context,已核查)",
+   "nic": "compute fabric:8× 单口ConnectX-7 400G(2块Cedar7夹层卡各4颗CX-7 ASIC,前面板4×800G OSFP twin-port)| 8颗/node | 1:1 NIC:GPU、400G/GPU rail-optimized | 交换侧Quantum-2 QM9700(25.6T=64×400G/ASIC)或Spectrum-4/TH5(51.2T=128×400G)",
+   "dpu": "2× 双口BlueField-3 200G/node(存储+前端)| 分母=node | 0.25 DPU:GPU(官方datasheet)",
+   "notes": "云部署变体:AWS P5用自研Nitro/EFA 3.2Tbps/instance(=400G/GPU)完全替代CX-7+BF-3;Meta RoCE集群用Arista/自研盒替代IB",
+   "sources": [
+    "8×CX-7 400G+2×BF-3→NVIDIA DGX H100 Datasheet, 2022, https://openzeka.com/en/wp-content/uploads/2022/04/ai-for-enterprise-dgx-h100-datasheet-nvidia-a4-2146027-r3-web.pdf | 官方",
+    "Cedar7每卡4颗CX-7 ASIC→NVIDIA Networking Docs, https://docs.nvidia.com/networking/display/400g100gpam4ovdev/linking-dgxs,-switches,-connectx-7-&-connectx-8-adapters,-and-bluefield-3-dpus-overview | 官方",
+    "AWS P5 3200Gbps EFA→AWS EC2 P5页面 | 官方"
+   ]
+  },
+  {
+   "system_name": "GB200 NVL72(scale-out视角)",
+   "vendor": "NVIDIA",
+   "deploy_start": "2024-Q4",
+   "mainstream_years": "2025-2026",
+   "accelerator": "B200 | B200 | 72 package/rack(引用context)",
+   "cpu": "36× Grace | captive Arm(引用context)",
+   "scaleup_switch": "NVSwitch gen4 18颗、NVLink铜背板(引用context,已核查)",
+   "nic": "4× ConnectX-7 400G/compute tray(=1:1 NIC:GPU、400G/GPU,72颗/rack)| 交换侧典型配Quantum-2或Spectrum-X SN5600(TH5级51.2T)| SemiAnalysis确认NVL72仍为每GPU 1个400/800G OSFP口,与H100完全相同——scale-up域扩至72未降低scale-out端口配比",
+   "dpu": "参考设计2× BlueField-3/compute tray=36颗/rack(仅参考设计口径,OEM可变,引用context)| 0.5 BF3:GPU",
+   "notes": "AWS变体P6e-GB200:整机柜28.8Tbps EFAv4=400G/GPU,用Nitro替代CX-7(官方)",
+   "sources": [
+    "每tray 4×CX per compute tray→context已核查(NVIDIA DGX参考设计)| 官方",
+    "1:1端口不变→SemiAnalysis 'Nvidia's Optical Boogeyman', 2024-03-25, https://newsletter.semianalysis.com/p/nvidias-optical-boogeyman-nvl72-infiniband | 分析师(基于GTC官方展示)",
+    "AWS P6e-GB200 28.8Tbps EFA→AWS官方发布2025-07 | 官方"
+   ]
+  },
+  {
+   "system_name": "GB300 NVL72(scale-out视角)",
+   "vendor": "NVIDIA",
+   "deploy_start": "2025-H2(CoreWeave首部署2025-07)",
+   "mainstream_years": "2026-2027",
+   "accelerator": "B300 | B300 | 72 package/rack(引用context)",
+   "cpu": "36× Grace(引用context)",
+   "scaleup_switch": "NVSwitch gen4 18颗(引用context)",
+   "nic": "ConnectX-8 SuperNIC:每IO模块2颗CX-8、每GPU 800G | 72颗CX-8/rack、1:1 NIC:GPU、800G/GPU(官方) | 交换侧Quantum-X800 Q3400(144×800G,内含4颗Quantum-3 ASIC,28.8T=36×800G/颗)或Spectrum-X800/TH6级",
+   "dpu": "BlueField-3数量OEM可变项(引用context);NVIDIA NVL72 RA仍列BF-3做前端/存储",
+   "notes": "800G/GPU代际:NIC带宽较GB200翻倍、颗数比不变;Q3400为4-ASIC机箱,按ASIC口径计芯片数时IB侧显著多于TH6以太网侧",
+   "sources": [
+    "CX-8 800G/GPU→NVIDIA GB300 NVL72官方页, https://www.nvidia.com/en-us/data-center/gb300-nvl72/ | 官方",
+    "Q3400=144口/4颗Quantum-3 ASIC→NVIDIA Quantum-X800 datasheet(2025-05镜像), https://www.aspsys.com/wp-content/uploads/2025/05/nvidia-quantum-x800-datasheet.pdf 及 NADDOD产品页 https://www.naddod.com/products/nvidia-networking/102612 | 官方/渠道",
+    "首部署→CoreWeave blog 2025-07, https://www.coreweave.com/blog/coreweave-leads-the-way-with-first-nvidia-gb300-nvl72-deployment | 官方"
+   ]
+  },
+  {
+   "system_name": "VR200 NVL72(原NVL144命名,scale-out视角)",
+   "vendor": "NVIDIA",
+   "deploy_start": "2026-H2(CES 2026宣布量产,量产供货2026下半年)",
+   "mainstream_years": "2027-2028",
+   "accelerator": "Rubin R200 | Rubin | 72 package/rack(每package 2 die;NVL144按die计,官方已改口NVL72按package计)",
+   "cpu": "36× Vera | captive Arm chiplet(引用context)",
+   "scaleup_switch": "NVSwitch gen6/NVLink铜背板(GTC 2026宣布Rubin/Feynman scale-up将提供铜+光两种)",
+   "nic": "ConnectX-9:单芯片800G(路线图标'1600G'为每GPU聚合口径)| 8颗CX-9/compute tray=每GPU 2颗、1.6Tbps/GPU、144颗/rack | 交换侧预期Spectrum-6/Quantum-4代1.6T端口,未正式发布",
+   "dpu": "BlueField-4(官方路线图800G,配Vera Rubin代);颗数无公开数据",
+   "notes": "关键口径:CX-9每颗800G而非1.6T,VR200 NIC颗数=GB300的2倍——若按1颗1.6T建模会低估CX-9出货一半(Wheeler's Network拆解NVIDIA官方tray带宽得出,SemiAnalysis口径一致)",
+   "sources": [
+    "CX-9单芯片800G、8颗/tray→Wheeler's Network 'Decoding Nvidia's Rubin Networking Math', 2025-11, https://www.wheelersnetwork.com/2025/11/decoding-nvidias-rubin-networking-math.html | 分析师(基于官方数据反推)",
+    "1.6T/GPU、NVL72命名→SemiAnalysis 'Vera Rubin – Extreme Co-Design', https://newsletter.semianalysis.com/p/vera-rubin-extreme-co-design-an-evolution | 分析师",
+    "CES 2026量产宣布→The Register 2026-01-05, https://www.theregister.com/2026/01/05/ces_rubin_nvidia/ | 媒体引官方"
+   ]
+  },
+  {
+   "system_name": "AMD MI350/355X 8-OAM平台(scale-out视角)",
+   "vendor": "AMD",
+   "deploy_start": "2025-H2",
+   "mainstream_years": "2025-2026",
+   "accelerator": "MI355X | MI355X | 8颗OAM/node(package口径)",
+   "cpu": "2× EPYC 9005(Turin)| merchant x86",
+   "scaleup_switch": "无scale-up switch芯片,8-OAM Infinity Fabric直连mesh(引用context,已核查)",
+   "nic": "参考架构8× Pensando Pollara 400(400G UEC RoCE)| 1:1 NIC:GPU、400G/GPU;市场亦用Broadcom Thor-2 400G替代 | 交换侧TH5/TH6以太网",
+   "dpu": "前端:1-2× Pensando DPU或标准NIC/node,官方未锁定具体颗数",
+   "notes": "AMD官方口径:市场在售最多128-GPU机架=MI350+EPYC 5代+Pollara 400;与NVIDIA同期同为400G/GPU 1:1",
+   "sources": [
+    "Pollara 400+MI350 128-GPU机架→AMD官方blog 'Delivering Open Rack Scale AI Infrastructure', 2025, https://www.amd.com/en/blogs/2025/amd-delivering-open-rack-scale-ai-infrastructure-to-unlock-agentic-ai.html | 官方",
+    "Pollara 400为首款UEC NIC→Network World 2025, https://www.networkworld.com/article/4011095/amd-rolls-out-first-ultra-ethernet-compliant-nic.html | 媒体"
+   ]
+  },
+  {
+   "system_name": "AMD Helios(MI450系机架,scale-out视角)",
+   "vendor": "AMD",
+   "deploy_start": "2026-H2(Oracle首批,2026起5万颗MI450)",
+   "mainstream_years": "2027-2028",
+   "accelerator": "MI450系 | MI455X | 72颗/rack(package口径)",
+   "cpu": "EPYC Venice(Zen6, 2nm)| merchant x86(机架内颗数无官方最终数)",
+   "scaleup_switch": "UALink-over-Ethernet(Broadcom TH6级作UALink底层)| 芯片颗数无公开最终数",
+   "nic": "Pensando Vulcano 800G AI-NIC(PCIe Gen6)| 每GPU最多3颗×800G=2.4Tbps/GPU(官方'up to',机架43TB/s scale-out总带宽与72×3×800G双向一致);实际部署每GPU 1-3颗存在分歧,无锁定公开数 | 交换侧TH6 102.4T",
+   "dpu": "Vulcano兼具DPU功能(P4可编程);独立DPU颗数无公开数据",
+   "notes": "若按3:1顶配,Helios每GPU scale-out带宽(2.4T)将高于VR200(1.6T)——这是AMD网络差异化卖点,但出货配比未定,建模建议给1-3颗区间",
+   "sources": [
+    "Vulcano 800G、up to 3颗/GPU→AMD官方blog 2025-06(同上URL)| 官方",
+    "Helios 43TB/s scale-out、72 GPU→NextBigFuture引AMD材料 2025-10, https://www.nextbigfuture.com/2025/10/amd-liquid-cooled-72-gpu-helios-racks.html | 媒体引官方",
+    "Oracle 5万颗MI450部署→Oracle官方PR 2025-10-14, https://www.oracle.com/news/announcement/ai-world-oracle-and-amd-expand-partnership-to-help-customers-achieve-next-generation-ai-scale-2025-10-14/ | 官方"
+   ]
+  },
+  {
+   "system_name": "AWS Trn2 / Trn2-Ultra(scale-out视角)",
+   "vendor": "AWS(Annapurna+Marvell)",
+   "deploy_start": "2024-Q4(re:Invent 2024 GA)",
+   "mainstream_years": "2025-2026",
+   "accelerator": "Trainium2 | Trainium2 | 16颗/instance、64颗/UltraServer(package口径)",
+   "cpu": "x86 host CPU(Intel SPR级)| merchant | 具体型号AWS未公开",
+   "scaleup_switch": "NeuronLink chip-to-chip,无独立scale-up switch ASIC(官方)",
+   "nic": "EFAv3走自研Nitro卡:3.2Tbps/16-chip instance=200Gbps/chip(模型换算自官方总带宽)| Nitro卡颗数AWS未公开 | 完全不用ConnectX/Pollara——NVIDIA/AMD NIC在AWS自研生态出货为零",
+   "dpu": "Nitro卡本身即DPU形态,每host多颗,颗数无公开数据",
+   "notes": "轨迹:Trn1 800Gbps/16=50G/chip → Trn2 200G/chip → Trn3 UltraServer 144 chips(2025-12 GA)per-chip EFA无公开数据;每chip scale-out带宽仅为同期NVIDIA(800G)的1/4",
+   "sources": [
+    "3.2Tbps EFAv3/instance→AWS EC2 Trn2官方页, https://aws.amazon.com/ec2/instance-types/trn2/ | 官方;200G/chip为模型换算",
+    "Trn3 UltraServer 144 chips→AWS What's New 2025-12, https://aws.amazon.com/about-aws/whats-new/2025/12/amazon-ec2-trn3-ultraservers/ | 官方",
+    "Trainium2网络架构→SemiAnalysis 'Amazon's AI Self Sufficiency', 2024-12, https://newsletter.semianalysis.com/p/amazons-ai-self-sufficiency-trainium2-architecture-networking | 分析师"
+   ]
+  },
+  {
+   "system_name": "Google TPU v5p/v6e(前端DCN视角)",
+   "vendor": "Google(Broadcom后端)",
+   "deploy_start": "v5p 2023-Q4;v6e 2024-Q4",
+   "mainstream_years": "2024-2026",
+   "accelerator": "TPU v5p / v6(Trillium)| v5p/v6 | v5p host=4颗、v6e host=8颗(package口径)",
+   "cpu": "x86 host CPU | merchant | 型号未公开",
+   "scaleup_switch": "ICI+MEMS OCS,pod内无电packet switch ASIC(引用context,已核查)",
+   "nic": "v5p:DCN egress 6.25GB/s(=50Gbps)/chip,每host 1-2 NIC(官方docs);v6e:每host 4×200G NIC(8 chips)=100Gbps/chip,pod级DCN 25.6Tbps/256chip(官方docs);NIC为Intel IPU E2000(Mount Evans 200G)/自研Titanium体系(媒体/渠道口径,Google未正式确认型号)| Ironwood v7:DCN带宽与NIC无公开数据",
+   "dpu": "IPU/Titanium即DPU形态,~1颗/host(渠道口径)",
+   "notes": "Google训练scale-out主要走ICI+OCS(multislice跨pod才走DCN),前端每chip带宽仅为NVIDIA同期1/8量级——ConnectX类NIC与leaf/spine以太网芯片需求在TPU生态被OCS+低配DCN结构性替代",
+   "sources": [
+    "v5p 6.25GB/s DCN/chip→Google Cloud TPU v5p docs, https://docs.cloud.google.com/tpu/docs/v5p | 官方",
+    "v6e 4×200G/host、25.6Tbps/pod→Google Cloud TPU v6e docs, https://docs.cloud.google.com/tpu/docs/v6e | 官方",
+    "IPU E2000用于Google→媒体/渠道多源,Google未官方确认 | broker·渠道"
+   ]
+  },
+  {
+   "system_name": "每1k GPU的leaf/spine交换芯片颗数(全代际模型推算)",
+   "vendor": "模型推算(fat-tree公式)",
+   "deploy_start": "2022适用至2028",
+   "mainstream_years": "2022-2028",
+   "accelerator": "通用:N端口数=GPU数×每GPU NIC端口数 | - | -",
+   "cpu": "不适用",
+   "scaleup_switch": "不适用(本条为scale-out交换芯片密度)",
+   "nic": "公式(非阻塞fat-tree,全部为模型推算):2-tier芯片数=3N/R,3-tier=5N/R(R=芯片端口radix)。A100代(200G,QM8700 R=40):2-tier约75颗/1k GPU(上限800 GPU)、3-tier约125颗/1k。H100代IB(Quantum-2 R=64@400G):2-tier约47颗/1k(上限2048 GPU)、3-tier约78颗/1k;H100/GB200以太网(TH5/Spectrum-4 R=128@400G):2-tier约23颗/1k(上限8192 GPU)、3-tier约39颗/1k。GB300代以太网(TH6/Spectrum-X800级 R=128@800G):2-tier约23颗/1k、3-tier约39颗/1k;GB300代IB(Quantum-3 ASIC R=36@800G):2-tier约83颗/1k、3-tier约139颗/1k(IB单ASIC radix低→芯片数约为以太网3.6倍)。VR200代(每GPU 2×800G端口,R=128@800G):2-tier约47颗/1k GPU、3-tier约78颗/1k;若2027+迁到1.6T端口+下代204.8T radix-128芯片则回落到23-39颗/1k",
+   "dpu": "不适用",
+   "notes": "结构性结论(模型推算):radix每代翻倍恰好抵消每GPU带宽翻倍,'每1k GPU交换芯片颗数'在同拓扑层级下大致守恒在约23-80颗区间,增长体现在每颗芯片带宽/价值量而非颗数;>radix²/2规模必须上3-tier,芯片数×1.67;实际部署前端/存储网常做2:1-4:1收敛(oversubscription),backend训练网通常非阻塞",
+   "sources": [
+    "公式与全部颗数→模型推算(k-ary fat-tree标准公式),radix输入来自:Quantum-2 25.6T=64×400G(NVIDIA官方)、TH5 51.2T(Broadcom官方)、TH6 102.4T=128×800G(Broadcom官方PR 2026-03-12, https://www.broadcom.com/company/news/product-releases/64031)、Quantum-3 28.8T×4/Q3400(NVIDIA datasheet)| 模型假设+官方radix"
+   ]
+  }
+ ],
+ "forward": [
+  {
+   "area": "NVIDIA 系统架构史(2022-2026 已",
+   "when": "2025-Q3 起(GB300)",
+   "change": "scale-out NIC 每 GPU 带宽 400G→800G(CX-7→CX-8),NIC:GPU 颗数比维持 1:1;B300 世代 NIC 首次上 HGX baseboard;GPU:CPU、NVSwitch 颗数不变(72:36:18)",
+   "source": "NVIDIA NVL72 AI Factory RA https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory/latest/components.html(官方);ServeTheHome HGX B300 报道(teardown)"
+  },
+  {
+   "area": "NVIDIA 系统架构史(2022-2026 已",
+   "when": "2026-H2(VR200 NVL72,原名 NVL144)",
+   "change": "Rubin 世代:72 Rubin packages(144 die): 36 Vera(88核 Olympus,chiplet 3nm——CPU 从 monolithic Grace 转 chiplet): NVLink6 switch tray;CX-9 SuperNIC 1.6Tb/s(NIC 带宽再翻倍)+ BlueField-4;GPU:CPU 维持 2:1;CES 2026-01 宣布 full production,H2 2026 volume(Stargate 首 1GW、Azure Fairwater、AWS/GCP/OCI/CoreWeave 首批)",
+   "source": "ServeTheHome CES 2026 报道(2026-01)https://www.servethehome.com/nvidia-launches-next-generation-rubin-ai-compute-platform-at-ces-2026/;The Register(2026-01-05)https://www.theregister.com/2026/01/05/ces_rubin_nvidia/;NVIDIA dev blog 'Vera Rubin POD' https://developer.nvidia.com/blog/nvidia-vera-rubin-pod-seven-chips-five-rack-scale-systems-one-ai-supercomputer/;SemiAnalysis 'Vera Rubin – Extreme Co-Design' https://newsletter.semianalysis.com/p/vera-rubin-extreme-co-design-an-evolution | 官方+研究机构"
+  },
+  {
+   "area": "NVIDIA 系统架构史(2022-2026 已",
+   "when": "2027E(Rubin Ultra NVL576,Kyber rack)",
+   "change": "package 口径 GPU:CPU 从 2:1 → 4:1(4-die/package ~9x reticle,144 packages:36 Vera,die 口径 576);已核查上下文:2026 年中传封装执行问题调整,最新状态未定——该时点与形态为最大分歧点",
+   "source": "NVIDIA GTC 2025 roadmap(官方宣布)+ 任务已核查事实(封装调整传闻);置信:官方路线图+渠道传闻,2027 形态=模型假设"
+  },
+  {
+   "area": "NVIDIA 系统架构史(2022-2026 已",
+   "when": "2024→2026(x86 配对迁移)",
+   "change": "HGX 平台 x86:SPR 8480C(H100/H200)→ EMR 8570(DGX B200)→ GNR Xeon 6700P/6900P 与 EPYC Turin 9005 并行(B200 OEM/B300);NVL 机架线 CPU 全部 captive(Grace→Vera),merchant x86 在 NVIDIA 加速器出货中的搭载比例随 NVL 占比上升而结构性下滑",
+   "source": "各 OEM spec(Dell XE 系列 spec sheet、Supermicro/ASRock datasheet,见 templates)| 官方"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "when": "2026-01(CES 2026)",
+   "change": "命名口径从 die 改 package:VR200 NVL144 → VR200 NVL72。配比数字本身不变(72 pkg/144 die),但所有以 NVL144 口径写的旧表需换算,否则 GPU 颗数虚增一倍",
+   "source": "郭明錤 X 2026-01 https://x.com/mingchikuo/status/2008439734536986852 (broker);黄仁勋 CES 2026 keynote 口径(官方)"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "when": "2026-H2(VR200 量产)",
+   "change": "scale-out NIC:GPU package 比从 1:1(GB300 CX-8 800G)→ 2:1(CX-9 1.6T,8颗/tray),每 package scale-out 带宽 4x;DPU 参考配比从 36 BF3/rack(GB200)→ 18 BF4/rack(1/tray)",
+   "source": "NVIDIA developer blog 2026-03-16(官方);SemiAnalysis 2026-02-25(分析师)"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "when": "2026-H2",
+   "change": "scale-up switch ASIC 或从 18颗/rack(GB200/GB300 NVSwitch gen4/5)→ 36颗/rack(NVSwitch gen6, 4/tray),对应每GPU NVLink 带宽 1.8→3.6TB/s;官方仅确认 9 switch tray,ASIC 颗数为 SemiAnalysis 口径",
+   "source": "SemiAnalysis 2026-02-25 https://newsletter.semianalysis.com/p/vera-rubin-extreme-co-design-an-evolution (分析师);NVIDIA blog(9 tray,官方)"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "when": "2026-03(GTC 2026)",
+   "change": "推理伴生硅路线切换:Rubin CPX(GDDR7 GPU,144/rack)移出 roadmap → Groq 3 LPX(256 SRAM LPU/rack,Samsung 4nm,非CoWoS)。原因:DRAM/HBM 价差收敛使独立 prefill GPU 失去经济性",
+   "source": "Tom's Hardware 2026-03 https://www.tomshardware.com/pc-components/gpus/nvidia-removes-rubin-cpx-accelerators-from-its-roadmap-groq-3-lpus-take-center-stage-as-cpx-is-removed (媒体/官方GTC材料)"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "when": "2026-06",
+   "change": "Rubin Ultra package 从 4-die(16 HBM4E,1TB)→ 2-die(8 HBM4E):单 package CoWoS 面积与 HBM 搭载减半,对 2027-2028 CoWoS/HBM 需求模型影响巨大;每rack package/CPU 数是否随之调整无公开",
+   "source": "Tom's Hardware 2026-06(经 icharles 2026-07 https://icharles.com/articles/nvidia-kyber-nvl144-delay-rubin-ultra 汇总)(媒体/渠道,NVIDIA未确认)"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "when": "2026-07-06",
+   "change": "Kyber 机柜从 2027H2 → 2028(延期12+个月,78层 midplane PCB 制造瓶颈);双柜铜互连过渡方案 NVL72x2 被客户否决取消 → 2027 出货主力仍为 VR200 NVL72(Oberon);NVIDIA 官方否认(roadmap is intact),分歧未决",
+   "source": "SemiAnalysis 2026-07-06(经 Tom's Hardware https://www.tomshardware.com/pc-components/gpus/nvidias-kyber-rack-for-rubin-ultra-slips-to-2028);NVIDIA 回应经 wccftech 2026-07(官方声明)"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "when": "代际轨迹(2023→2028)",
+   "change": "GPU:CPU 比:HGX 8:2=4:1(merchant x86)→ GB200/GB300/VR200 NVL72 2:1(captive Grace/Vera)→ Kyber 原设计 1:1 package口径(144:144,die口径4:1;2-die改版后待定);同时官方新增 256颗/rack 独立 Vera CPU Rack,captive CPU 出货部分与 GPU 解耦,全局 GPU:CPU 比趋降",
+   "source": "GTC 2025 keynote 12,672 Vera核=144颗(官方);NVIDIA blog 2026-03-16(官方);用户已核查 HGX/NVL72 事实"
+  },
+  {
+   "area": "AMD 平台 rack/system 配比模板(",
+   "when": "2026-H2",
+   "change": "scale-up switch 硅从 0 → 进rack BOM:MI355X及之前所有AMD平台scale-up域=8 GPU IF mesh、零switch芯片;Helios起72-GPU域引入Broadcom Tomahawk 6(UALoE),AMD阵营的scale-up switch TAM第一次出现且归属Broadcom merchant silicon而非AMD自研",
+   "source": "HPE press 2025-12(TH6+UALoE)+ SemiAnalysis 2025-06 | 官方+分析师"
+  },
+  {
+   "area": "AMD 平台 rack/system 配比模板(",
+   "when": "2026-H2",
+   "change": "backend NIC 配比从 1×400G/GPU → 最多3×800G/GPU(Vulcano),每GPU scale-out带宽6倍(400G→2.4T);NIC颗数弹性从8/node跳到最多216/rack,是AMD生态networking BOM最大的非线性项",
+   "source": "AMD官方博客 2025-10('up to 3 per GPU')+ SemiAnalysis 2025-06(Vulcano 2H26量产)| 官方",
+   "": ""
+  },
+  {
+   "area": "AMD 平台 rack/system 配比模板(",
+   "when": "2024→2028 全程",
+   "change": "GPU:CPU 恒定 4:1(8:2 → 128:32 → 72:18 → 256:64),AMD没有NVIDIA GB200式的2:1 captive CPU跳变;CPU始终为merchant EPYC socket,EPYC需求≈Instinct出货÷4(rack化不改变该比值)",
+   "source": "各代官方datasheet + STH CES 2026(Helios 18 CPU)+ Tom's 2025-09(MI500 64 CPU)| 官方/渠道"
+  },
+  {
+   "area": "AMD 平台 rack/system 配比模板(",
+   "when": "2027-H2",
+   "change": "scale-up域从72(单rack)→ 256(3-rack pod,中置18 switch tray),switch硅密度与rack间互联介质(铜→光?)为新变量,细节未披露",
+   "source": "Tom's Hardware / TweakTown 2025-09 泄露 | 渠道"
+  },
+  {
+   "area": "AMD 平台 rack/system 配比模板(",
+   "when": "2025-Q1",
+   "change": "AMD自家NIC attach 从 0 → 1:1:MI300X存量用Broadcom Thor2/NVIDIA CX-7,MI325X起官方参考BOM改为Pollara 400,Broadcom Thor2在AMD生态的NIC份额自2025起被Pensando侵蚀",
+   "source": "AMD press 2024-10-10 + Supermicro validated design 2025 | 官方"
+  },
+  {
+   "area": "Google TPU pod 架构(2022-2",
+   "when": "2023→2025(已发生,轨迹参考)",
+   "change": "训练线host CPU供应商轮换:v4疑似AMD(未官方确认)→ v5p Intel Sapphire Rapids → v6e AMD Genoa → v7 Intel Emerald Rapids;TPU:host比训练线稳定4:1、推理线8:1不变",
+   "source": "Google Cloud tpu-machines doc(官方,访问2026-07)"
+  },
+  {
+   "area": "Google TPU pod 架构(2022-2",
+   "when": "2026-Q4起",
+   "change": "host CPU从merchant x86(Intel EMR)→ captive Axion Arm:TPU 8t/8i两线均官宣挂Axion。对x86伴生配比模型的含义:Google TPU生态的Intel/AMD server CPU attach在2027-2028走向归零",
+   "source": "HyperFrame转述Cloud Next 2026(2026-04-22);Tom's Hardware Axion+Ironwood报道(2025-11)"
+  },
+  {
+   "area": "Google TPU pod 架构(2022-2",
+   "when": "2027",
+   "change": "TPU设计后端从Broadcom独家 → BRCM(训练8t Sunfish)+ MTK(推理8i Zebrafish)双轨,MTK成本低20-30%;Marvell亦被报进入供应链。CoWoS/测试需求需按两条线分别建模",
+   "source": "wccftech、TheNextWeb、天下杂志(2026-02至2026-05)"
+  },
+  {
+   "area": "Google TPU pod 架构(2022-2",
+   "when": "2026-2027",
+   "change": "训练pod规模9,216(v7)→9,600(8t),单fabric 134k chips、跨site>1M;推理pod 256(v6e)→1,152(8i,Boardfly拓扑)。OCS架构延续,pod内电packet switch ASIC维持0颗",
+   "source": "HyperFrame/Cloud Next 2026(2026-04-22);SemiAnalysis TPUv7"
+  },
+  {
+   "area": "Google TPU pod 架构(2022-2",
+   "when": "2026 vs 2027(分歧点)",
+   "change": "8t/8i GA时点:官方口径2026年内GA vs 供应链报道TSMC 2nm版本late 2027量产——可能为N3首版+2nm改版两阶段,建模时建议8t放2027年才上量",
+   "source": "HyperFrame(2026-04)vs wccftech/TheNextWeb供应链报道(2026年初)"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "when": "2024-Q4 → 2025-Q4",
+   "change": "AWS头节点CPU从merchant x86(2×Intel Sapphire Rapids per 16 Trainium2,CPU:XPU=1:8)切换为captive Graviton4(1颗/4 Trainium3,1:4);原因:tray级集成+去x86成本。对Intel DC CPU需求是净损失,对CPU:XPU比反而是上升(1:8→1:4)",
+   "source": "SemiAnalysis 2024-12-03(Trn2头节点)https://newsletter.semianalysis.com/p/amazons-ai-self-sufficiency-trainium2-architecture-networking + SemiAnalysis/The Register 2025-12(Trn3 1 Graviton4:4)https://www.theregister.com/2025/12/07/trainium3_all_nvidia_nvl72_mold/"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "when": "2025-Q4 → 2026",
+   "change": "AWS scale-up从零switch芯片(Trn2 3D torus直连)变为switched fabric(Trn3每144 chip配20个NeuronSwitch tray,PCIe Gen6,SemiAnalysis指Astera Labs Scorpio-X);原因:MoE模型需要all-to-all并发。rack BOM内新增一类锁死的switch硅",
+   "source": "SemiAnalysis Trainium3 Deep Dive 2025-12 https://newsletter.semianalysis.com/p/aws-trainium3-deep-dive-a-potential(研究机构档,Scorpio-X未获官方确认)"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "when": "2026(全年出货结构)",
+   "change": "Trainium3出货主力预计是NL32x2风冷SKU(64 chip、CPU移出rack、tray内CPU:XPU=0),而非旗舰NL72x2(1:4)——直接拉低AWS ASIC生态的加权CPU配比",
+   "source": "SemiAnalysis 2025-12 'Majority of Trainium3 delivered in the NL32x2 SKU in 2026' https://newsletter.semianalysis.com/p/aws-trainium3-deep-dive-a-potential(研究机构预测档)"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "when": "2027E",
+   "change": "Trainium4采用NVIDIA NVLink Fusion + MGX(最多72 ASIC all-to-all 3.6TB/s,NVLink6 switch tray)——scale-up switch硅从Astera/自研PCIe6路线部分转向NVIDIA NVSwitch;分歧点:自研NeuronSwitch Gen2/Gen3(UALink)是否并行双轨",
+   "source": "NVIDIA Dev Blog 2025-12-02 https://developer.nvidia.com/blog/aws-integrates-ai-infrastructure-with-nvidia-nvlink-fusion-for-trainium4-deployment/(官方)vs SemiAnalysis switch路线图(研究机构)"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "when": "2026-2027",
+   "change": "Meta MTIA从单芯片单用途转为6个月节奏4款芯片(300训练/400/450/500推理),rack沿用72/rack modular drop-in;网络功能上收至package(MTIA 300含2颗network chiplet),独立NIC需求存疑",
+   "source": "Meta官方 2026-03 https://about.fb.com/news/2026/03/expanding-metas-custom-silicon-to-power-our-ai-workloads/ + Tom's Hardware 2026-03(chiplet构成)"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "when": "2026起(结构性)",
+   "change": "Maia 200与OpenAI XPU均采用标准Ethernet scale-up且NIC集成/由Broadcom包办——ASIC阵营rack BOM中离散NIC与DPU趋近于0,networking价值量向Ethernet switch硅(Tomahawk 6等)与AEC/光集中;与NVIDIA形态(每GPU 1×CX NIC + BlueField)的伴生芯片结构分道",
+   "source": "Microsoft Blog 2026-01-26(integrated NIC)+ OpenAI/Broadcom PR 2025-10-13(scaled entirely with Ethernet)"
+  },
+  {
+   "area": "Scale-out/前端网络配比(跨生态,202",
+   "when": "2025-H2→2026",
+   "change": "每GPU scale-out带宽从400G(CX-7,H100/GB200)升至800G(CX-8,GB300),NIC:GPU颗数比维持1:1;交换侧radix从51.2T(TH5/Quantum-2代)升至102.4T(TH6 2026-03量产/Quantum-X800),每1k GPU交换芯片颗数大致守恒、单芯片价值量翻倍",
+   "source": "NVIDIA GB300官方页;Broadcom TH6量产PR 2026-03-12;每1k颗数守恒为模型推算 | 官方+模型假设"
+  },
+  {
+   "area": "Scale-out/前端网络配比(跨生态,202",
+   "when": "2026-H2→2027",
+   "change": "VR200量产使每GPU NIC颗数从1颗(CX-8)变为2颗(CX-9,单芯片800G、聚合1.6T/GPU)——CX系NIC颗数配比首次翻倍而非单纯提速;交换端口向1.6T迁移启动",
+   "source": "Wheeler's Network 2025-11(CX-9=800G/颗、8颗/tray);The Register CES 2026-01-05(VR200量产)| 分析师+官方"
+  },
+  {
+   "area": "Scale-out/前端网络配比(跨生态,202",
+   "when": "2026",
+   "change": "AMD scale-out NIC从Pollara 400(400G,MI350代1:1)升至Vulcano 800G(Helios/MI450代,每GPU最多3颗=2.4T),配比从1:1×400G变为(1-3):1×800G,存在部署分歧",
+   "source": "AMD官方blog 2025-06;Oracle PR 2025-10-14 | 官方(顶配口径),实际出货配比=模型假设区间"
+  },
+  {
+   "area": "Scale-out/前端网络配比(跨生态,202",
+   "when": "2027",
+   "change": "1.6T预计超越800G成为新建AI backend主流端口速率;LightCounting口径1.6T端口2026年从小基数增至千万级、1.6T芯片方案销售额2026超20亿美元",
+   "source": "Woodside Capital(经MLQ汇编,2026);LightCounting 2026-04市场预测, https://www.lightcounting.com/newsletter/en/april-2026-market-forecast-379 | 三方研究机构"
+  },
+  {
+   "area": "Scale-out/前端网络配比(跨生态,202",
+   "when": "2026-2028",
+   "change": "scale-up域从72(NVL72)向144/576(Rubin Ultra NVL576,2027+)扩大,但公开证据显示这不降低scale-out每GPU端口配比(H100→NVL72保持1:1,之后还升到2:1);真正被抑制的是把scale-up流量错配到scale-out网的需求,以及CPO/LPO在2026-2027进入scale-up层、2028放量",
+   "source": "SemiAnalysis 2024-03-25(1:1不变);LightCounting 2026-05(scale-up光互连2026-27启动、2028高量)| 分析师;无broker对'转移效应'的颗数级量化公开数据"
+  }
+ ],
+ "mix": [
+  {
+   "area": "NVIDIA 系统架构史(2022-2026 已",
+   "year": "2024",
+   "estimate": "Hopper HGX 形态≈100%(H100/H200 全部为 8-GPU HGX,无 NVL 机架版);GB200 NVL72 仅 2024-12 首批交付,全年 NVL 占比可忽略",
+   "source": "结构性事实(Hopper 无 NVL SKU)+ DCD 2024-12 首批交付报道 https://www.datacenterdynamics.com/en/news/nvidia-server-makers-solve-blackwell-technical-issues-ramp-up-shipments-of-gb200-racks-report/ | 官方产品结构+媒体"
+  },
+  {
+   "area": "NVIDIA 系统架构史(2022-2026 已",
+   "year": "2025(预期,2024 年末口径)",
+   "estimate": "GB200 各形态中 NVL72 占最高 80%(TrendForce);2025 NVL72 机架预期从 50k-80k 下修至 25k-35k(供应链优化问题);Blackwell 占 NVIDIA 高端 GPU 出货 >80%(TrendForce 2025-07)",
+   "source": "TrendForce 2024-12-17 https://www.trendforce.com/presscenter/news/20241217-12412.html;下修数经 TweakTown 汇总(2024-12)https://www.tweaktown.com/news/102217/;TrendForce 2025-07-24 https://www.trendforce.com/presscenter/news/20250724-12653.html | broker·渠道"
+  },
+  {
+   "area": "NVIDIA 系统架构史(2022-2026 已",
+   "year": "2025(实际,事后口径)",
+   "estimate": "GB200+GB300 NVL72 全年合计 27,300 racks(11月单月约 5,500,+29% MoM)≈ 197 万颗 GPU package 走 NVL 形态;对照分析师 2025 Blackwell 总出货约 520 万颗口径,NVL 占 Blackwell 约 38%,其余为 HGX B200 等(该占比为本人粗算=模型假设)",
+   "source": "Morgan Stanley(2025-12-09,经 Longbridge 转述)https://longbridge.com/en/news/269012729 | broker;520 万颗→分析师估计经 TweakTown(2025)https://www.tweaktown.com/news/106116/ | broker·渠道;占比换算=模型假设"
+  },
+  {
+   "area": "NVIDIA 系统架构史(2022-2026 已",
+   "year": "2026(预期)",
+   "estimate": "NVL72 racks 70,000-80,000(自 60k-70k 上修,GB300 为主,GB300 出货 +129% YoY);GPU 颗数口径:Blackwell 约 180 万 + Rubin 约 570 万(Rubin H2 起量);HGX B300 vs GB300 NVL72 的直接占比无公开 broker 数字",
+   "source": "Morgan Stanley 2025-12-09(经 Longbridge)https://longbridge.com/en/news/269012729;wccftech GB300 +129% https://wccftech.com/nvidia-blackwell-ultra-ai-servers-to-lead-the-ai-infrastructure-race-moving-into-2026/;GPU 颗数→TweakTown 汇总分析师估计 https://www.tweaktown.com/news/106116/ | 全部 broker·渠道档"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "year": "2026H2",
+   "estimate": "VR200 NVL72 机柜出货 ~5,000-7,000 台(≈36-50万 Rubin package);3Q26 末量产、4Q26 放量。2026 全年 NVIDIA 机柜出货主力仍为 GB300 NVL72,Rubin 占比小尾巴",
+   "source": "郭明錤 X 2026-01(broker·渠道);TrendForce/媒体口径 Q3 首发、Q4 放量(渠道)"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "year": "2027",
+   "estimate": "无公开的 VR200 机架数 broker 预测(截至 2026-07 检索未见 TrendForce/MS 给出 2027 rack 台数)。定性:若 Kyber 延期成立,2027 NVIDIA 机柜出货 ≈100% 为 Oberon 形态(VR200 NVL72 及衍生),Kyber/800V 占比≈0;TrendForce 称 800V 采用要到 Rubin Ultra 世代才放量",
+   "source": "SemiAnalysis 2026-07-06 延期报道(分析师);TrendForce 2026-06-25 https://www.trendforce.com/presscenter/news/20260625-13121.html (行业调研);'2027全为Oberon'为模型假设"
+  },
+  {
+   "area": "NVIDIA 前瞻(2026H2-2028):R",
+   "year": "2028",
+   "estimate": "Kyber(Rubin Ultra,2-die,~600kW,800VDC)开始 ramp,与 VR200/Oberon 并行;Feynman 官方 roadmap 年份但大概率仅年末样机/小批量。无任何量化 mix 公开数据",
+   "source": "SemiAnalysis 2026-07-06(分析师);NVIDIA GTC roadmap(官方年份);占比判断=模型假设"
+  },
+  {
+   "area": "AMD 平台 rack/system 配比模板(",
+   "year": "2025",
+   "estimate": "AMD机柜化率≈0%:全部出货为8-OAM UBB形态(MI300X/325X/350/355X);'128-GPU MI355X rack'仅是密度打包,配比口径仍按8-GPU node计。UBS全年AMD AI GPU约54.45万颗(2025估)",
+   "source": "UBS供应链更新(经Jukan转述,2025-11)https://x.com/jukan05/status/1992209835249819925 | broker;rack化率0为结构性事实(官方)"
+  },
+  {
+   "area": "AMD 平台 rack/system 配比模板(",
+   "year": "2026",
+   "estimate": "UBS: AMD AI GPU约81.7万颗(+59%上修),MI350系主导、MI450 Q3'26起量 → Helios rack形态占全年出货约10-20%(颗数口径,模型假设:MI450 2026年出货基本全为rack,OpenAI首GW+Oracle 50k起跑均在2H26)",
+   "source": "UBS via Jukan 2025-11 | broker;rack占比区间为模型假设(无broker直接披露rack/UBB拆分)"
+  },
+  {
+   "area": "AMD 平台 rack/system 配比模板(",
+   "year": "2027",
+   "estimate": "分析师口径AMD约190万颗、以MI450系为主 → 机柜化率或达60-75%(模型假设:MI450几乎只以Helios rack交付,残余MI355X/MI400非rack变体占25-40%);OpenAI 6GW、Oracle 50k MI450、Meta均为rack形态订单",
+   "source": "1.9M/2027 → wccftech引分析师 2026-02 https://wccftech.com/amd-server-cpu-revenue-to-surge-80-percent-2026-estimated-1-9m-ai-gpus-shipping-by-2027/ | broker转述;rack化率为模型假设,无公开broker拆分"
+  },
+  {
+   "area": "AMD 平台 rack/system 配比模板(",
+   "year": "2028",
+   "estimate": "MI500 UAL256接棒后rack/pod化率进一步上行(>80%,纯模型假设);无任何公开broker数据",
+   "source": "模型假设(基于AMD路线图全部rack-scale化,AMD FAD 2025-11)"
+  },
+  {
+   "area": "Google TPU pod 架构(2022-2",
+   "year": "2025",
+   "estimate": "出货主力为v6e Trillium(推理/中训)+v5p存量,Ironwood 2025-Q4才GA开始爬坡;各代际出货占比无公开数据(Google不披露TPU出货量,第三方TrendForce/野村口径本次未获可引用数字)",
+   "source": "GA时点:Google Cloud blog(2025-11)| 官方;占比:无公开数据"
+  },
+  {
+   "area": "Google TPU pod 架构(2022-2",
+   "year": "2026",
+   "estimate": "Ironwood为绝对出货主力(Anthropic百万TPU/1GW级合约驱动),8t/8i年末才开始贡献;pod形态上训练部署以9,216-chip满pod为主、推理以子slice切分——满pod vs 切分占比无公开数据",
+   "source": "Anthropic订单:Google官方公告/媒体(2025-10);8t/8i时点:Cloud Next 2026(2026-04)| 占比:无公开数据"
+  },
+  {
+   "area": "Google TPU pod 架构(2022-2",
+   "year": "2027E",
+   "estimate": "8t(BRCM)+8i(MTK)双轨放量,Ironwood退居存量;训练:推理芯片出货比无公开数据——8i成本低20-30%+推理需求结构性上行,MTK线占比为模型关键假设项",
+   "source": "wccftech/TheNextWeb/天下杂志(2026);占比:模型假设,无公开数据"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "year": "2025",
+   "estimate": "Trainium2为AWS自研ASIC出货绝对主力;Project Rainier(Anthropic)单集群约50万颗Trainium2(2025-10 AWS官方口径,记忆引用、URL未在本次检索核验,建议复核 aboutamazon.com Project Rainier 2025-10 新闻稿),表明Trn2出货以UltraServer+EFA大集群形态为主",
+   "source": "AWS官方 2025-10 Project Rainier公告(官方档,待核验)"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "year": "2026",
+   "estimate": "Trainium3出货多数为NL32x2风冷64-chip SKU,旗舰NL72x2(144-chip液冷)占少数;具体百分比无公开数据",
+   "source": "SemiAnalysis 2025-12 https://newsletter.semianalysis.com/p/aws-trainium3-deep-dive-a-potential(研究机构预测)"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "year": "2026",
+   "estimate": "Maia 200初期仅US Central + US West 3两个region,部署量级远小于AWS Trainium/Google TPU(官方未给量,NextPlatform展示'半满rack'照片);占MSFT自身推理算力比重无公开数据",
+   "source": "Microsoft Blog 2026-01-26 + The Next Platform 2026-01-28(官方/媒体)"
+  },
+  {
+   "area": "AWS Trainium / Meta MTIA",
+   "year": "2026H2-2029",
+   "estimate": "OpenAI/Broadcom合计10GW自研XPU,2026H2开始部署、2029年底完成;若按~1kW/chip级功耗粗算对应数百万颗package量级(模型假设,官方仅给GW口径)",
+   "source": "OpenAI/Broadcom联合官宣 2025-10-13 https://openai.com/index/openai-and-broadcom-announce-strategic-collaboration/(官方,GW口径)"
+  },
+  {
+   "area": "Scale-out/前端网络配比(跨生态,202",
+   "year": "2024",
+   "estimate": "800G及以上速率光模块占全球出货19.5%(scale-out网络速率结构基准点)",
+   "source": "TrendForce 2026-02-10, https://www.trendforce.com/presscenter/news/20260210-12919.html | 三方研究"
+  },
+  {
+   "area": "Scale-out/前端网络配比(跨生态,202",
+   "year": "2026",
+   "estimate": "800G+光模块占比超60%;800G出货量同比翻倍以上,1.6T从2025年小基数增至千万端口级",
+   "source": "TrendForce 2026-02-10;LightCounting 2026-04预测 | 三方研究"
+  },
+  {
+   "area": "Scale-out/前端网络配比(跨生态,202",
+   "year": "2027",
+   "estimate": "1.6T预计超过800G成为新建AI backend网络第一大端口速率(与VR200/CX-9、TH6/Spectrum-6放量同步)",
+   "source": "Woodside Capital Partners预测(MLQ汇编2026)| 三方研究/预测"
+  },
+  {
+   "area": "Scale-out/前端网络配比(跨生态,202",
+   "year": "2026-2028",
+   "estimate": "scale-out NIC生态份额:NVIDIA CX系在NVIDIA GPU出货中约1:1锁定(云自研除外:AWS全部Nitro/EFA替代、Google TPU侧无CX需求);AMD Pollara/Vulcano随MI450放量(Oracle首批5万颗)——无公开broker给出各家NIC出货占比精确数",
+   "source": "AWS/Google官方架构文档+Oracle PR;占比无公开量化 | 官方+无公开数据"
+  }
+ ],
+ "verdicts": [
+  {
+   "claim": "GB200/GB300 NVL72 = 72 GPU packages : 36 Grace : 18 NVSwitch gen4(9 tray × 2) : 72 NIC(4/tray,1:1 per GPU)",
+   "verdict": "confirmed",
+   "evidence": "NVIDIA 官方文档逐项确认,断言可作为全表锚点使用。(1) 72 GPU / 36 Grace / 18 计算 tray:NVIDIA DGX GB200 用户指南明确 \"18x 1RU compute trays, each with 2 Grace CPUs and 4 Blackwell GPUs\"(=72 GPU、36 Grace);GB300 NVL72 官方页及 Lenovo 产品指南同为 18 tray × (4 B300 + 2 Grace)。(2) 18 NVSwitch:官方指南 \"9x 1RU NVLink switch trays\",每 tray \"2x NVLink NVSwitches\" = 18 颗;代际表述正确——Blackwell 用第四代 NVSwitch 芯片(每颗 72 个 NVLink5 端口,每 tray 144 端口)承载第五代 NVLink,GB300 沿用同一 NVLink5 交换架构(9 switch tray)。(3) 72 NIC、4/tray、1:1 per GPU:GB200 官方指南 \"4x ConnectX-7 single port 400G OSFP NIC\" per compute tray(scale-out 计算网,18×4=72,恰好每 GPU 一颗);GB300 为每 tray 4 颗 ConnectX-8 器件(NVIDIA 官方:每个 CX-8 IO 模块含 2 颗 CX-8 器件,每 tray 2 块 IO 板,为每 GPU 提供 800Gb/s,1:1 保持)。两点补充性 caveat(不推翻断言,但做芯片需求推算时需注意):a) 72 NIC 仅指计算网 ConnectX,不含存储/管理网 BlueField-3 DPU——GB200 每 tray 另有 2 颗 BF-3(全机架 +36),Lenovo GB300 配置每 tray 1 颗 BF-3 B3240;若外推 NIC 芯片总需求应加上 DPU。b) GB300 的 \"4/tray\" 是按 CX-8 芯片计;按板卡计是 2 块 OSFP IO 板/tray(Lenovo 写作 2 NIC),口径需统一到芯片级。",
+   "sources": [
+    "https://docs.nvidia.com/dgx/dgxgb200-user-guide/hardware.html",
+    "https://www.nvidia.com/en-us/data-center/gb200-nvl72/",
+    "https://www.nvidia.com/en-us/data-center/gb300-nvl72/",
+    "https://lenovopress.lenovo.com/lp2357-lenovo-nvidia-gb300-nvl72-rack-scale-ai",
+    "https://docs.nvidia.com/multi-node-nvlink-systems/multi-node-tuning-guide/overview.html",
+    "https://developer.nvidia.com/blog/nvidia-gb200-nvl72-delivers-trillion-parameter-llm-training-and-real-time-inference/"
+   ]
+  },
+  {
+   "claim": "VR200 NVL72 官方配比 = 72 Rubin package(144 die) : 36 Vera : 144 CX-9(每GPU 2颗单芯片800G,8/tray) : 18 BF4(1/tray),18 compute tray + 9 NVLink switch tray(NVIDIA developer blog 2026-03-16)",
+   "verdict": "confirmed",
+   "evidence": "对抗性核查后全部要点成立,且来源日期准确。NVIDIA 开发者博客《NVIDIA Vera Rubin POD: Seven Chips, Five Rack-Scale Systems, One AI Supercomputer》(发表日期 2026-03-16)原文:\"The rack integrates 72 NVIDIA Rubin GPUs, 36 NVIDIA Vera CPUs, ConnectX-9 SuperNICs, and BlueField-4 DPUs across 18 compute trays, alongside 9 NVLink switch trays\";并明确每 compute tray 前置模块舱 \"house eight ConnectX-9 SuperNICs and one BlueField-4 DPU\" → 8×18=144 CX-9、1×18=18 BF4,即每 GPU 2 颗 CX-9(每 tray 4 GPU)。最易错的\"2颗/GPU、单芯片800G\"口径获双重独立确认:①开发者博客 8/tray 的算术直接锁定 2/GPU;②SemiAnalysis teardown 原文 \"NVIDIA is doubling the number of NICs per GPU to achieve 2x scale-out bandwidth\" 及 \"The ConnectX-9 is largely iterative from ConnectX-8, with the same 800G networking bandwidth\"(即单颗800G,2颗合计1.6Tb/s/GPU,与NVIDIA官方\"1.6Tb/s per GPU\"一致)。144 die = 72 package × 2 reticle-sized dies,由 SemiAnalysis 确认。故断言中提示的两大建模陷阱确实存在:按1颗/GPU建模会把NIC低估50%,BF4按36/rack会高估2倍,正确锚点即为 144 CX-9 与 18 BF4。唯一措辞提示:早期(2026-01-05)博客称每tray\"quad ConnectX-9 SuperNIC boards\",即4块板卡各含2颗芯片——引用时注意\"板\"与\"颗\"口径区别,颗数以144为准。",
+   "sources": [
+    "https://developer.nvidia.com/blog/nvidia-vera-rubin-pod-seven-chips-five-rack-scale-systems-one-ai-supercomputer/",
+    "https://developer.nvidia.com/blog/inside-the-nvidia-rubin-platform-six-new-chips-one-ai-supercomputer/",
+    "https://newsletter.semianalysis.com/p/vera-rubin-extreme-co-design-an-evolution",
+    "https://www.nvidia.com/en-us/data-center/vera-rubin-nvl72/"
+   ]
+  },
+  {
+   "claim": "Rubin Ultra package 已从 4-die/16 HBM4E 改为 2-die/8 HBM4E(2026-06 多家报道,NVIDIA 未确认);Kyber 机柜被 SemiAnalysis(2026-07-06)称延期至 2028、NVL72x2 过渡方案取消;NVIDIA 公开否认延期",
+   "verdict": "confirmed",
+   "evidence": "三段断言均获多源独立佐证。(1) 封装改动:SemiAnalysis 于 2026-06-30 报道 4-die/16 HBM4E 的 Rubin Ultra 因 CoWoS-L 封装限制(约7.5-8倍reticle、有机基板热循环翘曲;替代方案 CoPoS 量产要到 2028 底-2029 初)被取消,改为 2-die/8 HBM4E、性能约为原设计一半;Tom's Hardware、TechTimes、Igor's Lab、wccftech 等多家转载,且明确 \"Nvidia has not officially confirmed the change\" — 与断言一致(报道时点为 6 月末至 7 月初,\"2026-06\" 略微宽松)。(2) Kyber:SemiAnalysis 2026-07-06 称 Kyber NVL144 因 78 层 midplane PCB(448G+ SerDes 正交背板)制造困难延期 12 个月以上至 2028,NVL72x2 过渡方案因 CSP/超大规模客户强烈反对其非常规设计与运维负担而取消 — 日期与内容完全吻合。(3) NVIDIA 回应:官方对延期传闻的公开回应为简短声明 \"Our roadmap is intact\",拒绝进一步说明,被 Yahoo Finance/wccftech 等报道为\"否认延期\";严格说这是笼统否认而非逐点驳斥,但断言表述成立。核查结论:三条线(CoWoS 面积减半、单封装 HBM 颗数 16→8、机柜形态推迟)的报道事实均成立,但均源于 SemiAnalysis 单一情报源、NVIDIA 官方口径相反,前瞻模型应按\"报道 vs 官方否认\"双情景处理而非视为已定案。",
+   "sources": [
+    "https://www.tomshardware.com/pc-components/gpus/nvidias-kyber-rack-for-rubin-ultra-slips-to-2028",
+    "https://www.cnbc.com/2026/07/06/nvidia-kyber-rack-system-delays-manufacturing-taiwan-rubin-chips-.html",
+    "https://wccftech.com/nvidia-quashes-rubin-kyber-rack-delay-rumors-says-chip-roadmap-is-intact/",
+    "https://finance.yahoo.com/technology/article/nvidia-denies-report-its-next-generation-ai-server-faces-delays-says-roadmap-is-intact-183310296.html",
+    "https://icharles.com/articles/nvidia-kyber-nvl144-delay-rubin-ultra",
+    "https://www.techtimes.com/articles/319410/20260701/nvidia-rubin-ultra-four-die-gpu-cancelled-packaging-limits-cut-2027-performance-half.htm",
+    "https://www.igorslab.de/en/nvidia-rubin-ultra-four-die-design-dropped/",
+    "https://www.datacenterdynamics.com/en/news/nvidia-pushes-kyber-release-to-2028-following-manufacturing-concerns-report/"
+   ]
+  },
+  {
+   "claim": "NVIDIA 主线 scale-out NIC:GPU 恒为 1:1 且带宽逐代翻倍(A100=200G CX-6 → H100=400G CX-7 → GB200=400G CX-7 → GB300=800G CX-8 → 1.6T CX-9),代际变化在速率非颗数;scale-up 域扩大到 NVL72 并未削减该配比",
+   "verdict": "nuanced",
+   "evidence": "主体成立,但有三处需修正。【核心正确】compute fabric 的 NIC:GPU=1:1 在各代参考设计中均得到官方文档确认:DGX A100 官方 datasheet 为 8× 单口 CX-6 HDR 200G 对应 8 GPU(另有 2× CX-6 用于存储/带内管理,不计入 scale-out);DGX H100 为 8× CX-7 400G compute fabric(Cedar Fever 卡,系统共 10 颗 CX-7,其中 2 颗用于存储);GB200 NVL72 每 compute tray 4× CX-7 对应 4 GPU;GB300 NVL72 官方页面明确 CX-8 SuperNIC 提供每 GPU 800G;Vera Rubin NVL72 官方页面标 CX-9 每 GPU 1.6Tb/s。SemiAnalysis 对 GB200 的 teardown 明确写道后端网络 400G 或 800G 视配置而定,\"but always with a ratio of 1 NIC per GPU\"——NVL72 scale-up 域扩大并未削减 scale-out 配比,这一点确认。【修正一:\"逐代翻倍\"表述不严格】断言枚举本身已显示 H100→GB200 停留在 400G CX-7,未翻倍;翻倍轨迹是 200G→400G→(400G)→800G→1.6T,即\"隔代看翻倍、GB200 为平台期\"。【修正二:GB200≠恒定 CX-7 400G】SemiAnalysis 及 NVIDIA 路线均指出 2025 年中之后部署的 GB200 racks 可选配 CX-8 800G(Quantum-X800 配套),CX-8 并非 GB300 独占,GB200 存量与增量存在 400G/800G 混配,把 GB200 一刀切按 400G 建模会低估部分 800G 光模块/交换端口需求。【修正三:\"变化在速率非颗数\"到 Rubin 一代出现裂缝】第三方对 Rubin 网络架构的拆解(Wheeler's Network)指出单颗 ConnectX-9 硅片实际为 800Gbps,Rubin 的每 GPU 1.6T 是通过每 GPU 配置翻倍的 NIC 硅片实现的(\"NVIDIA is doubling the number of NICs per GPU\");GB300 的 CX-8 IO 模块同样是一模块双芯(每芯服务一 GPU 800G)。即:按 NVIDIA 口径的\"SuperNIC 端口带宽/GPU\"确为 1:1 且 Rubin 达 1.6T,但按硅片颗数口径,Rubin 一代 CX 芯片颗数可能翻倍——这正是断言声称不会发生的\"颗数路径\",对 NIC 颗数×ASP 及 SerDes/光模块估算是实质性风险点,建议对 Rubin 一代单独按\"2×800G 芯片/GPU\"做敏感性。【正确表述】\"NVIDIA 参考设计中 scale-out compute fabric 的 NIC带宽:GPU 恒为 1:1(A100=200G→H100=400G→GB200=400G 可升 800G→GB300=800G→Rubin=1.6T),NVL72 未削减该配比;但带宽并非每代翻倍(GB200 平台期),且到 CX-9/Rubin,每 GPU 1.6T 由约两颗 800G 级硅片实现,颗数口径开始与端口口径分叉;另各系统还有 2 颗左右 CX/BF 用于存储管理网,不在 1:1 之内。\"",
+   "sources": [
+    "https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/nvidia-dgx-a100-datasheet.pdf",
+    "https://docs.nvidia.com/dgx/dgxh100-user-guide/introduction-to-dgxh100.html",
+    "https://newsletter.semianalysis.com/p/gb200-hardware-architecture-and-component",
+    "https://newsletter.semianalysis.com/p/nvidias-optical-boogeyman-nvl72-infiniband",
+    "https://www.nvidia.com/en-us/data-center/gb300-nvl72/",
+    "https://www.nvidia.com/en-us/data-center/vera-rubin-nvl72/",
+    "https://developer.nvidia.com/blog/inside-the-nvidia-rubin-platform-six-new-chips-one-ai-supercomputer/",
+    "https://www.wheelersnetwork.com/2025/11/decoding-nvidias-rubin-networking-math.html",
+    "https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-gb200/latest/_downloads/238ab33ee345a7241fc2f15eedc2ff6c/RA11338001-DSPGB200-ReferenceArch.pdf"
+   ]
+  },
+  {
+   "claim": "Rubin CPX(144 GDDR7 GPU/rack)已于 GTC 2026(2026-03)移出 roadmap,由 Groq 3 LPX(256 SRAM LPU/rack,Samsung 4nm,非CoWoS)接替推理伴生角色",
+   "verdict": "nuanced",
+   "evidence": "【核实为真的部分】(1) Rubin CPX 确已在 GTC 2026(2026年3月)从 NVIDIA roadmap 上消失:Tom's Hardware 标题即为 \"Nvidia removes Rubin CPX accelerators from its roadmap\";The Elec(2026-05-27 供应链报道)称 NVIDIA 目前未下任何 CPX 相关的存储(GDDR7)和基板订单,业内视其为\"事实性取消\"——即 CPX 并无小批量出货,GDDR7/ABF 条线不应加回,按旧 roadmap 保留 CPX 才是错误方向。(2) 机柜数字正确:原 Vera Rubin NVL144 CPX 机柜含 144 颗 Rubin CPX GPU(单卡 128GB GDDR7,8×16GB),The Elec 确认该规格。(3) Groq 3 LPX 规格正确:GTC 2026 发布,单机柜 256 颗 LP30 LPU(32 个 1U tray × 8),合计 128GB SRAM,~315 PFLOPS FP8,Samsung SF4X(4nm)代工(非 TSMC),计划 2026Q3 出货,Samsung 产能已从约 9,000 片爬到约 15,000 片晶圆,源自 NVIDIA 与 Groq 200 亿美元授权+人才交易(2025年12月下旬)。【需修正的部分】(a) \"接替角色\"不是功能对位替换:LPX 优化的是 decode(token 生成)阶段,而 CPX 原定位是 prefill/长上下文阶段——两者是推理管线的相反两端(The Register: \"LPUs are designed to speed up token generation during the decode phase, while CPX was intended to cut the time... during prefill\")。LPX 接管的是 Vera Rubin 平台\"推理伴生加速器\"这个产品槽位,而非 CPX 的 prefill 职能。(b) \"移出 roadmap\"≠正式取消:ServeTheHome 称 NVIDIA 未正式 cancel,只表态\"专注把 LPU/LPX 整合进 Vera Rubin 优化 decode\";wccftech/The Register 均称 CPX 概念可能随 Feynman(~2028)回归。建模上 2026-2027 窗口内可按取消处理,但 2028+ 应留 GDDR7 类 prefill 加速器回归的情景。(c) \"非CoWoS\"是合理推断而非文档明载:LP30 纯片上 SRAM(每颗 ~500-512MB)、无 HBM、Samsung 代工(不经 TSMC CoWoS 产能),抓取到的 The Register 与 ServeTheHome 原文均未明确写出封装形式,该细节应标注为\"强推断,待 teardown 确认\"。正确表述:\"Rubin CPX(原 NVL144 CPX 机柜 144 颗 GDDR7 GPU)在 GTC 2026(2026-03)被移出 roadmap 且供应链无 GDDR7/基板订单(事实性搁置,未小批量出货,概念或随 2028 Feynman 回归);Vera Rubin 平台的推理伴生槽位改由 Groq 3 LPX(256 颗 LP30 LPU/rack,128GB SRAM,Samsung 4nm,无HBM、大概率不走 CoWoS)承担,但 LPX 面向 decode 而非 CPX 原定的 prefill。\"",
+   "sources": [
+    "https://www.tomshardware.com/pc-components/gpus/nvidia-removes-rubin-cpx-accelerators-from-its-roadmap-groq-3-lpus-take-center-stage-as-cpx-is-removed",
+    "https://www.thelec.net/news/articleView.html?idxno=10763",
+    "https://www.theregister.com/2026/03/19/nvidia_lpx_deep_dive/",
+    "https://www.servethehome.com/decoding-the-future-of-inference-at-nvidia-groq-lpus-join-vera-rubin-platform-for-low-latency-inference/2/",
+    "https://www.tomshardware.com/tech-industry/semiconductors/nvidias-20-billion-groq-deal-produces-its-first-chip",
+    "https://wccftech.com/nvidia-rubin-cpx-is-off-the-roadmap-but-may-return-with-feynman-in-2028/"
+   ]
+  },
+  {
+   "claim": "Morgan Stanley(2025-12-09):2025 全年 GB200/GB300 NVL72 合计 27,300 racks,2026E 70k-80k racks",
+   "verdict": "confirmed",
+   "evidence": "Longbridge 转述的 Morgan Stanley 报告(日期正是 2025-12-09)与断言逐字吻合:2025 全年 GB200/300 机柜出货 27,300 台(由此前 28,000 下修),2026E 上调至 70,000–80,000 台(此前为 60,000–70,000);另给出 2025 年 11 月单月约 5,500 台、环比 +29% 的过程数据,与全年 27,300 的量级自洽。中文渠道(雪球/新浪等对大摩 GB300/Rubin 拆解的转载)亦印证大摩此前\"2025 约 2.8 万台 → 2026 至少 6 万台\"的旧口径,说明 27,300/70k–80k 是 12 月 9 日的更新版而非张冠李戴。注意两点细微限定:(1) 未能获取大摩报告原文 PDF,核查基于多个独立二手转述的一致性;(2) 该口径为 GB200+GB300 合并、不区分两者拆分,且是出货/产量估计——用作 NVL 占 Blackwell ~38% 反推及 2026 Grace/NVSwitch 需求外推的基数时,引用是忠实的。",
+   "sources": [
+    "https://longbridge.com/en/news/269012729",
+    "https://xueqiu.com/9966004797/390534682",
+    "https://zhuanlan.zhihu.com/p/1982515110321864972"
+   ]
+  },
+  {
+   "claim": "HGX baseboard NVSwitch 颗数:Hopper(H100/H200)= 4 颗 gen3,Blackwell(B200/B300)= 2 颗 gen4",
+   "verdict": "confirmed",
+   "evidence": "NVIDIA 官方 Fabric Manager User Guide 直接证实全部要素:(1) Hopper——\"Third-generation NVSwitches are used in DGX H100 and NVIDIA HGX H100 8-GPU server systems. This server variant consists of one GPU baseboard with eight NVIDIA H100 GPUs and four NVSwitches\"(4 颗第三代);HGX H200 与 H100 共用同一 8-GPU baseboard 设计,同属该 4-NVSwitch 拓扑。(2) Blackwell 含 B300 的直接核实(非同代推断)——\"The DGX B200/B300, NVIDIA HGX B200/B300 8-GPU, and NVIDIA HGX B100 8-GPU systems use fourth-generation NVSwitches... The corresponding GPU baseboard NVLink topology has two NVSwitch ASICs and eight B300/B200/B100 GPUs with nine NVLinks from each GPU connected to an NVSwitch\"(2 颗第四代,B300 被官方文档明确点名)。独立 teardown 佐证:ServeTheHome 对 Ingrasys 展出的 HGX B200/B100 实板照片确认 NVLink Switch 芯片由 4 颗减为 2 颗并移至板中央。故 HGX 形态下 scale-up switch 硅颗数代际减半(4→2)的结论成立;注意这是颗数减半,单颗 gen4 芯片更大、端口带宽翻倍(每 GPU 9 条 NVLink 5),switch 硅总能力并未减半——但断言本身只涉及颗数与代际,判定为 confirmed。",
+   "sources": [
+    "https://docs.nvidia.com/datacenter/tesla/fabric-manager-user-guide/index.html",
+    "https://www.servethehome.com/ingrasys-shows-big-nvidia-nvlink-switch-chips-change-to-the-hgx-b200-b100/",
+    "https://developer.nvidia.com/blog/introducing-nvidia-hgx-h100-an-accelerated-server-platform-for-ai-and-high-performance-computing/"
+   ]
+  },
+  {
+   "claim": "Quantum-X800 Q3400 机箱 = 4 颗 Quantum-3 ASIC(每颗 28.8T=36×800G)而非单颗 115.2T 芯片;由此 IB 侧每 1k GPU 交换芯片数(3-tier 约139颗)约为 TH6 以太网侧(约39颗)的 3.6 倍",
+   "verdict": "nuanced",
+   "evidence": "前半部分证实:NVIDIA 官方 datasheet/手册确认 Q3400-RA 为 144×800G(72 OSFP twin-port cages)、115.2 Tb/s、'powered by the Quantum-3 ASIC',但未写颗数;FiberMall/NADDOD 等行业资料明确 '72 twin-port OSFP cages with four Quantum-3 ASICs in a 4U chassis'。交叉证据:同代 Q3200 被 NVIDIA 文档与 SemiAnalysis 描述为一个机箱内 2 台相互独立的 36 口交换机,即单颗 Quantum-3 radix=36×800G=28.8T;4×28.8T=115.2T 严格吻合,且 144 口全部外露说明 4 颗为并联平面、不存在单颗 115.2T IB 芯片——'按 box 计数 vs 按 ASIC 计数差 4 倍'成立。后半部分算术正确但表述有条件:无阻塞 k-radix 三层 fat-tree 每 1k 端点芯片数=5000/k,k=36→138.9≈139,k=128(TH6 102.4T=128×800G,Broadcom 官方确认单芯片,亦可 64×1.6T)→39.06≈39,比值=128/36=3.56≈3.6,复算无误。但 3.6× 仅在两侧取相同层数时成立(比值恒等于 radix 比),且是同集群规模下的下限:radix-36 ASIC 超过 648 GPU 即需三层(上限 11,664 GPU),而 TH6 两层即可覆盖至 8,192 GPU(3000/128≈23.4 颗/1k),故 ~1k–8k GPU 真实对比约为 138.9/23.4≈5.9 倍;'每 1k GPU'为满配 fat-tree 渐近密度,并假设 NIC=800G、无收敛比。正确表述:Q3400 机箱由 4 颗 28.8T(36×800G)Quantum-3 ASIC 并联构成 115.2T/144 口;按 ASIC 计,同层数无阻塞 fat-tree 下 IB(radix 36)每 1k GPU 芯片数为 TH6(radix 128 @800G)的 128/36≈3.6 倍,而在 ≤8k GPU 同规模集群(IB 三层 vs TH6 两层)下差距约 5.9 倍,3.6× 是下限而非上限。",
+   "sources": [
+    "https://www.nvidia.com/en-us/networking/products/infiniband/quantum-x800/",
+    "https://networking-docs.nvidia.com/xdrswitcheshw/introduction",
+    "https://www.aspsys.com/wp-content/uploads/2025/05/nvidia-quantum-x800-datasheet.pdf",
+    "https://www.fibermall.com/blog/nvidia-infiniband-switches.htm",
+    "https://www.naddod.com/products/nvidia-networking/102612",
+    "https://newsletter.semianalysis.com/p/gb200-hardware-architecture-and-component",
+    "https://www.broadcom.com/company/news/product-releases/63146",
+    "https://www.broadcom.com/products/ethernet-connectivity/switching/strataxgs/bcm78910-series"
+   ]
+  },
+  {
+   "claim": "Google TPU:host 比代际恒定——训练线(v4/v5p/v7)4 TPU/host、推理线(v5e/v6e)8 TPU/host;host 为双路 x86,故 TPU:CPU socket = 2:1(训练)/4:1(推理);且 v7 host 为 Intel Emerald Rapids 而非 Axion",
+   "verdict": "nuanced",
+   "evidence": "分项核查(以 Google 官方 TPU 文档为准):【已证实】TPU/host 配比:v7 官方文档明确 \"Each TPU7x virtual machine (VM) contains 4 chips\",唯一机型 tpu7x-standard-4t(224 vCPU、960GB RAM、2 NUMA nodes);v6e 官方文档明确 \"Chips per host: 8\"(ct6e-standard-8t,360 vCPU);v4(4 chips/host、240 vCPU)、v5p(4 chips/host、208 vCPU)、v5e(8 chips/host,ct5lp-hightpu-8t)与官方各代 system-architecture 页一致;NextPlatform 亦证 \"there are four Ironwood TPUs on a system board\"。训练4/推理8的划分成立。【推断而非官方陈述】\"双路 x86\":官方文档从不写 socket 数或 CPU 品牌。v7 的 224 vCPU + \"two NUMA nodes\" 与双路 SMT x86(112 vCPU/socket = 56C/112T,Emerald Rapids 量级)高度吻合,而与 Axion(Neoverse V2,无 SMT,C4A 最多 72 vCPU/socket,单 NUMA)不符——但这仍是由 vCPU/NUMA 反推,非文档确认;且历代 host 并非都是 Intel(v4 host 为双路 AMD EPYC Rome,\"x86\"成立但\"Intel attach\"不能全代际外推)。【未证实/媒体口径相反】\"v7 host 为 Emerald Rapids 而非 Axion\":官方 TPU7x 文档不写 host CPU 型号;NextPlatform 等媒体反而猜测/宣称 Ironwood host \"could be one of Google's own Axion Arm server CPUs\",Google 官方博客将 Ironwood 与新 Axion VM 并列宣传(易被误读为 Axion 做 host)。没有找到任何官方文档写明 Emerald Rapids。正确表述应为:v7 = 4 TPU/host、224 vCPU、双 NUMA(与双路 x86/SMT 一致、与 Axion 规格矛盾),Emerald Rapids 为合理推断但无官方确认;若以 Axion 口径计 Intel attach 量,应视为未决风险而非已证伪。乘数结论:2:1/4:1 socket 配比在\"双路\"推断成立的前提下正确;若任一代实为单路,该代 attach 减半——目前 v7 的 2 NUMA nodes 证据倾向双路,单路风险较低。",
+   "sources": [
+    "https://docs.cloud.google.com/tpu/docs/tpu7x",
+    "https://docs.cloud.google.com/tpu/docs/v6e",
+    "https://docs.cloud.google.com/tpu/docs/system-architecture-tpu-vm",
+    "https://www.nextplatform.com/2025/04/09/with-ironwood-tpu-google-pushes-the-ai-accelerator-to-the-floor/",
+    "https://cloud.google.com/blog/products/compute/ironwood-tpus-and-new-axion-based-vms-for-your-ai-workloads/"
+   ]
+  },
+  {
+   "claim": "Trn3 UltraServer NL72x2 = 2 rack × 18 compute tray × (4 Trainium3 + 1 Graviton4 + 2 Nitro-v6),即 144 XPU : 36 Graviton4 : 72 Nitro,CPU:XPU=1:4",
+   "verdict": "nuanced",
+   "evidence": "主体成立、Nitro 颗数有变体。(1) 拓扑与 CPU 配比确认:SemiAnalysis《AWS Trainium3 Deep Dive》(NL72x2 命名的原始出处)明确 2 rack、每 rack 18 compute tray + 10 NeuronLink switch tray,每 tray 4× Trainium3 + 1× Graviton4,原文:\"each compute tray housing four Trainium3 and one Graviton4 CPU, there are a total of 144 Trainium3s and 36 Graviton 4s across two racks\"。故 144:36、CPU:XPU=1:4、每 tray 1 颗 CPU 均确认,AWS 整列 Trainium3 CPU 伴生配比推导的关键前提不作废。(2) 偏差:Nitro-v6 为\"每 tray 2 颗 400G NIC(每 2 颗 Trn3 共享 1 颗,200Gbps/chip)是多数部署配置\",但另有每 tray 4 颗的高带宽配置——\"72 Nitro\"应表述为基准/多数配置值(DPU:XPU=1:2),上限 144 颗(1:1)。正确表述:\"2 rack × 18 tray × (4 Trn3 + 1 Graviton4 + 2~4 Nitro-v6);144 XPU : 36 Graviton4 : 72(多数配置,上限144)Nitro;CPU:XPU=1:4\"。(3) 来源强度提示:AWS 官方 Trn3 页面仅确认\"up to 144 Trainium3 chips, 362 MXFP8 PFLOPs, 20.7TB HBM3e\",对 tray 构成/Graviton/Nitro 零披露;tray 级构成完全依赖 SemiAnalysis 分析(teardown 级第三方),非 AWS 官方文档,\"NL72x2\"亦非 AWS 官方命名(AWS 只称 Trn3 UltraServer / Gen2 UltraServer)。",
+   "sources": [
+    "https://newsletter.semianalysis.com/p/aws-trainium3-deep-dive-a-potential",
+    "https://aws.amazon.com/ec2/instance-types/trn3/",
+    "https://www.theregister.com/2025/12/07/trainium3_all_nvidia_nvl72_mold/"
+   ]
+  }
+ ],
+ "openq": [
+  "HGX B300 NVL16 baseboard 的 NVSwitch 具体颗数:'2 颗'为与 HGX B200 同代拓扑的推断,本轮 12 次检索内未找到官方逐颗清单,需用 NVIDIA HGX RA 文档或 STH teardown 原文核实",
+  "GB300 NVL72 每 compute tray 的 BlueField-3 颗数无统一公开口径(OEM 可变项),Lenovo/Supermicro/DGX 三家配置可能不同,影响 BF-3 需求量级",
+  "B200A / GB200A NVL36(air-cooled)是否有实质出货:SemiAnalysis 2024-08 提出该 SKU,后续无公开出货数据;H20/B20 中国 SKU 的系统形态与颗数本轮未覆盖",
+  "2025 年 HGX B200 与 NVL72 的 GPU 颗数直接占比无 broker 原始数字,只能用 racks×72 对总 Blackwell 出货反推(~38% NVL),且 27,300 racks 与 5.2M GPU 两个估计来自不同机构、口径可能不一致(是否含 GB300、是否 sell-in vs 部署)",
+  "Rubin Ultra NVL576(2027)封装 4-die ~9x reticle 在 2026 年中传出执行问题后的最新形态/时点未确认",
+  "GB200 NVL36 单 rack 与 NVL36×2 的实际出货占比:SemiAnalysis 2024-07 预期 NVL36×2 为主 vs TrendForce 2024-12 预期 NVL72 占 80%,两口径冲突,事后实际拆分无公开数据",
+  "NVSwitch gen6 单 rack ASIC 颗数(18 vs 36)无官方披露——需 teardown 或 NVIDIA datasheet 落地后核实",
+  "Rubin Ultra 2-die 改版后:每 Kyber rack 的 package 数是否仍 144(die=288?)、Vera 是否仍 144 颗(1:1)、NVSwitch gen7 是否仍 144 颗——全部无公开数据",
+  "Kyber 延期(SemiAnalysis 2028)vs NVIDIA 否认(roadmap intact)的分歧如何落地;是否存在 Oberon 机柜装 Rubin Ultra 的过渡 SKU(如 VR300 NVL72)填 2027——无公开信息",
+  "2027 年 VR200 机架出货量:截至 2026-07 未检索到 TrendForce/Morgan Stanley/Kuo 的公开台数预测,仅有 H2 2026 的 5,000-7,000 台",
+  "CX-9 的 2颗/GPU package 官方参考配比在 CSP 实际部署中是否满配(GB200 时代已有 CSP 降配 NIC 先例)",
+  "Feynman 配套 CPU 是延续 Vera 还是新 Rosa 平台(wccftech/官方roadmap 说 Vera,guru3d 称 Rosa)——信源冲突;Groq 3 LPX 的 CPU/NIC 伴生配比亦无公开数据",
+  "Helios每rack的Tomahawk 6芯片颗数与switch tray数无公开数据(NVL72是9 tray×2颗=18,Helios对应结构未披露)——直接决定TH6伴生配比,建议后续从HPE Juniper产品文档或OCP贡献规格挖",
+  "Vulcano NIC在OpenAI/Oracle实际部署中每GPU实配2颗还是3颗(官方仅'up to 3')",
+  "Salina 400 DPU在Helios rack的每rack颗数无公开数据(前端网络,OEM可变)",
+  "是否存在MI450系非rack变体(早期SemiAnalysis提过MI450X IF64,后续无确认)及其2027出货占比——影响机柜化率假设",
+  "MI300X存量部署中Thor2 vs CX-7 vs 后期Pollara的实际NIC份额拆分无公开数据(微软/Meta/Oracle各不同)",
+  "MI500 UAL256的NIC/DPU配置、rack间scale-up介质(铜vs光)、switch芯片全部未披露,当前仅GPU/CPU拓扑有泄露源",
+  "TPU v4 host CPU具体型号无官方确认(240 vCPU/407GB官方,双路AMD Rome定制7B12为业界流传)——2022-2023年AMD vs Intel份额分配缺锚",
+  "v5p的'48台OCS/13,824端口'仅为FiberMall/NextBigFuture第三方推算,官方从未公布v5p OCS台数;且8,960≠64的整数倍cube结构,推算方法存疑",
+  "Ironwood host前端NIC具体硬件(Titanium controller的芯片型号、是否Intel E2000类IPU、每host几颗)无任何公开;仅知DCN 100Gbps/chip(官方)",
+  "Ironwood package内die数(单die vs 双compute die)本次未核实,颗数按package口径给出;若双die,die口径的CoWoS面积/测试时间需×2",
+  "SemiAnalysis称v7每rack host tray数16或8随冷却配置变化——液冷8-tray配置下TPU:CPU=8:1,与官方4-chip全host VM如何映射未明,影响2026-2027 Intel EMR颗数±50%",
+  "8t/8i的TPU:Axion配比、NIC形态、pod内host数完全无公开;Axion本身产量/封装(是否CoWoS)未纳入本次范围"
+ ],
+ "years": [
+  2022,
+  2023,
+  2024,
+  2025,
+  2026,
+  2027,
+  2028,
+  2029,
+  2030
+ ],
+ "fam": [
+  {
+   "key": "nv_hgx",
+   "name": "NVIDIA HGX (x86节点)",
+   "rep": "A100→H100→B200→B300",
+   "share": {
+    "2022": 62.0,
+    "2023": 66.0,
+    "2024": 62.0,
+    "2025": 36.0,
+    "2026": 20.0,
+    "2027": 10.0,
+    "2028": 6.0,
+    "2029": 3.6,
+    "2030": 3.0
+   },
+   "tft": {
+    "2022": 288,
+    "2023": 360,
+    "2024": 370,
+    "2025": 1081,
+    "2026": 1385,
+    "2027": 1385,
+    "2028": 1385,
+    "2029": 1385,
+    "2030": 1385
+   },
+   "cpu": {
+    "2022": 0.25,
+    "2023": 0.25,
+    "2024": 0.25,
+    "2025": 0.25,
+    "2026": 0.25,
+    "2027": 0.25,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "captive": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   },
+   "nic": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "gbps": {
+    "2022": 200,
+    "2023": 400,
+    "2024": 400,
+    "2025": 400,
+    "2026": 800,
+    "2027": 800,
+    "2028": 800,
+    "2029": 800,
+    "2030": 800
+   },
+   "swu": {
+    "2022": 0.75,
+    "2023": 0.5,
+    "2024": 0.5,
+    "2025": 0.25,
+    "2026": 0.25,
+    "2027": 0.25,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "rack": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   }
+  },
+  {
+   "key": "nv_nvl",
+   "name": "NVIDIA NVL72 (captive Grace/Vera)",
+   "rep": "GB200→GB300→VR200",
+   "share": {
+    "2022": 0.0,
+    "2023": 0.0,
+    "2024": 2.0,
+    "2025": 13.0,
+    "2026": 25.0,
+    "2027": 30.0,
+    "2028": 26.0,
+    "2029": 20.0,
+    "2030": 18.0
+   },
+   "tft": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 1081,
+    "2025": 1150,
+    "2026": 1300,
+    "2027": 1501,
+    "2028": 1690,
+    "2029": 1880,
+    "2030": 2256
+   },
+   "cpu": {
+    "2022": 0.5,
+    "2023": 0.5,
+    "2024": 0.5,
+    "2025": 0.5,
+    "2026": 0.5,
+    "2027": 0.5,
+    "2028": 0.5,
+    "2029": 0.5,
+    "2030": 0.5
+   },
+   "captive": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "nic": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1.2,
+    "2027": 2,
+    "2028": 2,
+    "2029": 2,
+    "2030": 2
+   },
+   "gbps": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 400,
+    "2025": 450,
+    "2026": 800,
+    "2027": 1600,
+    "2028": 1600,
+    "2029": 1600,
+    "2030": 1600
+   },
+   "swu": {
+    "2022": 0.25,
+    "2023": 0.25,
+    "2024": 0.25,
+    "2025": 0.25,
+    "2026": 0.3,
+    "2027": 0.5,
+    "2028": 0.5,
+    "2029": 0.5,
+    "2030": 0.5
+   },
+   "rack": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   }
+  },
+  {
+   "key": "nv_kyber",
+   "name": "NVIDIA Kyber (Rubin Ultra)",
+   "rep": "Rubin Ultra 2-die",
+   "share": {
+    "2022": 0.0,
+    "2023": 0.0,
+    "2024": 0.0,
+    "2025": 0.0,
+    "2026": 0.0,
+    "2027": 0.0,
+    "2028": 6.0,
+    "2029": 10.9,
+    "2030": 15.0
+   },
+   "tft": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 2256,
+    "2029": 2256,
+    "2030": 3300
+   },
+   "cpu": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "captive": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "nic": {
+    "2022": 2,
+    "2023": 2,
+    "2024": 2,
+    "2025": 2,
+    "2026": 2,
+    "2027": 2,
+    "2028": 2,
+    "2029": 2,
+    "2030": 2
+   },
+   "gbps": {
+    "2022": 1600,
+    "2023": 1600,
+    "2024": 1600,
+    "2025": 1600,
+    "2026": 1600,
+    "2027": 1600,
+    "2028": 1600,
+    "2029": 1600,
+    "2030": 1600
+   },
+   "swu": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "rack": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   }
+  },
+  {
+   "key": "amd_oam",
+   "name": "AMD 8-OAM (x86节点)",
+   "rep": "MI300X→MI355X",
+   "share": {
+    "2022": 2.0,
+    "2023": 2.0,
+    "2024": 7.0,
+    "2025": 5.0,
+    "2026": 4.0,
+    "2027": 2.0,
+    "2028": 1.0,
+    "2029": 0.9,
+    "2030": 1.0
+   },
+   "tft": {
+    "2022": 360,
+    "2023": 360,
+    "2024": 701,
+    "2025": 723,
+    "2026": 789,
+    "2027": 789,
+    "2028": 789,
+    "2029": 789,
+    "2030": 789
+   },
+   "cpu": {
+    "2022": 0.25,
+    "2023": 0.25,
+    "2024": 0.25,
+    "2025": 0.25,
+    "2026": 0.25,
+    "2027": 0.25,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "captive": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   },
+   "nic": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "gbps": {
+    "2022": 200,
+    "2023": 400,
+    "2024": 400,
+    "2025": 400,
+    "2026": 400,
+    "2027": 400,
+    "2028": 400,
+    "2029": 400,
+    "2030": 400
+   },
+   "swu": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   },
+   "rack": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   }
+  },
+  {
+   "key": "amd_helios",
+   "name": "AMD Helios/UAL rack",
+   "rep": "MI455X→MI500X",
+   "share": {
+    "2022": 0.0,
+    "2023": 0.0,
+    "2024": 0.0,
+    "2025": 0.0,
+    "2026": 1.0,
+    "2027": 5.0,
+    "2028": 8.0,
+    "2029": 9.1,
+    "2030": 11.0
+   },
+   "tft": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 1525,
+    "2027": 1525,
+    "2028": 1904,
+    "2029": 2282,
+    "2030": 2282
+   },
+   "cpu": {
+    "2022": 0.25,
+    "2023": 0.25,
+    "2024": 0.25,
+    "2025": 0.25,
+    "2026": 0.25,
+    "2027": 0.25,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "captive": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   },
+   "nic": {
+    "2022": 2,
+    "2023": 2,
+    "2024": 2,
+    "2025": 2,
+    "2026": 2,
+    "2027": 2,
+    "2028": 2,
+    "2029": 2,
+    "2030": 2
+   },
+   "gbps": {
+    "2022": 1600,
+    "2023": 1600,
+    "2024": 1600,
+    "2025": 1600,
+    "2026": 1600,
+    "2027": 1600,
+    "2028": 1600,
+    "2029": 1600,
+    "2030": 1600
+   },
+   "swu": {
+    "2022": 0.25,
+    "2023": 0.25,
+    "2024": 0.25,
+    "2025": 0.25,
+    "2026": 0.25,
+    "2027": 0.25,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "rack": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   }
+  },
+  {
+   "key": "tpu_t",
+   "name": "Google TPU 训练线 (OCS pod)",
+   "rep": "v4→v5p→v7→8t",
+   "share": {
+    "2022": 22.0,
+    "2023": 14.0,
+    "2024": 12.0,
+    "2025": 12.0,
+    "2026": 15.0,
+    "2027": 15.0,
+    "2028": 14.0,
+    "2029": 13.6,
+    "2030": 15.0
+   },
+   "tft": {
+    "2022": 202,
+    "2023": 202,
+    "2024": 325,
+    "2025": 391,
+    "2026": 526,
+    "2027": 592,
+    "2028": 692,
+    "2029": 856,
+    "2030": 1020
+   },
+   "cpu": {
+    "2022": 0.5,
+    "2023": 0.5,
+    "2024": 0.5,
+    "2025": 0.5,
+    "2026": 0.5,
+    "2027": 0.5,
+    "2028": 0.5,
+    "2029": 0.5,
+    "2030": 0.5
+   },
+   "captive": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "nic": {
+    "2022": 0.3,
+    "2023": 0.3,
+    "2024": 0.3,
+    "2025": 0.3,
+    "2026": 0.3,
+    "2027": 0.3,
+    "2028": 0.3,
+    "2029": 0.3,
+    "2030": 0.3
+   },
+   "gbps": {
+    "2022": 50,
+    "2023": 50,
+    "2024": 50,
+    "2025": 100,
+    "2026": 100,
+    "2027": 150,
+    "2028": 200,
+    "2029": 200,
+    "2030": 200
+   },
+   "swu": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   },
+   "rack": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   }
+  },
+  {
+   "key": "tpu_i",
+   "name": "Google TPU 推理线",
+   "rep": "v5e→v6e→8i",
+   "share": {
+    "2022": 6.0,
+    "2023": 10.0,
+    "2024": 9.0,
+    "2025": 10.0,
+    "2026": 8.0,
+    "2027": 10.0,
+    "2028": 12.0,
+    "2029": 11.8,
+    "2030": 13.0
+   },
+   "tft": {
+    "2022": 190,
+    "2023": 190,
+    "2024": 285,
+    "2025": 285,
+    "2026": 325,
+    "2027": 475,
+    "2028": 475,
+    "2029": 660,
+    "2030": 845
+   },
+   "cpu": {
+    "2022": 0.25,
+    "2023": 0.25,
+    "2024": 0.25,
+    "2025": 0.25,
+    "2026": 0.25,
+    "2027": 0.25,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "captive": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "nic": {
+    "2022": 0.5,
+    "2023": 0.5,
+    "2024": 0.5,
+    "2025": 0.5,
+    "2026": 0.5,
+    "2027": 0.5,
+    "2028": 0.5,
+    "2029": 0.5,
+    "2030": 0.5
+   },
+   "gbps": {
+    "2022": 100,
+    "2023": 100,
+    "2024": 100,
+    "2025": 100,
+    "2026": 100,
+    "2027": 100,
+    "2028": 100,
+    "2029": 100,
+    "2030": 100
+   },
+   "swu": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   },
+   "rack": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   }
+  },
+  {
+   "key": "aws_trn",
+   "name": "AWS Trainium",
+   "rep": "Trn2→Trn3→Trn4",
+   "share": {
+    "2022": 0.0,
+    "2023": 1.0,
+    "2024": 2.0,
+    "2025": 10.0,
+    "2026": 14.0,
+    "2027": 15.0,
+    "2028": 13.0,
+    "2029": 10.0,
+    "2030": 11.0
+   },
+   "tft": {
+    "2022": 0,
+    "2023": 250,
+    "2024": 544,
+    "2025": 544,
+    "2026": 442,
+    "2027": 700,
+    "2028": 1334,
+    "2029": 1334,
+    "2030": 1334
+   },
+   "cpu": {
+    "2022": 0.125,
+    "2023": 0.125,
+    "2024": 0.125,
+    "2025": 0.125,
+    "2026": 0.15,
+    "2027": 0.2,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "captive": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "nic": {
+    "2022": 0.5,
+    "2023": 0.5,
+    "2024": 0.5,
+    "2025": 0.5,
+    "2026": 0.5,
+    "2027": 0.5,
+    "2028": 0.5,
+    "2029": 0.5,
+    "2030": 0.5
+   },
+   "gbps": {
+    "2022": 50,
+    "2023": 50,
+    "2024": 200,
+    "2025": 200,
+    "2026": 200,
+    "2027": 200,
+    "2028": 200,
+    "2029": 400,
+    "2030": 400
+   },
+   "swu": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0.28,
+    "2027": 0.28,
+    "2028": 0.28,
+    "2029": 0.28,
+    "2030": 0.28
+   },
+   "rack": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   }
+  },
+  {
+   "key": "asic_o",
+   "name": "其他 ASIC (MTIA/Maia/OpenAI)",
+   "rep": "MTIA300/Maia200/Titan",
+   "share": {
+    "2022": 0.0,
+    "2023": 0.0,
+    "2024": 1.0,
+    "2025": 2.0,
+    "2026": 5.0,
+    "2027": 8.0,
+    "2028": 10.0,
+    "2029": 10.0,
+    "2030": 12.0
+   },
+   "tft": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 300,
+    "2025": 400,
+    "2026": 640,
+    "2027": 640,
+    "2028": 700,
+    "2029": 800,
+    "2030": 900
+   },
+   "cpu": {
+    "2022": 0.2,
+    "2023": 0.2,
+    "2024": 0.2,
+    "2025": 0.2,
+    "2026": 0.2,
+    "2027": 0.2,
+    "2028": 0.2,
+    "2029": 0.2,
+    "2030": 0.2
+   },
+   "captive": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0.5,
+    "2025": 0.5,
+    "2026": 0.7,
+    "2027": 0.7,
+    "2028": 0.7,
+    "2029": 0.7,
+    "2030": 0.7
+   },
+   "nic": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0.3,
+    "2025": 0.3,
+    "2026": 0.1,
+    "2027": 0.1,
+    "2028": 0.1,
+    "2029": 0.1,
+    "2030": 0.1
+   },
+   "gbps": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   },
+   "swu": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0.1,
+    "2025": 0.1,
+    "2026": 0.25,
+    "2027": 0.25,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "rack": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   }
+  },
+  {
+   "key": "others",
+   "name": "Others (含中国/长尾)",
+   "rep": "H20/国产/其他",
+   "share": {
+    "2022": 8.0,
+    "2023": 7.0,
+    "2024": 5.0,
+    "2025": 12.0,
+    "2026": 8.0,
+    "2027": 5.0,
+    "2028": 4.0,
+    "2029": 10.0,
+    "2030": 1.0
+   },
+   "tft": {
+    "2022": 250,
+    "2023": 300,
+    "2024": 380,
+    "2025": 400,
+    "2026": 450,
+    "2027": 500,
+    "2028": 550,
+    "2029": 550,
+    "2030": 600
+   },
+   "cpu": {
+    "2022": 0.25,
+    "2023": 0.25,
+    "2024": 0.25,
+    "2025": 0.25,
+    "2026": 0.25,
+    "2027": 0.25,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "captive": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2027": 0,
+    "2028": 0,
+    "2029": 0,
+    "2030": 0
+   },
+   "nic": {
+    "2022": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1,
+    "2027": 1,
+    "2028": 1,
+    "2029": 1,
+    "2030": 1
+   },
+   "gbps": {
+    "2022": 200,
+    "2023": 200,
+    "2024": 400,
+    "2025": 400,
+    "2026": 400,
+    "2027": 400,
+    "2028": 400,
+    "2029": 400,
+    "2030": 400
+   },
+   "swu": {
+    "2022": 0.25,
+    "2023": 0.25,
+    "2024": 0.25,
+    "2025": 0.25,
+    "2026": 0.25,
+    "2027": 0.25,
+    "2028": 0.25,
+    "2029": 0.25,
+    "2030": 0.25
+   },
+   "rack": {
+    "2022": 0.3,
+    "2023": 0.3,
+    "2024": 0.3,
+    "2025": 0.3,
+    "2026": 0.3,
+    "2027": 0.3,
+    "2028": 0.3,
+    "2029": 0.3,
+    "2030": 0.3
+   }
+  }
+ ],
+ "tft": [
+  {
+   "id": "a100",
+   "name": "A100",
+   "vendor": "NVIDIA",
+   "ramp": 2020,
+   "T_FT": 288,
+   "usr": 288
+  },
+  {
+   "id": "h100",
+   "name": "H100",
+   "vendor": "NVIDIA",
+   "ramp": 2022,
+   "T_FT": 360,
+   "usr": 360
+  },
+  {
+   "id": "h200",
+   "name": "H200",
+   "vendor": "NVIDIA",
+   "ramp": 2024,
+   "T_FT": 380,
+   "usr": 432
+  },
+  {
+   "id": "h20",
+   "name": "H20 (对华)",
+   "vendor": "NVIDIA",
+   "ramp": 2024,
+   "T_FT": 380,
+   "usr": 288
+  },
+  {
+   "id": "b200",
+   "name": "B200 / GB200",
+   "vendor": "NVIDIA",
+   "ramp": 2025,
+   "T_FT": 1081,
+   "usr": 1080
+  },
+  {
+   "id": "b200a",
+   "name": "B200A (已取消)",
+   "vendor": "NVIDIA",
+   "ramp": 2025,
+   "T_FT": 406,
+   "usr": 432
+  },
+  {
+   "id": "b20",
+   "name": "B20/B30A (对华,未落地)",
+   "vendor": "NVIDIA",
+   "ramp": 2025,
+   "T_FT": 406,
+   "usr": 288
+  },
+  {
+   "id": "gb300",
+   "name": "B300 / GB300 (BW Ultra)",
+   "vendor": "NVIDIA",
+   "ramp": 2025,
+   "T_FT": 1385,
+   "usr": 1350
+  },
+  {
+   "id": "rubin",
+   "name": "Rubin VR200",
+   "vendor": "NVIDIA",
+   "ramp": 2026,
+   "T_FT": 1501,
+   "usr": 1512
+  },
+  {
+   "id": "rubinu",
+   "name": "Rubin Ultra (VR300)",
+   "vendor": "NVIDIA",
+   "ramp": 2027,
+   "T_FT": 2256,
+   "usr": 2268
+  },
+  {
+   "id": "feynman",
+   "name": "Feynman",
+   "vendor": "NVIDIA",
+   "ramp": 2028,
+   "T_FT": 4490,
+   "usr": 4536
+  },
+  {
+   "id": "mi250",
+   "name": "MI250X",
+   "vendor": "AMD",
+   "ramp": 2022,
+   "T_FT": 360,
+   "usr": 288
+  },
+  {
+   "id": "mi300x",
+   "name": "MI300X",
+   "vendor": "AMD",
+   "ramp": 2024,
+   "T_FT": 701,
+   "usr": 360
+  },
+  {
+   "id": "mi325x",
+   "name": "MI325X",
+   "vendor": "AMD",
+   "ramp": 2025,
+   "T_FT": 701,
+   "usr": 432
+  },
+  {
+   "id": "mi355x",
+   "name": "MI350X / MI355X",
+   "vendor": "AMD",
+   "ramp": 2025,
+   "T_FT": 789,
+   "usr": 1080
+  },
+  {
+   "id": "mi455x",
+   "name": "MI450 / MI455X (Helios)",
+   "vendor": "AMD",
+   "ramp": 2026,
+   "T_FT": 1525,
+   "usr": 1512
+  },
+  {
+   "id": "mi500x",
+   "name": "MI500X",
+   "vendor": "AMD",
+   "ramp": 2025,
+   "T_FT": 2282,
+   "usr": 2268
+  },
+  {
+   "id": "mi550x",
+   "name": "MI550X",
+   "vendor": "AMD",
+   "ramp": 2025,
+   "T_FT": 4434,
+   "usr": 4536
+  },
+  {
+   "id": "tpu4",
+   "name": "TPU v4",
+   "vendor": "Google",
+   "ramp": 2022,
+   "T_FT": 202,
+   "usr": 180
+  },
+  {
+   "id": "tpu5e",
+   "name": "TPU v5e",
+   "vendor": "Google",
+   "ramp": 2023,
+   "T_FT": 190,
+   "usr": 252
+  },
+  {
+   "id": "tpu5p",
+   "name": "TPU v5p",
+   "vendor": "Google",
+   "ramp": 2024,
+   "T_FT": 325,
+   "usr": 252
+  },
+  {
+   "id": "tpu6e",
+   "name": "TPU v6e Trillium",
+   "vendor": "Google",
+   "ramp": 2024,
+   "T_FT": 285,
+   "usr": 360
+  },
+  {
+   "id": "tpu7",
+   "name": "TPU v7 Ironwood",
+   "vendor": "Google",
+   "ramp": 2025,
+   "T_FT": 526,
+   "usr": 864
+  },
+  {
+   "id": "tpu7e",
+   "name": "TPU v7e (MTK)",
+   "vendor": "Google",
+   "ramp": 2026,
+   "T_FT": 312,
+   "usr": null
+  },
+  {
+   "id": "tpu8t",
+   "name": "TPU 8t (BRCM·训练)",
+   "vendor": "Google",
+   "ramp": 2026,
+   "T_FT": 692,
+   "usr": 1080
+  },
+  {
+   "id": "tpu8i",
+   "name": "TPU 8i (推理·MTK/Marvell)",
+   "vendor": "Google",
+   "ramp": 2027,
+   "T_FT": 475,
+   "usr": 1080
+  },
+  {
+   "id": "tpu9h",
+   "name": "TPU v9 Humufish",
+   "vendor": "Google",
+   "ramp": 2027,
+   "T_FT": 1020,
+   "usr": 1512
+  },
+  {
+   "id": "tpu9t",
+   "name": "TPU v9 Triggerfish (MTK)",
+   "vendor": "Google",
+   "ramp": 2027,
+   "T_FT": 845,
+   "usr": 2268
+  },
+  {
+   "id": "tpu10",
+   "name": "TPU v10",
+   "vendor": "Google",
+   "ramp": 2028,
+   "T_FT": 1748,
+   "usr": 2268
+  },
+  {
+   "id": "trn2",
+   "name": "Trainium 2 / Inf2",
+   "vendor": "AWS",
+   "ramp": 2025,
+   "T_FT": 544,
+   "usr": 360
+  },
+  {
+   "id": "trn3",
+   "name": "Trainium 3",
+   "vendor": "AWS",
+   "ramp": 2026,
+   "T_FT": 408,
+   "usr": 1080
+  },
+  {
+   "id": "trn4",
+   "name": "Trainium 4",
+   "vendor": "AWS",
+   "ramp": 2027,
+   "T_FT": 1334,
+   "usr": 1512
+  },
+  {
+   "id": "oaix",
+   "name": "OpenAI XPU (BRCM)",
+   "vendor": "OpenAI",
+   "ramp": 2026,
+   "T_FT": 612,
+   "usr": null
+  },
+  {
+   "id": "mtia3",
+   "name": "Meta MTIA 300/400 (BRCM)",
+   "vendor": "Meta",
+   "ramp": 2026,
+   "T_FT": 628,
+   "usr": null
+  },
+  {
+   "id": "maia2",
+   "name": "Microsoft Maia 200",
+   "vendor": "Microsoft",
+   "ramp": 2026,
+   "T_FT": 674,
+   "usr": null
+  }
+ ]
+};
+const $=q=>document.querySelector(q);
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const ecoCls={"NVIDIA":"nv","AMD":"amd","Google":"goog","ASIC-其他":"asic"};
+/* tabs */
+$("#tabs").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".tabpane").forEach(p=>p.classList.toggle("on",p.id==="p-"+b.dataset.t));
+});
+/* assume-tagging */
+const A=s=>{s=String(s==null?"":s);const y=/无公开|假设|推断|分歧|待定|推 |传闻|占位/.test(s);return esc(s)+(y?' <span class="tag assume">假设/待定</span>':"");};
+/* ---------- overview generational table ---------- */
+const OV=[
+ ["2022-23","HGX A100 / H100","8 : 2 x86 (4:1)","NVSwitch ×6→×4 板载","CX-6/7 · 1:1 ×200→400G","BF 可选"],
+ ["2024","HGX H100/H200 主力;GB200 NVL72 首批 12 月","4:1 x86","板载 ×4","CX-7 · 1:1 ×400G","BF-3 ×2/node"],
+ ["2025","GB200/GB300 NVL72 爬坡(27.3k racks)+ HGX B200","NVL:2:1 Grace(captive)· HGX:4:1 x86","NVL72:gen4 ×18 · HGX-BW:×2","CX-7 · 1:1 ×400G","BF-3 ×36/rack 参考"],
+ ["2026","GB300 NVL72 主力(7-8万racks E)+ HGX B300 + VR200 尾","同上;x86 迁 GNR/Turin","gen4 ×18","CX-8 · 1:1 ×800G(B300 起)","OEM 可变"],
+ ["2027","VR200 NVL72 主力(Kyber 若延期)","2:1 Vera(chiplet)","gen6 ×36(SemiAnalysis)","CX-9 · 2:1 ×800G = 1.6T/GPU","BF-4 ×18/rack"],
+ ["2028","Kyber(Rubin Ultra 2-die)开始 ramp + VR 系并行","原口径 1:1(改版待定)","NVLink7 ×144(原口径)","无公开(推 2:1)","无公开"],
+ ["2029-30","Feynman 世代(roadmap;CPO 引入 scale-up)","无公开","gen8 + CPO","CX-10(无颗数)","BF-5"]];
+$("#ovtable").innerHTML="<tr><th>时期</th><th>主力形态</th><th>GPU : CPU</th><th>Scale-up switch</th><th>Scale-out NIC</th><th>DPU</th></tr>"+
+ OV.map(r=>"<tr>"+r.map((c,i)=>"<td>"+(i>1?A(c):esc(c))+"</td>").join("")+"</tr>").join("");
+/* ---------- template table ---------- */
+let ecoF="全部";
+function drawTpl(){
+  const rows=DATA.templates.filter(t=>ecoF==="全部"||t.eco===ecoF);
+  $("#tpltable").innerHTML="<tr><th></th><th>系统</th><th>部署</th><th>加速器(package)</th><th>CPU</th><th>GPU:CPU</th><th>Scale-up switch</th><th>NIC</th><th>DPU</th><th>状态</th></tr>"+
+  rows.map((t,i)=>{
+    const cls=ecoCls[t.eco]||"asic";
+    return `<tr class="click" data-i="${i}"><td><span class="chip ${cls}">${esc(t.eco)}</span></td>`+
+    `<td><b>${esc(t.system)}</b><div style="color:var(--ink3);font-size:11px">${esc(t.years||"")}</div></td>`+
+    `<td>${esc(t.deploy)}</td><td>${A(t.acc_n)}</td><td>${A(t.cpu)}<div style="color:var(--ink3);font-size:11px">${esc(t.captive||"")}</div></td>`+
+    `<td><b>${A(t.ratio)}</b></td><td>${A(t.swu)}</td><td>${A(t.nicr)}</td><td>${A(t.dpu)}</td><td>${A(t.status)}</td></tr>`+
+    `<tr class="exp" style="display:none"><td></td><td colspan="9"><b>完整配置</b>:${esc(t.acc_full)}<br><b>CPU</b>:${esc(t.cpu_full)}<br><b>Scale-up</b>:${esc(t.swu_full)}<br><b>NIC</b>:${esc(t.nic_full)}<br><b>DPU</b>:${esc(t.dpu_full)}<br><b>备注</b>:${esc(t.notes)}<br><b>Sources</b>:<ul class="src">${(t.sources||[]).map(s=>"<li>"+esc(s)+"</li>").join("")}</ul></td></tr>`;
+  }).join("");
+  document.querySelectorAll("#tpltable tr.click").forEach(tr=>tr.addEventListener("click",()=>{
+    const nx=tr.nextElementSibling; nx.style.display=nx.style.display==="none"?"":"none";
+  }));
+}
+const ecos=["全部","NVIDIA","AMD","Google","ASIC-其他"];
+$("#fEco").innerHTML=ecos.map(e=>`<button data-e="${e}" class="${e==="全部"?"on":""}">${e}</button>`).join("");
+$("#fEco").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  ecoF=b.dataset.e;document.querySelectorAll("#fEco button").forEach(x=>x.classList.toggle("on",x===b));drawTpl();});
+drawTpl();
+/* ---------- trend computation ---------- */
+const Y=DATA.years, F=DATA.fam;
+const g=(f,k,y)=>f[k][y]||0;
+const blend=(k)=>Y.map(y=>F.reduce((s,f)=>s+g(f,"share",y)*g(f,k,y),0)/100);
+const T={tft:blend("tft"),cpu:blend("cpu"),nic:blend("nic"),gbps:blend("gbps"),swu:blend("swu"),
+  rack:Y.map(y=>F.reduce((s,f)=>s+g(f,"share",y)*g(f,"rack",y),0)/100*100)};
+T.cap=Y.map(y=>{let n=0,d=0;F.forEach(f=>{const w=g(f,"share",y)*g(f,"cpu",y);d+=w;n+=w*g(f,"captive",y);});return d?100*n/d:0;});
+/* mix by 4 groups for area chart */
+const GRP={nv:["nv_hgx","nv_nvl","nv_kyber"],amd:["amd_oam","amd_helios"],goog:["tpu_t","tpu_i"],asic:["aws_trn","asic_o","others"]};
+const MIX=Object.fromEntries(Object.entries(GRP).map(([k,keys])=>[k,Y.map(y=>keys.reduce((s,fk)=>s+g(F.find(f=>f.key===fk),"share",y),0))]));
+/* ---------- chart engine (SVG line/area) ---------- */
+const tip=$("#tip");
+function chart(el,title,sub,series,opts={}){
+  const W=460,H=210,P={l:44,r:14,t:14,b:26};
+  const ymaxRaw=Math.max(...series.flatMap(s=>s.v))*1.08||1;
+  const ymax=opts.pct?100:ymaxRaw;
+  const x=i=>P.l+i*(W-P.l-P.r)/(Y.length-1), y=v=>H-P.b-(v/ymax)*(H-P.t-P.b);
+  let g="";
+  for(let k=0;k<=4;k++){const v=ymax*k/4,yy=y(v);
+    g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${yy}" y2="${yy}" stroke="var(--line)" stroke-width="1"/>`+
+       `<text x="${P.l-6}" y="${yy+4}" text-anchor="end" font-size="10" fill="var(--ink3)">${v>=1000?(v/1000).toFixed(1)+"k":Math.round(v*10)/10}</text>`;}
+  Y.forEach((yr,i)=>{if(i%2===0)g+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--ink3)">${yr}</text>`;});
+  if(opts.stack){ /* stacked area */
+    let base=Y.map(()=>0);
+    series.forEach(s=>{
+      const top=s.v.map((v,i)=>base[i]+v);
+      const p1=top.map((v,i)=>`${x(i)},${y(v)}`).join(" ");
+      const p2=base.map((v,i)=>`${x(i)},${y(v)}`).reverse().join(" ");
+      g+=`<polygon points="${p1} ${p2}" fill="${s.c}" opacity="0.75" stroke="var(--panel)" stroke-width="2"/>`;
+      base=top;});
+  }else{
+    series.forEach(s=>{
+      const pts=s.v.map((v,i)=>`${x(i)},${y(v)}`).join(" ");
+      g+=`<polyline points="${pts}" fill="none" stroke="${s.c}" stroke-width="2"/>`;
+      const li=s.v.length-1;
+      g+=`<circle cx="${x(li)}" cy="${y(s.v[li])}" r="3.5" fill="${s.c}" stroke="var(--panel)" stroke-width="1.5"/>`+
+         `<text x="${x(li)-4}" y="${y(s.v[li])-7}" text-anchor="end" font-size="10.5" font-weight="700" fill="var(--ink)">${s.v[li]>=1000?(s.v[li]/1000).toFixed(2)+"k":Math.round(s.v[li]*100)/100}</text>`;});
+  }
+  const card=document.createElement("div");card.className="card";
+  card.innerHTML=`<h3>${title}</h3><div class="sub">${sub}</div>`+
+   (series.length>1?`<div class="legend">${series.map(s=>`<span class="it" style="--c:${s.c}">${s.n}</span>`).join("")}</div>`:"")+
+   `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${g}<rect id="hit" x="${P.l}" y="${P.t}" width="${W-P.l-P.r}" height="${H-P.t-P.b}" fill="transparent"/></svg>`;
+  el.appendChild(card);
+  const svg=card.querySelector("svg");
+  svg.addEventListener("mousemove",ev=>{
+    const r=svg.getBoundingClientRect();
+    const mx=(ev.clientX-r.left)*(W/r.width);
+    const i=Math.max(0,Math.min(Y.length-1,Math.round((mx-P.l)/((W-P.l-P.r)/(Y.length-1)))));
+    tip.style.display="block";tip.style.left=(ev.clientX+14)+"px";tip.style.top=(ev.clientY+10)+"px";
+    tip.innerHTML=`<b>${Y[i]}</b><br>`+series.map(s=>`${s.n}: ${Math.round(s.v[i]*100)/100}${opts.pct?"%":""}`).join("<br>");
+  });
+  svg.addEventListener("mouseleave",()=>tip.style.display="none");
+}
+const ch=$("#charts");
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+chart(ch,"Blended 测试强度 T_FT(秒/颗)","v7 canon 锚点 × 出货形态权重;2030≈2022 的 6-7 倍",[{n:"T_FT",v:T.tft,c:css("--acc")}]);
+chart(ch,"出货形态 mix(% units,输入假设)","四大阵营聚合;请用你的 CoWoS 模型替换",[
+ {n:"NVIDIA",v:MIX.nv,c:css("--nv")},{n:"AMD",v:MIX.amd,c:css("--amd")},
+ {n:"Google TPU",v:MIX.goog,c:css("--goog")},{n:"AWS/其他 ASIC",v:MIX.asic,c:css("--asic")}],{stack:true,pct:true});
+chart(ch,"CPU socket / XPU 与 captive 占比","NVL 化 + ASIC 自研 CPU → captive 持续抬升",[
+ {n:"CPU/XPU ×100",v:T.cpu.map(v=>v*100),c:css("--acc")},{n:"captive %",v:T.cap,c:css("--asic")}]);
+chart(ch,"Scale-out NIC:颗数 与 带宽 / XPU","VR200 起 NIC 颗数比翻倍;Gbps 以 100 为刻度",[
+ {n:"NIC颗×100",v:T.nic.map(v=>v*100),c:css("--acc")},{n:"Gbps/10",v:T.gbps.map(v=>v/10),c:css("--amd")}]);
+chart(ch,"Scale-up switch 颗 / XPU","NVSwitch 密度上行 vs TPU-OCS=0 的拉锯",[{n:"SU-switch/XPU ×100",v:T.swu.map(v=>v*100),c:css("--acc")}]);
+chart(ch,"% XPU 部署于 rack-scale/pod 域","配比结构切换的总开关(NVL 化率+ASIC pod)",[{n:"rack-scale %",v:T.rack,c:css("--acc")}],{pct:true});
+/* trend table */
+const fmt=(v,d=2)=>Number(v).toFixed(d);
+$("#trtable").innerHTML="<tr><th>Blended 指标</th>"+Y.map(y=>`<th>${y}</th>`).join("")+"</tr>"+
+ [["T_FT(秒/颗)",T.tft,0],["CPU socket/XPU",T.cpu,3],["captive 占 CPU %",T.cap,0],["NIC 颗/XPU",T.nic,2],
+  ["Gbps/XPU",T.gbps,0],["SU-switch 颗/XPU",T.swu,2],["% rack-scale",T.rack,0]]
+ .map(([n,v,d])=>`<tr><td><b>${n}</b></td>`+v.map(x=>`<td>${fmt(x,d)}</td>`).join("")+"</tr>").join("");
+/* ---------- scale-out ---------- */
+$("#sotable").innerHTML="<tr><th>系统(scale-out 视角)</th><th>NIC 配比与交换侧</th><th>要点</th></tr>"+
+ DATA.scaleout.slice(0,9).map(t=>`<tr><td style="min-width:170px"><b>${esc(t.system_name)}</b></td><td>${A(t.nic)}</td><td>${esc(t.notes||"")}</td></tr>`).join("");
+const SOC=[["A100 代(200G,QM8700 R=40)","≈75","≈125","800"],
+ ["H100 代 IB(Quantum-2 R=64 @400G)","≈47","≈78","2,048"],
+ ["H100/GB200 以太网(TH5 R=128 @400G)","≈23","≈39","8,192"],
+ ["GB300 代 IB(Quantum-3 R=36 @800G ×4/机箱)","≈83","≈139","648(单ASIC)"],
+ ["GB300/VR200 以太网(TH6 R=128 @800G)","≈23","≈39","8,192"]];
+$("#sochips").innerHTML="<tr><th>代际 / 交换硅</th><th>2-tier 颗/1k GPU</th><th>3-tier 颗/1k GPU</th><th>2-tier 规模上限(GPU)</th></tr>"+
+ SOC.map(r=>"<tr>"+r.map(c=>`<td>${c}</td>`).join("")+"</tr>").join("")+
+ `<tr><td colspan="4" style="color:var(--ink3)">全部为模型推算(非阻塞 fat-tree,2-tier=3N/R、3-tier=5N/R;N=GPU×每GPU端口)。实际部署前端/存储网常做 2:1-4:1 收敛。</td></tr>`;
+/* ---------- forward & verdicts ---------- */
+const fw=[...DATA.forward].sort((a,b)=>String(a.when).localeCompare(String(b.when)));
+$("#fwtl").innerHTML=fw.map(f=>`<div class="ev"><span class="when">${esc(f.when)}</span> <span class="tag">${esc(f.area)}</span><div class="what">${A(f.change)}</div><div class="s">${esc(f.source)}</div></div>`).join("");
+const VC={confirmed:"ok",nuanced:"warn",refuted:"bad",unverifiable:"warn"};
+$("#vds").innerHTML=DATA.verdicts.map(v=>`<div class="vd"><span class="tag ${VC[v.verdict]||"warn"}">${esc(v.verdict.toUpperCase())}</span> <span class="c">${esc(v.claim)}</span><div class="e">${esc(v.evidence.slice(0,420))}${v.evidence.length>420?"…(全文见 Excel Verdicts 表)":""}</div></div>`).join("");
+$("#oq").innerHTML=DATA.openq.map(q=>`<li>${esc(q)}</li>`).join("");
+</script>

@@ -1,0 +1,2480 @@
+<title>后道测试设备市场 · 2022-2030</title>
+<style>
+:root{
+  --bg:#fbfbf9;--panel:#ffffff;--panel2:#f3f4f0;--line:#e3e4de;--ink:#181a1f;--ink2:#565962;--ink3:#8b8e96;
+  --acc:#2a78d6;--acc-soft:#e8f0fb;
+  --s1:#2a78d6;--s2:#1baf7a;--s3:#eda100;--s4:#008300;--s5:#4a3aa7;--s6:#e34948;--s7:#e87ba4;--s8:#eb6834;
+  --ok:#0a7d43;--warn:#a05a00;--bad:#b3261e;--assume:#fdf3d8;--assume-ink:#7a5a00;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#16181d;--panel:#1d2026;--panel2:#23262d;--line:#31343c;--ink:#eceef2;--ink2:#a6aab4;--ink3:#767a85;
+  --acc:#3987e5;--acc-soft:#1c2c42;
+  --s1:#3987e5;--s2:#199e70;--s3:#c98500;--s4:#008300;--s5:#9085e9;--s6:#e66767;--s7:#d55181;--s8:#d95926;
+  --ok:#3fae72;--warn:#d59a3d;--bad:#e5695f;--assume:#3a3320;--assume-ink:#dcbd6a;}}
+:root[data-theme="dark"]{
+  --bg:#16181d;--panel:#1d2026;--panel2:#23262d;--line:#31343c;--ink:#eceef2;--ink2:#a6aab4;--ink3:#767a85;
+  --acc:#3987e5;--acc-soft:#1c2c42;
+  --s1:#3987e5;--s2:#199e70;--s3:#c98500;--s4:#008300;--s5:#9085e9;--s6:#e66767;--s7:#d55181;--s8:#d95926;
+  --ok:#3fae72;--warn:#d59a3d;--bad:#e5695f;--assume:#3a3320;--assume-ink:#dcbd6a;}
+:root[data-theme="light"]{
+  --bg:#fbfbf9;--panel:#ffffff;--panel2:#f3f4f0;--line:#e3e4de;--ink:#181a1f;--ink2:#565962;--ink3:#8b8e96;
+  --acc:#2a78d6;--acc-soft:#e8f0fb;
+  --s1:#2a78d6;--s2:#1baf7a;--s3:#eda100;--s4:#008300;--s5:#4a3aa7;--s6:#e34948;--s7:#e87ba4;--s8:#eb6834;
+  --ok:#0a7d43;--warn:#a05a00;--bad:#b3261e;--assume:#fdf3d8;--assume-ink:#7a5a00;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.65 var(--sans)}
+.wrap{max-width:1300px;margin:0 auto;padding:20px 22px 80px}
+header.top{padding:6px 0 14px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-size:11px;letter-spacing:.14em;color:var(--acc);font-weight:700}
+header.top h1{font-size:21px;margin:2px 0 4px}
+header.top .sub{color:var(--ink2);font-size:12.5px}
+nav.tabs{display:flex;gap:4px;margin:14px 0 20px;flex-wrap:wrap;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:30;padding-top:6px}
+nav.tabs button{font:600 13.5px var(--sans);color:var(--ink2);background:none;border:none;border-bottom:2.5px solid transparent;padding:8px 13px 9px;cursor:pointer}
+nav.tabs button.on{color:var(--acc);border-bottom-color:var(--acc)}
+nav.tabs button:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.tabpane{display:none}.tabpane.on{display:block}
+h2{font-size:16px;margin:24px 0 10px;text-wrap:balance}
+h2 .n{color:var(--ink3);font-weight:400;font-size:12.5px;margin-left:8px}
+.note{color:var(--ink2);font-size:12.5px;margin:4px 0 12px;max-width:74em}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:16px 0}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.tile .k{font-size:11.5px;color:var(--ink2)}
+.tile .v{font:700 20px/1.3 var(--sans);margin-top:3px;font-variant-numeric:tabular-nums}
+.tile .v small{font-size:12px;font-weight:500;color:var(--ink2)}
+.tile .d{font-size:11.5px;color:var(--ink3);margin-top:4px}
+.tag{display:inline-block;padding:0 7px;border-radius:4px;font-size:11px;font-weight:600;border:1px solid var(--line);color:var(--ink2);margin-left:5px}
+.tag.assume{background:var(--assume);color:var(--assume-ink);border-color:transparent}
+.tag.ok{color:var(--ok);border-color:var(--ok)}.tag.warn{color:var(--warn);border-color:var(--warn)}.tag.bad{color:var(--bad);border-color:var(--bad)}
+.tag.act{color:var(--ok);border-color:var(--ok)}.tag.gd{color:var(--acc);border-color:var(--acc)}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{background:var(--panel2);color:var(--ink2);font-weight:700;text-align:left;padding:7px 10px;white-space:nowrap;position:sticky;top:0}
+td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+td.num{text-align:right}
+.b-actual{background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.b-guide{background:color-mix(in srgb,var(--acc) 12%,transparent)}
+.b-est{background:color-mix(in srgb,var(--s3) 14%,transparent)}
+.b-model{background:color-mix(in srgb,var(--s8) 14%,transparent)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.card h3{margin:0 0 4px;font-size:13.5px}
+.card .sub{color:var(--ink3);font-size:11.5px;margin-bottom:8px}
+.legend{display:flex;gap:13px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2);margin:2px 0 8px}
+.legend .it::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;background:var(--c)}
+.flow{display:flex;gap:0;overflow-x:auto;padding:10px 2px;align-items:stretch}
+.stage{min-width:150px;flex:1;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px;position:relative;margin-right:26px;cursor:pointer}
+.stage:last-child{margin-right:0}
+.stage::after{content:"→";position:absolute;right:-21px;top:44%;color:var(--ink3);font-weight:700}
+.stage:last-child::after{content:""}
+.stage h4{margin:0 0 4px;font-size:12.5px}
+.stage .eq{font-size:11px;color:var(--ink2);line-height:1.55}
+.stage .tam{font:700 13px var(--sans);color:var(--acc);margin-top:6px}
+.stage:hover{border-color:var(--acc)}
+ul.cl{margin:6px 0;padding-left:18px;font-size:12.5px}
+ul.cl li{margin-bottom:5px}
+.tl{border-left:2px solid var(--line);margin:8px 0 8px 6px;padding-left:16px}
+.tl .ev{margin-bottom:13px;position:relative}
+.tl .ev::before{content:"";position:absolute;left:-21.5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--acc);border:2px solid var(--bg)}
+.tl .when{font:700 12px var(--mono);color:var(--acc)}
+.tl .what{margin:2px 0}
+.tl .s{font-size:11px;color:var(--ink3)}
+.vd{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:10px 14px;margin-bottom:10px}
+.vd .e{font-size:12px;color:var(--ink2);margin-top:4px}
+details{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:8px 14px;margin-bottom:8px}
+details summary{cursor:pointer;font-weight:600;font-size:13px}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font:12px var(--sans);padding:5px 9px;border-radius:4px;z-index:99;display:none;max-width:300px}
+svg text{font-family:var(--sans)}
+footer{margin-top:44px;color:var(--ink3);font-size:11.5px;border-top:1px solid var(--line);padding-top:10px}
+</style>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">SEMIS · TESTING SPE · 设备市场全景</div>
+  <h1>半导体后道测试设备市场 <span style="color:var(--ink3);font-weight:400">2022 → 2030</span></h1>
+  <div class="sub">wafer out → 出货 · 9 大环节 × TAM × 玩家份额 × 叙事 backtest · 10 域研究 + 12 条对抗核查(0 refuted)· 2026-07-12</div>
+</header>
+<nav class="tabs" id="tabs">
+  <button data-t="fl" class="on">① 测试流程</button>
+  <button data-t="tam">② TAM 总览</button>
+  <button data-t="seg">③ 逐环节</button>
+  <button data-t="co">④ 公司</button>
+  <button data-t="cpo">⑤ CPO / ficonTEC</button>
+  <button data-t="bt">⑥ Backtest</button>
+</nav>
+
+<div class="tabpane on" id="p-fl">
+  <div class="note">点击环节卡片跳到「逐环节」详情。TAM 为 2025 年(CY)口径;绿=官方实绩,黄=第三方/估算。加速器一律 package 口径。</div>
+  <div class="flow" id="flow"></div>
+  <h2>一图看懂:钱都花在哪个环节</h2>
+  <div class="tiles">
+    <div class="tile"><div class="k">后道测试设备大盘(9环节合计)</div><div class="v">$19.7B <small>2025 → $32.8B 2030E基准</small></div><div class="d">其中 tester 本体(SoC+Memory)$9.0B 为官方口径,其余环节多为估算</div></div>
+    <div class="tile"><div class="k">官方口径最硬的序列(Advantest)</div><div class="v">$4.4B → $9.0B <small>2023谷 → 2025</small></div><div class="d">tester 合计两年 +105%;2026E $10.9-12.2B</div></div>
+    <div class="tile"><div class="k">增速最陡的环节</div><div class="v">SLT & Burn-in</div><div class="d">AI 永久 100% 全检 + burn-in 回归(Rubin 3h→5-6h);但大部分不在 ATE TAM 口径内</div></div>
+    <div class="tile"><div class="k">期权环节</div><div class="v">CPO 测试 <small>2026 仅 ~$100M</small></div><div class="d">牛熊差 ~8 倍;开关=2028 前后 compute-side CPO 是否导入</div></div>
+  </div>
+  <h2>口径地图(防止把时长错记成 ATE 收入)</h2>
+  <div class="tblwrap"><table id="ownmap"></table></div>
+</div>
+
+<div class="tabpane" id="p-tam">
+  <h2>TAM 堆叠(6 组聚合)与合计牛熊带<span class="n">$B · CY 口径 · 2027-30E 为模型假设(Excel 可改)</span></h2>
+  <div class="grid2" id="tamcharts"></div>
+  <h2>TAM 矩阵(9 环节)<span class="n">单元格底色 = 数字置信档</span></h2>
+  <div class="legend"><span class="it" style="--c:var(--ok)">官方实绩</span><span class="it" style="--c:var(--acc)">官方指引</span><span class="it" style="--c:var(--s3)">第三方/估算</span><span class="it" style="--c:var(--s8)">模型假设</span></div>
+  <div class="tblwrap"><table id="tamtable"></table></div>
+</div>
+
+<div class="tabpane" id="p-seg">
+  <h2>逐环节详情<span class="n">TAM 序列(原文+来源)· 玩家份额 · 特征 · 叙事时间线</span></h2>
+  <div id="segs"></div>
+</div>
+
+<div class="tabpane" id="p-co">
+  <h2>公司枢纽<span class="n">按环节映射 · 财务快照 2022-2025 · 全部来自公司 IR/年报口径</span></h2>
+  <div class="grid2" id="cos"></div>
+</div>
+
+<div class="tabpane" id="p-cpo">
+  <h2>CPO 测试与传统电测的范式差异</h2>
+  <div class="grid2" id="cpodiff"></div>
+  <h2>测试 TAM 情景(牛熊差 ~8 倍)<span class="n">锚 = Teradyne 官方口径(2026 ~$100M,中期 $300-700M/年)</span></h2>
+  <div class="grid2" id="cposcen"></div>
+  <h2>ficonTEC:对"唯一做得特别好"的对抗性检验</h2>
+  <div id="ficon"></div>
+  <h2>CPO 格局时间线</h2>
+  <div class="tl" id="cpotl"></div>
+</div>
+
+<div class="tabpane" id="p-bt">
+  <h2>设备商连续两年低估自己的市场(backtest 最硬结论)</h2>
+  <div class="grid2" id="btcharts"></div>
+  <h2>行业叙事编年 2022 → 2026</h2>
+  <div class="tl" id="bttl"></div>
+  <h2>关键数字对抗核查<span class="n">12 条 · 0 refuted</span></h2>
+  <div id="vds"></div>
+</div>
+<footer>方法:10 域研究(TAM 优先公司官方口径,每数字带来源与置信档)→ 12 条关键断言对抗核查 → 策展合成。配套 Excel:~/semis-learning/backend-test-market.xlsx(TAM 矩阵可手改、含全部原始 TAM 序列/玩家/时间线/来源)。2027-2030E 均为模型假设,不作投资建议。</footer>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const DATA={
+ "years": [
+  2022,
+  2023,
+  2024,
+  2025,
+  2026,
+  2027,
+  2028,
+  2029,
+  2030
+ ],
+ "tam": [
+  {
+   "key": "soc",
+   "name": "SoC ATE(tester本体)",
+   "vals": {
+    "2022": 4.0,
+    "2023": 3.3,
+    "2024": 4.1,
+    "2025": 6.9,
+    "2026": 9.1,
+    "2027": 10.4,
+    "2028": 11.5,
+    "2029": 12.1,
+    "2030": 12.7
+   },
+   "basis": {
+    "2022": "actual",
+    "2023": "actual",
+    "2024": "actual",
+    "2025": "actual",
+    "2026": "guide",
+    "2027": "model",
+    "2028": "model",
+    "2029": "model",
+    "2030": "model"
+   },
+   "note": "2022-25=Advantest官方自估(决算说明会/Investors Guide);2026E=官方指引$8.7-9.5B中值;2027-30E=模型假设(增速15/10/5/5%,可改)",
+   "anchors": "Advantest FY25决算说明会2026-04-27 p.18-19;Investors Guide 2601E p.6/p.12;Teradyne中期锚:ATE合计$12-14B(Q4-25 call)"
+  },
+  {
+   "key": "mem",
+   "name": "Memory ATE(含HBM)",
+   "vals": {
+    "2022": 1.2,
+    "2023": 1.1,
+    "2024": 1.9,
+    "2025": 2.1,
+    "2026": 2.45,
+    "2027": 2.75,
+    "2028": 3.0,
+    "2029": 3.15,
+    "2030": 3.3
+   },
+   "basis": {
+    "2022": "actual",
+    "2023": "actual",
+    "2024": "actual",
+    "2025": "actual",
+    "2026": "guide",
+    "2027": "model",
+    "2028": "model",
+    "2029": "model",
+    "2030": "model"
+   },
+   "note": "2023仅-8%:HBM 2023H2已对冲(2023-11官方称HBM占memory tester销售~25%+);2024 +73%超2021峰;2026E=指引$2.2-2.7B中值;HBM4接口翻倍带换机需求",
+   "anchors": "Advantest Investors Guide 2026-01-28 p.8/p.12;FY25决算说明会;HBM占比:IR Technical Briefing 2023-11-29"
+  },
+  {
+   "key": "prober",
+   "name": "Wafer Prober(探针台)",
+   "vals": {
+    "2022": 0.8,
+    "2023": 0.7,
+    "2024": 1.0,
+    "2025": 1.4,
+    "2026": 1.65,
+    "2027": 1.85,
+    "2028": 2.0,
+    "2029": 2.1,
+    "2030": 2.2
+   },
+   "basis": {
+    "2022": "estimate",
+    "2023": "estimate",
+    "2024": "estimate",
+    "2025": "estimate",
+    "2026": "estimate",
+    "2027": "model",
+    "2028": "model",
+    "2029": "model",
+    "2030": "model"
+   },
+   "note": "窄口径auto prober无权威公开TAM;2025≈$1.3-1.5B由TEL份额38%(TechInsights,TEL官方转引)×TEL prober≈¥80B反推;2026E由TEL/Accretech指引汇总",
+   "anchors": "TEL FY26Q4决算资料2026-04-30 p.28(38%,TechInsights CY2025 Auto Probers);Accretech FY2027/3 SPE guide ¥141.5B×prober约7成"
+  },
+  {
+   "key": "probecard",
+   "name": "Probe Card(探针卡)",
+   "vals": {
+    "2022": 2.3,
+    "2023": 2.1,
+    "2024": 2.44,
+    "2025": 2.75,
+    "2026": 2.9,
+    "2027": 3.0,
+    "2028": 3.13,
+    "2029": 3.3,
+    "2030": 3.45
+   },
+   "basis": {
+    "2022": "estimate",
+    "2023": "estimate",
+    "2024": "actual",
+    "2025": "estimate",
+    "2026": "estimate",
+    "2027": "model",
+    "2028": "guide",
+    "2029": "model",
+    "2030": "model"
+   },
+   "note": "2024=$2,443M/2028E=$3,133M为Yole口径(Technoprobe CMD 2025官方转引);2019 $1,783M;2022/23无单年数(2023为下行年:FF -11.4%/TP -25.4%),为内插;HBM probe card 2028E~$600M(UBS)",
+   "anchors": "Yole Semiconductor Test Consumables Q3-2024 via Technoprobe CMD 2025-04-14(已逐页核查);UBS Technoprobe首覆"
+  },
+  {
+   "key": "handler",
+   "name": "Test Handler(含主动温控ATC)",
+   "vals": {
+    "2022": 0.9,
+    "2023": 0.8,
+    "2024": 1.1,
+    "2025": 1.6,
+    "2026": 1.9,
+    "2027": 2.2,
+    "2028": 2.4,
+    "2029": 2.5,
+    "2030": 2.6
+   },
+   "basis": {
+    "2022": "estimate",
+    "2023": "estimate",
+    "2024": "estimate",
+    "2025": "estimate",
+    "2026": "estimate",
+    "2027": "model",
+    "2028": "model",
+    "2029": "model",
+    "2030": "model"
+   },
+   "note": "无权威公开序列(TechInsights付费墙);2025公司锚:鸿劲一家handler+ATC+水冷板≈$0.95B、Advantest Other Systems ¥80.5bn、Cohu、Techwing;SEMI三角化上界:test equip $11.2B−tester $9.0B≈$2.2B(含prober/其他)",
+   "anchors": "鸿劲2026-03-12法说;Advantest FY25;SEMI 2025-12-16;大摩handler口径$436M(2023)→$6.6B(2027)数字自洽性已证伪,仅方向可用"
+  },
+  {
+   "key": "socket",
+   "name": "Test Socket / 接口耗材",
+   "vals": {
+    "2022": 1.5,
+    "2023": 1.4,
+    "2024": 1.9,
+    "2025": 2.2,
+    "2026": 2.4,
+    "2027": 2.6,
+    "2028": 2.8,
+    "2029": 2.9,
+    "2030": 3.0
+   },
+   "basis": {
+    "2022": "estimate",
+    "2023": "estimate",
+    "2024": "broker",
+    "2025": "estimate",
+    "2026": "estimate",
+    "2027": "model",
+    "2028": "model",
+    "2029": "model",
+    "2030": "model"
+   },
+   "note": "2024=$1.91B(VMR,test+burn-in socket,第三方分歧$1.3-2.5B);耗材属性(随SKU迭代重复购买);公司锚:Leeno FY2025 KRW372.5B(+35%)、Essai(Advantest)收购时年~$100M",
+   "anchors": "Verified Market Research 2024;Leeno FnGuide财报;Advantest收购Essai新闻稿2020-01-29"
+  },
+  {
+   "key": "burnin",
+   "name": "Burn-in 设备(系统+WLBI)",
+   "vals": {
+    "2022": 0.6,
+    "2023": 0.6,
+    "2024": 0.75,
+    "2025": 0.85,
+    "2026": 0.95,
+    "2027": 1.05,
+    "2028": 1.15,
+    "2029": 1.25,
+    "2030": 1.35
+   },
+   "basis": {
+    "2022": "estimate",
+    "2023": "estimate",
+    "2024": "broker",
+    "2025": "estimate",
+    "2026": "estimate",
+    "2027": "model",
+    "2028": "model",
+    "2029": "model",
+    "2030": "model"
+   },
+   "note": "2024=$731-756M(QYR系,低置信);AI加速器BI+SLT平台子集$0.8B(2025)→$0.9B(2026E,FMI);2031E~$1.4B;实物锚:SK hynix HBM4 burn-in tester 150-200台(韩系分食);注意KYEC自制炉(承NVIDIA>90%)游离于商售TAM之外",
+   "anchors": "QYResearch系/FMI(低置信);ZDNet Korea/The Elec(韩系订单);KYEC 2025-12-03法说(burn-in占营收9.0%)"
+  },
+  {
+   "key": "slt",
+   "name": "SLT 系统级测试平台",
+   "vals": {
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 1.3,
+    "2025": 1.8,
+    "2026": 2.2,
+    "2027": 2.6,
+    "2028": 3.0,
+    "2029": 3.3,
+    "2030": 3.6
+   },
+   "basis": {
+    "2022": "estimate",
+    "2023": "estimate",
+    "2024": "estimate",
+    "2025": "estimate",
+    "2026": "estimate",
+    "2027": "model",
+    "2028": "model",
+    "2029": "model",
+    "2030": "model"
+   },
+   "note": "无权威独立TAM(2025≈$1.8B为VMR低置信);增速代理:Chroma SLT handler 2026E营收+200%、AEM FY26指引S$550-600M(+38-50%);AEM自报SAM(宽口径含handler/BI耗材):今日$3B→2028 $4.5B;SLT转AI永久100%全检=结构性增量",
+   "anchors": "VMR/FMI(低置信);經濟日報法人预估2026-01;AEM 1Q2026 Investor Deck(SGX);Teradyne Titan HP已在大客户量产(已核查)"
+  },
+  {
+   "key": "cpo",
+   "name": "CPO/光子测试(期权)",
+   "vals": {
+    "2022": 0.0,
+    "2023": 0.02,
+    "2024": 0.04,
+    "2025": 0.06,
+    "2026": 0.1,
+    "2027": 0.2,
+    "2028": 0.35,
+    "2029": 0.5,
+    "2030": 0.6
+   },
+   "basis": {
+    "2022": "none",
+    "2023": "estimate",
+    "2024": "estimate",
+    "2025": "estimate",
+    "2026": "guide",
+    "2027": "model",
+    "2028": "model",
+    "2029": "model",
+    "2030": "model"
+   },
+   "note": "2026≈$100M为Teradyne CEO官方口径(份额balanced/early days);中期$300-700M/年(TER指引);基准线2030=$0.6B;熊市:停留交换机利基$0.15B;牛市:2028 compute-side CPO导入(供应链称Feynman/Rubin Ultra世代,NVIDIA未确认)+单颗全检>100s→$1.2B+(模型假设)——牛熊差约8倍,典型期权",
+   "anchors": "Teradyne Q1-2026 call 2026-04-29(CEO Greg Smith原话100-ish);Yole CPO器件$46M(2024)→$8.1B(2030)为器件口径勿混用;LightCounting 2030 ~1亿ports"
+  }
+ ],
+ "memo": [
+  {
+   "name": "memo:SEMI 宽口径 test equipment(含handler/prober等)",
+   "vals": {
+    "2022": null,
+    "2023": 6.4,
+    "2024": 7.6,
+    "2025": 11.2,
+    "2026": 12.5,
+    "2027": 13.4,
+    "2028": null,
+    "2029": null,
+    "2030": null
+   },
+   "note": "SEMI年末预测2025-12-16:2025 $11.2B(+48.1%,全设备类第一);2026E +12.0%、2027E +7.1%;2024由2025/1.481反推;与Advantest tester口径(仅整机)不可加总"
+  },
+  {
+   "name": "memo:Teradyne 中期锚 ATE TAM(SoC+Memory)",
+   "vals": {
+    "2022": null,
+    "2023": null,
+    "2024": null,
+    "2025": 9.0,
+    "2026": null,
+    "2027": 13.0,
+    "2028": 13.0,
+    "2029": null,
+    "2030": null
+   },
+   "note": "Q4-2025 call:中期模型ATE TAM $12-14B(未绑定年份,大致2027-28;对应自家$6B营收/EPS $9.5-11);表内取中值$13B作参考点"
+  }
+ ],
+ "bear": 0.78,
+ "bull": 1.3,
+ "research": [
+  {
+   "segment": "SoC ATE(tester 本体)",
+   "scope": "SoC/logic/mixed-signal/analog/RF 半导体自动测试机本体(mainframe + instrument 板卡),即 Advantest 决算说明会 \"SoC tester market\" 口径与 Teradyne \"SOC TAM\" 口径(后者系统性略宽,见 open_questions)。含 V93000/EXA Scale、UltraFLEXplus、T2000、长川 D9000/STAR8K、华峰 STS8600 等;不含 memory tester(单列)、handler、prober、probe card、test socket/interface board、SLT 平台、burn-in 系统。年份口径:TAM 均为 CY(日历年),Advantest 公司财务为 FY(3月止)。",
+   "tam": [
+    {
+     "year": "CY2021",
+     "value": "~$4.3B(SoC;tester 合计 ~$5.6B 为当时峰值)",
+     "basis": "actual",
+     "source": "Advantest FY2022 决算说明会 note(2023-04-26,E_BIZ_230426_note.pdf p.17 CY21 Actual)"
+    },
+    {
+     "year": "CY2022",
+     "value": "~$4.0B(SoC;memory ~$1.2B,tester 合计 ~$5.2B,-6% YoY)",
+     "basis": "actual",
+     "source": "Advantest FY2022 决算说明会 note(2023-04-26)p.16 Market Share Report 原文:'SoC tester market accounting for about US$4 billion'"
+    },
+    {
+     "year": "CY2023",
+     "value": "~$3.3B(SoC,较 CY22 约 -18%;memory ~$1.1B,合计 ~$4.4B/-15%)",
+     "basis": "actual",
+     "source": "Advantest FY2023 决算说明会 note(2024-04-26,E_BIZ_240426_note.pdf p.17);Teradyne 同期口径 SOC $3.9B(Q4 2023 call,2024-01)"
+    },
+    {
+     "year": "CY2024",
+     "value": "~$4.1B(SoC,+24%;memory ~$1.9B,合计 ~$6.0B)",
+     "basis": "actual",
+     "source": "Advantest FY2024 决算说明会资料(2025-04-25);已核查 factbase market-02"
+    },
+    {
+     "year": "CY2025",
+     "value": "~$6.9B(SoC,+68%;memory ~$2.1B,合计 ~$9.0B/+50%)",
+     "basis": "actual",
+     "source": "Advantest FY2025 决算说明会(2026-04-27)p.18;已核查 factbase market-01;Teradyne Q4'25 call(2026-02-03)对照:2025 SoC TAM 创纪录、'较 2024 大近 60%',其中 compute ~$5B/mobility ~$1B/auto-ind <$1B"
+    },
+    {
+     "year": "CY2026E",
+     "value": "$8.7-9.5B(SoC;memory $2.2-2.7B)",
+     "basis": "guide",
+     "source": "Advantest FY2025 决算说明会(2026-04-27)p.19 April 2026 Outlook(1月为 $8.5-9.5B,下限上调 $0.2B);Teradyne 口径:2026 ATE TAM +20-40%(Q4'25 call),Q1'26 称 Advantest 的估计 'not absurd'"
+    },
+    {
+     "year": "CY2027-2030E",
+     "value": "无公开分年 SoC ATE 预测;唯一公司锚:Teradyne 中期目标模型 ATE TAM $12-14B(SoC+memory 合计,未指定年份,大致对应 2027-2028);SEMI 宽口径 test equipment 2027E +7.1%",
+     "basis": "none",
+     "source": "Teradyne Q4 2025 earnings call(2026-02-03);SEMI 年末预测(2025-12-16);Advantest 仅定性(beyond 2026 看 wafer starts/先进封装产能/hyperscaler capex),无 2027+ TAM 数字"
+    }
+   ],
+   "players": [
+    {
+     "name": "Advantest(V93000 EXA Scale / T2000)",
+     "share": "SoC 份额自报:CY2022 58% → CY2023 59% → CY2024 56%(-3pp,中国低端崛起)→ CY2025 66%(+10pp,称拿下全球 AI accelerator 测试 majority share)",
+     "source": "Advantest 各年度决算说明会 Market Share Report(FY22 note 2023-04-26;FY23 note 2024-04-26;FY25 briefing 2026-04-27 p.18,已核查 advantest-07)",
+     "notes": "V93000 是 NVIDIA/AMD/Broadcom-Google/Marvell 链的 qualified tester(JPM 2025-06 称 NVIDIA AI GPU 近独家);FY2025 NVIDIA 首成第一大直接客户(¥243.7bn/21.6%);SoC tester 产能扩至 ~10,000 台/年(CY2028底-2029);FY2025 SoC test 销售 ¥767.4bn,其中 computing/通信占 ~95%"
+    },
+    {
+     "name": "Teradyne(UltraFLEXplus)",
+     "share": "公司不自报总 SoC 份额;倒推约 25-30%(FY2025 SoC test 收入全年约 $1.6-1.8B vs TAM $6.9B,estimate);公司自报口径:VIP(hyperscaler 自研 ASIC)compute 测试份额 ~50%(2025)",
+     "source": "Teradyne Q4 2025 call(2026-02-03,已核查 teradyne-07);份额倒推为 estimate",
+     "notes": "基本盘为 Apple silicon/mobile(UltraFLEX 系);compute 占 SoC 收入从 2023 年 10% 升至 2025 年底 ~50%;Q1 2026 首获 merchant GPU 多系统量产订单(CY26 可见度仅 ~$50M,市场解读 NVIDIA second source),中期双源客户按 30-70% 管理份额;UltraFLEXplus 出货 9 个月翻倍、交期维持 12-16 周"
+    },
+    {
+     "name": "长川科技(D9000 / STAR8K)",
+     "share": "全球 SoC ATE <1.5%(estimate:2025 年 SoC 测试机收入首破 RMB 5亿 ≈ $70M vs 全球 $6.9B);中国口径 SoC 测试机国产化率 ~10%、高端 <5%",
+     "source": "新浪/东方财富产业稿(2026,trade-press;已核查 advantest-17 高端国产化率 <5%)",
+     "notes": "全品类平台(SoC/存储/模拟+handler);2025 营收 RMB 39.45亿(+49.8%,含分选机等);2026 初在手订单 ~RMB 120亿;高端 D9000 对标国际主流,AI/GPU 测试机称进入头部供应链(未经独立核实);侵蚀集中在模拟/低端数字,对 AI compute 高端盘短期威胁有限"
+    },
+    {
+     "name": "华峰测控(STS8600 等)",
+     "share": "全球 SoC ATE 份额可忽略(<1%);中国模拟/分立器件测试机市占 >85%(2021)",
+     "source": "华峰测控研究报告(知乎/券商转载,broker/trade-press)",
+     "notes": "模拟/数模混合测试机绝对龙头(毛利率 ~75%),高端数字 SoC 平台仍在验证中;属'国产替代期权'而非现实竞争者"
+    },
+    {
+     "name": "其他(Cohu PAx、ESMO 等)",
+     "share": "合计低个位数 %(none——无独立分项数据)",
+     "source": "无公开分项;Advantest 自报 CY25 整体份额 65% + Teradyne 倒推后余量即为长尾",
+     "notes": "Cohu 的 ATE 业务(Diamondx/PAx)集中在模拟/汽车低端,量级小"
+    }
+   ],
+   "characteristics": [
+    "竞争结构:事实双寡头——Advantest+Teradyne 合计 ~90%+(CY2025 Advantest 自报 SoC 66%,Teradyne 倒推 ~25-30%),长尾为中国国产(长川/华峰,高端国产化率 <5%)",
+    "平台/socket 锁定:tester 选型在芯片设计阶段由 DFT 与 test program 绑定,切换需重写 test program、重做 load board/socket/probe card 生态并重新 qualification——V93000 数十年绑定 NVIDIA/AMD,UltraFLEXplus 绑定 Apple/mobile;这是份额粘性与'merchant GPU 双源化'为何是大事件的根源(切换成本的量化无公开数据,需 expert call)",
+    "定价与商业模式:单机 ASP $1-5M(仅量级,OEE 厂商 blog 口径);下游 testhouse 按机时计价,测试时长上升直接转化为机台需求——需求框架 = unit volume × test content(Advantest 官方确认,2026-04-27 Q&A)",
+    "周期性变形:历史上随手机周期(2022-2023 连续两年收缩),2024 起变为 AI compute β——CY2025 SoC TAM 中 compute ~$5B 占七成(Teradyne 口径),Advantest SoC 销售 computing/通信占 95%,单一驱动集中度极高",
+    "进入壁垒:test program 生态 + instrument IP + 全球现场服务网络 + 数十年客户 qualification 记录;Advantest 已停披订单/backlog(约 FY2022 起),其每季 TAM 区间修订方向成为行业最高信息量信号",
+    "供给侧:tester 产能扩张前置 1-2 年(Advantest 5,000→7,500 台提前达成→10,000 台/年目标 CY2028底-2029;Teradyne 2026 起 capex 上行、回购降至 de minimis),紧平衡大概率延续至 2027",
+    "与 AI 增量的关系:量(CoWoS/先进封装产能)×强度(test content:AI 测试时长'2-3x'为市场口径、Rubin 较 Blackwell 传 +50%)×新 insertion(KGD/SLT/burn-in 外溢)三重上行;最硬证据是设备商自身连续两年大幅低估 TAM"
+   ],
+   "timeline": [
+    {
+     "when": "2022全年(2023-04-26 复盘)",
+     "what": "手机/消费下行开始:CY2022 tester 市场 -6% 至 ~$5.2B,SoC 从 CY21 峰值 ~$4.3B 降至 ~$4.0B(约 -7%);但 Advantest FY2022 营收 ¥560.2bn 创历史新高(份额 +10pp 至整体 57%、日元贬值)——TAM 与龙头业绩首次显著背离;同期 Advantest 停止披露订单/backlog(2022年8月媒体侧证)",
+     "source": "Advantest FY2022 决算说明会 note(2023-04-26);factbase market-08"
+    },
+    {
+     "when": "2023-04-26",
+     "what": "Advantest 指引 CY23 SoC $3.4-3.8B(连续第二年收缩),FY23 公司指引营收 ¥480bn(-14%)",
+     "source": "Advantest FY2022 决算说明会 note(2023-04-26)"
+    },
+    {
+     "when": "2024-04-26(CY2023 定格)",
+     "what": "CY2023 SoC 实绩 ~$3.3B(-18% YoY,低于一年前指引下限 $3.4B),tester 合计 $4.4B(-15%);Advantest SoC 份额逆势升至 59%(靠 HPC/AI+HBM);同日对 CY24 SoC 指引仅 $2.9-3.2B、且较 3 个月前再下修约 $400M(auto/industrial 走弱)——AI 拐点前夜设备商仍在下修,是本轮最大的一次集体误判",
+     "source": "Advantest FY2023 决算说明会 note(2024-04-26)p.17-18"
+    },
+    {
+     "when": "2024全年→2025-04-25 定格",
+     "what": "AI SoC 起:CY2024 SoC 实绩 ~$4.1B(+24%),超 2024年4月指引中值 ~34%;但 Advantest SoC 份额降至 56%(-3pp,中国低端本土厂崛起);Teradyne 2024 年 SoC+memory 收入 +17%(custom ASIC/网络/HBM 驱动)",
+     "source": "Advantest FY2024 决算说明会(2025-04-25,factbase market-02/market-05);Teradyne Q4 2024 8-K(2025-01)"
+    },
+    {
+     "when": "2025-04→2026-04(CY2025 上修路径,backtest 核心)",
+     "what": "Advantest 对 CY25 SoC TAM 的官方序列:2025-04 初始 $4.2-4.8B → 2025-07 $5.7-6.3B → 2025-10 $6.5-6.9B → 2026-01 $6.8-6.9B → 实绩 $6.9B(+68%):一年内较初始中值上修 +53%;memory 同期仅 $1.7-2.2B→$2.1B。年内 Advantest SoC 份额 56%→66%(+10pp,AI accelerator majority share),FY2025 营收 ¥1,128.6bn(+44.7%)、NVIDIA 首成第一大直接客户(21.6%)",
+     "source": "Advantest FY24 决算(2025-04-25)、FY25 Q2 note(2025-10-28,E_BIZ_251028_note.pdf 原文:'up from our July estimate of 5.7B-6.3B')、FY25 briefing(2026-04-27);factbase market-04/advantest-07"
+    },
+    {
+     "when": "2026-02-03",
+     "what": "Teradyne Q4'25 call:2025 SoC TAM 创纪录、较 2024 大近 60%,compute ~$5B 占 SoC TAM 七成;2026 ATE TAM +20-40%;首次给中期模型 ATE TAM $12-14B(对应 $6B 营收);承认 2025 年两家设备商都错判了 TAM",
+     "source": "Teradyne Q4 2025 earnings call(factbase market-09/teradyne-06/teradyne-20)"
+    },
+    {
+     "when": "2026-04-27/29",
+     "what": "CY2026 指引落位:Advantest CY26 SoC $8.7-9.5B(下限较 1 月上调 $0.2B)、FY26 营收指引 ¥1,420bn(+25.8%);Teradyne 拒发自家 TAM('不够有信心')但称 Advantest 数字 not absurd,并披露首获 merchant GPU 量产订单(CY26 ~$50M)——双寡头竞争格局出现 2019 年以来第一道裂缝",
+     "source": "Advantest FY25 briefing(2026-04-27);Teradyne Q1 2026 call(2026-04-29,factbase market-10/teradyne-09)"
+    }
+   ],
+   "key_claims": [
+    {
+     "claim": "CY2022-2025 SoC tester TAM 官方(Advantest 决算说明会)序列为:~$4.0B → ~$3.3B(-18%)→ ~$4.1B(+24%)→ ~$6.9B(+68%),CY2026E $8.7-9.5B",
+     "why_matters": "这是全环节 dashboard 的基准序列;若数字或口径(CY、SoC 不含 memory/handler)错误,整个后道市场规模拼图与其他环节的相对占比全部失真"
+    },
+    {
+     "claim": "Advantest SoC 份额自报序列:CY2022 58% → CY2023 59% → CY2024 56%(-3pp,中国低端)→ CY2025 66%;任务假设的'2022 年 56%'是误记——56% 是 CY2024,2022-2023 并未失守,真正的份额事件是 2024 年低端流失与 2025 年 AI 端 +10pp",
+     "why_matters": "若沿用'56%→66% 四年线性提升'的错误叙事,会误判份额弹性来源(AI accelerator 集中拿单 vs 广谱提升)和 Teradyne/国产的侵蚀位置"
+    },
+    {
+     "claim": "设备商连续两年系统性低估自己的市场:2024-04 Advantest 对 CY24 SoC 指引 $2.9-3.2B(还在下修)vs 实绩 $4.1B(超中值 ~34%);2025-04 对 CY25 指引 $4.2-4.8B vs 实绩 $6.9B(超中值 +53%,路径 4月→7月→10月→1月逐季上修)",
+     "why_matters": "这是'test intensity 结构性上行'最硬的量化证据,也是 backtest 的核心拐点;若此不成立,2026-2030 外推的强度假设失去锚点"
+    },
+    {
+     "claim": "Teradyne 的 SOC TAM 口径系统性宽于 Advantest(CY2023:$3.9B vs $3.3B,差约 18%),两家自报份额分母不同;Teradyne '~50% 份额'仅指 VIP compute 子市场而非总 SoC",
+     "why_matters": "跨公司拼份额时若不先对齐口径,会得出两家份额加总 >100% 或 Teradyne 份额被高估的错误结论"
+    }
+   ],
+   "forward": [
+    "CY2026E:SoC $8.7-9.5B(Advantest 官方,2026-04-27;中值较 CY25 +32%);Teradyne 方向指引 2026 ATE TAM +20-40%(Q4'25 call);两家均承认 2026H2 能见度有限(Teradyne 因此拒发自家 TAM)",
+    "中期(约 2027-2028):Teradyne 目标模型 ATE TAM $12-14B(SoC+memory 合计,未指定年份;对应其 $6B 营收/EPS $9.5-11);Advantest 无公开 2027+ TAM,但产能路线图(SoC tester 10,000 台/年,CY2028底-2029 备妥,约为当前出货的 ~2 倍)隐含公司预期多年高增长——产能扩张在 CY26 TAM 指引基本未变下加码(2026-04-27 Q&A)",
+    "2027-2030 分年 SoC ATE 公开预测:无(broker 分年数亦未获得);最近的宽口径参照 SEMI test equipment 2027E +7.1%(2025-12-16);2027+ 外推须留给主循环建模并标'模型假设'",
+    "上行驱动:Rubin 世代测试时长传 +50% vs Blackwell(台媒,speculative);CoWoS 2026 年底 ~10-13 万片/月;SLT 由抽测转 100% 全检外溢机台需求;merchant GPU 双源化本身增加行业总 qualification/机台冗余",
+    "下行风险:①AI capex 降速——SoC TAM 中 compute 占七成、Advantest SoC 销售 95% 系 computing/通信,弹性巨大;②份额层面 Teradyne merchant GPU 从 $50M 起步、中期双源客户 30-70% 管理份额(Advantest 66% 份额的均值回归风险);③中国国产替代长尾(长川在手订单 RMB ~120亿)蚕食低端;④DFT/并行度改善若使 test content 增速低于预期,TAM 弹性被高估(SKU 级测试分钟数无一手数据)"
+   ],
+   "open_questions": [
+    "Teradyne 对 CY2022 SOC TAM 的官方数(2023-01-26 Q4'22 call)未取得(检索仅覆盖到 2023 年口径 $3.9B),CY2022 仅有 Advantest 单一来源(~$4.0B)——basis 补强需读 Q4'22 prepared remarks",
+    "全序列 TAM/份额 100% 依赖两家公司自报,TechInsights/VLSI Research 独立口径的 SoC ATE 市场与份额序列未取得,无第三方交叉验证",
+    "Teradyne 的总 SoC 份额(非 VIP compute 子口径)无官方或第三方精确值,~25-30% 为收入/TAM 倒推 estimate;其 FY2025 SoC test 全年收入的精确数(季度加总)未单独核实",
+    "V93000 vs UltraFLEXplus 的 socket/test program 锁定量化(移植周期、重新 qualification 成本、双源运行的实际份额分配案例)无公开数据,需 expert call——这是判断 merchant GPU 双源化速度的关键变量",
+    "CY2024 年内 Advantest 对 CY24 SoC TAM 的逐季修订路径(2024-07/2024-10 时点值)未补齐(已有 2024-01→2024-04 下修 $400M 与最终 +34% beat 两端)",
+    "长川 AI/GPU 测试机'进入头部供应链'为中文媒体口径,无客户名与机型佐证;其 SoC 测试机收入 RMB 5亿 的公司公告原文未直接核实(转引自产业稿)"
+   ]
+  },
+  {
+   "segment": "Memory ATE(存储测试机,含 HBM 专用)",
+   "scope": "Memory tester 本体(DRAM + non-volatile memory/NAND 测试机,覆盖 front-end wafer test 与 back-end final test 两段;含 HBM 专用高速机 T5835/T5503HS2/Magnum 7H 等)。按 Advantest 官方 TAM 口径:不含 wafer prober、probe card、handler、burn-in 炉(B6700 等 WLBI/burn-in 系统与韩系 burn-in tester/CLT/wafer inspection 均在口径边缘或口径外)、不含 SLT。注意:韩媒所报 SK hynix\"HBM4 测试机\"订单多为 burn-in tester/inspection,与本口径不可直接相加。",
+   "tam": [
+    {
+     "year": "CY2022",
+     "value": "$1,200M",
+     "basis": "actual",
+     "source": "Advantest Investors Guide 2025-04(Memory Tester Market Size Trend 图,Source: Advantest)"
+    },
+    {
+     "year": "CY2023",
+     "value": "$1,100M(-8% YoY;对照 CY2019 上一轮谷底 $650M)",
+     "basis": "actual",
+     "source": "Advantest Investors Guide 2025-04;FY2024 决算资料(2025-04-25)同口径 $1.1B"
+    },
+    {
+     "year": "CY2024",
+     "value": "$1,900M(+73% YoY,HBM 元年)",
+     "basis": "actual",
+     "source": "Advantest Investors Guide 2025-04 / FY2024 决算资料(2025-04-25)"
+    },
+    {
+     "year": "CY2025",
+     "value": "$2,100M(+11% YoY;2025年4月官方预测区间 $1.7-2.2B,落在区间内)",
+     "basis": "actual",
+     "source": "Advantest FY2025 决算说明会(2026-04-27);预测区间出自 Investors Guide 2504E"
+    },
+    {
+     "year": "CY2026E",
+     "value": "$2,200-2,700M(+10~35% YoY)",
+     "basis": "guide",
+     "source": "Advantest Q3 FY2025 说明会(2026-01-28)首次给出、FY2025 决算(2026-04-27)维持不变"
+    },
+    {
+     "year": "CY2027+",
+     "value": "无官方 memory 单列预测;仅 Teradyne 中期模型 ATE 整体 TAM $12-14B(SoC+memory 合计,未拆分)",
+     "basis": "none",
+     "source": "Teradyne Q4 2025 电话会(2026-02-03);memory 单列 2027+ 公开预测未找到,不编数"
+    }
+   ],
+   "players": [
+    {
+     "name": "Advantest",
+     "share": "53%(CY2022 自估)→ 63%(CY2024)→ 61%(CY2025,-2pp)",
+     "source": "CY2022:IR Technical Briefing 2023-11-29;CY2024/25:FY2025 决算资料(2026-04-27,自估口径)",
+     "notes": "绝对龙头,自称唯一覆盖 memory 全工序(WLBI B6700/B6700S→wafer test T5835(2024年FMS发布,≤5.4Gbps,wafer-to-package,HBM KGD/KGSD 堆叠后测试主力)→repair→package burn-in→final test T5503HS2(≤9Gbps、±45ps、16,256ch));媒体口径 HBM 测试设备份额 60-70%(无严格一手出处);FY2025 memory test 销售 ¥171.5bn(占总营收15.2%),其中 DRAM 占 ~90%"
+    },
+    {
+     "name": "Teradyne(Magnum)",
+     "share": "CY2025 约 20-22%(估算:Q1-Q4'25 memory 收入约 $450-460M ÷ TAM $2.1B;公司仅称'record year、份额提升',未自报份额%)",
+     "source": "季度实绩官方:Q3'25 $128M(+110% QoQ)、Q4'25 $206M(创纪录,+61% QoQ)、Q1'26 $203M(Teradyne 8-K/电话会);全年份额为本人估算",
+     "notes": "Magnum 7H 2025-08-04 发布(HBM2E-HBM4E、≤4.5Gbps、9,216 digital pins、吞吐×1.6,DRAM die 与 logic base die 通吃,已在'主要 HBM 厂商'量产爬坡);2026 指引再获 low-single-digit pp 份额;传统强项为 NAND/flash(Magnum),现以 HBM 高性能段进攻 Advantest 腹地"
+    },
+    {
+     "name": "UniTest(韩)",
+     "share": "ATE 口径内份额极小(<数%,无公开量化)",
+     "source": "ZDNet Korea 2026-03-05",
+     "notes": "2026年2月通过 SK hynix HBM4 burn-in tester 量产验证(首次进入 HBM 供应链);主战场是 burn-in(口径边缘),与 DI、YC 分食 SK hynix HBM4 burn-in 150-200台订单"
+    },
+    {
+     "name": "DI Corp / Digital Frontier(韩)",
+     "share": "口径外为主(wafer inspection/burn-in)",
+     "source": "The Elec 2025-03-27",
+     "notes": "自2025年1月起向 SK hynix 供 HBM3E wafer inspection(合同 ₩210bn),The Elec 称其'打破 Advantest 在 SK hynix wafer tester 供应链的垄断';已交 HBM4 kit 样品——韩系在 wafer 级低速段撕开口子"
+    },
+    {
+     "name": "YC(前YIK)/ Exicon(韩)",
+     "share": "口径边缘,量级 ₩数百亿/年",
+     "source": "ZDNet Korea 2024-07-29;The Elec/이데일리",
+     "notes": "YC:2024年首家本土向 Samsung 供 HBM wafer tester(MT8311,₩101.7bn);Exicon:供 Samsung CLT+burn-in tester(₩20.4bn)——Samsung 链的本土化对照组;Wintest 无 HBM 角色证据(factbase 已核查)"
+    }
+   ],
+   "characteristics": [
+    "竞争结构:准双寡头——Advantest ~61%+Teradyne ~20%+ 即占 8 成以上;韩系(UniTest/DI/YC/Exicon)只在 burn-in/inspection/CLT 等低速环节(多数在 ATE TAM 口径外)实现国产化,高速 KGSD/I-F 测试(≥5.4-9Gbps)护城河仍在 Advantest",
+    "定价/壁垒:壁垒=高速接口物理层能力(9Gbps、±45ps 时序精度)+全工序覆盖(WLBI→wafer→repair→burn-in→FT)+装机基数与测试程序生态;但 HBM 客户(尤其 SK hynix)明确执行双供应商政策,Magnum 7H 即其产物——高端定价权正从'独占'转向'双寡头议价'",
+    "周期性:历史上 memory tester 是 ATE 中周期最烈的(CY2019 $650M vs CY2018 $1,150M,-43%),但 2023 谷底仅 -8%($1.2B→$1.1B)——HBM+中国 DRAM 扩产把底部抬高了近一倍,Advantest 官方称 HBM 投资走'与传统 memory 周期不同的独立成长曲线'",
+    "需求函数(官方框架):tester 需求 = bit 增长 × insertion 次数 × 单 insertion 时长 ÷ 同测数;HBM 使后三项全部恶化(堆叠后 3-4+ 道 insertion、性能要求'高一到两档'、同测数受限),即 HBM 每 bit 消耗的测试机远多于常规 DRAM——这是 memory ATE 与 AI 增量的传导机制",
+    "资本密度/客户集中:客户仅三家原厂(SK hynix/Samsung/Micron)+中国 CXMT 等,单一订单波动极大;Advantest memory 销售中 DRAM 占比 FY22 60% → FY23 90% → FY24 95%(NAND 测试机需求近乎归零后缓慢恢复至 FY25e 10%)——当前本质是'DRAM/HBM 单引擎'市场"
+   ],
+   "timeline": [
+    {
+     "when": "2022(CY)",
+     "what": "手机/PC 下行开始,memory tester TAM $1.3B→$1.2B(-8%);Advantest 自估 memory 份额 53%;此时 Advantest memory 销售中 NAND 还占 40%",
+     "source": "Advantest Investors Guide 2504E;IR Tech Briefing 2023-11-29"
+    },
+    {
+     "when": "2023(CY)= 谷底,但异常浅",
+     "what": "存储厂 capex 腰斩,但 memory tester TAM 仅 -8% 至 $1.1B(vs 2019 谷底 $650M);Advantest FY23 memory tester 销售逆势 +6.5% 至 ¥102.3bn(高性能 DRAM/HBM+中国 DRAM 双驱动),DRAM 占比 60%→90%;2023-11-29 技术说明会披露 HBM 已占其 memory 销售约 25%+(¥76bn×90%×60%×>50%),并称拿下 HBM 初期爬坡'绝大部分'需求",
+     "source": "Advantest FY2023 决算资料(2024-04-26)+IR Tech Briefing 2023-11-29(均官方)"
+    },
+    {
+     "when": "2024(CY)= HBM 元年",
+     "what": "memory tester TAM $1.1B→$1.9B(+73%,历史新高),几乎全由 HBM/高性能 DRAM 拉动;Advantest memory 份额升至 63%(自估),DRAM 占其 memory 销售 95%;韩系首破口:YC 获 Samsung HBM wafer tester ₩101.7bn(2024-07)",
+     "source": "Advantest FY2024 决算资料(2025-04-25);ZDNet Korea 2024-07-29"
+    },
+    {
+     "when": "2025(CY)= 高位续增+双供应商元年",
+     "what": "TAM $2.1B(+11%,落在官方年初预测 $1.7-2.2B 区间内——与 SoC 超预测中值 50%+ 形成对照,memory 预测反而准);Teradyne Magnum 7H 发布(2025-08-04)并在主要 HBM 厂爬坡,memory 收入 Q3 $128M(+110% QoQ)→Q4 $206M(纪录),Advantest 份额 -2pp 至 61%;韩系纵深:DI 获 SK hynix HBM3E wafer inspection ₩210bn、SK hynix HBM4 burn-in 150-200台定点 DI/UniTest/YC",
+     "source": "Advantest FY2025 决算(2026-04-27);Teradyne 8-K/电话会;The Elec 2025-03/ZDNet Korea 2025-10"
+    },
+    {
+     "when": "2026-01-28",
+     "what": "Advantest 首给 CY2026 memory TAM 指引 $2.2-2.7B(+10~35%),当季 memory 销售 ¥57.3bn,称 HBM3E/HBM4 扩产'独立于传统 memory 周期';2026-04-27 维持该区间不变",
+     "source": "Advantest Q3 FY2025 说明会(2026-01-28)、FY2025 决算(2026-04-27)"
+    },
+    {
+     "when": "2026(HBM4 换机潮进行时)",
+     "what": "HBM4 三重变化:接口 1024→2048-bit(JEDEC JESD270-4,2025年4月定稿)+ 测试速度约 2×HBM3E(Teradyne 口径)+ base die 转 logic 制程(Samsung 4nm/TSMC N12)首次把 logic wafer sort 拉进 memory 测试链;Teradyne Q1'26 memory $203M、指引全年份额再 +低个位数pp;SK hynix P&T7 谈判采购约 200台/₩400bn 测试机(2027 交付),并自研 HBM4 SiP 系统级测试设备(2026年1月过内部认证)——内制化/本土化开始蚕食增量边缘",
+     "source": "JEDEC;Electronic Design 2026-05-14(Teradyne 署名);Teradyne Q1'26 电话会(2026-04-29);The Elec/TrendForce 2026-02-25;韩媒 2026-06"
+    }
+   ],
+   "key_claims": [
+    {
+     "claim": "Advantest 官方口径 memory tester TAM 序列:CY2022 $1.2B → CY2023 $1.1B(-8%)→ CY2024 $1.9B(+73%)→ CY2025 $2.1B(+11%)→ CY2026E $2.2-2.7B(+10~35%);即 2023 '存储崩'在 tester TAM 上只是 -8% 的浅坑(源:Investors Guide 2504E 图表 + 各期决算资料)",
+     "why_matters": "这是整个环节的定量骨架;若序列错(尤其 CY2022 $1.2B 与 CY2023 仅 -8% 这一反直觉点),则'HBM 抬高周期底部'的核心叙事与 backtest 全部失效"
+    },
+    {
+     "claim": "份额:Advantest memory 53%(CY22 自估)→63%(CY24)→61%(CY25,-2pp);Teradyne memory 收入 Q4'25 $206M/Q1'26 $203M(官方),CY2025 全年约 $450-460M、对应 ~20-22% 份额(此份额%为估算,公司未自报)",
+     "why_matters": "双寡头结构与侵蚀速度是本环节投资判断的轴心;若 Teradyne 实际份额显著高/低于 20%,对 Advantest memory 业务的防御性评估要重写"
+    },
+    {
+     "claim": "HBM 对测试机的结构性拉动机制:堆叠后 3-4+ 道 insertion、同测数受限、性能要求高一到两档(Advantest 官方确认但拒给量化倍数),故 HBM 每 bit 消耗测试机数倍于常规 DRAM;体现为 Advantest memory 销售 DRAM 占比 FY22 60%→FY24 95%",
+     "why_matters": "这是 TAM 从 $1.1B 到 $2.7B 的因果链;若倍数逻辑不成立,2026-2030 外推的弹性假设全错"
+    },
+    {
+     "claim": "HBM4 换机的准确表述:2048-bit 接口(JEDEC 2025-04)+ 约2×测试速度 + base die logic 化确实驱动新一轮设备采购(T5835/Magnum 7H/T5503HS2 后继),但 Advantest 官方明言'现有产品可覆盖初代 HBM4、无需全新技术'——'强制全面换代'是过度表述,实际是升级+加购而非报废重置",
+     "why_matters": "若把 HBM4 误读为强制报废式换机,会高估 2026-27 TAM 弹性;这直接影响对 $2.7B 上限能否突破的判断"
+    }
+   ],
+   "forward": [
+    "2026 官方指引:memory tester TAM $2.2-2.7B(+10~35%,Advantest 2026-01-28 首给、04-27 维持);Teradyne 称 memory 需求强于 1 月预期、全年 TAM 稳健增长、自身份额 +低个位数pp(Q1'26 电话会,2026-04-29)",
+    "2027+ 无官方 memory 单列预测(明确:找不到,不编)。可锚定的间接量:Teradyne 中期模型 ATE 合计 TAM $12-14B(2026-02 电话会);SK hynix P&T7 约 200台/₩400bn 测试机 2027 交付谈判(韩媒 2026-06);Micron 新加坡 $7B HBM 封测厂 2026 投运、2027 起产能实质放量(官方)——2027 需求侧仍有实物支撑",
+    "上行驱动:HBM4E/HBM5 继续提速(TSMC/GUC C-HBM4E N3P 目标 12.8GT/s@2027);base die logic 化若由 memory tester 厂承接则扩大口径;WLBI/堆叠后 insertion 道数随层数(12-hi→16-hi)增加",
+    "下行风险①效率反噬:Advantest 自 2023-11 即预警 2026 年起客户良率成熟后'测试效率优化'可能压缩 tester 增速——设备商自己给出的减速拐点;②内制化/本土化:SK hynix 自研 SiP 系统级测试(2026-01 过认证)+韩系 burn-in/inspection 国产化几成定局,蚕食增量的低速段;③Teradyne 双供应商侵蚀从 burn-in 向高速段上移;④base die 测试若归 foundry 侧用 SoC tester(V93000/UltraFLEXplus),则这块增量流出 memory ATE 口径",
+    "量化缺口(建模需 expert call 补):HBM vs DDR5 测试时长倍数(官方拒披露)、HBM 占 memory TAM 最新比例、Teradyne memory 全年拆分(HBM vs NAND)"
+   ],
+   "open_questions": [
+    "CY2023 Advantest memory 份额的具体数字:FY23 决算仅定性称'SoC 与 memory 份额均提升',53%(CY22)→63%(CY24)之间缺一个点",
+    "Teradyne 2025 全年 memory 收入官方合计数未单独披露(仅季度:Q3 $128M/Q4 $206M;Q1-Q2'25 需从 10-Q 反推),~20-22% 份额是估算;其 memory 收入中 HBM/DRAM vs NAND(Magnum 传统盘)拆分不明(仅知 Q3'25 HBM+DRAM 占 75%)",
+    "HBM 占 memory tester TAM 的最新比例(2023 年末约 25%+ 为最后一个官方锚点;2025-26 无更新)——影响对 $2.2-2.7B 指引的结构理解",
+    "HBM vs 常规 DRAM 测试时长/机台消耗量化倍数:Advantest 以客户机密拒绝披露,无可信一手数字(factbase 已标注)",
+    "TSMC 代工的 HBM4 base die 由谁在哪测(foundry 侧 SoC tester vs memory 厂侧 memory tester)——决定 HBM4 增量蛋糕在 SoC ATE 与 Memory ATE 两个口径间的划分,公开信息未闭环",
+    "韩系 burn-in tester/CLT/wafer inspection(SK hynix 150-200台、P&T7 ₩400bn 等)是否计入 Advantest 的 memory tester TAM 口径——若不计入,则'韩系抢份额'与'TAM 序列'不在同一张表上,dashboard 需分层呈现",
+    "Samsung/Micron 的 HBM4 测试设备采购规模缺公开数(仅 SK hynix 链有韩媒追踪),三家原厂测试 capex 不对称是盲区"
+   ]
+  },
+  {
+   "segment": "Wafer Prober(探针台)+ Tokyo Seimitsu(Accretech)画像",
+   "scope": "量产用全自动晶圆探针台(auto prober,8/12寸,CP/wafer sort 与 HBM/KGSD 的 chip-on-wafer 测试中与 ATE 配对、承载 wafer 对位/温控/步进的机械平台;TechInsights 口径为 \"Auto Probers\")。含:高精度温度控制(高低温)机型、advanced packaging 用 die test prober(TEL 2025-2026 新品类)。不含:tester 本体、probe card、test handler、实验室/工程用 probe station(MPI/FormFactor CM300 等 engineering 机)、量测设备。注意:第三方市场报告($1.9-2B 档)多把 probe station 等混入,口径宽于 auto prober。",
+   "tam": [
+    {
+     "year": "2022(CY)",
+     "value": "无权威公开绝对值;双寡头 prober 收入合计约 ¥100-110B(≈$0.8B)量级反推",
+     "basis": "none",
+     "source": "无 TechInsights/官方公开;仅可由 Accretech FY2023/3 SPE 売上 ¥112.4B×prober 占比~5成 + TEL(未披露)粗略反推,不足以定值"
+    },
+    {
+     "year": "2024(CY)",
+     "value": "$1.9B(口径偏宽,含 probe station 类);窄口径 auto prober 估 $0.9-1.1B",
+     "basis": "broker",
+     "source": "Stratview Research(2024 $1.9B);窄口径为本研究 estimate(Accretech FY2025/3 prober≈¥62-68B + TEL≈¥40B级 + 其他,@¥152)"
+    },
+    {
+     "year": "2025(CY)",
+     "value": "宽口径 $1.90B;窄口径 auto prober ≈$1.3-1.5B(由 TEL 38% 份额与 TEL prober≈¥80B/Accretech≈¥85-90B 反推 TAM≈¥210B)",
+     "basis": "estimate",
+     "source": "Mordor Intelligence 2025 $1.90B(broker);窄口径为 estimate,锚点=TEL FY26Q4 资料 CY2025 auto prober 份额 38%(TechInsights 2026-04)+ TEL IR Day 2025-02-26 \"prober sales expected to double\""
+    },
+    {
+     "year": "2026(E)",
+     "value": "宽口径 $2.03B;窄口径估 $1.6-1.7B(TEL advanced logic prober FY2027/3 >¥100B + Accretech FY2027/3 SPE guide ¥141.5B×prober 7割≈¥99B,双寡头合计≈¥200B/~82%份额反推)",
+     "basis": "guide",
+     "source": "Mordor 2026E $2.03B(broker);TEL FY26Q4 transcript(2026-04-30,官方guide);Accretech 2025年度决算说明会(2026-05-13,官方guide);合成为 estimate"
+    },
+    {
+     "year": "参考:Test/Assembly 大盘",
+     "value": "2024-2030 CAGR 13%、2030 达 2024 的 2.1 倍(prober 所在 test/assembly 设备大盘)",
+     "basis": "broker",
+     "source": "TechInsights 2024-12,转引自 TEL IR Day 资料(2025-02-26)"
+    }
+   ],
+   "players": [
+    {
+     "name": "Tokyo Seimitsu / Accretech(7729.T)",
+     "share": "约 40-50%、多数口径下全球第一(公司及媒体称ウエハプローバ世界シェアNo.1;精确%未公开核到)",
+     "source": "note.com 半导体分析(引用公司决算)称世界第一;由 TEL=38% 与两社收入反推 Accretech≈40-45%(estimate);Accretech 统合报告书2025(10MB+未能抓取,%待核)",
+     "notes": "UF 系列 auto prober;高精度温度控制机能付き高付加价值机为 FY2026/3 4Q SPE OPM 26% 的主因之一;prober 占 SPE 売上 6-7 成且趋势上行(FY2027/3 1H 计划:売上 prober 7割/受注 7割半);logic 与 HBM 双线(FY2026/3 4Q HPC 受注:logic 5割半/HBM 4割半);prober 交期约5个月、埼玉主力工场满负荷、饭能新栋 2027 稼働"
+    },
+    {
+     "name": "Tokyo Electron(TEL)",
+     "share": "38%(CY2025,Auto Probers 口径,TechInsights 2026-04;另有二手来源称 CY2024 亦 38%)",
+     "source": "TEL FY2026/3 Q4 决算资料 p28 \"World Market Share of Major Products (CY2025)\"(官方,数据源 TechInsights Inc. April 2026)",
+     "notes": "Precio 系列;自称 \"Leading position in probers for leading-edge logic\"(先端 logic prober 有 compelling share);FY2026/3 prober 销售额约翻倍(IR Day 2025-02 预告)、FY2027/3 advanced logic 用 prober 销售有望超 ¥100B;新品类 Die Test Prober(advanced packaging test 用)2025-2026 投放"
+    },
+    {
+     "name": "Semics(韩国)",
+     "share": "无公开数字(第三梯队)",
+     "source": "The Worldfolio 采访(2025)、team-ate 产品页;无份额数据(none)",
+     "notes": "韩系 fully-automatic 6/8/12寸 prober(Opus 系列),绑定韩国 memory 供应链(SK hynix 生态);正推 group probing 差异化"
+    },
+    {
+     "name": "Micronics Japan(MJC)",
+     "share": "无公开数字",
+     "source": "MJC 官网产品页;none",
+     "notes": "以 probe card 为主业,兼做 wafer prober,规模远小于双寡头"
+    },
+    {
+     "name": "MPI(台湾 6223.TWO)",
+     "share": "无公开数字(auto prober 领域存在感有限)",
+     "source": "MPI 官网/法说资料;none",
+     "notes": "强项在 engineering/analytical probe station 与 RF 测试,全自动量产 prober 为延伸线,不构成对双寡头的实质威胁"
+    },
+    {
+     "name": "中国国产(矽电股份、长川科技、SemiShare 深圳矽递等)",
+     "share": "无公开可靠份额;主要在成熟制程/国产线渗透",
+     "source": "长川科技年报/募投项目文件(factbase-changchuan-11,已核查);矽电/SemiShare 公司资料;份额 none",
+     "notes": "长川第二代全自动超精密探针台 CP12 系列兼容8/12寸,CP12-SOC/CIS/Discrete 已量产、CP12-Memory 客户认证中(募投项目 2025-12-31 达可使用状态);Accretech 明言中国国产在 blade dicer 已构成竞争、但 prober 因高精度温度控制技术存在进入壁垒(2026-05-13 Q&A)"
+    }
+   ],
+   "characteristics": [
+    "竞争结构:全球双寡头——TEL 38%(CY2025, TechInsights)+ Accretech ~40-50%,合计约 8 成以上;第三名以后(Semics/MJC/中国系)合计不足两成且集中在 memory 本土链与成熟制程",
+    "定价/盈利:高精度温度控制(高低温宽温域)机型显著抬升 ASP 与毛利——Accretech FY2026/3 4Q SPE OPM 达 26%,公司明示高付加价值 prober 比率上升可带来数 pt 毛利率改善(FY2027/3 起)",
+    "资本密度/交期:设备本身非超高值(相对 tester),但当前供给紧张——prober 交期约 5 个月、Accretech 埼玉主力工场持续满负荷,短期借八王子/土浦扩出货、中期饭能邻接新栋 2027 年稼働",
+    "周期性:跟随 test capex 且波动不小——Accretech SPE 受注 FY2022/3 ¥152.9B 峰值 → FY2023/3 -35% → FY2024/3 -13% 谷底 ¥86.1B → FY2025/3 +25% → FY2026/3 +15% 至 ¥123.4B;売上因 backlog 平滑(峰谷差约 -11%)",
+    "进入壁垒:①高精度温度控制与热漂移补偿(-40℃~150℃级,AI 芯片高功耗测试更需要)②微 pitch/大 die 对位精度与 probe card 界面生态③与 ATE(Advantest/Teradyne)test cell 级联调 install base——Accretech 认为这是对中国国产的核心壁垒(dicer 已被卷、prober 尚未)",
+    "与 AI 增量的关系:三条线——①CP insertion 增加(大 die/KGD 闸门,TEL prober 销售 FY2026/3 翻倍、FY2027/3 advanced logic prober >¥100B)②HBM wafer test/KGSD(chip-on-wafer 需 prober+probe card;Accretech HPC 受注中 HBM 占 3-4 割半)③advanced packaging die test prober 新品类(TEL 2025-2026 投放);Accretech HPC(含生成AI)占 SPE 売上从 3 割強(FY2026/3)升至 4 割強(FY2027/3 1H 计划)"
+   ],
+   "timeline": [
+    {
+     "when": "FY2022/3(≈CY2021)",
+     "what": "超级周期顶:Accretech SPE 受注 ¥152.9B 历史峰值(全社受注 ¥186.1B),SPE OPM 24.4%",
+     "source": "Accretech 2025年度决算说明会补充资料 p29(官方)"
+    },
+    {
+     "when": "FY2023/3(≈CY2022,手机/存储下行开始)",
+     "what": "受注率先崩:SPE 受注 -35% 至 ¥99.4B;但売上靠 backlog +11% 至 ¥112.4B、SPE OPM 26.6% 见顶——受注与売上劈叉是本环节的领先/滞后结构",
+     "source": "同上 p29(官方)"
+    },
+    {
+     "when": "FY2024/3(≈CY2023,存储崩+SoC 下滑)",
+     "what": "量利双杀谷底:SPE 受注再 -13% 至 ¥86.1B,売上 -11% 至 ¥100.1B,SPE OPM 骤降至 19.9%(-6.7pt)",
+     "source": "同上 p29(官方)"
+    },
+    {
+     "when": "FY2025/3(≈CY2024,HBM+AI SoC 起)",
+     "what": "拐点确认:SPE 受注 +25% 至 ¥107.7B、売上 +13% 至 ¥113.5B、OPM 回升至 21.4%;HBM/HPC 开始成为增量主体",
+     "source": "同上 p29(官方)"
+    },
+    {
+     "when": "2025-02-26",
+     "what": "TEL IR Day 定调 prober 为 AI 受益品类:advanced logic/memory test 驱动下 \"prober sales expected to double compared to last year\";并引 TechInsights(2024-12)Test/Assembly 市场 2024-2030 CAGR 13%、2030 年 ×2.1",
+     "source": "TEL IR Day 资料 2025-02-26(官方;市场预测为 TechInsights 转引)"
+    },
+    {
+     "when": "2025-05-09",
+     "what": "Accretech 发布中计(2025-2027年度):单年度目标 売上 ¥185B(SPE ¥140B)/OP ¥45B/OPM 24%,核心抓手=高付加价值プローバ(高精度温度控制)+产能扩张",
+     "source": "Accretech 2024年度决算说明会资料(2025-05-09,官方)"
+    },
+    {
+     "when": "FY2026/3(≈CY2025,AI 大年)",
+     "what": "创纪录+结构升级:Accretech 全社売上 ¥166.8B(+11%,既往峰值更新)、SPE 売上 ¥127.9B(+13%)、SPE 受注 ¥123.4B(+15%);HPC(含生成AI)占 SPE 売上 3 割強、占受注约 4 割;4Q SPE OPM 26%(高付加价值 prober 贡献);prober 占 SPE 売上从 ~6 割升至 7 割级",
+     "source": "Accretech 2025年度决算说明会资料+补充资料(2026-05-13,官方)"
+    },
+    {
+     "when": "2026-04-30",
+     "what": "TEL FY2026/3 决算:公布 CY2025 auto prober 份额 38%(TechInsights 2026-04);advanced logic prober 销售稳增、FY2027/3 有望超 ¥100B;advanced packaging 相关销售 FY2027/3 指引 +60%以上",
+     "source": "TEL FY2026/3 Q4 决算说明资料+transcript(官方;份额源 TechInsights)"
+    },
+    {
+     "when": "2026-05-13(FY2027/3 指引)",
+     "what": "Accretech 指引:全社 ¥181.5B(+9%)/OP ¥40B(OPM 22%)、SPE ¥141.5B(+11%);FY2027/3 1H SPE 受注计划较前年下期 +20%、受注中 prober 占 7 割半;HPC 占 SPE 売上 4 割強、生成AI 含 HPC 对売上/利益贡献约 4 割;HBM 受注 1H 计划 HoH +88%;Q&A:中国占 SPE 売上 3 割以上将维持、汎用 DRAM/NAND 需求开始回来",
+     "source": "Accretech 2025年度决算说明会资料 p17-22+Q&A 要约(2026-05-13/14,官方)"
+    }
+   ],
+   "key_claims": [
+    {
+     "claim": "Wafer prober(auto prober)为 TEL+Accretech 双寡头:TEL CY2025 份额 38%(TechInsights 口径,TEL 官方决算资料转引),Accretech 约 40-50% 居第一(公司/媒体称 No.1,精确%未公开),两家合计约 8 成以上",
+     "why_matters": "若份额结构错(如 Accretech 并非第一、或第三方玩家份额被低估),整个环节的竞争格局、定价权与国产替代风险判断全部要重写"
+    },
+    {
+     "claim": "Accretech FY2026/3:全社売上 ¥166.8B(+11% 创纪录)、SPE ¥127.9B、prober 占 SPE 売上约 7 割(FY2027/3 1H 计划口径),即 prober≈全社売上一半;HPC(含生成AI)占 SPE 売上 3 割強→FY2027/3 1H 计划 4 割強",
+     "why_matters": "这是 Tokyo Seimitsu 投资画像的骨架:若 prober 占比或 AI 敞口数字错,其'AI 受益纯度'与估值锚全部失真"
+    },
+    {
+     "claim": "TEL prober 业务 FY2026/3 约翻倍(2025-02 IR Day 预告)、FY2027/3 advanced logic 用 prober 销售指引超 ¥100B、advanced packaging 相关 +60%——CP insertion 增加使 prober 成为后道链中增速最陡的设备品类之一",
+     "why_matters": "这是'CP 强度上升'叙事在设备商 P&L 上的最硬证据;若不实,则 prober TAM 外推与 2026-2030 增长曲线的斜率假设崩塌"
+    },
+    {
+     "claim": "Auto prober 无权威公开 TAM:TechInsights 只被引用了份额;CY2025 窄口径 TAM≈$1.3-1.5B 系由 TEL 38% 份额+双寡头收入反推(estimate);三方报告 $1.9-2.0B 为宽口径(混入 probe station 等)",
+     "why_matters": "若把 $1.9B 宽口径当实绩用,会高估环节规模约 4 成并污染跨环节 TAM 加总;主循环外推必须显式标注这是 estimate 而非 actual"
+    }
+   ],
+   "forward": [
+    "2026-2030 大盘:TechInsights(2024-12,TEL 转引)Test/Assembly 设备市场 2024-2030 CAGR 13%、2030 达 2024 的 2.1 倍;SEMI(2025-12-16)test equipment 2025 $11.2B(+48.1%)→2026E +12.0%→2027E +7.1%(宽口径含 prober/handler)——prober 作为其中份额稳定的子集大致同速或更快",
+    "公司指引锚:TEL advanced logic prober FY2027/3 >¥100B(2026-04-30);Accretech FY2027/3 SPE ¥141.5B、受注中 prober 7 割半、HBM 受注 1H +88% HoH(2026-05-13)——双寡头 prober 合计 CY2026 约 ¥200B(≈$1.3B+),隐含窄口径 TAM $1.6-1.7B(estimate)",
+    "结构驱动:①CP insertion 增加与 KGD/KGSD 闸门(CoWoS/HBM,含 chip-on-wafer 测试需 prober 承载)②HBM 各代 wafer test 强度上升(Teradyne Magnum 7H 官方支持 pre-singulated via prober;SK hynix HBM4 wafer test 机订单 962.5亿韩元流向 DI 子公司——韩系在 memory 端配套 prober 需求)③高功耗 AI die 的宽温域/高精度温度控制测试→ASP 上行 ④TEL Die Test Prober 等 advanced packaging test 新品类打开增量 SAM",
+    "产能与供给:Accretech prober 交期 ~5 个月、主力工场满负荷,饭能邻接新栋 2027 稼働;TEL 未披露 prober 产能约束——2026-2027 供给偏紧支撑价格/mix",
+    "风险:①周期回撤——受注端历史上一年内 -35%(FY2023/3),AI capex 若消化,受注先行崩 ②中国国产替代——prober 温控壁垒暂挡住(Accretech 原话),但长川 CP12 已量产 SOC/CIS/Discrete、CP12-Memory 在认证,2027 后成熟制程份额或被蚕食;中国占 Accretech SPE 売上 3 割以上,双向敞口 ③汎用 DRAM/NAND 回补若不及预期,HBM 单引擎波动放大 ④2027-2030 无任何公开 broker 对 prober 细分的可靠预测——外推只能挂在 Test/Assembly CAGR 13% 上并标模型假设"
+   ],
+   "open_questions": [
+    "TechInsights Auto Probers 的 TAM 绝对值与逐年序列(2022-2025)未公开,仅份额被 TEL 转引——需订阅数据或 expert call 补;当前窄口径 TAM 全部为反推 estimate",
+    "Accretech 官方自报份额%未直接核到(统合报告书2025 PDF >10MB 抓取失败;note.com 二手称世界No.1)——建议主循环补抓统合报告书或会社案内页",
+    "memory prober vs logic prober 份额拆分无公开:TEL 自称 leading in advanced logic prober(与传统'TEL 强 memory/Accretech 强 logic'的市场印象方向相反),而 Accretech 的 HPC 受注 logic:HBM≈6:4——两家在 memory/logic 各自的真实份额需 TechInsights 细分或专家访谈裁决",
+    "双探针/twin-cell prober 与 150℃+ 更高温域的产品化进度、渗透率、ASP 溢价均无公开量化——本次未找到可引用来源(未编数)",
+    "Semics/矽电股份/SemiShare 的收入体量与份额无公开可靠数字;矽电 A股上市进展与其在中国 memory 线的渗透值得跟踪",
+    "宽口径($1.9-2.0B, Mordor/Stratview)与窄口径(反推 $1.3-1.5B)差额的确切构成(engineering probe station、服务、翻新机?)未验证",
+    "TEL prober 收入的精确历史序列(FY2023/3-FY2025/3)未披露(仅构成比图,文本无法提取%)——'FY2026/3 翻倍'的基数是估算"
+   ]
+  },
+  {
+   "segment": "Probe Card(探针卡)+ FormFactor / Technoprobe 双龙头画像",
+   "scope": "Wafer test(CP/wafer sort 及堆叠后 KGSD 测试)中连接 prober 与 tester、与 die pad/bump 直接电接触的定制化耗材接口。含 MEMS、vertical、cantilever 及其他技术路线的 advanced+standard probe card;按 design/tape-out 定制、随设计迭代更换(耗材属性)。不含:prober 本体(TEL/Accretech 双寡头,另一环节)、FT 端 socket/DIB/burn-in board(Yole 单列 Test Interface Board 市场,2024 FT DIB $744M+advanced PCB $1B,Technoprobe 经 DIS 收购切入、份额 8%/6%)、engineering probe systems(FormFactor Systems 段,画像中单列)。",
+   "tam": [
+    {
+     "year": "2019",
+     "value": "$1,783M(memory $632M + logic $1,151M)",
+     "basis": "actual",
+     "source": "Yole《Semiconductor Test Consumables market monitor》Q3 2024,经 Technoprobe CMD 2025 deck(2025-04-14)官方引用,CY口径"
+    },
+    {
+     "year": "2024",
+     "value": "$2,443M(memory $805M + logic $1,638M;2019-24 CAGR +6.5%)",
+     "basis": "actual",
+     "source": "同上 Yole via Technoprobe CMD 2025;logic 按技术拆:MEMS $937M/vertical $286M/cantilever $222M/others $194M"
+    },
+    {
+     "year": "2022-2023",
+     "value": "单年数值在 CMD 图表中未标数;方向:2023 为下行年(FormFactor 收入 -11.4%、Technoprobe -25.4% 佐证)",
+     "basis": "none",
+     "source": "Yole 图表无法提取具体数;无其他官方口径,不编数"
+    },
+    {
+     "year": "2025",
+     "value": "约 $2.6-2.9B(仅低质量第三方报告区间:$2,637M-$2,914M/2024基数外推)",
+     "basis": "estimate",
+     "source": "intelmarketresearch/skyquest 等三方报告,分档为 estimate;公司官方未给 2025 单年 TAM"
+    },
+    {
+     "year": "2026E-2028E",
+     "value": "2028E $3,133M(memory $1,053M + logic $2,060M;2024-28 CAGR +6.2%;MEMS logic 2028E $1,212M、CAGR +6.6%)",
+     "basis": "guide",
+     "source": "Yole Q3 2024 forecast via Technoprobe CMD 2025(公司采信口径)"
+    },
+    {
+     "year": "2028E(HBM子集)",
+     "value": "HBM probe card TAM ~$600M",
+     "basis": "broker",
+     "source": "UBS 首次覆盖 Technoprobe 报告(via Investing.com)"
+    }
+   ],
+   "players": [
+    {
+     "name": "FormFactor(#1)",
+     "share": "总盘 ~22%(第三方报告口径,2024/2025检索时点,已核查);FY2025 probe card 收入 $637.9M ÷ Yole 2024 总盘 $2.44B ≈ 26%(口径提示:FF财年收入/CY市场)",
+     "source": "factbase-ate ate-19 已核查(FF~22%+TP~16%=~38%);FormFactor 10-K FY2025(SEC)",
+     "notes": "MEMS 全品类布局:Foundry&Logic $369.9M + DRAM(含HBM)$247.4M + Flash $20.6M + Systems(engineering prober/量测)$147.1M=FY2025 $785.0M。DRAM/HBM 是增长引擎,F&L 因 client PC/Intel 疲软 FY2025 -3%。SiPh/CPO 卡位:2024-11 与 Advantest 结盟(CM300xi-SiPh+V93000,已核查)、2025-12 收购 Keystone Photonics(~$20M,光学 probe 技术)、2025-06 购 Farmers Branch 德州厂(50k sqft 洁净室,late-2026 投产)"
+    },
+    {
+     "name": "Technoprobe(#2)",
+     "share": "总盘 ~16%(第三方口径,已核查);自报 2024 MEMS logic probe card(SAM $937M)份额 60%、logic probe card 总盘($1.6B)34%",
+     "source": "Technoprobe CMD 2025 deck p.5/25(Yole口径);factbase-ate ate-19",
+     "notes": "MEMS logic 绝对龙头,NVIDIA/AMD 关键供应商(trade press,已核查);AI 相关收入占比约 38%(FY2025 PR);FY2025 €628.4M、GM 44.4%(高于 FF 的 40.5%);2024-05 收购 DIS Tech 切入 FT interface(DIB);与 Teradyne(2023 入股 ~10%)和 Advantest 均有 partnership(CMD p.16);2026-03 宣布 DIS China(Shanghai)引入本地伙伴 $35M(~30%股权)+苏州子公司做 TPEG 中国本土化"
+    },
+    {
+     "name": "Micronics Japan/MJC(#3)",
+     "share": "份额未见公开精确数;FY2025 全公司销售指引 ¥68.9B(~$460M,+24% YoY),probe card 销售 +26%+ YoY",
+     "source": "Investing.com 报道 MJC 决算(2025-2026);注意 ¥68.9B 含 TE 事业部等非 probe card 业务",
+     "notes": "DRAM/HBM probe card 日系主力(memory 侧与 FF 对垒),HBM4/HBM4E/custom HBM 多样化驱动;FY2026 中期目标 ¥65B+、capex ¥15.3B→¥19B、R&D ¥6.6B→¥8.5B"
+    },
+    {
+     "name": "其他(长尾)",
+     "share": "FF+TP+MJC 合计约 60%(2025,三方报告口径);其余 <40% 分散",
+     "source": "FormFactor 10-K FY2025 竞争对手列表;intelmarketresearch 等三方",
+     "notes": "JEM(Japan Electronic Materials,MEMS)、Korea Instrument、MPI(台,兼营 engineering prober)、STAr Technologies、Max One、TSE、WillTechnology(韩系,DRAM/HBM 本土配套)、Feinmetall(德);韩系随 HBM 本土化受益"
+    }
+   ],
+   "characteristics": [
+    "耗材+定制品双属性:probe card 绑定具体 design/tape-out,设计迭代即换卡,收入≈design 活跃度×wafer 量,比 tester(资本品)更具重复购买性,但 2023 证明仍强周期(TP -25.4%)",
+    "竞争结构:前三家约 60% 集中度;logic MEMS 是 FF/TP 双寡头(TP 自报 MEMS logic 60%),memory 侧 FF/MJC/韩系三分;技术路线上 MEMS 2019-24 CAGR +10.9%(2024 占 logic 57%)、vertical +1.8%、cantilever 仅 +1.4%(legacy/低端),MEMS 化是结构性趋势",
+    "进入壁垒:MEMS 微加工产线资本密度高(FF 10-K 明示 high capital investment + 定制开发时间成本;MJC capex/收入比 >22%)、数万触点/单针>1A/25μm microbump 的工程壁垒、与 ATE-prober 生态绑定(TP×Teradyne、FF×Advantest 两大阵营)",
+    "盈利结构:TP GM 44.4%/EBITDA 32.1%(FY2025)结构性高于 FF probe card 段 GM 40.5%;FF 毛利率强顺周期+产品组合驱动(Q2'25 38.5%→Q4'25 43.9%,+540bps)",
+    "与 AI 增量的关系(本环节是后道测试里弹性最大的耗材):①HBM——每层 DRAM die wafer sort+堆叠后 KGSD 多道 insertion,层数×insertion 双击;②大 die GPU/custom ASIC——数万 contact point、安培级载流;③known-good-die 经济性(CoWoS 组装价值上升)提高 wafer 级测试强度;④CPO——光电双面 wafer test 新增 insertion(FF Pharos/Keystone 卡位)",
+    "客户集中风险:FF FY2025 SK hynix 占 22.9%(HBM),Intel 从 FY2023 的 17.1% 跌出 10% 榜——单一客户叙事从 Intel(逻辑)换成了 SK hynix(HBM)"
+   ],
+   "timeline": [
+    {
+     "when": "2022(周期顶部松动)",
+     "what": "FormFactor FY2022 收入 $748M(-2.8% vs 2021 $770M),手机/PC 下行开始;Technoprobe FY2022 反而创高 €548.9M(logic/MEMS 份额扩张对冲周期)",
+     "source": "FormFactor 8-K/10-K(SEC);Technoprobe FY2022 年报 PR"
+    },
+    {
+     "when": "2023(存储崩盘年,环节谷底)",
+     "what": "FF FY2023 $663M(-11.4%),其中 DRAM 段仅 $113.8M(占比跌至 17.2%),probe card 段 GM 降至 37.2%;TP FY2023 €409.3M(-25.4%),跌幅远大于 FF——消费/mobile 敞口更重",
+     "source": "FormFactor 10-K FY2025 三年对比表;Technoprobe FY2023 PR(2024-03)"
+    },
+    {
+     "when": "2024(HBM 拐点年)",
+     "what": "FF DRAM 收入 $227.4M(+99.9%,翻倍),全年 HBM 收入 4x,Q2'24 DRAM 创纪录、HBM 连续三季翻倍,SK hynix 首次成第一大客户(18.9%);FF 全年 $763.6M(+15.2%);TP €543.2M(+32.7%)、EBITDA margin 25.1%,2024-05-27 完成 DIS Tech 收购切入 FT DIB;2024-11-07 FF×Advantest SiPh 测试 cell 联盟(已核查)",
+     "source": "FormFactor 10-K FY2025 + 各季 8-K;Technoprobe FY2024/FY2025 PR;factbase-cpo cpo-12"
+    },
+    {
+     "when": "2025(AI 全面接管叙事)",
+     "what": "FF 全年纪录 $785.0M、Q4 纪录 $215.2M(指引上限),HBM 季度收入 mid-$40sM、Q3 DRAM 再创纪录;SK hynix 升至 22.9%、Intel 跌出 10%;non-GAAP GM 两季 +540bps 至 43.9%;2025-06 购 Farmers Branch 厂、2025-12-15 收购 Keystone Photonics(~$20M);TP FY2025 €628.4M(+15.7%)、GM 44.4%、EBITDA 32.1%(+700bps)、净利 +57.4%,AI 占收入 ~38%;2025-04-14 CMD 发布中期目标后,2026-03 确认 2027 目标提前一年达成",
+     "source": "FormFactor Q4 2025 earnings call(Motley Fool transcript 2026-02-04)+10-K;Technoprobe FY2025 PR(2026-03-18)"
+    },
+    {
+     "when": "2026(指引:HBM4 ramp + GPU 卡位年)",
+     "what": "FF Q1'26 指引 $225M±5M(环比+4.6%)、non-GAAP GM 45%±150bps、EPS $0.45±0.04;HBM 季收入指引 low-$50sM(HBM3E 延续+HBM4 早期 ramp),自称在全部三大 HBM 厂份额提升;GPU probe card 可靠性验证中、2H26 拿量产订单(merchant GPU probe card TAM 2025 约 $50M,自估);TP Q1'26 指引 €182M±3%、GM 46.5%±200bps、EBITDA margin 35.4%,2026-2027 产能翻倍投资;MJC FY2025 指引 ¥68.9B(+24%)、probe card +26%(HBM4 驱动)",
+     "source": "FormFactor Q4 2025 call;Technoprobe FY2025 PR;MJC 决算报道(Investing.com)"
+    }
+   ],
+   "key_claims": [
+    {
+     "claim": "公司采信的 probe card TAM 口径是 Yole《Semiconductor Test Consumables》monitor(Q3 2024):2019 $1,783M → 2024 $2,443M(CAGR +6.5%)→ 2028E $3,133M(CAGR +6.2%),其中 logic 2024 $1,638M(MEMS $937M/vertical $286M/cantilever $222M/others $194M)、memory $805M",
+     "why_matters": "这是整个环节 TAM 框架的地基;若 Yole 口径或拆分数错,TAM、技术路线趋势(MEMS化)和 2028E 外推全部失效。注意:FormFactor 10-K 不引用任何 TAM,TechInsights 排名金额未公开——'FormFactor/Technoprobe 年报互引 TechInsights'这一任务预设本身不成立,实际互引的是 Yole"
+    },
+    {
+     "claim": "份额结构:Technoprobe 自报 2024 MEMS logic probe card(SAM $937M)份额 60%、logic 总盘 34%;第三方口径 FF ~22%+TP ~16%=总盘 ~38%;前三家(FF/TP/MJC)约 60%",
+     "why_matters": "若 TP 的 60% MEMS logic 份额有误,'TP 抢份额/双寡头'叙事被污染;且 60%(自报 SAM 口径)与 16%(总盘)并存,口径混用会导致份额结论相差 4 倍"
+    },
+    {
+     "claim": "FormFactor 的 HBM 轨迹:FY2024 HBM 收入 4x、DRAM 段 +99.9% 至 $227.4M;FY2025 DRAM $247.4M、HBM 季度收入 mid-$40sM、Q1'26 指引 low-$50sM;SK hynix 占收入 22.9%(FY2025)取代 Intel(FY2023 17.1%→FY2025 <10%)成第一大客户",
+     "why_matters": "这是'HBM 需求爆发'断言的全部定量支柱;若客户集中度或 HBM 季度 run-rate 错,FF 画像的增长引擎和风险敞口(单客户 23%)都错"
+    },
+    {
+     "claim": "Technoprobe 财务轨迹与提前达标:FY2022 €548.9M → FY2023 €409.3M(-25.4%)→ FY2024 €543.2M → FY2025 €628.4M(+15.7%、GM 44.4%、EBITDA 32.1%);2027 目标 €850-900M/EBITDA 38-40% 较 CMD 2025 提前一年,2026-27 产能翻倍",
+     "why_matters": "这是'TP 抢份额+盈利质量优于 FF'叙事的支柱;若 FY2023 跌幅(-25.4% vs FF -11.4%)或 2027 目标有误,两家相对竞争力的结论反转"
+    }
+   ],
+   "open_questions": [
+    "TechInsights(原 VLSI Research)probe card 年度排名的具体金额/份额从未公开可查(仅客户满意度奖项有公开 PR);两家公司现均引 Yole 口径——TechInsights 排名需付费报告或 expert network 求证",
+    "Yole 口径下 2022/2023/2025 单年 TAM 数值(CMD 图表有柱无标数)缺失;2023 谷底的市场收缩幅度只能用 FF -11%/TP -25% 间接推断",
+    "FF 的 GPU probe card 客户身份(市场普遍推测 NVIDIA merchant GPU)官方未点名;2H26 量产订单规模、以及 TP 目前在 NVIDIA/AMD 的实际供货份额均无公开数——这是 2026-27 logic 侧最大份额变量",
+    "TP 自报 60% MEMS logic 份额与 FF F&L 收入 $370M 的口径关系未闭环(FF F&L 含 vertical/其他技术及 flash 外全部非 memory;两者不能直接相加验证)",
+    "MJC ¥68.9B 指引含非 probe card 业务(TE 事业部),probe card 单独收入需决算短信/说明会资料核对;韩系(TSE/WillTechnology/Korea Instrument)随 HBM 本土化的份额变化无公开数",
+    "HBM probe card TAM 2028E $600M 仅 UBS 一家 broker 口径;HBM4 base die 转 logic 制程后,base die wafer sort 的 probe card 归属(logic 卡还是 memory 卡、谁供)未闭环(与 factbase-hbm 的 open question 同源)",
+    "TP 的 DIS China/苏州 TPEG 本土化尚需意大利 Golden Power 与中国审批;中国本土 probe card 厂(强一半导体等)对低端盘的侵蚀速度无可信数据"
+   ],
+   "forward": [
+    "Yole 基准:2024-2028 总盘 CAGR +6.2% 至 $3,133M(2028E),logic $2,060M(MEMS $1,212M,+6.6% CAGR)、memory $1,053M——注意该 forecast 定稿于 2024-09,未充分反映 2025-26 HBM4/GPU 上修,大概率偏保守(FF/TP/MJC 2025-26 实际增速均高于 6%)",
+    "HBM4 ramp 是 2026 最强驱动:FF 指引 HBM 季收入 low-$50sM 且在三大 HBM 厂全部提份额(两家'低基数客户'是增量);MJC probe card +26% YoY 指引同向印证;UBS HBM probe card TAM 2028E ~$600M(broker)。风险:HBM 良率成熟后 insertion 优化反噬(Advantest 已预警同类逻辑)",
+    "GPU/custom ASIC 打开 logic 侧第二曲线:FF 称 merchant GPU probe card TAM 2025 仅 ~$50M、qualification 通过后 2H26 放量,foundry&logic 机会'数亿美元'量级(GPU+ASIC+networking);TP 称 Advanced Packaging 2026-27 加速。2026 被 TP 定性为 AI 投资'selection year',datacenter capex 可持续性是共同风险",
+    "产能军备竞赛:TP 2026-27 产能翻倍(意大利+台湾+其他);FF Farmers Branch late-2026 投产(结构性降本+2027 产能);MJC capex ¥19B(FY2026)——若 2027 需求不及预期,行业性稼动率/毛利率风险",
+    "盈利率路径:FF 指引 Q1'26 non-GAAP GM 45%(两季+540bps 后再+110bps),TP Q1'26 GM 46.5%/EBITDA 35.4%、2027 目标 EBITDA 38-40%——两家均押注 HBM4/AI 组合改善,毛利率是 backtest 2026-27 兑现度的最敏感指标",
+    "地缘与本土化:TP 以 DIS China(本地伙伴 $35M/30%)+苏州厂做中国 TPEG 本土化(审批风险);韩系借 SK hynix/Samsung HBM 供应链本土化上量;FF 已于 2024-02 出售中国业务——三家对华策略分化,2027-30 中国盘归属是长期份额变量",
+    "2027-2030:除 Yole 2028E $3,133M 外无公开逐年预测;2029-30 无任何公开口径(需主循环模型外推,建议以 Yole 2024-28 CAGR +6.2% 为下限、HBM4E/custom HBM+GPU 放量情景为上限,并显式标模型假设)"
+   ]
+  },
+  {
+   "segment": "Test Handler(分选机,含主动温控ATC)+ Test Socket/接口 + Cohu 公司画像",
+   "scope": "Handler 口径:封装后 FT 用分选机(gravity/turret/pick-and-place)及其主动温控子系统(active thermal control thermal head、chiller、水冷板)、die-level handler(Advantest HA1200)与 SLT handler(与 SLT 环节有重叠,鸿劲/Chroma 的 SLT handler 在此讨论但整线归 SLT 环节);不含 wafer prober(独立环节)、不含 tester 本体。Socket/接口口径:FT/burn-in/SLT test socket、contactor、probe pin(pogo/MEMS)、thermal-control socket 盖(Essai TCU)及 load board/DIB 接口件,属耗材/半耗材(design-win 后随量消耗);不含 CP 用 probe card(独立环节)。注意:Advantest 把 handler+SLT+device interface 合并计入 Other Systems 分部(FY2025 ¥80.5bn),interface board 另计入 Services 的 Others(¥44.2bn),无法从官方口径单拆 handler。",
+   "tam": [
+    {
+     "year": "2022-2025(handler 逐年序列)",
+     "value": "无权威公开序列",
+     "basis": "none",
+     "source": "TechInsights/VLSI 的 handler 分项数据在付费墙内,Advantest/Cohu 官方只给 tester TAM 不给 handler TAM;明确标注:找不到可信逐年实绩序列"
+    },
+    {
+     "year": "2024",
+     "value": "~$1.4-2.0B(第三方低质区间,QYResearch 系报告互相矛盾)",
+     "basis": "estimate",
+     "source": "MarketGrowthReports称2024 $2.0B、Valuates/QYR系中文转述(格隆汇)约$1.4B级;质量低仅作区间"
+    },
+    {
+     "year": "2023→2027",
+     "value": "$436M(2023)→$6.6B(2027)——转述属实但数字自洽性已证伪(4年15倍≠CAGR35%),疑为handler+socket+interface合并口径或单位错误,只可用方向性",
+     "basis": "broker",
+     "source": "Morgan Stanley 2026半导体报告(华盛通/PANews转述;已核查factbase ft-crosscheck F2,verdict=confirmed指'转述属实')"
+    },
+    {
+     "year": "2025",
+     "value": "三角化上界:SEMI test equipment $11.2B − Advantest口径 tester TAM $9.0B ≈ $2.2B(=handler+prober+其他测试设备合计,handler占其中一部分)",
+     "basis": "estimate",
+     "source": "SEMI年末预测2025-12-16(官方)− Advantest FY25决算说明会tester TAM(官方);差额三角化为本人推算"
+    },
+    {
+     "year": "2025(公司实绩锚)",
+     "value": "鸿劲一家 handler+ATC+水冷板收入≈NT$302.7亿(~$0.95B);Advantest Other Systems(SLT+handler+DI)¥80.5bn(~$0.55B);Cohu 全公司 $453M——AI handler 实际蛋糕已明显大于老第三方口径",
+     "basis": "actual",
+     "source": "鸿劲2026-03-12法说(factbase osat-13已核)、Advantest FY25 Briefing(factbase advantest-04)、Cohu Q4'25 PR"
+    },
+    {
+     "year": "2024(socket)",
+     "value": "test+burn-in socket $1.91B(VMR);其他第三方$1.3-2.5B分歧大",
+     "basis": "estimate",
+     "source": "Verified Market Research 2024 $1,909.75M→2032 $3,137.35M CAGR 6.4%;OG Analysis等给$2.5B/2024;第三方质量一般仅作区间"
+    },
+    {
+     "year": "2025(socket公司锚)",
+     "value": "Leeno FY2025 营收 KRW 372.5B(~$270M,+35% vs 2024 KRW 275.4B),其中 IC test socket 类占65.5%;Essai(Advantest)2020年收购时年销~$100M",
+     "basis": "actual",
+     "source": "TradingView/FnGuide 财报口径+DailyInvest;Essai=Advantest官方新闻稿2020-01-29(factbase ate-13已核)"
+    },
+    {
+     "year": "2026E",
+     "value": "SEMI test equipment(宽口径,含handler/prober)2026 +12.0%、2027 +7.1%;handler/socket 无独立官方指引",
+     "basis": "guide",
+     "source": "SEMI Year-End Forecast 2025-12-16(factbase market-12已核)"
+    }
+   ],
+   "players": [
+    {
+     "name": "Cohu(含原Xcerra)",
+     "share": "QYR系中文转述:Cohu 21%+Xcerra 16%≈合并~37%(vintage约2023,数据陈旧且质量低);公司自称test handler与test socket双料leader",
+     "notes": "gravity+pick-and-place全谱系;Eclipse/EclipseX + T-Core ATC(±1°C、>125°C/s、最高3kW,风/液/冷媒三种thermal head);2025-09-18 Eclipse获'下一代AI计算器件'选用(客户未具名);车规/工业敞口大是2023-24重挫主因",
+     "source": "格隆汇转述QYResearch(低质分档);Cohu官网/Businesswire 2025-09-18(factbase ate-15已核)"
+    },
+    {
+     "name": "鸿劲精密(7769.TW)",
+     "share": "份额口径分歧:媒体报32%(全球IC测试分选机)vs 公司自估SoC测试分选机~70%;QYR老口径仅8%——AI handler细分内其为绝对龙头",
+     "notes": "handler 42%+ATC 33%+水冷板 23%(2025Q3结构);AI/HPC/ASIC占接单~70%;直接客户NVIDIA/AMD/Google/AWS/Broadcom/Apple;2025营收NT$302.7亿(+166%)、GM 56.5%;2025-11-27上市(承销价NT$1,495台股史上最高,首日+100.7%);正切GPU SLT(美系GPU大厂圣荷西实验室验证中)与CPO测试平台(目标2027量产)",
+     "source": "factbase ate-16/osat-13/osat-14(均已核,台媒+法说会)"
+    },
+    {
+     "name": "Advantest",
+     "share": "QYR老口径12%;另有低质报告称'2023年handler出货量份额58%'——两者矛盾,均不可靠,无官方自报",
+     "notes": "M4841量产handler+ATC 2.0(16site、动态跟踪DUT自热,2024-04供货);M487x系列ATC 2kW选件;HA1200 die-level handler(对接V93000,测切割后die,2024Q2供货)——产品线明确对准AI/HPC;handler并入Other Systems分部无单独披露",
+     "source": "Advantest官方新闻稿2023-10-24/2023-12-11(factbase ate-14已核);份额:格隆汇/marketreportanalytics(低质,互相矛盾)"
+    },
+    {
+     "name": "Techwing(089030.KQ)",
+     "share": "自称memory test handler全球#1(无第三方核);SoC handler为扩张方向",
+     "notes": "2024营收KRW 185.5B、OP 23.4B(OP同比6倍,HBM驱动);2025Q1营收KRW 52.4B(+51.5%)、OP 9.7B(+444%)——注意媒体转述'524억'易被误读为524B;Cube Prober(HBM单颗die级检测):供三星、2025-03过SK hynix最终qual、Micron qual中;另有burn-in chamber/interface board",
+     "source": "The Elec(2024实绩);etoday/DailyInvest(2025Q1);The Elec(Cube Prober SK hynix首单)"
+    },
+    {
+     "name": "Epson(Seiko Epson)",
+     "share": "无公开份额数据(basis none)",
+     "notes": "NS系列pick-and-place handler,传统上强于日系logic/车规客户;本轮检索未获其handler业务收入或AI敞口的可靠公开数据,不编数",
+     "source": "none(公开信息不足)"
+    },
+    {
+     "name": "Chroma致茂(2360.TW)",
+     "share": "无份额数据;SLT handler为增速最陡单品",
+     "notes": "法人预估SLT handler业务2026E营收+200%、2027E+30%(AI GPU/ASIC带动);2025Q4公司营收NT$85.8亿(YoY+42%)、毛利率~60%——归属SLT环节但与handler融合趋势直接相关",
+     "source": "經濟日報法人预估2026-01(factbase sltecon-02已核,broker分档)"
+    },
+    {
+     "name": "长川科技(300604.SZ)",
+     "share": "中国大陆分选机国产化率2024年已>35%(自2022年30%提升),长川为主力",
+     "notes": "国产替代逻辑为主,低端为主向中高端爬坡;测试机+分选机均价RMB144-192万/台(factbase econ-05)",
+     "source": "未来半导体fsemi.tech(媒体分档)"
+    },
+    {
+     "name": "Leeno리노공업(058470.KQ)",
+     "share": "socket:无权威份额;韩系双雄之一,R&D/工程socket龙头",
+     "notes": "FY2025营收KRW 372.5B(+35%)、OPM ~49.8%(耗材属性印证);IC test socket类65.5%+Leeno Pin类23.4%;AI高附加产品推动ASP上行(하나증권:2025 OP +37%)",
+     "source": "TradingView/FnGuide财报+DailyInvest/하나증권(broker)"
+    },
+    {
+     "name": "ISC",
+     "share": "socket:无权威份额;韩系双雄之二,量产socket(silicone rubber+pogo)强",
+     "notes": "SKC旗下;AI accelerator订单增长中(与WinWay/Enplas/Leeno同列AI受益)",
+     "source": "chipsandwafers/行业通识(定性,无硬数)"
+    },
+    {
+     "name": "Advantest AIS(原Essai)",
+     "share": "高端AI/HPC final-test与SLT socket领先者(收购时年销~$100M)",
+     "notes": "2020-01-29被Advantest收购,产品含thermal control unit(带温控socket盖)——tester厂向下垂直整合socket的标志性案例;NVIDIA链内格局强势(与tester绑定)",
+     "source": "Advantest官方新闻稿(factbase ate-13已核)"
+    },
+    {
+     "name": "Enplas / Smiths Interconnect / Yamaichi / WinWay(6515.TW)",
+     "share": "均无公开份额;与韩系共同构成socket第二梯队",
+     "notes": "Enplas(日,量产burn-in/test socket)、Smiths(英,高端同轴/半导体测试)、Yamaichi(日)、WinWay(台,AI/HPC socket敞口高、台系GPU链受益)",
+     "source": "行业通识+chipsandwafers(定性)"
+    }
+   ],
+   "characteristics": [
+    "竞争结构:handler中等集中(QYR口径前五~44-57%,数据打架),比tester(双寡头)分散得多,但AI大芯片细分内高度集中(鸿劲自估SoC test handler ~70%);socket更分散、按客户/器件design-in,韩(Leeno/ISC)日(Enplas/Yamaichi)台(WinWay)美(Cohu/Smiths/Essai)分庭",
+    "定价与盈利:socket是耗材(随量消耗、更换周期短),Leeno OPM~50%、鸿劲GM 56.5%,显著高于设备商(Cohu non-GAAP GM 43.3%);AI socket针数从手机级~1,500针跳至AI/HPC ~6,000针、下一代10,000+针(大摩),ASP结构性上移",
+    "资本密度与商业模式:handler单价远低于tester(test cell设备价值中tester~70%/handler~17%/prober~15%,中邮证券口径),但AI改造把价值重心从机械分选移到热管理——鸿劲ATC+水冷板合计占营收56%,Cohu T-Core支持3kW、鸿劲已谈10kW+与-70°C三温;recurring属性上升(Cohu Q4'25 recurring占60%)",
+    "周期性:传统handler跟随车规/工业/手机封测capex,弹性极大(Cohu 2022-2024收入-55%);AI handler/socket跟随AI芯片量产爬坡,2024-2025与传统周期完全反向——同一环节内'AI纯度'决定命运",
+    "进入壁垒:热管理(junction温度感知、动态自热跟踪、液冷/冷媒)+与tester/OSAT的联合qual形成新壁垒;tester厂向下整合(Advantest收Essai做socket、自产handler;Teradyne IST做SLT)挤压独立厂空间",
+    "与AI增量的关系:三重加成——单颗测试功耗300W-2,000W(SemiEngineering/Amkor口径)压低并测数→同产出需更多handler;测试时长逐代翻倍(Hopper 350s→Rubin 1,200-1,400s,大摩)→设备台数与socket消耗同步放大;SLT从抽测转100%全检→SLT handler/socket新增量;handler与SLT handler、burn-in自动化边界融合(鸿劲切SLT、Aehr Sonoma带器件专用socket)"
+   ],
+   "timeline": [
+    {
+     "when": "2022全年",
+     "what": "手机下行开始但车规/工业强劲,传统handler厂相对抗跌:Cohu FY2022营收$812.8M(仅-8% vs 2021 $887M),管理层当时叙事为'车规/工业韧性'",
+     "source": "Cohu Q4 2023 results(Businesswire 2024-02-15,内含2022对比基数)"
+    },
+    {
+     "when": "2023全年",
+     "what": "下行扩散:Cohu FY2023营收$636.3M(-21.7%),车规/工业上半年撑住、下半年开始去库存;同年Techwing因memory崩盘OP萎缩(2024年OP为其6倍可反推2023 OP仅~KRW 3.9B)",
+     "source": "Cohu Q4 2023 results(Businesswire);The Elec(Techwing 2024 OP同比6倍)"
+    },
+    {
+     "when": "2023-10-24 / 2023-12-11",
+     "what": "叙事转折点(供给侧):Advantest连发ATC 2.0(M4841,16site动态自热跟踪)与HA1200 die-level handler+M487x ATC 2kW选件,明确面向AI/HPC final test——handler竞争轴心正式从并测数转向热控功率",
+     "source": "Advantest官方新闻稿两则(factbase ate-14已核)"
+    },
+    {
+     "when": "2024全年",
+     "what": "环节内剧烈分化:Cohu营收$401.8M(-36.9%,车规/工业去库存重挫,GAAP亏损$69.8M)vs 鸿劲NT$139.9亿(+47.5%,AI/HPC接单~70%)vs Techwing KRW 185.5B(OP +6倍,HBM/Cube Prober拉动)——'AI纯度'首次成为handler厂估值分水岭",
+     "source": "Cohu Q4 2024 results(Businesswire 2025-02-13);鸿劲上市报道(factbase ate-16已核);The Elec"
+    },
+    {
+     "when": "2025-03 / 2025-09-18",
+     "what": "AI渗透加速:Techwing Cube Prober过SK hynix最终qual(3月);Cohu Eclipse+T-Core(3kW)获'下一代AI计算器件'测试选用(9月)——传统厂开始拿到AI入场券",
+     "source": "The Elec;Cohu/Businesswire 2025-09-18(factbase ate-15已核)"
+    },
+    {
+     "when": "2025-11-27",
+     "what": "资本市场确认:鸿劲以NT$1,495(台股史上最高承销价)挂牌,首日开盘+100.7%;2025全年营收NT$302.7亿(+166.3%)、GM 56.5%、EPS NT$75.71——AI handler从细分品类变成主叙事",
+     "source": "台媒多家+2026-03-12法说(factbase ate-16/osat-13已核)"
+    },
+    {
+     "when": "2026-02-12",
+     "what": "传统厂触底回升:Cohu FY2025营收$453M(+13%),Q4 $122.2M(+30% YoY),test cell利用率12月达76%(compute 78%/auto 75%/industrial 77%),recurring占60%(+25% YoY);但全年non-GAAP仍亏$10.1M,HBM收入2025年exit仅$11M——回升由车规ADAS+复苏驱动,AI贡献尚小",
+     "source": "Cohu Q4 2025 PR(StockTitan)+earnings call(Motley Fool 2026-02-12)"
+    },
+    {
+     "when": "2026-05",
+     "what": "前瞻叙事升级:鸿劲法说披露美系GPU大厂SLT工程验证机台+10kW/-70°C/CPO平台、2027产能+50%;Cohu获AI数据中心GaN功率器件多笔Diamondx订单(~$5M);大摩报告给出socket针数1,500→6,000→10,000+与测试时长逐代翻倍框架",
+     "source": "鸿劲2026-05-12法说(factbase osat-14已核);Cohu/Businesswire 2026-05-12;大摩转述(factbase sltecon-06已核)"
+    }
+   ],
+   "key_claims": [
+    {
+     "claim": "Handler 环节不存在可信的公开 TAM 逐年序列:第三方给 $1.4-2.0B(2024,QYR系互相矛盾),大摩转述给 $436M(2023)→$6.6B(2027) 且该组数字已被证明内部不自洽(4年15倍≠CAGR 35%);最可用的锚是 SEMI−tester 差额三角化(2025年 handler+prober+其他≈$2.2B)与公司实绩(鸿劲一家2025年~$0.95B)",
+     "why_matters": "若直接引用任一第三方数字做全景 dashboard,handler 环节的 TAM 会错一倍以上;必须以'区间+公司实绩锚'呈现,否则整个环节规模感被污染"
+    },
+    {
+     "claim": "AI 把 handler 的价值重心从机械分选移到热管理:测试功耗 300W-2,000W(已在谈10kW+)使 ATC/液冷从选配变标配,鸿劲营收中 ATC+水冷板占56%、Cohu T-Core 支持3kW、Advantest 出 2kW ATC 选件——传统份额统计(Cohu合并~37%、Advantest 12%)基于旧口径,在 AI 细分内已失真(鸿劲自估 SoC test handler ~70%)",
+     "why_matters": "这是环节竞争格局的核心判断:若按旧份额看,会误判 Cohu 为 AI handler 龙头;实际 AI 增量几乎被鸿劲/Advantest/Chroma 拿走"
+    },
+    {
+     "claim": "Cohu 是本环节 2022-2024 下行的最大输家(营收 $887M→$401.8M,-55%,主因车规/工业敞口)且 AI 转型滞后:2025年 HBM 收入 exit 仅 $11M、2026E $15-20M,Eclipse AI 订单 2025-09 才落地,FY2025 仍 non-GAAP 亏损 $10.1M——其复苏叙事(FY25 +13%、Q4 +30%、利用率76%)主要靠传统市场周期触底而非 AI",
+     "why_matters": "若把 Cohu 画像写成'AI 受益者',会高估其弹性;正确画像是'周期复苏+AI 期权(Diamondx GaN/PMIC SAM $250M、HBM inspection、recurring 60%)'"
+    },
+    {
+     "claim": "Socket 市场第三方口径 $1.3-2.5B(2024)分歧极大,可靠锚是公司实绩:Leeno FY2025 KRW 372.5B(+35%)、OPM ~50%;Essai 被 Advantest 收购时年销~$100M;大摩给出的针数阶梯(1,500→6,000→10,000+)是 ASP 上移的核心驱动——且 tester 厂垂直整合 socket(Essai/AIS)正在改变独立厂生态",
+     "why_matters": "socket 是本环节利润率最高的耗材生意(OPM 50%),若 TAM 口径引错或忽略垂直整合趋势,会误判独立 socket 厂的长期份额天花板"
+    }
+   ],
+   "forward": [
+    "SEMI 官方预测:test equipment(宽口径含 handler/prober)2026 +12.0%、2027 +7.1%,2027 达约 $13.4B——handler/socket 无独立官方指引,只能挂靠此宽口径(SEMI 2025-12-16)",
+    "鸿劲公司指引/法说:2026-2028 产能年增约50%,10kW+ 高功耗、-70°C 三温测试、CPO 测试平台(目标2027初量产)推升 ASP;美系 GPU 大厂 SLT 验证若转量产则打开第二增长曲线(鸿劲 2026-05-12 法说,已核)",
+    "Chroma SLT handler:法人预估 2026E 营收 +200%、2027E +30%(經濟日報 2026-01)——handler 与 SLT 融合是 2026-2030 增量最陡的子线",
+    "Cohu 指引:2026 为增长年,Q1'26 $122M±7M、GM~45%;HBM inspection 2026E $15-20M(2025 exit $11M 基础上+80%);Diamondx 打 AI 数据中心 GaN/PMIC(SAM $250M)——弹性中等,车规 ADAS 复苏是更大变量(Cohu Q4'25 call)",
+    "大摩框架(方向性):测试时长逐代翻倍(Rubin 1,200-1,400s→下一代1,800-2,000s)+socket 针数下一代10,000+,handler/socket 强度随芯片代际结构性上升;但其 handler 市场绝对值($6.6B/2027)不可引用",
+    "第三方低质区间(仅参考):FMI 估 AI 加速器 burn-in+SLT 平台 2025 $0.8B→2036 $2.2B;VMR 估 socket 2024 $1.91B→2032 $3.14B(CAGR 6.4%)——均与公司实绩增速(鸿劲+166%、Leeno+35%)明显脱节,提示第三方模型低估 AI 弹性",
+    "风险:①AI 客户高度集中(NVIDIA 链),'一个大 socket 滑过年度边界'即可打爆单年增速(Teradyne 语,同样适用于 handler/socket);②tester 厂垂直整合(Advantest 自产 handler+Essai socket+HA1200)与 OSAT 自制倾向挤压独立厂;③车规/工业若二次探底,Cohu/长川的复苏叙事证伪;④SLT handler 竞争者涌入(鸿劲/Chroma/Advantest/Teradyne IST)可能压缩超额利润"
+   ],
+   "open_questions": [
+    "TechInsights/VLSI 的 handler 分项官方数据(付费墙):Advantest'2023年handler出货份额58%'(低质来源)与 QYR'Advantest 12%'严重矛盾,需付费数据裁决;Advantest Core TAM(Tester+Auto Handler+…)中 Auto Handler 的金额拆分未披露",
+    "大摩原报告中 handler 市场 $436M(2023)→$6.6B(2027) 的真实口径(疑为 handler+socket+interface 合并或单位错误)——需原报告核对,转述已确认但数字必有一处错",
+    "鸿劲份额口径裁决:媒体 32%(全球 IC 测试分选机)vs 公司自估 ~70%(SoC 测试分选机)——分母定义差异待向公司/第三方确认;其英文名(任务提示 AIT)与官方名 Hon Precision 的对应关系未核",
+    "Epson handler 业务规模与 AI 敞口:本轮未找到任何可靠公开数据(Seiko Epson 不单独披露),份额 basis=none",
+    "ISC/Enplas/Smiths/WinWay/Yamaichi 各自 socket 收入与 AI 收入占比——仅 Leeno 有清晰财报锚;WinWay(6515.TW)财报可补但本轮检索额度已用尽",
+    "Techwing 2025 全年实绩(本轮仅获 Q1 2025:营收 KRW 52.4B/+51.5%,注意媒体'524억'转述易误读)与 Cube Prober 在 Micron 的 qual 结果",
+    "Cohu 端市场收入占比的精确数(auto/industrial/mobile/computing %):Q4'25 只披露了利用率分行业数(compute 78%/auto 75%/industrial 77%/mobile 72%),历史车规~40%+工业~15%的占比需从 10-K 补核"
+   ]
+  },
+  {
+   "segment": "Burn-in 设备(package burn-in 系统/炉 + burn-in board/socket 耗材 + wafer-level burn-in)+ AEHR 公司画像",
+   "scope": "含:①package-level burn-in 系统(monitored burn-in,炉体+每 DUT 独立驱动/量测电子,如 Aehr Sonoma、MCC HPB6、Incal 传统机型、韩系 UniTest/DI/YC/Exicon 面向 memory 的 burn-in tester、Advantest B6700);②burn-in board(BIB/BIM)与 burn-in socket 耗材;③wafer-level burn-in(WLBI:Aehr FOX-XP+WaferPak 全晶圆接触器、Advantest B6700S inline WLBI);④SLT+burn-in 一体平台(Advantest 7038/7038 STR)的 BI 部分。不含:标准 ATE 插入中的 stress 步骤、ODM 端板卡/机柜级烧机(L10/L11,鸿海等自建)、纯环境温箱(非监测式)。注意边界模糊:Advantest 与 Teradyne(Magnum 7H 称覆盖 burn-in)把部分 burn-in 功能并入 memory ATE 口径,两家 memory TAM 对 burn-in 的计入口径不同(factbase3-tammethod:同年方向判断相反 -4% vs +5-10%)。",
+   "tam": [
+    {
+     "year": "2022-2025 实绩(官方/TechInsights 口径)",
+     "value": "无——Advantest/Teradyne 均不单列 burn-in 设备 TAM,TechInsights 无公开分项",
+     "basis": "none",
+     "source": "检索确认缺失;Advantest 每季 TAM 口径仅 SoC/memory tester"
+    },
+    {
+     "year": "CY2024",
+     "value": "$731-756M(全球 burn-in test system,两家第三方口径)",
+     "basis": "estimate",
+     "source": "Valuates/QYResearch 系与 marketreportanalytics 第三方报告(质量一般,仅作量级参考);检索 2026-07"
+    },
+    {
+     "year": "CY2025(AI 加速器专用 burn-in+SLT 平台子集)",
+     "value": "$0.8B(2025)→$0.9B(2026E)",
+     "basis": "estimate",
+     "source": "Future Market Insights,factbase3-sltecon 已核查;burn-in racks 占 2026 结构 38%"
+    },
+    {
+     "year": "2031E",
+     "value": "~$1.4B(CAGR 9.9%,2024 基期)",
+     "basis": "estimate",
+     "source": "Valuates/QYResearch 系报告(第三方,低置信)"
+    },
+    {
+     "year": "2026(SK hynix HBM4 burn-in tester 订单,实物口径)",
+     "value": "150-200 台(UniTest 单笔合同 ₩29.1B≈$21M/2026-05 可作单价锚:约 $0.7-1.4M/台量级)",
+     "basis": "broker",
+     "source": "ZDNet Korea 2025-10-24 等韩媒(factbase-hbm 已核查)+The Elec 2026 报道"
+    },
+    {
+     "year": "单客户量产项目资本开支量级",
+     "value": "WLBI 订单套餐 $10-20M/套(系统 ASP $5-6M);package 级(Sonoma)'可相当或更高'",
+     "basis": "guide",
+     "source": "Aehr FY26Q3 电话会 2026-04-08(factbase3-sltecon 已核查,CEO 原话)"
+    }
+   ],
+   "players": [
+    {
+     "name": "Aehr Test Systems(AEHR)",
+     "share": "WLBI 细分事实龙头(全晶圆级无同规模对手);全公司 FY2026 营收仅 $45-50M(guide),占第三方全球口径 ~6%",
+     "notes": "FOX-XP 多晶圆 WLBI(9×300mm 并行+WaferPak AutoAligner)+2024 收购 Incal 获 Sonoma package 级(2kW/DUT、88 DUT/chamber);客户结构 SiC→AI processor(hyperscaler PLBI 量产+leading AI processor supplier WLBI 评估)+silicon photonics(2026 年 3/6/7 月连续量产单)",
+     "source": "Aehr 官方 PR/10-K/FY26Q3 电话会"
+    },
+    {
+     "name": "Advantest",
+     "share": "无公开份额;QYResearch 系称'top5(Advantest/Chroma/Aehr/DI/STK)合计 ~60%'(低置信)",
+     "notes": "B6700(48 boards 并行 package burn-in)+B6700S(inline WLBI)绑定其 memory 测试全工序覆盖;7038/7038 STR SLT+BI 一体(液冷,HPC/AI);2022 年收购意大利 CREA(功率半导体 burn-in);2023 年收购的是台湾 PCB 厂 Shin Puu(burn-in board 基板)——并非 Micro Control",
+     "source": "Advantest 2023-11-29 IR 技术说明会(factbase-hbm 已核查)+Advantest 官网 2023-04-28"
+    },
+    {
+     "name": "Micro Control Company(MCC,美国私企)",
+     "share": "无公开;高功率 monitored burn-in 头部",
+     "notes": "核查结论:未被 Advantest 收购(2023/2024/2025 均无交易记录,仍为明尼阿波利斯独立私企)——'Advantest 2023 收购 MCC'系误传,混淆对象应为 Shin Puu;其 HPB6 1500W 平台被 KYEC 用于 NVIDIA 高功率 burn-in",
+     "source": "检索确认(microcontrol.com+并购数据库无记录)+ft-crosscheck 已核查 KYEC 设备构成"
+    },
+    {
+     "name": "韩系四家:UniTest/DI/YC/Exicon(memory/HBM burn-in)",
+     "share": "SK hynix HBM4 burn-in tester 150-200 台订单三家分食(DI 最先/2025 末,UniTest 2026Q1 完成量产 qual+₩29.1B 合同,YC 竞逐);UniTest CY2025 营收 ₩110.2B(+19.2%)",
+     "notes": "Samsung 链:YC MT8311 HBM wafer tester ₩101.7B(2024-07),Exicon CLT+burn-in tester ₩20.4B;DI 子公司 Digital Frontier 已破 Advantest 在 SK hynix wafer tester 垄断;burn-in 业务在各家收入中占比无公开拆分",
+     "source": "ZDNet Korea/The Elec(factbase-hbm 已核查)+stockanalysis.com(UniTest 086390)"
+    },
+    {
+     "name": "Chroma 致茂",
+     "share": "无公开;QYResearch 系列入 top5",
+     "notes": "burn-in 系统为其半导体测试产品线一支,但在 NVIDIA 链的核心角色是 SLT(100% 全检独供口径)而非 burn-in;FMI 将其列入 AI 加速器 burn-in+SLT 平台主要厂商",
+     "source": "FMI(factbase3-sltecon 已核查)+QYResearch 系"
+    },
+    {
+     "name": "Incal Technology(已并入 Aehr)",
+     "share": "被收购前 TTM 收入 ~$12M(2024-06 止)",
+     "notes": "2024-07-15 签约、07-31 交割,对价 $21M($14M 现金+552,355 股);AI 半导体厂商用 package 级 burn-in(Sonoma 前身 800W);Aehr 借代工把 Sonoma 月产能 ~2 台→20+ 台",
+     "source": "Aehr 官方 PR 2024-07 + MarketScreener(交割 $22.2M 口径)"
+    },
+    {
+     "name": "KYEC 自制炉(自用,非商售——市场的'负项')",
+     "share": "承接 NVIDIA AI 芯片测试 >90%,burn-in 占其营收 9.0%(2025-12-03 法说)",
+     "notes": "自制成本约外购 1/3、改设计数周 vs 外部 6-9 个月;3-5kW 认证、8kW 研发接近完成(对手多 <2kW);最大单一 burn-in 产能池游离于设备商 TAM 之外",
+     "source": "KYEC 2025-12-03 法说会富果备忘录+今周刊/经济日报(ft-crosscheck/factbase-flow 已核查)"
+    },
+    {
+     "name": "其他:ESPEC/Trio-Tech/STK Technology",
+     "share": "无公开",
+     "notes": "传统炉/环境应力厂商,低功率长尾",
+     "source": "QYResearch 系厂商列表"
+    }
+   ],
+   "characteristics": [
+    "碎片化 niche 市场,无官方 TAM 口径:第三方量级 ~$0.7-0.8B(2024)仅为 SoC ATE 的 1/9;龙头 Advantest 不单独披露,纯 pure-play 只有 AEHR——导致该环节定价权与叙事高度依赖单一公司 PR",
+    "商业模式=系统+耗材双层:burn-in board/BIM/socket 是持续耗材流(Aehr FY26Q3 耗材收入 $3M、占当季营收 29%);器件换代(功率/散热/socket 针数)强制耗材重买,类 probe card 逻辑但市场小一个量级",
+    "AI 高功率化正在重塑资本密度:传统炉单台推测 <$1M(无公开报价,openQuestion),而 Aehr 口径 WLBI 系统 $5-6M/台、量产订单套餐 $10-20M/客户项目、Sonoma 每 DUT 2kW+多 thermal zone 独立控温——单位价值量向 ATE 靠拢",
+    "两条分离的供应链:HBM/memory burn-in(Advantest B6700 系+韩系本土,绑定原厂 capex,买方=IDM,压价狠、韩系互卷)vs AI logic package burn-in(Aehr Sonoma/MCC+KYEC 自制,买方=testhouse/hyperscaler);玩家几乎不交叉",
+    "最大结构性威胁是'去市场化':KYEC 自制炉成本 1/3 且占 NVIDIA 链 >90% 测试份额——AI burn-in 增量最大的一块产能根本不经过设备市场;memory 端 IDM 扶持本土供应商同理",
+    "周期性:burn-in 强度历史上随良率成熟被系统性削减(Intel ITC 2006 用 Iddq 分桶把 90nm burn-in 时长砍 >90%;行业多次抽样化乃至取消)——本轮'AI burn-in 回归'(车规惯例→HPC 标配、TDP>1kW 必做、Rubin 3h→5-6h、AWS 纳入 ASIC 标准流程)是良率爬坡+可靠性代价驱动,可持续性是核心争议点",
+    "进入壁垒中等:炉体本身技术门槛低,壁垒在高功率热管理(液冷、多 thermal zone)、每 DUT 独立测试资源、与器件厂的 socket/BIM 协同设计;WLBI 壁垒最高(全晶圆接触器 WaferPak 专利+9 晶圆并行架构)"
+   ],
+   "timeline": [
+    {
+     "when": "2021→2023夏",
+     "what": "AEHR SiC 故事成型:FY2022 营收 $50.8M(+144%)→FY2023 $65.0M(+28%,创纪录),ON Semi 为 lead 客户;股价从 2022 初 ~$5-6 涨至 2023-07 峰值 ~$54(Motley Fool 口径'peaked $50+ in summer 2023'),约 10 倍",
+     "source": "Aehr FY23 8-K/PR(官方)+Motley Fool 2023-11-06"
+    },
+    {
+     "when": "2023-10",
+     "what": "SiC 叙事首裂:单月股价 -48.4%——Q1 FY24(10-05)业绩达标但未上调指引,电话会披露单一客户(ON Semi)占收入 88%;同期 ON Q3 因欧洲 tier-1 车厂推迟交付下调 SiC 指引、德国终止 EV 补贴",
+     "source": "Motley Fool 2023-11-06 + Aehr 2023-10-05 PR(官方)+Seeking Alpha SiC 减速跟踪"
+    },
+    {
+     "when": "2024-01→2024-03",
+     "what": "SiC 崩塌坐实:FY24 指引两连砍 $100M→$80M→$65M,3 月预告日股价 -22%;FY24 实绩 $66.2M(GAAP 净利 $33.2M 含税项);股价 2024 年低点跌至 ~$10-13 区间(52 周低点 $12.93)",
+     "source": "Motley Fool 2024-03-26 + Aehr FY24 官方业绩 + stockanalysis.com"
+    },
+    {
+     "when": "2024-07/08",
+     "what": "转型落子:$21M($14M 现金+股票)收购 Incal(TTM 收入 ~$12M),获 Sonoma 超高功率 package burn-in,切入 AI 加速器;此前纯 WLBI 单腿",
+     "source": "Aehr 官方 PR 2024-07-15/07-31"
+    },
+    {
+     "when": "FY2025(2024-06→2025-05)",
+     "what": "青黄不接:营收 $59.0M(-11%),GAAP 净亏 $3.9M,Q4 backlog 仅 $15.2M;但客户结构从 SiC 单一走向 AI(hyperscaler 成首个 AI 量产客户)+GaN+silicon photonics+HDD+flash 六线",
+     "source": "Aehr FY25 Q4 官方 PR 2025-07-08"
+    },
+    {
+     "when": "2025-08",
+     "what": "WLBI 打入 AI logic:leading AI processor supplier 下达 WLBI 评估+correlation 订单(FOX-XP,现役高量产处理器)——WLBI 从 SiC/光子向 AI 大 die 延伸的第一个公开锚点",
+     "source": "Aehr 官方 PR 2025-08"
+    },
+    {
+     "when": "2025-10→2026-03",
+     "what": "HBM burn-in 韩系定点(与 AEHR 无关):SK hynix HBM4 burn-in tester 150-200 台、2026Q1 起装入清州 M15X;DI 2025 末最先承接,UniTest 2026-03 完成量产 qual、2026-05 签 ₩29.1B;Advantest 在 SK hynix 的垄断被本土系打破",
+     "source": "ZDNet Korea 2025-10-24/2026-03-05 + The Elec(factbase-hbm 已核查)"
+    },
+    {
+     "when": "2026-01→2026-04",
+     "what": "AEHR AI 订单拐点(backtest 关键点):01-13 多客户 Sonoma 订单 >$5.5M → 02-11 头部 hyperscaler 下一代 AI ASIC 量产首单 → 04-16 同一客户 $41M 创纪录追加;Q3 FY26 bookings $37.2M(book-to-bill >3.5x)、backlog 创纪录 $50.9M、H2 bookings >$92M——而同期收入仍在崩(Q3 营收 $10.3M,-44% YoY;FY26 指引仅 $45-50M):订单先行、收入滞后的典型拐点结构",
+     "source": "Aehr 官方 PR 2026-01/02/04 + FY26Q3 8-K/电话会 2026-04-08"
+    },
+    {
+     "when": "2026-06",
+     "what": "叙事加持:大摩 06-23 报告——NVIDIA Rubin(R 系列)在 KYEC 的 burn-in 时间由计划 3h 翻倍至 5-6h,为 KYEC 2026 营收带来 3-5% 上修(目标价 338→388 台币);burn-in 时长逐代上行获渠道数字背书",
+     "source": "Morgan Stanley 2026-06-23(台媒转述,factbase-sku 已核查)"
+    },
+    {
+     "when": "2026-03→2026-07",
+     "what": "silicon photonics 成第三条腿:3/6/7 月连续获 silicon photonics 客户全自动 FOX-XP 量产及 follow-on 订单(hyperscale 光互连);股价一年内 $12.93→高点 $126.62(又一个 ~10x),07-10 收 $72.60、市值 $2.28B;FY26 全年业绩 07-14 发布",
+     "source": "Aehr 官方 PR 2026-07-09 + stockanalysis.com(2026-07-10)"
+    }
+   ],
+   "key_claims": [
+    {
+     "claim": "Micro Control Company 未被 Advantest 收购——2023/2024/2025 无任何交易记录,MCC 仍为明尼阿波利斯独立私企;Advantest 2023 年收购的是台湾 burn-in board 用 PCB 厂 Shin Puu(2023-04-28 交割),2022 年收购的是意大利功率 burn-in 厂 CREA",
+     "why_matters": "若把 MCC 算进 Advantest,burn-in 竞争格局会被错画成'Advantest 已整合美系高功率炉'——而实际上 KYEC 的 1500W 主力平台(MCC HPB6)来自独立供应商,Advantest 在 AI logic package burn-in 的存在感远弱于其 memory burn-in"
+    },
+    {
+     "claim": "burn-in 设备无任何官方/TechInsights TAM 口径,唯一可用量级是第三方低置信数:CY2024 全球 $731-756M、2031E ~$1.4B(CAGR 9.9%);AI 加速器 burn-in+SLT 平台子集 FMI 口径 2025 $0.8B→2036 $2.2B",
+     "why_matters": "这是全 dashboard 唯一完全没有官方锚的环节;若引用时不标'第三方估算、口径含糊(KYEC 自制与 IDM 内制大概率不在内)',整个环节的相对权重和增速都会被污染"
+    },
+    {
+     "claim": "AEHR 2026-07-10 市值 $2.28B 对 TTM 营收 $45.3M 约 50x P/S,估值全部押在订单拐点(Q3 FY26 bookings $37.2M/b-to-b>3.5x、backlog $50.9M、H2 bookings>$92M、$41M 单一 hyperscaler 追加单)而非当期收入(FY26 营收 $45-50M,仍同比 -15~-24%);且股价一年 $12.93→$126.62 已经历第二次 10 倍",
+     "why_matters": "AEHR 是该环节唯一 pure-play 标的,若把'收入拐点'与'订单拐点'混同,会高估兑现进度;客户集中度风险(SiC 时代 ON Semi 占 88% 的剧本)正在 hyperscaler 单一客户身上重演"
+    },
+    {
+     "claim": "HBM burn-in 与 AI logic burn-in 是两条互不交叉的供应链:SK hynix HBM4 的 150-200 台 burn-in tester 全部流向韩系(DI/UniTest/YC),Advantest 靠 B6700/B6700S 守 memory 存量;AEHR 的订单动能全部在 AI processor WLBI/PLBI 与 silicon photonics,截至 2026-07 无任何 HBM burn-in 订单公开证据",
+     "why_matters": "市场常把'HBM burn-in 需求爆发'记到 AEHR 头上——若此归因成立则 AEHR TAM 大一截,但公开证据不支持;两条链的买方、定价、竞争烈度完全不同,混同会同时错判 AEHR 和韩系的空间"
+    }
+   ],
+   "forward": [
+    "2026-2030 需求驱动之一(时长):burn-in 逐代拉长有渠道数字——Rubin 3h→5-6h(大摩 2026-06,KYEC 渠道)、Google TPU ~4h burn-in(二手转述,待核)、下一代 GPU 测试时间 +70-80%/下一代 ASIC TDP>1kW 必须 burn-in(KYEC 2026-01 法说口径);AWS 等 CSP 已将 burn-in 纳入自研 ASIC 标准流程",
+    "2026-2030 需求驱动之二(客户资本开支):Aehr 公司口径 FY27 'significant growth'(backlog $50.9M+H2 bookings $92M vs FY26 收入 $45-50M,隐含 FY27 收入接近翻倍的可见性;FY26 全年业绩与 FY27 指引 2026-07-14 发布——本报告后两天,需更新);SK hynix HBM4 150-200 台自 2026Q1 起装机,Samsung/Micron 对应 burn-in 投资无公开(openQuestion)",
+    "第三方外推:QYResearch 系 2031E ~$1.4B(CAGR 9.9%,2024 基期);FMI AI 加速器 burn-in+SLT 平台 2026 $0.9B→2036 $2.2B(CAGR 9.3%)——均为低置信,无 broker 逐年序列公开",
+    "核心风险一(去市场化):KYEC 2026 capex NT$500 亿中七成投 ATE+burn-in、产能拟扩 30-50%,但主力是自制炉(成本 1/3)——AI burn-in 增量最大的产能池不经过设备市场;若其他 testhouse 效仿,商售 TAM 增速将显著低于 burn-in 工作量增速",
+    "核心风险二(强度回摆):burn-in 历史上随良率成熟被削减(Intel 曾砍 >90%、行业多次抽样化/取消;HVST+Weibull 可缩短至 1/10)——若 Blackwell/Rubin 良率与现场失效率(当前 burn-in fallout 3-8%、GPU 占训练中断 30.1%)在 2027-28 收敛,burn-in 时长可能像历史一样台阶式下调,AI burn-in 叙事的'永久化'假设将被证伪",
+    "核心风险三(AEHR 特有):hyperscaler 单一客户集中度重演 SiC 剧本;silicon photonics/CPO 放量节奏(2028 年才规模化)决定第三条腿成色;FY27 若收入兑现不及 bookings 隐含斜率,50x P/S 无缓冲"
+   ],
+   "open_questions": [
+    "burn-in 设备的官方/TechInsights TAM 口径彻底缺失:$731-756M(2024)第三方数的成分(是否含 burn-in board 耗材、是否含 memory 原厂内制与 KYEC 自制)无法验证,建议 expert call 校准",
+    "外购高功率 monitored burn-in 炉单台美元价无任何公开(MCC HPB6/Incal 传统机型/ESPEC)——KYEC'自制成本 1/3'缺市价基准;仅有 HBM4 口径可反推韩系 burn-in tester 约 $0.7-1.4M/台",
+    "'数据中心 6 小时失效代价'类叙事(任务提示中的锚点)未在本轮检索中找到可核查出处——Aehr CEO 叙事口径待定位原文,现有可用替代证据为 Meta Llama3 训练 419 次中断中 GPU 故障占 30.1%",
+    "DI/YC/Exicon 的 burn-in 业务收入拆分无公开(DI 营收含 burn-in board 主业);Samsung/Micron HBM4 burn-in 设备订单规模是否对标 SK hynix 150-200 台无公开",
+    "AEHR WLBI 对 AI 大 die 的适用边界:全晶圆 2kW 级功率密度下的散热可行性、以及'leading AI processor supplier'评估(2025-08)是否转量产、该客户是否 NVIDIA——均无公开;若 WLBI 无法上 AI 旗舰 die,AEHR 的 AI 故事只剩 package 级(Sonoma)与光子",
+    "Aehr FY2026 全年业绩+FY2027 指引 2026-07-14(两天后)发布,本画像的 bookings/backlog 数字需即时更新"
+   ]
+  },
+  {
+   "segment": "SLT 系统级测试(System-Level Test)平台与整线 + AEM 画像",
+   "scope": "封装后、在类系统环境(reference board/mission-mode 负载)对成品芯片做功能筛选的量产 SLT 平台与整线:SLT handler/rack 本体、高并测 slot 阵列、active thermal control(-70°C~175°C、单颗 300W-2kW+)、自动化上下料,含 SLT+burn-in 合舱设备(Advantest 7038 类)。不含:ATE tester 本体(SoC/Memory ATE,即使跑 system-like 内容如 Advantest Link Scale)、纯 FT handler、socket/interface 耗材(仅提及)、ODM/hyperscaler 自建板卡与机柜级烧机 rack(不计入商用 SLT TAM,是本环节最大的口径暗礁)。与 burn-in 的边界正在模糊:Advantest 官方称可在同一 test cell 合并 SLT 与 burn-in(共用热应力基础设施),Aehr Sonoma(package burn-in)亦从相邻环节切入。",
+   "tam": [
+    {
+     "year": "2022-2024",
+     "value": "无权威 SLT 独立 TAM 系列(TechInsights/VLSI/SEMI 均不单列 SLT 设备)",
+     "basis": "none",
+     "source": "多轮检索确认;AEM 官方仅给总 test 设备市场框架:2023 年 US$8.4B(instrument $5.7B+probers/handlers $2.7B,consumables 另 $3.7B,7% CAGR)——AEM FY2024 Investor Update(2025-02,官方PDF)"
+    },
+    {
+     "year": "2025",
+     "value": "~$1.8B(SLT 系统整体,Verified Market Research $1,789.5M);其中 AI 加速器专用 burn-in+SLT 平台 $0.8B(FMI)",
+     "basis": "estimate",
+     "source": "VMR(2025→2032E $2.82B,CAGR 6.74%)、FMI——均为低质量第三方,factbase3-sltecon-14 已核查,仅作区间参考"
+    },
+    {
+     "year": "2025(公司代理指标)",
+     "value": "Advantest Other Systems 分部(SLT+test handler+device interface)FY2025 ¥80.5bn(约$540M),占营收 7.1%",
+     "basis": "actual",
+     "source": "Advantest FY2025 决算(factbase-advantest 已核查)"
+    },
+    {
+     "year": "2026",
+     "value": "AI 加速器 BI+SLT 平台 $0.9B(FMI);增速代理:Chroma SLT handler 营收 2026E +200%、AEM FY2026 指引 S$550-600M(vs FY2025 S$399.3M,+38~50%)",
+     "basis": "broker",
+     "source": "FMI;經濟日報法人预估(2026-01,sltecon-02 已核查);AEM 1Q2026 Investor Deck(SGX,2026-05,官方)"
+    },
+    {
+     "year": "2028(SAM,非纯SLT)",
+     "value": "AEM 自报 SAM:今日 US$3B → 2028 US$4.5B(跨 PC/Foundry、AI/HPC、Memory、OSAT 四类客户,含 handler/burn-in/耗材,口径宽于 SLT)",
+     "basis": "guide",
+     "source": "AEM 1Q2026 Investor Deck 原文'US$3 Billion Serviceable Addressable Market today';$4.5B/2028 经 DBS 转述"
+    }
+   ],
+   "players": [
+    {
+     "name": "Chroma 致茂(2360 TT)",
+     "share": "NVIDIA GPU SLT 独家供应商(100% 全检口径),无正式全球份额数",
+     "notes": "合作 NVIDIA 15 年;最先进 SLT 机台 4 米长/2 吨/32 颗并测/每颗独立温控 -70~150°C(CommonWealth 2024-05/2025-11);法人预估 SLT handler 业务 2026E 营收 +200%、2027E +30%,公司毛利率 ~60%;注意:检索未找到'3850'型号公开资料(Chroma 公开型号为 3110/3111/3160/3210/3260 系列),'3850'待核",
+     "source": "今周刊 2026-01-07(sltecon-01 已核查)+經濟日報法人(sltecon-02)+CommonWealth English 2024-05-21/2025-11-24"
+    },
+    {
+     "name": "AEM Holdings(AWX SP)",
+     "share": "自称 automated SLT 先驱:2002 年起 compute 应用装机 >1,000 台 SLT 系统;无正式份额数",
+     "notes": "Intel HDMT 生态核心(Intel 自研 tester、AEM 供 handler/整线/热管理);Test Cell Solutions 占 FY2025 营收 63%;PiXL 多区温控引擎跨 insertion 复用;新 fabless AI/HPC 客户(NDA,市场猜 AMD,NextInsight 2024)FY26 将成第一大客户;2026-05 与 ASE 战略结盟(ASE 认购 ~1% 股权/S$12M),打开 hyperscaler 渠道,部署预期 2026 年底起",
+     "source": "AEM 1Q2026 Investor Deck + FY2024 Investor Update(官方)+DBS 2026-03-20"
+    },
+    {
+     "name": "Teradyne(IST 部门)",
+     "share": "2025 年新进入 SLT compute 市场;无份额数",
+     "notes": "Titan HP 平台 2025-10-02 发布:单 DUT 2kW、4kW roadmap、multi-branch 冷却(factbase-ate 已核查);已在大客户量产(本会话已核查结论);2025Q1 起 IST 并入 Semi Test 分部,SLT 收入不单列",
+     "source": "Teradyne PR 2025-10-02;factbase-ate/上游已核查清单"
+    },
+    {
+     "name": "Advantest",
+     "share": "Other Systems(SLT+handler+interface)FY2025 ¥80.5bn、占公司 7.1%;无 SLT 单独份额",
+     "notes": "SLT 产品线主体来自 2018-11 宣布收购 Astronics 半导体 SLT 业务(对价 $185M+earn-out→2019-02 交割重议为 $100M+$35M earn-out;当时最大应用为 Apple AP SLT);现役旗舰 7038/7038 STR(液冷 1.4kW/site,2025-09-18 推单机架版切入中低量 HVM);FY2026 展望 SLT 增收来自智能手机+HPC;注:'ATS5100'型号未能在公开渠道证实,现役公开产品线为 7038 系列",
+     "source": "factbase-ate(Astronics 条已核查)+Advantest PR 2025-09-18+factbase-advantest"
+    },
+    {
+     "name": "鸿劲精密 AIT(7769 TT)",
+     "share": "媒体报全球 IC 测试分选机 32%/公司自估 SoC 测试 handler ~70%(口径分歧大)",
+     "notes": "FT/SLT handler 占营收 42%+ATC 主动温控 33%(-70~175°C,水冷/气冷/冷媒)+水冷板 23%;2024 营收 NT$139.9 亿(+47.5%)、GM 55%、AI/HPC 占订单七成、美国占 55%;2025-11-27 台股史上最高承销价(NT$1,495)上市;SLT 工程验证机台已进美系 GPU 大厂、量产转化时点待跟踪",
+     "source": "factbase-ate(已核查)+factbase3-sltecon open question"
+    },
+    {
+     "name": "其他:Cohu/Aehr/Microtest",
+     "share": "边缘或相邻:FMI 将其列入 AI 加速器 BI+SLT 平台厂商名单",
+     "notes": "Aehr Sonoma 为 package 级 burn-in(88 DUT/chamber、2000W/颗、hyperscaler AI ASIC $41M 量产单),与 SLT 相邻但内容不同(应力筛选 vs mission-mode 功能测试);Cohu 以 handler/socket 切入",
+     "source": "FMI(sltecon-14)+Aehr PR(sltecon-07,均已核查)"
+    }
+   ],
+   "characteristics": [
+    "竞争结构按客户割裂而非按产品:NVIDIA→Chroma 独供、Intel→AEM(HDMT 生态)、Apple→Advantest(Astronics 遗产)、大客户→Teradyne Titan HP——不存在统一竞技场,'份额'概念在本环节近乎失效,画像应按客户-供应商配对做",
+    "定价与商业模式:深度定制整线(NRE+设备+耗材),SLT 槽位成本远低于 ATE 机时(Teradyne 官方:单颗成本可≤ATE 的 1/4,靠高并测,单机 32~720 site),经济学本质是'用便宜的槽位时间换贵的 ATE 时间'——测试内容右移(shift right)的结构性动力",
+    "资本密度低于 ATE 但机台大型化:单价无公开数(open question),Chroma 旗舰 4 米/2 吨量级;壁垒=2-4kW 级 active thermal control(液冷/相变)+高并测自动化+与客户 mission-mode 测试内容的 co-development(改机周期,鸿劲/AEM 的 know-how 在热与物流不在测试仪本身)",
+    "周期性:极端客户集中导致'单客户悬崖'——AEM 因 Intel 砍 capex,FY2022 S$870.5M→FY2024 S$380.4M(两年 -56%);本轮 AI 需求让客户结构从单一 IDM 转向 fabless+OSAT+hyperscaler 多元化,周期属性可能钝化但未消失",
+    "与 AI 增量的关系是本环节最强逻辑:SLT 从抽测/临时站变为 AI 器件 100% 永久全检 insertion(NVIDIA GPU 全检、mission mode test 成必备),且时长 1-10 分钟级 vs ATE 10 秒级——'台数=出货颗数×时长/并测度'的乘数结构,增量弹性大于 ATE(ATE 靠时长,SLT 靠时长×attach rate 双升)",
+    "口径暗礁:hyperscaler/ODM 自建烧机 rack 与板卡级测试不经商用 SLT 平台,自建比例无任何公开量化;AEM 管理层口径(经 DBS 转述)是 hyperscaler 现行做法'在产线复制 lab 式工具、低效难扩'——即商用平台的渗透是前瞻机会而非已实现收入"
+   ],
+   "timeline": [
+    {
+     "when": "2014-05",
+     "what": "叙事原点(撤站前科):Teradyne Greg Smith 称 SLT 是'仅在工程阶段或爬坡早期'的临时 insertion,'良率上来后就会撤掉';芯片厂只愿为测试支付约硅成本 5%——SLT 被视为成本而非必需",
+     "source": "Semiconductor Engineering 2014-05-15(factbase-flow 已核查)"
+    },
+    {
+     "when": "2018-11→2020-01",
+     "what": "merchant 化开端:Advantest 收 Astronics SLT 业务(宣布 $185M→交割重议 $100M+$35M earn-out,最大应用 Apple AP SLT);再收 Essai(FT/SLT socket+thermal unit,年收入约 $1 亿)垂直整合——SLT 从 IDM 内部工序变成可买的商用环节",
+     "source": "factbase-ate(已核查)"
+    },
+    {
+     "when": "2022",
+     "what": "Intel 大年:AEM FY2022 营收 S$870.5M(+54%,历史峰值)、PBT S$158.7M,Intel 占 >60%(含 $280M 非可撤销长单)——SLT/burn-in 产能扩张与 Intel 试图用测试弥补制程劣势绑定",
+     "source": "AEM FY2022 业绩公告(MarketScreener 转述官方)+DBS"
+    },
+    {
+     "when": "2023",
+     "what": "叙事确认+客户崩塌并存:SemiEng 2023-07 载 SLT'以前是 bench 级或抽检,现已成常规量产筛选组成部分'(Advantest Sri Ganta,集成 test cell 达 720 并测 site);同年 AEM 营收 -45% 至 S$481.3M(Intel 砍单)——环节逻辑与个股逻辑首次背离",
+     "source": "SemiEng 2023-07-11(factbase-flow 已核查)+AEM FY2023 官方 press release"
+    },
+    {
+     "when": "2024",
+     "what": "AI 全检叙事官方化:Advantest 2024-11-28 IR Technical Briefing——2010s 器件仅 wafer test+FT,2020s HPC/AI 新增 die-level test、burn-in、SLT,'mission mode test has become a requirement for the most part';AEM 触底 S$380.4M(-21%)但拿下 major fabless AI/HPC 客户(ABI 系统 plan-of-record),新客户占比 8%(FY23)→23%(FY24)",
+     "source": "factbase-flow(已核查)+AEM PR/NextInsight 2024+DBS 估算"
+    },
+    {
+     "when": "2025",
+     "what": "竞争升级:Teradyne 2025-10-02 发布 Titan HP(2kW/DUT、4kW roadmap)且 IST 已在大客户量产;Advantest 2025-09-18 推 7038 单机架版;鸿劲 2025-11-27 上市(2024 营收 +47.5%);AEM FY2025 S$399.3M(+5%)拐点回升、恢复派息,新客户占比升至 39%",
+     "source": "Teradyne/Advantest 官方 PR+factbase-ate+AEM FY2025 业绩公告(2026-02)"
+    },
+    {
+     "when": "2026-01",
+     "what": "100% 全检实锤+最陡增速指引:今周刊证实每颗 NVIDIA GPU 出货前 100% 经 Chroma SLT(GB 系列 2024-26 累计 ~2,000 万颗);法人预估 Chroma SLT handler 2026E +200%、2027E +30%",
+     "source": "今周刊 2026-01-07+經濟日報(sltecon-01/02 已核查)"
+    },
+    {
+     "when": "2026-05",
+     "what": "AEM 重估:1Q26 营收 S$116.9M(+35.8% YoY)、EPS +337%,FY2026 指引上调 ~20% 至 S$550-600M;与 ASE(OSAT 全球 45% 份额)战略结盟并获其 ~1% 股权投资,打开 hyperscaler 渠道;股价 YTD +117%(3 月时点),DBS TP 从 S$3.30 上调至 S$4.60",
+     "source": "AEM 1Q2026 官方 press release/deck(SGX)+DBS 2026-03-20/05-14"
+    }
+   ],
+   "key_claims": [
+    {
+     "claim": "NVIDIA GPU 出货前 100% 经 Chroma SLT 全检(独供、合作 15 年),SLT 已从 2014 年'良率爬坡后撤站的临时工序'变为 AI 器件的永久必备 insertion(Advantest 官方:mission mode test 基本成为必备)",
+     "why_matters": "这是整个 SLT 环节'attach rate×时长双升'增量逻辑的基石——若全检口径不实(实为高比例抽检)或未来 DFT/ATE 吸收使 SLT 再度撤站,SLT 台数需求模型与 Chroma/AEM/鸿劲的成长叙事全部失效"
+    },
+    {
+     "claim": "SLT 设备不存在权威独立 TAM 序列(TechInsights/VLSI/SEMI 均不单列);AEM 的 US$3B→$4.5B(2028)是跨四类客户的 SAM 且含 handler/burn-in/耗材,第三方 VMR ~$1.8B(2025)/FMI $0.8B 质量低——任何把'SLT TAM'写成单一硬数字的做法都是口径错误",
+     "why_matters": "若主循环 dashboard 引用了看似权威的 SLT TAM 数字,大概率是把公司 SAM、第三方低质报告或 handler 合并口径误当环节 TAM,污染整个环节的规模与增速判断"
+    },
+    {
+     "claim": "AEM 完成单客户悬崖→多元化转型:FY2022 S$870.5M(Intel >60%)→FY2024 S$380.4M(-56% 两年),新 fabless AI/HPC 客户(NDA,市场猜 AMD)占比 8%→23%→39%(FY23-25,DBS 估算),FY2026 将成第一大客户,指引 S$550-600M(+38~50%)",
+     "why_matters": "AEM 是本环节唯一纯 SLT 上市标的,其画像若仍写成'Intel 附庸'或反之忽略 Intel 长单仍在垫底,收入模型与风险评估都会错;新客户身份未经官方证实这一点必须保留"
+    },
+    {
+     "claim": "SLT 竞争结构是'按客户配对'而非'按份额竞争':NVIDIA→Chroma、Intel→AEM、Apple→Advantest(Astronics)、某大客户→Teradyne Titan HP;2025 年起 Teradyne/Advantest/鸿劲同时加码,格局从各守一客走向交叉竞标",
+     "why_matters": "若按传统份额框架画本环节(如给 AEM 或 Chroma 一个'全球 SLT 份额%'),会系统性误判竞争烈度与替代风险——正确框架是逐客户的 design-win 追踪"
+    }
+   ],
+   "forward": [
+    "2026:AEM 官方指引 S$550-600M(2026-05 上调后,vs DBS 3 月模型 S$491.9M/FY2027F S$554.4M——公司指引已超 broker 2027 数,DBS FY25-27 盈利 CAGR 62%);Chroma SLT handler 法人预估 +200%;Advantest FY2026 展望 SLT 增收(智能手机+HPC)——2026 年 SLT 是后道测试中公司层面增速最陡的环节(vs 2025 年最快的是 SoC ATE +50%,SLT 产能扩张滞后 GPU 放量约一年)",
+    "2026 下半年-2027:AEM×ASE 通道激活(hyperscaler 部署预期 2026 年底起)、memory IDM 客户 #1 的 Xact handler FT 认证完成后 FY2027 量产 ramp、IDM 客户 #2 评估 2026 年底——三个可跟踪的 design-win 催化;鸿劲美系 GPU 大厂工程机转量产为第四个",
+    "中期驱动:测试内容右移(shift right)——ATE 秒级机时贵、SLT 分钟级槽位便宜(单颗成本可≤ATE 1/4),叠加 burn-in/SLT 合舱(Advantest 7038、Aehr Sonoma 全自动版),SLT 吸收 FT/burn-in 内容的边界扩张是 TAM 增长的第二引擎;功率路线(2kW→4kW/DUT)使液冷热管理成为竞争分水岭",
+    "2027-2030E:无高质量公开预测。仅有 FMI AI 加速器 BI+SLT $2.2B/2036(CAGR 9.3%)与 VMR $2.82B/2032(6.74%)——两者增速显著低于公司层面指引(Chroma +200%、AEM +38-50%),第三方模型大概率低估 AI 拉动,外推建议以'GPU/ASIC 出货颗数×SLT 时长/并测度'自建,标模型假设",
+    "风险:①ATE 吸收 SLT 内容的反向路径(Advantest Link Scale 2021 起把 system-like test 引入 V93000)——双寡头有动机把内容拉回 ATE;②hyperscaler ASIC 起量后若延续自建 lab 式测试而非采购商用平台,商用 SLT TAM 兑现打折;③AEM 的 Intel 长单尾部(PC/Foundry 客户)与新客户单一化风险并存;④Chroma +200% 为法人预估非公司指引"
+   ],
+   "open_questions": [
+    "hyperscaler/ODM 自建 SLT vs 商用平台的比例:无任何公开量化。唯一锚点是 AEM 管理层定性(DBS 2026-03 会议纪要:hyperscaler 现行做法是'在产线复制 lab 式工具,低效难扩');Google TPU/AWS Trainium 的量产 SLT 由谁做(OSAT 内商用平台?自建 rack?)完全黑箱,需专家访谈",
+    "SLT 单系统价格全线缺失:Chroma 旗舰(4 米/2 吨/32 并测)、Advantest 7038/STR、Teradyne Titan HP、AEM 整线均无公开单价——环节 TAM 自下而上建模的最大缺口(sltecon 既有 open question,本轮仍未解)",
+    "AEM 新 fabless AI/HPC 客户身份(市场猜 AMD)与 Teradyne Titan HP 的'大客户'身份均在 NDA 下;若两者重叠(同一客户双供应商),竞争烈度判断需重写",
+    "用户提示词中的'Advantest ATS5100'与'Chroma 3850'两个型号均未能在公开渠道证实(Advantest 现役公开为 7038 系列,Chroma 公开型号 31xx/32xx 系列)——可能是非公开客户定制型号或记忆偏差,建议向 IR 求证",
+    "'SLT 是否后道测试增速最快的环节':2025 年实绩上 SoC ATE(+50%)更快;2026E 公司层面 SLT 最陡(Chroma +200%、AEM +38-50%)但缺环节级 TAM 序列佐证——结论应表述为'2026 起最陡、但无环节级数据可证',勿写成既定事实",
+    "AEM '>1,000 台 SLT 装机(2002 年起)'为公司自报累计数,无第三方交叉;其 SAM $3B 的构成拆分(SLT vs handler vs burn-in vs 耗材)未披露",
+    "Intel 在 AEM FY2026-27 收入中的绝对底部在哪:长单(原 $280M)履约节奏与 Intel 自身 capex/IFS 走向(AEM 获 Intel Epic Supplier 奖并称扩展'Intel+IFS 合作')可能构成第二增长曲线或继续拖累,DBS 模型未单列"
+   ]
+  },
+  {
+   "segment": "CPO/光子测试专题 + ficonTEC 深研(第8环节)",
+   "scope": "CPO/SiPh 量产测试与耦合组装设备:①wafer 级电光测试 cell(光学 probe/对准模块+ATE+光学仪器,单面/双面/顶面);②die/KGD 级电光测试;③optical engine 组装后测试与 fiber attach 后模块级测试;④光学仪器层(PXI 光源/功率计,如 Quantifi ELSFP 1000);⑤active alignment 耦合/贴装设备(die attach、fiber attach,ficonTEC/ASMPT AMICRA/MRSI 主战场——ficonTEC 本质是 assembly+test 一体,不可拆开看);⑥SiPh wafer-level burn-in(Aehr)。不含:CPO 器件/光引擎本身市场(Yole $8.1B 口径是器件不是设备)、传统 SoC ATE 本体(2025 $6.9B 口径)、可插拔光模块 EMS 产线通用测试仪器。",
+   "tam": [
+    {
+     "year": "2022-2024",
+     "value": "无独立口径(市场尚未成形;Broadcom Bailly 单客户小量,测试多在 R&D/characterization 仪器口径内)",
+     "basis": "none",
+     "source": "官方/TechInsights 均无 CPO 测试设备独立统计;仅参考 intelmarketresearch 称 SiPh IC testing machine 2024 全球 $113M(低档三方,口径不明,慎用)"
+    },
+    {
+     "year": "2026",
+     "value": "~$100M(silicon photonics 测试市场,'really early days',份额在竞争者间 balanced)",
+     "basis": "guide",
+     "source": "Teradyne Q1 2026 earnings call(2026-04-29,BigGo/Globe and Mail transcript)——目前唯一的官方管理层口径,最可信"
+    },
+    {
+     "year": "中期(约2028-2030)",
+     "value": "$300M-700M/年(SiPh+CPO 测试 midterm TAM expansion)",
+     "basis": "guide",
+     "source": "Teradyne Q1 2026 earnings call 管理层指引"
+    },
+    {
+     "year": "2025→2031(宽口径参考)",
+     "value": "$610M(2025)→$1.4B(2031),CAGR 12%——注意此口径含 R&D/characterization 仪器,远宽于量产 CPO 测试,与 Teradyne $100M 口径不可比",
+     "basis": "broker",
+     "source": "GM Insights《Silicon Photonics Test Equipment Market》(低档三方)"
+    },
+    {
+     "year": "2030(器件端锚,用于推设备天花板)",
+     "value": "CPO 器件 $46M(2024)→$8.1B(2030,CAGR 137%,Yole);CPO ports ~1亿个/engines ~$10B(2030,LightCounting,scale-up 2026-27 加速、2028 HVM);Yole 另估 CPO photonics packaging 需求至 2031 约 $5B",
+     "basis": "broker",
+     "source": "Yole《Co-Packaged Optics for Data Centers 2025》/ yolegroup.com press release;LightCounting 2025-12 newsletter '2025 was the year of CPO'"
+    }
+   ],
+   "players": [
+    {
+     "name": "ficonTEC(罗博特科 300757.SZ 全资,2025-05 过户)",
+     "share": "无任何第三方份额数据;股吧'2026年20条整线得12条/市占60%'及'800G封装设备80%+'无公告或报告出处,不可用(factbase已核查)。体量锚:2023营收¥3.82亿,2025扣非净利-€21.71万",
+     "notes": "唯一 assembly+test 全流程玩家:die/fiber attach(5nm级运动精度,厂商口径)+WLT-D2 双面300mm电光晶圆测试(50nm对准,号称首个能测 TSMC COUPE 晶圆的商用方案)+ATE-agnostic 顶面机(2025-06)+DLT-D1 die级(2025-10);2026-03 成立 ficonTEST 测试事业部(负责人 André Lalonde);客户宣称 NVIDIA/TSMC/Intel/Broadcom(中方单方口径,已确认向 TSMC 交付微组装设备);2026-05 与台湾伙伴签 OEM/ODM 制造协议扩 COUPE 测试产能(德国 Achim 扩产需18-24个月,是长期瓶颈)",
+     "source": "factbase-ficontec.json(16条已核查)+罗博特科2025年报(cninfo 2026-03-31)+证券时报/腾讯财经 2026-05"
+    },
+    {
+     "name": "Teradyne(+Quantifi Photonics)",
+     "share": "自称 2026 年 SiPh 测试份额与竞争者 balanced(~$100M 市场)",
+     "notes": "垂直整合路线:2025-03-10 宣布收购 Quantifi(PXI 光仪器,$127.2M,2025-05-31 交割,10-Q 披露)→2026-02 Quantifi 推首个 PXI 形态 ELSFP 光源测试方案→2026-03-17 发布 Photon 100 平台(UltraFLEXplus 骨干,覆盖 wafer 单/双面、optical engine、CPO module 全插入点);2025-03-31 与 ficonTEC 联合双面 wafer probe cell",
+     "source": "Teradyne IR press releases 2025-03-10/2025-03-31/2026-03-17;Teradyne 10-Q FY2025;Q1 2026 call"
+    },
+    {
+     "name": "Advantest(+FormFactor+OpenLight)",
+     "share": "无公开份额",
+     "notes": "联盟路线:2024-11-07 与 FormFactor 结盟(V93000+SmarTest 8 × CM300xi-SiPh+Pharos 光学probe,九轴纳米对准,瞄准 CPO HVM);2026-06-23 再与 OpenLight 合作 optical engine 级 HVM 测试;另有 Jenoptik+Ayar Labs UFO probe card 路线(本会话已核查)",
+     "source": "FormFactor PR 2024-11-07(GlobeNewswire);Advantest PR 2026-06-23(BusinessWire)"
+    },
+    {
+     "name": "FormFactor",
+     "share": "无公开份额(SiPh probe station/probe card 细分内被视为领先)",
+     "notes": "CM300xi-SiPh 探针台+Pharos 光probe+OptoVue 自动校准;既是 Advantest 盟友也向其他生态供货;其光学对准引擎部分来自 PI 的 FMPA 算法",
+     "source": "FormFactor PR 2024-11-07;PI whitepaper(pi-usa.us)"
+    },
+    {
+     "name": "MPI(旺矽)",
+     "share": "无量产份额证据",
+     "notes": "SiPh probe 系统(TS3000 系列升级包,Z-sensing 光纤对位)公开信息集中在 engineering/characterization,CPO 量产订单无公开证据(factbase-cpo openQuestion 维持)",
+     "source": "mpi-corporation.com 产品页;factbase-cpo.json"
+    },
+    {
+     "name": "Physik Instrumente(PI)",
+     "share": "n/a(部件/子系统供应商,非整机对手)",
+     "notes": "对抗性检验关键点:PI 的 FMPA 快速多通道光子对准控制器是 FormFactor、MPI 等 prober 厂的上游对准引擎('prober-industry leaders like FormFactor and MPI'——PI 自述),自己也展示 production-level wafer probing demonstrator,但商业模式是卖运动平台+算法,不与 ficonTEC 抢整线",
+     "source": "pi-usa.us whitepaper;physikinstrumente.com SiPh waferprobing 页"
+    },
+    {
+     "name": "Keysight / EXFO",
+     "share": "无公开份额",
+     "notes": "OFC 2026 展示口径均偏 R&D/characterization(>170GHz 器件表征)与系统级验证,非量产 wafer sort(已核查 cpo-17)",
+     "source": "Keysight PR 2026-03-09;factbase-cpo.json"
+    },
+    {
+     "name": "贴装侧对手:ASMPT AMICRA / MRSI(Mycronic)/ K&S / Palomar",
+     "share": "无公开份额;AMICRA 普遍被认为是 TSMC/先进封装线主力(媒体口径)",
+     "notes": "AMICRA NANO ±0.2µm@3σ(业界精度标杆,OFC 2026 主打 scalable CPO);MRSI-LEAP 1µm/>1000UPH(2025-01);K&S TCB 订单明确挂钩 SiPh CPO(2023-11);这是'ficonTEC 唯一论'最直接的反例区",
+     "source": "ASMPT OFC 2026 PR;Mycronic PR 2025-01;K&S PR 2023-11-15(均已核查)"
+    },
+    {
+     "name": "Aehr Test Systems(SiPh WLBI)+ Chroma/Enlitech(外围)",
+     "share": "无公开份额",
+     "notes": "Aehr 2026-03-31 获'全球网络产品领导者'FOX-XP 9-wafer WLBI 首单+2026-06 follow-on(新闻稿只提 optical transceiver/optical I/O,与 CPO 直接关联未证实);Chroma(burn-in/可靠性)、Enlitech×iST(影像分析)被 TrendForce 列入 CPO 测试生态",
+     "source": "Aehr PR 2026-03-31/2026-06(已核查);TrendForce Insights 'CPO testing market opportunities'"
+    }
+   ],
+   "characteristics": [
+    "范式差异(vs 传统电测):①无 socket——wafer 级用光纤/FAU 直接对准片上耦合器(grating coupler 垂直耦合可在切割前测、edge coupler 需切割后或双面方案),FT 级光引擎靠 active alignment 对接而非插 socket,'contactor/socket'价值量被'光学对准模块'替代;②对准精度亚微米~50nm vs 电学 prober 数十µm,且 PIC 热敏感需温控;③单颗 PIC 全检>100秒(TrendForce)vs 电测秒级——产能只能靠堆 cell,设备形态是 prober+六轴对准机器人+ATE+光仪器的融合 cell;④测试与组装设备一体化:fiber attach 后不可返修→known-good-optics 前移,组装机台内嵌测试(ficonTEC 的本质),测试/组装边界消失",
+    "竞争结构:两大'测试cell阵营'(Teradyne 收购+绑定 vs Advantest 联盟)+独立小厂(ficonTEC/MPI)+部件商(PI);当前市场极小(2026 ~$100M,Teradyne 口径)且份额'balanced',无人垄断;贴装环节另有 ASMPT/MRSI/K&S 三强",
+    "定价与资本密度:单 cell 价值量高(ATE+光仪器+纳米运动平台),但装机基数极小;>100s/颗的测试时长意味着放量期 cell 数量与器件出货近似线性——罕见的'测试强度不降反升'品类",
+    "进入壁垒:光机电一体 know-how+与 COUPE/客户平台的 co-development 验证周期(2-3年)+装机 reference;但壁垒是'先发+绑定'型而非专利垄断型——ficonTEC 可被绕过的路径清晰:贴装被 AMICRA 替代、probe 被 FormFactor+PI 组合替代、光仪器被 Quantifi(已属 Teradyne)内化;Photon 100 全插入点平台本身就在压缩 ficonTEC 在 Teradyne cell 内的价值份额,'伙伴变对手'风险真实存在",
+    "周期性:纯 AI 增量期权,零传统半导体周期暴露;数量级跳变点在 scale-up/compute-side CPO 导入(供应链口径 2028 前后,Rubin Ultra/Feynman)",
+    "地缘特殊性:ficonTEC 是中资全资(罗博特科),美系客户(NVIDIA/Broadcom)与 TSMC 生态的供应链安全考量是其独有折价因素;反向看,德国 2020 年放行的此类并购已不可复制,抬高标的稀缺性"
+   ],
+   "timeline": [
+    {
+     "when": "2023",
+     "what": "CPO 测试需求首现但为单客户利基:Broadcom Bailly(TH5 CPO,51.2T,8颗6.4T OE)开始向 hyperscaler 出货,Meta 部署后报告首个100万设备小时 zero link flap;同期 K&S 获明确挂钩 SiPh CPO 的 TCB 订单(2023-11-15)",
+     "source": "The Next Platform 2025-10-17;K&S PR(均已核查)"
+    },
+    {
+     "when": "2024-11-07",
+     "what": "格局拐点①:FormFactor×Advantest 官宣 SiPh 晶圆级测试 cell 联盟(CM300xi-SiPh+V93000,九轴纳米对准,明确瞄准 CPO HVM)——ATE 双寡头卡位战开始",
+     "source": "FormFactor PR(GlobeNewswire,已核查)"
+    },
+    {
+     "when": "2025-03(单月三连)",
+     "what": "格局拐点②+需求官宣:03-10 Teradyne 宣布收购 Quantifi Photonics($127.2M,05-31交割);03-18 NVIDIA GTC 发布 Quantum-X(115.2T,2025末/2026初)与 Spectrum-X Photonics(100T/400T,2026);03-31 Teradyne×ficonTEC 发布业界首个 300mm 双面 SiPh wafer probe 量产 cell(WLT-D2+UltraFLEXplus,50nm 对准)——两大阵营成型",
+     "source": "Teradyne IR;NVIDIA Newsroom;Teradyne 10-Q FY2025($127.2M)"
+    },
+    {
+     "when": "2025-10-08",
+     "what": "Broadcom 第三代 Davisson(TH6 CPO,102.4T,16颗OE,ELSFP 外置光源,800G端口功耗 5.5W→3.5W)向 early access 客户出货——多代际路线确认",
+     "source": "Broadcom PR 2025-10-08(factbase 已核查并修正日期)"
+    },
+    {
+     "when": "2026-03(密集拐点月)",
+     "what": "商转元年落地:Quantum-X 进入量产(台媒口径);03-17 Teradyne 发布 Photon 100(全插入点光电平台);ficonTEC 成立 ficonTEST 事业部并称正为 TSMC COUPE 交付双面方案;03-25 罗博特科公告纳斯达克公司 F 约¥6亿可插拔硅光耦合设备大单(占2024营收54%+)",
+     "source": "TechNews 2026-03-17;Teradyne PR 2026-03-17;SemiVision;罗博特科公告2026-013(巨潮)"
+    },
+    {
+     "when": "2026-04~05",
+     "what": "ficonTEC 基本面首次可验证:2025年扣非净利 -€21.71万 vs 承诺 €1,078.4万(首年大幅未达标,方向:负);但在手订单约¥11.05亿+2026年1-4月新增半导体订单>¥10亿(方向:正,同比爆发);2026-05 签台湾 OEM/ODM 制造协议扩 COUPE 测试产能(解德国 18-24 个月扩产瓶颈);罗博特科整体 2025 营收¥9.5亿(-14%)、归母 -¥6,644万(-204%),新增商誉¥9.87亿",
+     "source": "罗博特科2025年报(cninfo 2026-03-31);经济观察网 2026-05-04;证券时报/新浪财经 2026-04-30"
+    },
+    {
+     "when": "2026-04-29",
+     "what": "测试 TAM 首次被官方量化:Teradyne Q1 2026 call 称 SiPh 测试市场 2026 约 $100M、'early days'、份额 balanced,中期 TAM expansion $300-700M/年——把市场想象从'股吧千亿叙事'锚回两个数量级以下",
+     "source": "Teradyne Q1 2026 earnings call(Globe and Mail transcript/BigGo)"
+    },
+    {
+     "when": "2026-06-23",
+     "what": "Advantest 阵营补强:与 OpenLight 合作开发 optical engine 级 HVM 测试端到端方案——双寡头在 OE 级 insertion 的争夺升级",
+     "source": "Advantest PR 2026-06-23(BusinessWire)"
+    }
+   ],
+   "key_claims": [
+    {
+     "claim": "CPO/SiPh 测试设备市场 2026 年仅约 $100M、中期(≈2028-30)$300-700M/年(Teradyne 管理层官方口径)——相对 2025 SoC ATE $6.9B 是 1.5%~10% 量级的期权,不是当期 TAM;Yole $8.1B(2030)是器件口径,不能当设备市场引用",
+     "why_matters": "若此口径错误(实际设备市场显著更大,或含耦合组装设备后翻倍),则 Advantest/Teradyne 的 CPO 叙事权重、以及罗博特科 700 亿市值的合理性判断全部要重估;这是整个专题的分母锚"
+    },
+    {
+     "claim": "'ficonTEC 是唯一做得特别好的'不成立为垄断表述:成立的部分——它是唯一 assembly+test 全流程覆盖、且首发双面 300mm 电光晶圆测试(WLT-D2,号称首个能测 COUPE 晶圆)的厂商;不成立的部分——贴装环节 ASMPT AMICRA 精度更高(±0.2µm@3σ)且被普遍认为是 TSMC 主力,probe 环节 FormFactor(+PI 对准引擎)独立成军,ATE/光仪器被 Teradyne(Photon 100+Quantifi 内化)与 Advantest(OpenLight/FormFactor)把持,PI 只是部件商非整线对手;ficonTEC 无任何第三方份额数据,'60% 整线份额'为股吧传言",
+     "why_matters": "用户决策直接依赖此判断:若把'工序级先发'误读为'环节级垄断',会高估罗博特科并低估 Teradyne 通过 Photon 100 内化价值、把 ficonTEC 从'cell 核心'挤成'机械分系统供应商'的风险"
+    },
+    {
+     "claim": "ficonTEC 业绩承诺首年即脱轨:2025 实际扣非净利 -€21.71万 vs 当年预测 €1,078.4万(三年累计承诺 ≥€5,814.5万),兑现完全押注 2026-27(在手订单 ¥11.05亿 + 2026 年 1-4 月新增 >¥10亿 + 台湾 OEM/ODM 扩产解 18-24 个月德国产能瓶颈)",
+     "why_matters": "这是检验'CPO 设备放量真实性'的最硬的可跟踪数字:若 2026 年报 ficonTEC 分部利润仍不达 €2,037.5万,则整条 CPO 设备叙事的收入转化速度被证伪,对罗博特科是估值级打击,对双寡头的 CPO 期权定价也应同步下修"
+    },
+    {
+     "claim": "对 Advantest/Teradyne 的净影响四项账:①KGD/EIC 电测增量为正(hybrid-bonded EIC 仍用 V93000/UltraFLEXplus,双面 cell 电测端 ATE 照卖,且 wafer sort 插入点变多);②光测新增为正(2026 起 ~$100M→中期 $300-700M,双寡头经收购/联盟可取大头);③DSP 删除为小负(CPO 去 DSP/retimer 削减 Broadcom/Marvell PAM4 DSP 的 SoC ATE 测试需求,但该品类本就占 SoC ATE 极小份额,且 2026-30 可插拔仍在增长,净删除量级远小于②);④可插拔模块厂端测试(EMS 仪器口径)不变/缓慢转移,本就非 ATE 市场——合计净影响为正、方向确定、当期弹性小(<2% 双寡头收入),真正的期权在 2028 compute-side CPO",
+     "why_matters": "若④账算错(尤其若光测 cell 的价值量大头最终归 prober/对准厂而非 ATE 厂),则'CPO 利好双寡头'的常见卖方叙事需要打折——目前证据(Photon 100 把光仪器内化进 ATE 平台)支持 ATE 厂拿大头,但 COUPE 产线机台归属仍无一手确认"
+    }
+   ],
+   "forward": [
+    "需求侧驱动(有数字):LightCounting——CPO 含 scale-up/scale-out 至 2030 约 1 亿 ports、engines 市值 ~$10B,LPO/CPO 在 scale-up 网络 2026-27 加速、2028 达 HVM(lightcounting.com 2025-12);Yole——CPO 器件 $46M(2024)→$8.1B(2030,CAGR 137%),大规模部署窗口 2028-2030,CPO photonics packaging 需求至 2031 约 $5B(yolegroup.com)",
+    "产品侧里程碑:NVIDIA Spectrum-X Photonics 2H26 由系统厂推出(官方);TSMC COUPE 2H26 量产(TrendForce 2026-04);Broadcom 第四代 400G/lane 已承诺;NVIDIA compute-side CPO 供应链口径 2028 前后(Feynman/Rubin Ultra,'铜退光进',原 2033 提前约五年)——此为最大牛市开关,NVIDIA 未官方确认",
+    "测试设备 TAM 情景(以 Teradyne 官方口径为锚):熊市=CPO 停留在交换机利基(可插拔/LPO 反扑、scale-up 不导入),测试市场 2030 年停留 $100-300M;基准=Teradyne 中期指引 $300-700M/年;牛市=2028 compute-side 导入后,若按 LightCounting 1 亿 ports×单颗全检>100s 的测试强度线性外推,cell 需求可推向 $1B+(模型假设,无公开预测)——牛熊差约 5-10 倍,是典型期权型分布",
+    "ficonTEC 特有风险:①地缘——中资全资身份 vs 美系客户/TSMC 生态,2025-06'被踢出供应链'传闻虽被否认但结构性存在,替代者(ASMPT/MRSI/K&S/FormFactor)现成;②被伙伴内化——Teradyne Photon 100 已把光仪器(Quantifi)并入自家平台,ficonTEC 在联合 cell 中的价值份额有被压缩趋势;③执行——业绩承诺 2026 年需 €2,037.5万扣非净利,台湾 OEM 产能爬坡与德国工程资源是瓶颈;④罗博特科港股 IPO(2026 申请中)若成会新增融资与 H 股载体但摊薄叙事稀缺性",
+    "订单流向盲点:光引擎 final test/burn-in 这一 insertion 落在 TSMC 厂内、ASE/SPIL 还是 Fabrinet/EMS 仍无一手来源——它决定 2027-28 设备订单的买方结构,是跟踪优先级最高的单一变量"
+   ],
+   "open_questions": [
+    "Teradyne '$100M(2026)/$300-700M(中期)'口径是否含耦合组装设备与 burn-in,还是纯测试 cell?(决定与 Yole/GMInsights 宽口径的可比性)——需查 Teradyne 下次 investor day 材料",
+    "Photon 100 与 ficonTEC WLT-D2 cell 的商业关系:Photon 100 是否在部分 insertion 上替代 ficonTEC 的角色(伙伴变对手)?ficonTEC 在联合 cell 的价值量占比无任何披露",
+    "COUPE 量产线测试机台归属:Teradyne UltraFLEXplus/Photon 100 vs Advantest V93000+FormFactor 在 TSMC/SPIL 的实际装机分配——双方均无披露,需产业渠道",
+    "ficonTEC 台湾 OEM/ODM 伙伴身份(ficonTEC 官网新闻页未见该公告,目前仅罗博特科/媒体口径)及其产能爬坡节奏;'美国头部 fabless 客户'是 Broadcom 还是 NVIDIA",
+    "2026 年 ficonTEC 分部扣非净利能否达 €2,037.5万(业绩承诺第二年)——2026 年报(2027-03)是叙事证伪/证实点",
+    "光引擎 final test/burn-in insertion 的执行方(TSMC 厂内/OSAT/EMS)与 Aehr 新客户身份、其订单与 CPO 的直接关联",
+    "MPI 是否有量产(非 engineering)SiPh probe 订单;Coherent 在 CPO 测试侧(而非激光器件侧)是否有设备产品——本轮检索未发现",
+    "compute-side CPO 2028 时间表(Feynman/Rubin Ultra)的 NVIDIA 官方确认——GTC 2027 路线图是关键事件"
+   ]
+  },
+  {
+   "segment": "Advantest/Teradyne 逐环节业务映射 + 财务快照(2022-2025 实绩、AI 占比、中期指引、TAM×share 校验)",
+   "scope": "公司层横切研究:两家 duopoly 在 taxonomy 各环节(SoC ATE / Memory ATE / handler+socket / 界面板 / burn-in / SLT / CPO 光测 / 云软件 / 机器人)的产品与收购映射;财务口径:Advantest=FY(4-3月,IFRS,¥),分部=SoC Test Systems / Memory Test Systems / Other Systems(SLT+handler+DI,FY25 起)/ Services&Others;FY24 及以前旧三分部(Semiconductor&Component Test Systems 内含 SoC/memory 子拆分、Mechatronics、Services)。Teradyne=CY(US GAAP,$),2024Q4 起 recast:Semi Test(含 IST/SLT)+ Product Test + Robotics,SoC/memory 美元拆分官方不按年披露(仅增速与部分季度点)。不含:prober(两家均不做)、probe card 本体(仅持股/合作:TER 持 Technoprobe ~10%、ADV 参股 Micronics Japan)。",
+   "tam": [
+    {
+     "year": "CY2022",
+     "value": "tester 合计 $5.2B(SoC $4.0B + memory $1.2B),同比约-6%",
+     "basis": "actual",
+     "source": "Advantest FY2022 决算说明会 note(E_BIZ_230426_note.pdf p.16,官方自估)"
+    },
+    {
+     "year": "CY2023",
+     "value": "$4.4B(SoC $3.3B + memory $1.1B)",
+     "basis": "actual",
+     "source": "Advantest FY2024 决算资料/Investors Guide 2025-04(官方自估);factbase market-02 已核查"
+    },
+    {
+     "year": "CY2024",
+     "value": "$6.0B(SoC $4.1B + memory $1.9B),+36%,超 CY2021 前高 $5.6B",
+     "basis": "actual",
+     "source": "Advantest Investors Guide 2025-04-25 Ch.3(官方);factbase market-02"
+    },
+    {
+     "year": "CY2025",
+     "value": "~$9.0B(SoC $6.9B/+68% + memory $2.1B);Teradyne 同口径亦称 ATE TAM ~$9.0B、SoC TAM 较 2024 '近+60%'、memory TAM 约-4%——memory 增速与 ADV(+10%)矛盾",
+     "basis": "actual",
+     "source": "Advantest FY2025 决算说明会(2026-04-27,已核查 market-01)+ Teradyne Q4'25 earnings call prepared remarks(2026-02-03 transcript PDF)"
+    },
+    {
+     "year": "CY2026E",
+     "value": "SoC $8.7-9.5B + memory $2.2-2.7B(合计 $10.9-12.2B,中值+28%);Teradyne 方向口径 ATE TAM +20-40%、memory 低双位数增长",
+     "basis": "guide",
+     "source": "Advantest FY25 决算说明会 2026-04-27(已核查 market-03)+ Teradyne Q4'25 call"
+    },
+    {
+     "year": "中期(无明确年份)",
+     "value": "ATE TAM $12-14B(Teradyne evergreen 目标模型的市场假设,称 'achievable within this midterm')",
+     "basis": "guide",
+     "source": "Teradyne Q4 2025 earnings call prepared remarks(2026-02-03)"
+    }
+   ],
+   "players": [
+    {
+     "name": "Advantest — SoC ATE(V93000 EXA Scale/T2000/T6391)",
+     "share": "官方自估 SoC 份额序列:CY20 38% → CY21 45% → CY22 58% → CY23 59% → CY24 56% → CY25 66%(+10pp,称获 AI accelerator 'majority share')",
+     "source": "CY20-22:ADV FY2022 决算 note p.16;CY22-24:Investors Guide 2025-04 Ch.3;CY25:FY25 Briefing p.18(均官方自估,已核查 advantest-07)",
+     "notes": "分部收入(¥bn,FY):FY20 141.4 → FY21 225.6 → FY22 325.5 → FY23 245.6 → FY24 440.4(季度加总)→ FY25 767.4 → FY26e 999.5。SoC 收入中 computing/comms:FY22 65%→FY23 60%→FY24 90%→FY25 ~95%(AI 化)。NVIDIA FY25 首成第一大直接客户(¥243.7bn,21.6%)"
+    },
+    {
+     "name": "Teradyne — SoC ATE(UltraFLEXplus/UltraFLEX/J750/Eagle)",
+     "share": "官方不自报;估算 CY25 ~27%(SoC 收入 ≈$1.85B / TAM $6.9B;与 ADV 66% 合计 ~93%)",
+     "source": "估算:由 Semi Test $2,523.7M(10-K)扣 memory≈$560M、IST≈$110M 倒推;增速官方(SoC +23% YoY,Q4'25 call)",
+     "notes": "SoC 收入结构剧变:compute 占 SoC 产品收入 2023 ~10%(auto/ind 50%、mobile 40%)→ 2025 ~50%(mobile/auto 各~25%);compute 收入 2025 +90%;VIP(hyperscaler 自研 ASIC)compute 测试自称维持 ~50% 份额;Q1'26 首获 merchant GPU 量产订单(CY26 可见度仅 ~$50M)"
+    },
+    {
+     "name": "Advantest — Memory ATE(T5835/T5503HS2、inteXcell,HBM 主力)",
+     "share": "官方自估 memory 份额:CY20 56% → CY21 51% → CY22 53% → CY23 56% → CY24 63% → CY25 61%(-2pp)",
+     "source": "同上官方序列(FY22 note p.16 + Investors Guide + FY25 Briefing p.18,已核查)",
+     "notes": "分部收入(¥bn):FY20 65.8 → FY21 63.3 → FY22 78.8 → FY23 85.9 → FY24 157.7 → FY25 171.5;DRAM 占比 FY22 60%→FY23 90%→FY24 95%(HBM/高性能 DRAM 驱动);风险:HBM4 SiP 测试被 SK hynix 内制+韩系分流(advantest-16 已核查)"
+    },
+    {
+     "name": "Teradyne — Memory ATE(Magnum 7H,HBM2E-HBM4E/4.5Gbps)",
+     "share": "估算 CY25 ~27%(memory 收入≈$560M / TAM $2.1B);公司称 2025 '在约持平的 memory 市场小幅增share'、2026 续增",
+     "source": "估算:Q3'25 $128M、Q4'25 $206M(创纪录)、Q1'26 $203M 官方,全年为倒推;Magnum 7H 在'业内最大 HBM 厂'ramp(teradyne-11 已核查)",
+     "notes": "2024 memory 收入 +30% 创纪录(HBM 驱动),Samsung 2024 占 TER 总收入 12.5%(10-K);2020-21 memory TAM FLASH/DRAM 各半 → 2025 DRAM+HBM 占 ~90%"
+    },
+    {
+     "name": "Advantest — Handler/Socket/界面板(M4872/M6242 handler;Essai socket+thermal,FY2019 收购;R&D Altanova FY2021+Shin Puu FY2023 界面板;参股 Micronics Japan 2025-02)",
+     "share": "无公开份额;收入口径:FY25 Other Systems ¥80.5bn(SLT+handler+DI)+ Services 内 interface board ¥44.2bn",
+     "source": "Advantest Investors Guide 2025-04 产品地图 + FY25 Briefing(advantest-04 已核查)",
+     "notes": "高功率主动控温 handler+socket 一体化是其 AI FT 整线卖点;Essai 曾因大客户 socket 销量不及预期于 FY2023 计提 ~¥9.0bn 商誉减值(FY2023 决算短信)——socket 业务并非只涨不跌"
+    },
+    {
+     "name": "Teradyne — 界面板/DIS:已退出",
+     "share": "0(2024 年以 $85.0M 将 DIS 出售给 Technoprobe,同时持有 Technoprobe ~10% 股权)",
+     "source": "Teradyne FY2024 10-K Dispositions note(SEC xlsx 原文)",
+     "notes": "与 Advantest 垂直整合路线相反:TER 走'tester 本体+参股 probe card/interface 伙伴'轻资产路线,ADV 走收购自营(Essai/Altanova/Shin Puu)"
+    },
+    {
+     "name": "Advantest — SLT + Burn-in(ATS503x SLT 系统=Astronics ATS 业务 FY2018 收购;MPT3000 SSD SLT;CREA S.r.l. FY2022 收购=功率半导体 test/burn-in;burn-in board)",
+     "share": "无公开份额;SLT 计入 Other Systems/Services 口径(FY25 合计约 ¥125bn 含 handler/DI/interface board)",
+     "source": "Advantest Investors Guide 2025-04 产品地图(明确标注 'Acquired SLT business from Astronics Corporation (FY2018)'、'acquired CREA (FY2022)')",
+     "notes": "任务给定映射中 'burn-in=Micro Control' 无法证实:两轮检索无任何 Advantest 收购/持股 Micro Control Company(明尼苏达 burn-in 厂商,仍独立)的证据,basis=none;HBM burn-in 主战场在韩系(UniTest/DI/YC,已核查)、ADV 敞口小;FY26 展望 SLT 增量来自 smartphone+HPC(advantest-12)"
+    },
+    {
+     "name": "Teradyne — SLT/IST(Titan HP;HDD 测试)",
+     "share": "无公开份额;IST 2025 收入 +50%+(est ~$110M,Q1'26 单季 $27M)",
+     "source": "Teradyne Q4'25 call:2025 进入 compute SLT 并赢得两客户、2024 新增 mobile SLT 客户 2025 放量、2025 末新增 HDD 客户",
+     "notes": "compute SLT 从'大客户单一依赖'转向多客户,与 AI 芯片 SLT 100% 全检趋势共振(本会话已核查);历史上 IST=Apple mobile SLT+单一 HDD 客户"
+    },
+    {
+     "name": "Teradyne — CPO/光测(Photon 100,2026-03 OFC 发布;Quantifi Photonics 2025 收购;ficonTEC 合作双面 SiPh wafer probe;MultiLane JV 2026-04 ~$157M/75%;TestInsight 2026-04)",
+     "share": "管理层称与对手 'quite balanced'(very early days);中期 TAM $300-700M/年(TER 口径)",
+     "source": "Teradyne Q1'26 call(teradyne-18 已核查)+ Photon 100 PR",
+     "notes": "UltraFLEXplus 为骨干平台;MultiLane 补高速 IO/网络测试,并入 Product Test 分部(Q2'26 起并表)"
+    },
+    {
+     "name": "Advantest — CPO/光测(FY25 获 SiPh 大规模量产 ATE 首个大单;FormFactor/Jenoptik+Ayar Labs UFO probe card 路线)",
+     "share": "无份额口径;公司称 SiPh 收入'明年翻倍、后年再翻倍'(基数未披露)",
+     "source": "Advantest FY25 Briefing p.14(advantest-11 已核查)+ factbase-market 备忘",
+     "notes": "CPO 测试是双雄都已卡位的新期权,尚无法定义 TAM(ADV 原话)"
+    },
+    {
+     "name": "Advantest — 云/软件+其他(ACS Advantest Cloud Solutions,与 PDF Solutions 合作 FY2020,RTDI 实时数据基建;nanotechnology CD-SEM;TAS7500 太赫兹)",
+     "share": "不单独披露收入",
+     "source": "Advantest Investors Guide 2025-04 产品地图",
+     "notes": "ACS 是 MTP3 'Automation of Test' 战略载体,连接 tester/handler/burn-in/SLT 数据流,商业化仍早期"
+    },
+    {
+     "name": "Teradyne — Robotics(UR 协作臂 + MiR AMR)",
+     "share": "独立分部:2022 $403.1M → 2023 $375.2M → 2024 $364.8M → 2025 $308.3M(重组年)→ Q1'26 $91M(+32%)",
+     "source": "Teradyne FY2024 10-K segment note(SEC 原文)+ Q4'25/Q1'26 release(teradyne-01/14/15 已核查)",
+     "notes": "与半导体测试无协同,2025 两轮裁员(合计约25%)、盈亏平衡线 $440M→$365M、2026 目标 breakeven;carve-out 传闻(2026-06 起)是估值 catalyst"
+    }
+   ],
+   "characteristics": [
+    "双寡头闭环:CY25 按收入/TAM 倒推 SoC 两家合计 ~93%(ADV 66% + TER ~27%)、memory ~88%(61%+~27%),较历史'合计约80%'(ADV Investors Guide 原话)进一步集中——AI 高端化把第三方(SPEA/Chroma/长川/华峰等)摊薄在低端",
+    "switching cost 极高:fabless 为 specifying customer、foundry/OSAT 为 purchasing customer(TER 10-K 明确此结构:2025 两家 specifying >10% + 一家 purchasing 19%),tester 选型绑定全套 DFT/量产环境,份额短期不可逆(ADV Investors Guide 原话'unlikely to fluctuate significantly in the short term'——但 CY25 SoC +10pp 恰恰打破了这句话,方向对 ADV 有利)",
+    "毛利率结构分化(口径:GAAP/IFRS 实绩):Advantest GM FY22 57.0% → FY23 50.6% → FY24 57.1% → FY25 64.3%(高端 AI mix 驱动,决算短信 GP/Sales 计算),OPM 29.9%→16.8%→29.3%→44.2%;Teradyne GM 2022 59.2% → 2023 57.4% → 2024 58.5% → 2025 58.2%(10-K/新闻稿),稳定但无 ADV 的 mix 弹性,non-GAAP OPM 2025 仅 22%——AI 超级周期的利润弹性几乎全部体现在 ADV",
+    "收入集中度换挡:ADV FY25 NVIDIA 直接 21.6%+TSMC 11.1%、台湾出货 50.5%;TER 2025 前五大客户 44%(2023 32%→2024 36%),2024 最大客户 Samsung 12.5%、2023 TI ~10%、2022 Qualcomm ~11%——TER 客户轴从 mobile(Qualcomm/TI)迁移到 memory/VIP(Samsung/hyperscaler)",
+    "周期性 backtest 实证:2023 下行年 ADV 营收 -13.2%/TER -15.2%、TAM -15%;但 ADV 通过份额+7pp 对冲(CY22 57%),显示'份额与周期错位'特征;2025 上行年设备商自身预测失准 50%+(market-04),供给端 tester 产能成为 chokepoint",
+    "资本配置镜像:ADV FY25 回购 ¥114.2bn+total return 42%、capex 仅 ¥45bn 指引(轻资产,产能靠外包);TER 2025 回购 $702M → 2026 骤降至 de minimis、转向 capex+M&A(~$165M 两笔)——TER 在用资产负债表追赶,ADV 在收获"
+   ],
+   "timeline": [
+    {
+     "when": "2022(CY)",
+     "what": "手机下行开始但 tester 仅温和收缩:TAM -6% 至 $5.2B;TER 达历史峰值营收 $3,155.0M(mobile 周期顶,Semi Test $2,350.6M recast 口径);ADV 逆势 FY22 营收 ¥560.2bn(+34%)、份额 +10pp 至 57%——duopoly 内部已开始换手",
+     "source": "ADV FY2022 决算 note(官方)+ Teradyne FY2024 10-K segment note(SEC)"
+    },
+    {
+     "when": "2023-01→2023-04",
+     "what": "ADV 对 CY23 指引两连降:1月 SoC $3.5-4.2B → 4月 $3.4-3.8B、memory $0.9-1.1B;全年 TAM 实绩 $4.4B(-15%);TER 2023 营收 -15.2% 至 $2,676.3M、Semi Test -16.7% 至 $1,957.2M;ADV FY23 营收 -13.2%、OP -63.4% 至 ¥81.6bn、GM 57.0%→50.6%,并对 Essai(socket)计提 ~¥9.0bn 商誉减值——双寡头同步探底",
+     "source": "ADV FY2022 note p.18(1月 vs 4月预测对照,官方)+ FY2023 决算短信 + TER 10-K"
+    },
+    {
+     "when": "2024(CY/FY24)",
+     "what": "HBM 先行反转:CY24 memory tester TAM $1.1B→$1.9B(+73%),SoC 温和恢复 $3.3B→$4.1B(+24%);ADV memory 份额 +7pp 至 63%、FY24 营收 +60.3% 至 ¥779.7bn(OPM 29.3%);TER memory 收入 +30% 创纪录、Samsung 升至总收入 12.5%,但 SoC 份额被 ADV 反超前夜(CY24 ADV SoC 56%,-3pp,低端被中国侵蚀);2024-06 ADV 发布 MTP3(FY24-26 平均 sales ¥560-700bn/OPM 22-28%/EPS ¥127-202 @140円)——一年后即被碾压",
+     "source": "ADV Investors Guide 2025-04 Ch.3/Ch.4(官方)+ TER Q4'24 call/10-K"
+    },
+    {
+     "when": "2025-04→2026-01",
+     "what": "AI SoC 大年+预测系统性失准:ADV 2025-04 给 CY25 SoC TAM $4.2-4.8B → 实绩 $6.9B(+68%,超初始中值 53%);ADV FY25 三度上修,SoC 份额 56%→66%、NVIDIA 首成第一大直接客户(21.6%);TER 前三季平淡(Q1'25 总收入 $686M 量级)、Q4'25 单季拐点 $1,083M(+44%)、SoC $647M(+47% QoQ)、memory $206M 纪录、compute 全年 +90%、AI 占比 Q3 40-50%→Q4 >60%",
+     "source": "factbase market-04/advantest-05/07(已核查)+ TER Q4'25 prepared remarks(2026-02-03)"
+    },
+    {
+     "when": "2026-02-03",
+     "what": "TER 换指引框架:废弃日期制模型(2024-01 analyst day 的 2028 模型:rev $4.5-5.5B、EPS $7.00-9.50、CAGR 12-18%),改为 evergreen 模型:ATE TAM $12-14B 时 rev ~$6B、GM 59-61%(上限较旧模型+1pt)、OPM 30-34%、EPS $9.50-11.00;同时首次给 2026 ATE TAM +20-40% 方向并承认'对 TAM 预测不确定'",
+     "source": "Teradyne Q4'25 prepared remarks 原文('Rather than anchoring our earnings model to a specific future year, as we've done historically')+ 2028 旧模型为 analyst day 转述口径(媒体/broker 档)"
+    },
+    {
+     "when": "2026-04-27/04-29",
+     "what": "双雄同步确认 AI 高原:ADV FY25 实绩 ¥1,128.6bn/OPM 44.2%/GM 64.3%,FY26 指引 ¥1,420bn(+25.8%)、CY26 SoC TAM 下限上调至 $8.7-9.5B,SoC 产能三阶段扩至 10,000台/年(CY28底-29);TER Q1'26 $1,282M(+87%)、AI ~70%、首获 merchant GPU 量产订单(CY26 ~$50M)+ ADV 获 SiPh 量产 ATE 首单——竞争前沿转向 merchant GPU 双源化与 CPO",
+     "source": "ADV FY25 Briefing/Q&A(已核查 advantest-02/03/07/08、market-07)+ TER Q1'26 release(已核查 teradyne-04/09)"
+    }
+   ],
+   "key_claims": [
+    {
+     "claim": "Advantest 官方自估份额序列(SoC:CY22 58%→CY23 59%→CY24 56%→CY25 66%;memory:53%→56%→63%→61%)与其分部收入序列(SoC ¥325.5→245.6→440.4→767.4bn;memory ¥78.8→85.9→157.7→171.5bn)相互自洽,且与 TAM 交叉校验闭合(CY25 SoC $6.9B×66%=$4.55B vs FY25 SoC $5.1B@150円,差异由 FY 滞后一季+上行期 run-rate 解释)",
+     "why_matters": "这是全景 dashboard 份额轴的锚;若 ADV 自估口径系统性高估,则所有环节的 duopoly 画像、以及'第三方仅剩~7%'的推论全部失真"
+    },
+    {
+     "claim": "Teradyne 官方 Semi Test 分部序列(recast 含 IST):2022 $2,350.6M → 2023 $1,957.2M → 2024 $2,123.9M → 2025 $2,523.7M(10-K/新闻稿),但 SoC/memory 年度美元拆分不披露——2025 SoC≈$1.85B、memory≈$0.56B 是由官方增速(SoC +23%、memory 微增)与季度点(Q3'25 mem $128M/Q4 $206M/Q4 SoC $647M)倒推的估算",
+     "why_matters": "TER 侧份额(SoC ~27%、memory ~27%)全部建立在这个估算上;若 IST 或 services 口径错位 $100-200M,TER 份额会摆动 2-3pp,影响'ADV+TER=93%'的闭合结论"
+    },
+    {
+     "claim": "中期指引对照:ADV MTP3(2024-06 发布,FY24-26 三年平均 sales ¥560-700bn、OPM 22-28%、EPS ¥127-202)已被实绩碾压——仅 FY24+FY25 平均已达 ¥954bn、FY26 指引兑现则三年平均 ¥1,109bn(超上限 58%);TER 则在 2026-02 把 2028 模型(rev $4.5-5.5B/EPS $7.00-9.50)升级替换为无年份 evergreen 模型($12-14B TAM→$6B rev/EPS $9.50-11.00)",
+     "why_matters": "两家管理层都承认丧失 TAM 预测能力(TER 原话+ADV 初始预测偏差53%),意味着 2027-2030E 外推不能锚公司指引,只能锚产能与需求传导链;这决定主循环外推方法论"
+    },
+    {
+     "claim": "两处口径矛盾:①2025 memory tester TAM 增速——TER 称'约-4%(roughly flat)' vs ADV 口径 $1.9B→$2.1B(+10.5%),两家对 memory 市场定义(是否含 die-level/burn-in 类设备、四舍五入)存在未解释的差异;②任务给定映射'Advantest burn-in=Micro Control'无公开证据支持(两轮定向检索无收购/持股记录,Micro Control Company 仍为独立公司),ADV burn-in 资产实为 CREA(FY2022 收购)+burn-in board+Astronics ATS 的 SLT/burn-in 混合产品",
+     "why_matters": "①memory TAM 基数差 ~$0.2B 直接影响 memory 环节份额分母与韩系厂商剩余空间测算;②若把 Micro Control 错标进 ADV 资产清单,burn-in 环节竞争格局(独立第三方 vs 双寡头延伸)会被系统性画错"
+    }
+   ],
+   "forward": [
+    "CY2026:ADV 官方 SoC $8.7-9.5B + memory $2.2-2.7B(2026-04-27,guide);TER 方向 +20-40%(2026-02 call);SEMI 宽口径 test equipment 2026 +12.0%、2027 +7.1%(2025-12-16,已核查 market-12)——三个口径互恰",
+    "中期:TER evergreen 模型 ATE TAM $12-14B(无年份;'achievable within this midterm')对应其 rev $6B/EPS $9.50-11.00;ADV SoC tester 产能 10,000台/年(CY2028底-2029 备妥,较原 5,000 台翻倍)是供给侧对同一 TAM 量级的隐含背书(market-07 已核查)",
+    "2027-2030E 无公开逐年 broker 预测(明说:检索未获得;两家公司均不给多年指引,ADV 已停披订单/backlog)——外推只能用 unit volume×test content 框架(ADV 官方确认的传导逻辑,market-19)+CoWoS 产能(2026 底 ~10-13万片/月)+Rubin 测试时间 +50% 传闻(低置信,market-16)",
+    "增量期权与风险对冲:CPO 测试中期 TAM $300-700M/年(TER 口径,双雄均已卡位);TER merchant GPU CY26 仅 ~$50M 但中期双源 30-70% 管理份额假设(公司口径);风险:ADV OPM 44.2% 见顶(FY26 指引已持平)+円高敏感(1円=¥4bn OP)、NVIDIA 直接+间接集中度、HBM4 SiP 测试韩系内制化分流(SKH 2026-01 过认证)、TER Robotics 拖累与 carve-out 不确定性、中国 18.9%(ADV)出货的政策尾部风险"
+   ],
+   "open_questions": [
+    "Teradyne SoC/memory 年度美元拆分(2022-2025)无官方披露,本文估算(2025 SoC≈$1.85B/mem≈$0.56B/IST≈$110M)需用卖方数据库或 Q1/Q2'25 电话会季度点补齐后复核",
+    "2025 memory tester TAM 增速矛盾(TER -4% vs ADV +10.5%)的口径拆解:TER 的 memory TAM 是否剔除 HBM stack/burn-in 类设备?建议向两家 IR 求证定义",
+    "Micro Control Company 与 Advantest 是否存在未公开的合作/小额投资(本次仅证伪'收购',日文源与并购数据库未穷尽);同时 Advantest 在 HBM burn-in 环节的真实产品敞口(B6700 类 wafer-level burn-in 现役与否)需专家验证",
+    "Advantest FY24 SoC ¥440.4bn/memory ¥157.7bn 系 Investors Guide 季度图加总(86.9/61.1 等读数),与 FY2024 决算短信全年披露数的最终核对(差异应在 ±¥1bn 内)",
+    "TER 'VIP compute ~50% 份额' 与 ADV 'AI accelerator majority share' 的分母定义差异(VIP=仅 hyperscaler 自研 ASIC vs AI accelerator=含 merchant GPU):两句话可同时为真,但 dashboard 引用时必须分列,勿合并成单一'AI 测试份额'",
+    "Advantest FY25 GM 64.3% 为决算短信 GP/Sales 计算值(¥726.1bn/¥1,128.6bn),公司口径原话为'通期 OPM 40% 超'与 FY26 GM ~63% 指引;严谨引用时标注为计算值",
+    "TER 2028 模型(rev $4.5-5.5B/EPS $7.00-9.50/CAGR 12-18%)的一手出处(2024-01-25 analyst day 材料页码)未直接取得,当前为媒体/broker 转述档;引用时标 broker 档并建议调原始 deck"
+   ]
+  },
+  {
+   "segment": "行业叙事 backtest 时间轴(2022-2026)+ 2027-2030 前瞻锚(整条后道测试板块)",
+   "scope": "主轴口径 = Advantest 每季自估的 semiconductor tester 市场(SoC ATE + Memory ATE 整机,CY 口径,不含 handler/prober/probe card/SLT 整线);对照宽口径 = SEMI test equipment(含 handler/prober 等,约为 Advantest 口径的 1.2-1.5 倍,2024 年比值 1.26);backtest 拐点同时用 probe card(FormFactor)、handler/接口(Cohu)、testhouse(KYEC)、股价/估值作旁证。不含 assembly & packaging 设备。",
+   "tam": [
+    {
+     "year": "CY2021(峰)",
+     "value": "$5.6B(SoC $4.3B + memory $1.3B)",
+     "basis": "actual",
+     "source": "Advantest Investors Guide 2026-01(实绩柱,已核查 history-01/02/03)"
+    },
+    {
+     "year": "CY2022",
+     "value": "$5.2B(SoC $4.0B/-7%,memory $1.2B/-8%)",
+     "basis": "actual",
+     "source": "Advantest Investors Guide 2026-01(已核查)"
+    },
+    {
+     "year": "CY2023(谷)",
+     "value": "$4.4B(SoC $3.3B/-17.5%,memory $1.1B/-8%);峰谷两年累计 -21%",
+     "basis": "actual",
+     "source": "Advantest Investors Guide 2026-01(已核查);SEMI 宽口径 2023 $6.4B/-15%"
+    },
+    {
+     "year": "CY2024",
+     "value": "$6.0B(SoC $4.1B/+24%,memory $1.9B/+73%),+36% 超越 CY2021 前峰",
+     "basis": "actual",
+     "source": "Advantest FY2024 决算资料 2025-04-25(已核查 market-02)"
+    },
+    {
+     "year": "CY2025",
+     "value": "~$9.0B(SoC $6.9B/+68%,memory $2.1B),+50%",
+     "basis": "actual",
+     "source": "Advantest FY2025 决算说明会 2026-04-27(已核查 market-01);SEMI 宽口径 test equipment $11.2B/+48.1%(2025-12-16,已核查 market-12)"
+    },
+    {
+     "year": "CY2026E",
+     "value": "$10.9-12.2B(SoC $8.7-9.5B + memory $2.2-2.7B),中值 +~28%",
+     "basis": "guide",
+     "source": "Advantest 2026-04-27(已核查 market-03);Teradyne 2026-01 口径 ATE TAM +20-40% 方向一致(market-09)"
+    },
+    {
+     "year": "CY2027E",
+     "value": "tester 口径无公开预测;宽口径 SEMI test equipment +7.1% → ~$13.4B(自 2026e $12.5B 递推)",
+     "basis": "broker",
+     "source": "SEMI Year-End Forecast 2025-12-16(已核查 market-12;SEMI 口径含 handler/prober,勿与 Advantest 口径混用)"
+    },
+    {
+     "year": "CY2028-2030E",
+     "value": "无任何可信公开点预测;唯一量级锚:Teradyne 中期模型 ATE TAM $12-14B(对应自家 $6B 营收/EPS $9.5-11,未明确绑定年份);第三方市场研究报告(Mordor/Fortune 等)baseline 互相矛盾($4-8B 起点、CAGR 3-8%),不可用",
+     "basis": "none",
+     "source": "Teradyne Q4 2025 call 2026-01(已核查 market-09);TechInsights/VLSI 长期序列在付费墙后未获取"
+    }
+   ],
+   "players": [
+    {
+     "name": "Advantest",
+     "share": "CY2025 tester 整体 65%(+7pp)/SoC 66%(+10pp,自称 AI accelerator 测试过半份额)/memory 61%(-2pp);CY2023/24 整体均 58%",
+     "source": "Advantest FY25 决算 p.18 自估(已核查 advantest-07)",
+     "notes": "叙事主轴:其每季 TAM 区间修订是全行业最高信息量信号(订单/backlog 约 FY2022 起停披);NVIDIA FY2025 首成第一大直接客户(20.2%,集团 21.6%)"
+    },
+    {
+     "name": "Teradyne",
+     "share": "SoC tester 第二(约 30% 量级,公司不自报份额);memory 2026e 目标 +低个位数 pp",
+     "source": "Teradyne Q1 2026 call(已核查 advantest-10/hbm-08)",
+     "notes": "2022-23 下行 beta 最大(mobility 敞口):营收 2021→2023 -27.7%;2025-26 反攻:compute 收入 +90%、首获 merchant GPU 量产订单、Magnum 7H 切 HBM"
+    },
+    {
+     "name": "Cohu",
+     "share": "handler/接口/中低端 tester;无公开份额",
+     "source": "Cohu FY2023 10-K",
+     "notes": "2023 营收 -21.7% 至 $636M,装机利用率 2023 年末 71%、Q1'24 指引再 -20% QoQ——2023 下行深度的 handler 侧标尺"
+    },
+    {
+     "name": "FormFactor",
+     "share": "probe card 全球第一(与 Technoprobe 互为前二)",
+     "source": "FormFactor FY2023 10-K",
+     "notes": "9M2023 probe card 收入 -20.6%(DRAM -26.7%、Flash -60.8%、F&L -14.4%)——耗材侧同步下行且存储弹性最大"
+    },
+    {
+     "name": "KYEC(京元电)",
+     "share": "独立 testhouse AI 测试最大代理(NVIDIA 链)",
+     "source": "台媒/公司月营收(已核查 market-13/14/15)",
+     "notes": "下行期利用率底部 ~54%(2022-23,待法说会核实)→ 2026 Q1 GM 39.7%(+6.2pp)、capex 两度上修至 ~NT$500 亿(capex/sales≈100%)——测试紧缺的量价齐升高频证据"
+    }
+   ],
+   "characteristics": [
+    "周期结构:上一轮完整下行为 2021 峰 $5.6B → 2023 谷 $4.4B(-21%/2年),公司层面 beta 更深(TER 营收 -27.7%、Advantest FY2023 OP -51%,利润下行 beta≈营收 4 倍)——bear case 历史底案",
+    "本轮为『量(unit×先进封装产能)×强度(test content)×价(机时费率)』三重上行:2023→2025 TAM 翻倍($4.4B→$9.0B),历史罕见",
+    "AI 含量已成板块 beta 本体:Advantest SoC 测试销售中 computing/通信占 95%(FY24 为 90%);Teradyne AI 相关收入占比 Q3'25 40-50%→Q4'25 >60%→Q1'26 ~70%",
+    "信息结构退化:订单/BB ratio 自约 FY2022 起不可得,跟踪只能靠 TAM 区间修订方向、UltraFLEXplus 交期(12-16周)、KYEC 月营收等次级指标",
+    "官方预测在上行期系统性滞后:Advantest 连续两年大幅低估 TAM(CY2024 超预测上限 17%、CY2025 超初始中值 53%),FY2024 指引一年内四连上修 +48.5%——指引修订方向比水平值更有信息量",
+    "供给前置 1-2 年(tester 产能、testhouse 机台),紧平衡大概率延续至 2027;Advantest SoC tester 产能三阶段扩至 10,000 台/年(CY2028 底-CY2029)",
+    "估值先行于基本面:2022 年 TER -47.2%/ADV -33.7%(当年基本面未崩)是估值压缩;2024-26 ADV 两年三倍、forward P/E 45-56x 处历史 band 顶端,rerating 本身即均值回归风险的量化证据"
+   ],
+   "timeline": [
+    {
+     "when": "2022全年",
+     "what": "下行起点:手机/PC 需求反转,tester TAM 自 2021 峰 $5.6B 回落至 $5.2B(-7%);Teradyne 2022 营收 -14.8%($3.70B→$3.16B)、Q4'22 -17%;股价先行:TER -47.2%(2008 年以来最深)、Advantest -33.7%;Advantest 约 FY2022 起停止披露订单/backlog;KYEC 利用率跌向 ~54% 谷底",
+     "source": "Advantest Investors Guide 2601E;Teradyne 10-K/8-K;companiesmarketcap(均已核查 history-01/06/08/12)"
+    },
+    {
+     "when": "2023-01",
+     "what": "叙事官方定调:Teradyne Q4'22 8-K 预警 Semi/Storage Test 需求 step down 至少持续 1H23(客户去库存);全年验证:smartphone 测试 TAM 2023 约 -40%、较 2021 峰 -50%+(Teradyne 口径)",
+     "source": "Teradyne 8-K 2023-01(SEC);Teradyne FY2023 年报材料"
+    },
+    {
+     "when": "2023全年(谷底)",
+     "what": "tester TAM $4.4B(-15% YoY,峰谷 -21%):SoC $3.3B(-17.5%);注意 memory tester 仅 -8% 至 $1.1B——存储 capex 崩但 HBM 开始对冲(真正的 memory tester 崩盘是 2019 年 -43%);产业链同步:Cohu 营收 -21.7% 至 $636M(利用率 71%)、FormFactor probe card 9M -20.6%(Flash -60.8%/DRAM -26.7%)、Advantest FY2023 营收 -13.2% 但 OP -51%(OPM 29.9%→16.8%)、SEMI 宽口径 test equipment -15% 至 $6.4B",
+     "source": "Advantest Investors Guide(已核查);Cohu FY2023 10-K;FormFactor FY2023 10-K/10-Q;SEMI 2023-07 预测(已核查 history-05/07)"
+    },
+    {
+     "when": "2023-11-29",
+     "what": "Memory 叙事拐点官方确认:Advantest IR Technical Briefing 披露 HBM 已隐含约占 memory tester 销售 25%+(¥76bn×90% DRAM×60% wafer test×过半为 HBM),并称 HBM 初期爬坡『绝大部分』tester 需求归 Advantest;自估 2022 memory ATE 份额 53%",
+     "source": "Advantest IR Tech Briefing Q&A 2023-11-29(已核查 hbm-03/04)"
+    },
+    {
+     "when": "2024-04-26",
+     "what": "上行年以保守指引开局:Advantest FY2024 期初指引销售仅 ¥525.0B;2024 年 7 月版 Investors Guide 对 CY2024 TAM 预测仅 SoC $3.3-3.5B、memory $1.6-1.8B——随后全部被实绩碾压(SoC $4.1B 超上限 17%)",
+     "source": "Advantest FY2023 决算短信 2024-04-26;Investors Guide 2407E(已核查 history-04)"
+    },
+    {
+     "when": "2024-06-25",
+     "what": "官方中期锚落地即失效:MTP3(FY2024-26)发布,市场假设 ATE 市场 CY24-26 均值 $5.9B(vs MTP2 期 $5.1B,+16%)、core market $9.2B、ATE 份额目标 >58%;财务目标 FY24-26 均值销售 ¥560-700B、OPM 22-28%、EPS ¥127-202(assumption 140 JPY/USD)——一年后 CY2025 ATE 实绩 $9.0B 已达假设的 1.5 倍,FY2024-25 两年实绩(¥779.7B/¥1,128.6B)均已突破目标带上限",
+     "source": "Advantest MTP3 说明会 slide 2024-06-25 p.30-31(本次直接读取原始 PDF);FY25 决算(已核查 advantest-01/02)"
+    },
+    {
+     "when": "2024H2-2025-01",
+     "what": "HBM+AI SoC 驱动的四连上修:FY2024 指引 ¥525B(4月)→ ¥600B(7月 1Q)→ ¥640B(10月 2Q)→ ¥740B(2025-01 3Q)→ 实绩 ¥779.7B(+60.3% YoY,较期初 +48.5%);CY2024 TAM 实绩 $6.0B(+36%),其中 memory $1.9B(+73%,HBM/高性能 DRAM 驱动)超越 CY2021 峰;HBM 约占 Advantest memory 测试业务 ~50%(CEO Lefever 口径)",
+     "source": "Advantest FY2024 各季决算短信(4月/7月/10月/1月);FY2024 决算 2025-04-25(已核查 market-02/advantest-01)"
+    },
+    {
+     "when": "2025-04-25",
+     "what": "再度保守开局:Advantest 对 CY2025 初始预测 SoC 仅 $4.2-4.8B、memory $1.7-2.2B;FY2025 全年随后经三次上修(2026-01-29 第三次,市值当日破 ¥20tn),4 月实绩再超 1 月指引(销售 +5.5%/OP +9.9%)",
+     "source": "Advantest Investors Guide 2504E;日经/FY25 决算(已核查 market-04/advantest-15)"
+    },
+    {
+     "when": "2025全年(AI SoC 大年)",
+     "what": "CY2025 SoC tester TAM $6.9B(+68%),超初始预测中值 53%;Advantest SoC 份额 66%(+10pp)、NVIDIA 首成第一大直接客户(20.2%,集团 21.6%);Teradyne compute 收入 +90%、AI 占比 Q4 >60%;SEMI 宽口径 test equipment $11.2B(+48.1%,全设备类增速第一);KYEC 2026 capex 两度上修至 ~NT$500 亿;竞争面:Teradyne Magnum 7H(8月)切 HBM、SK hynix HBM4 burn-in 订单流向韩系 DI/UniTest/YC(150-200台,10月起报道);Advantest 股价两年三倍",
+     "source": "Advantest FY25 决算(已核查 market-01/05);Teradyne Q4'25 call(market-09);SEMI(market-12);台媒/韩媒(market-15/hbm-07/13)"
+    },
+    {
+     "when": "2026-01~04",
+     "what": "高位续升+首次波动:CY2026 指引 SoC $8.5-9.5B(1月)→ $8.7-9.5B(4月上调下限)、memory $2.2-2.7B,合计中值 +~28%;Teradyne 给 2026 ATE TAM +20-40%、拒发自家点预测但称 Advantest 数字 not absurd;FY2026 指引 ¥1,420B(+25.8%);产能第三阶段扩至 10,000 台/年(CY2028底-29);Rubin 备货:测试时间较 Blackwell 传 +50%(台媒推估)、burn-in 3h→5-6h、SLT 转永久 100% 全检;Teradyne 首获 merchant GPU 量产订单(CY26 ~$50M);6/25 股价创高 ¥35,940 跑赢共识目标价后,7/2 单日 -9.95%(forward P/E 45-56x)——叙事从『上修惊喜』转向『高估值+能见度有限』",
+     "source": "Advantest 2026-01-28/04-27 决算资料(已核查 market-03/07);Teradyne Q4'25/Q1'26 call(market-09/10);台媒(market-16);advantest-14"
+    }
+   ],
+   "forward": [
+    "最远官方点锚仅到 2027:SEMI(2025-12-16)预测 test equipment 2026 +12.0%(~$12.5B)、2027 +7.1%(~$13.4B,宽口径含 handler/prober);2028-2030 无任何可信公开 tester TAM 预测——外推必须显式标模型假设",
+    "Teradyne 中期模型(2026-01 call):ATE TAM $12-14B 对应自家 $6B 营收/EPS $9.5-11;二手来源称其 2028 中期营收目标 $4.5-5.5B、revenue CAGR 15% through 2028,$6B 为『TAM 成熟期』更远目标——模型绑定年份需以官方投资者材料确认",
+    "供给侧隐含前瞻:Advantest SoC tester 产能路线 5,000→7,500(提前达成)→10,000 台/年(CY2028底-CY2029 备妥),在 CY2026 TAM 指引未变下加码,是公司对 2028+ 多年需求的实质押注(已核查 market-07)",
+    "官方长期锚的系统性低估是最重要的外推校准参数:MTP3(2024-06)ATE 假设 CY24-26 均值 $5.9B vs CY2025 单年实绩 $9.0B(+53%);FY24-26 销售目标带 ¥560-700B vs 实际三年均值将达 ~¥1,109B(按 FY26 指引)——对 2027-30 外推,官方指引应视为下限而非中枢",
+    "需求端结构性锚:HBM bit CAGR 49%(2023-28,Advantest 引用口径);Rubin 世代测试时间传 +50%、burn-in 时长 3h→5-6h、SLT 100% 全检永久化——test intensity 上行若延续,tester TAM 增速将持续跑赢半导体大盘",
+    "反向风险锚(bear case 参数):①历史峰谷 -21%/2年(2021-23)、TER 营收 -27.7%、ADV OP -51%;②smartphone 时代先例:multisite 并测(2→8站+,效率 95%+)曾完全吸收复杂度红利,SoC TAM 2017-20 仅 $2.2-3.0B 徘徊——AI 强度上行依赖大 die 低并测+新增 insertion 两个条件持续成立;③Advantest 自身已预警 2026 后 HBM 良率成熟→测试效率优化可能反压 memory tester 增速;④HBM4 测试部分内制化(SK hynix SiP 设备 2026-01 过认证)与韩系分流(burn-in 150-200台+P&T7 约 200台/₩400bn 谈判)封顶 merchant 增量;⑤两家设备商均承认 2026H2 能见度有限(Teradyne 因此拒发 TAM)",
+    "估值锚:当前 TER P/E 67x/P/S 15x、ADV forward P/E 45-56x 均为历史序列顶端;历史规律为股价领先基本面 2-4 个季度、估值压缩先于 TAM 回落——2027-30 情景须区分 TAM 路径与估值路径"
+   ],
+   "key_claims": [
+    {
+     "claim": "Advantest 口径 tester TAM 实绩序列:CY2021 $5.6B → 2022 $5.2B → 2023 $4.4B(峰谷 -21%)→ 2024 $6.0B(+36%)→ 2025 ~$9.0B(+50%,SoC $6.9B/+68%);CY2026 指引 $10.9-12.2B(来源:Advantest Investors Guide 2601E 实绩柱 + FY25 决算,均经原始 PDF 核查)",
+     "why_matters": "这是整条 backtest 的数字脊柱——所有拐点幅度、bear case 参数、2027-30 外推基数全部挂在这条序列上;若口径或数字错,全部环节画像被污染"
+    },
+    {
+     "claim": "设备商官方预测在上行期系统性大幅低估:CY2024 实绩超 Advantest 预测上限 17%、CY2025 实绩超初始预测中值 53%、FY2024 公司指引一年内 ¥525B→¥779.7B(+48.5%)、MTP3(2024-06)ATE 市场假设 $5.9B 均值 vs CY2025 实绩 $9.0B",
+     "why_matters": "决定 2027-30 外推方法论:若以官方指引/中期计划为外推中枢会系统性低估上行情景;反之若此 claim 有误(如实绩含口径变化),外推校准逻辑需重写"
+    },
+    {
+     "claim": "2023 下行的真实结构:主因是 smartphone 测试 TAM -~40%(较 2021 峰 -50%+,Teradyne 口径),而 memory tester 仅 -8%($1.2B→$1.1B)——『2023 存储 capex 崩→memory tester 崩』的流行叙事在 tester 口径上不成立,HBM 已于 2023 年内开始对冲(2023-11 Advantest 确认 HBM 占 memory tester 销售 ~25%+)",
+     "why_matters": "若把 2023 memory tester 误记为崩盘,会高估 memory tester 的周期弹性、错判 HBM 拉动的起点时点(实为 2023H2 而非 2024),污染 memory ATE 环节的整个 backtest"
+    },
+    {
+     "claim": "2027-2030 不存在任何可信公开 tester TAM 点预测:最远锚为 SEMI 2027(宽口径 +7.1%)与 Teradyne 中期模型 $12-14B(未绑年份);TechInsights/VLSI 长期序列在付费墙后,第三方市场研究报告 baseline 互相矛盾不可用",
+     "why_matters": "若主循环误引某份低质 2030 报告数字作外推依据,整个前瞻区间的可信度崩塌;正确做法是以 unit×intensity 框架自建模型并标注假设"
+    }
+   ],
+   "open_questions": [
+    "Advantest 对 CY2025 TAM 在 2025 年 7 月、10 月两个中间时点的修订值未逐一取得(现有 4月 $4.2-4.8B → 1月 $6.8-6.9B → 4月实绩 $6.9B),补齐后才能画完整的季度上修路径图",
+    "Teradyne 中期模型($12-14B TAM/$6B 营收/EPS $9.5-11)是否绑定 2028:二手来源称 2028 营收目标 $4.5-5.5B、$6B 为『TAM 成熟期』目标,需以 2026 年 1 月官方投资者材料/analyst day slide 原文确认",
+    "CY2022 年内 Advantest 对当年 TAM 的下修路径(2022 年 7 月/10 月时点值)未取得——2022 拐点目前只有年度实绩与股价,缺公司预期转向的季度级时点",
+    "TechInsights/VLSI Research 的 ATE 长期序列与 2027-30 预测在付费墙后未获取;SEMI 与 Advantest 口径差 ~$2B 的构成(handler/prober/SLT 拆分)未闭环,做宽窄口径换算时有误差",
+    "KYEC 2026 capex ~NT$500 亿为台媒转述,需公司法说会资料确认;其下行期利用率底部 ~54%(2022-23)出处为二手整理,需 KYEC 法说会纪录核实",
+    "Rubin 测试时间 +50% 与 burn-in 3h→5-6h 均为台媒/供应链推估,无公司一手确认——2026 拐点中 test intensity 的量化幅度整体缺一手锚(Advantest 以客户机密拒绝披露)"
+   ]
+  }
+ ],
+ "verdicts": [
+  {
+   "claim": "Advantest 口径 tester TAM 实绩序列:总盘 CY2021 $5.6B → 2022 $5.2B → 2023 $4.4B(-21%)→ 2024 $6.0B(+36%)→ 2025 ~$9.0B(+50%),CY2026E $10.9-12.2B;SoC:CY2022 ~$4.0B → 2023 ~$3.3B(-18%)→ 2024 ~$4.1B(+24%)→ 2025 ~$6.9B(+68%),CY2026E $8.7-9.5B(源:Investors Guide 2601E + 各期决算,CY 口径、SoC 不含 memory/handler)",
+   "verdict": "nuanced",
+   "evidence": "绝大部分数字与 Advantest 官方材料逐一吻合,但有一处明确错误和两处口径注意点。\n\n【逐项核对,官方原文】\n(1) SoC 序列全部确认:Investors Guide 2601E (2026-01-28) p.6 SoC tester 市场柱状图(Source: Advantest July 2025, $M):CY2021 4,300 / 2022 4,000 / 2023 3,300 / 2024 4,100;p.12 表格 SoC CY22 $4.0B、CY23 $3.3B、CY24 $4.1B。FY2025 决算说明会 note (2026-04-27) p.18:\"the global SoC tester market expanded to approximately USD 6.9 billion in CY2025, marking about 68% year-on-year growth\"。CY2026E:同 note p.19 \"we revise the market size forecast range to 8.7–9.5 billion USD\"(4 月上调下限 $0.2B,1 月时为 $8.5–9.5B)。SoC -18%(4.0→3.3=-17.5%)、+24%(→4.1)、+68% 均与官方一致。\n\n(2) 总盘水平值确认:2601E p.12 及 FY2025 note p.18 均显示 CY22 $5.2B → CY23 $4.4B → CY24 $6.0B(+36%)→ CY25 ~$9.0B(+50%, 官方标注 \"+50% YoY\"),CY25 = SoC $6.9B + Memory $2.1B ≈ $9.0B。CY2021 $5.6B 未在总盘图中直接出现(该图从 CY22 起),但等于 2601E 分项图 SoC 4,300 + Memory 1,300 = $5.6B,自洽成立。口径确认:\"总盘\"= SoC + Memory testers,不含 handler/device interface/SLT(\"Other Systems\"),SoC 不含 memory——与官方 Tester Market Share Report 口径一致。\n\n【错误一处】CY2023 总盘 YoY 标注 -21% 是错的:官方 2601E p.12 明确标注 CY22→CY23 为 \"-15% YoY\"($5.2B→$4.4B = -15.4%)。-21% 实为 $5.6B(CY21)→$4.4B(CY23) 的两年跌幅,被误标成单年 YoY。若 dashboard 的 backtest 拐点幅度用了 -21%,2023 下行深度被夸大约 6 个百分点。\n\n【口径注意两处】(a) 总盘 CY2026E $10.9–12.2B 并非 Advantest 官方发布的合并指引:官方只分别给 SoC $8.7–9.5B、Memory $2.2–2.7B(2026-04-27 note p.19,Memory 维持 1 月预测不变),$10.9–12.2B 是两区间上下限直加的推导值,算术成立但应标注为推导。(b) 来源归属:Investors Guide 2601E 数据只到 CY2024;CY2025 实绩和 CY2026E 出自 2026-04-27 FY2025 决算材料,且 SoC 下限 $8.7B 是 4 月修订值(1 月决算时点为 $8.5B)——\"源:2601E+各期决算\"大体成立,但引用 $8.7B 下限时应注明为 2026 年 4 月时点。\n\n【正确表述】总盘(SoC+Memory,不含 handler):CY2021 $5.6B → 2022 $5.2B → 2023 $4.4B(-15%)→ 2024 $6.0B(+36%)→ 2025 ~$9.0B(+50%);CY2026E 官方分项 SoC $8.7–9.5B + Memory $2.2–2.7B(合计推导 $10.9–12.2B)。SoC:CY2022 $4.0B → 2023 $3.3B(约-18%)→ 2024 $4.1B(+24%)→ 2025 ~$6.9B(约+68%)→ 2026E $8.7–9.5B(2026 年 4 月时点)。",
+   "sources": [
+    "https://www.advantest.com/document/en/investors/ir-library/investors-guide/Investors_Guide_2601E.pdf",
+    "https://www.advantest.com/document/ja/investors/ir-library/result/JE_BIZ_260427_note.pdf",
+    "https://www.advantest.com/document/en/investors/ir-library/result/JE_BIZ_260427_QA.pdf"
+   ]
+  },
+  {
+   "claim": "Advantest 口径 memory tester TAM 序列:CY2022 $1.2B → 2023 $1.1B(仅 -8%,'存储崩'在 tester 口径不成立,HBM 2023H2 已对冲、2023-11 确认 HBM 占 memory tester 销售 ~25%+)→ 2024 $1.9B(+73%)→ 2025 $2.1B(+11%)→ 2026E $2.2-2.7B;另 TER 称 2025 memory TAM 'roughly flat/-4%' 与 ADV +10.5% 存在未解释口径差",
+   "verdict": "nuanced",
+   "evidence": "定量骨架基本全部得到官方IR材料确认,但 HBM '25%+' 的具体数字与时点归属无法证实,且有两处需加口径注脚。【已确认】(1) TAM 序列:Advantest Investors Guide (2026-01-28) p.8 memory tester 市场柱状图给出 CY2018 $1,150M / 2019 $650M / 2020 $1,200M / 2021 $1,300M / 2022 $1,200M / 2023 $1,100M / 2024 $1,900M,p.12 份额表同口径($1.2B/53% → $1.1B/56% → $1.9B/63%),即 2023 仅 -8.3%、2024 +73%,与断言一致;(2) CY2025 ~$2.1B:FY2025 决算说明 note (2026-04-27) 原文'メモリテスタ約21億米ドル'(SoC 约$6.9B、合计约$9.0B、超过 CY2024 峰值),对 $1.9B 即 +10.5%(断言写 +11%,四舍五入可接受);(3) CY2026E $2.2-2.7B:同一文件原文'keeping our market size forecast range unchanged at 2.2-2.7 billion USD, as projected in January',确认;(4) 'HBM 2023 对冲周期底部'叙事:2023-11-29 IR Technical Briefing note 原文'In comparison with the previous down cycle (2019 vs 2023), the decline caused by the memory market deterioration is somewhat offset by an increase in tester demand for high-performance memory such as HBM and DDR5'及'we expect the trough to be shallower',定性确认;(5) TER 口径:Teradyne Q4 2025 电话会(2026年1月末)确认'Memory TAM declined 4% year over year; DRAM and HBM now constitute nearly 90% of memory TAM',与 ADV +10.5% 的口径差(~$0.2B 量级)真实存在且两家均为自估口径、确无公开调和。【未证实/需修正】(a) '2023-11 确认 HBM 占 memory tester 销售 ~25%+':在 2023-11-29 技术说明会 note 全文检索(HBM/25%/quarter)均未找到该表述;检索到的 FY2023 决算会引文'Normally, 20% to 30% is the memory, historically speaking'指的是 memory 业务占比的历史区间而非 HBM 占 memory tester 销售的比例,该具体数字应降级为'未经官方原文证实'或改为引用定性对冲表述;(b) 2025 的 $2.1B 是事后口径:2025-10-28 决算 note 当时官方区间为 $1.8-2.1B、中值 $1.95B('mid-point unchanged at 1.95B USD'),$2.1B 为 2026-04 最终测算值,若用于当期决策回溯需注明时点;(c) '存储崩不成立'仅在 memory tester 总量口径成立:Investors Guide 显示 ADV memory tester 销售中 Non-Volatile Memory 占比 FY22 40% → FY23 10% → FY24 5%(DRAM 60%→90%→95%),即 NAND 侧测试需求确实崩了,是被 DRAM/HBM 对冲后总量才仅 -8%,这一结构注脚强化而非削弱'HBM 抬高周期底部'的核心论点。正确表述建议:'Advantest 口径 memory tester TAM:CY2022 $1.2B → 2023 $1.1B(-8%,NAND 侧崩塌被 DRAM/HBM 对冲,ADV 2023-11 官方定性确认 HBM/DDR5 使本轮谷底浅于 2019;HBM 占 memory 销售的具体比例数字未见官方书面确认)→ 2024 $1.9B(+73%)→ 2025 约$2.1B(+10.5%,2026-04 最终测算;2025-10 时官方中值为 $1.95B)→ 2026E $2.2-2.7B(2026-01 首次给出、2026-04 维持);TER 称 2025 memory TAM -4%,与 ADV +10.5% 为两家自估口径差,~$0.2B,无公开调和'。",
+   "sources": [
+    "https://www.advantest.com/document/en/investors/ir-library/investors-guide/Investors_Guide_2601E.pdf",
+    "https://www.advantest.com/document/en/investors/ir-library/result/JE_BIZ_260427_note.pdf",
+    "https://www.advantest.com/document/en/investors/ir-library/result/E_BIZ_251028_note.pdf",
+    "https://www.advantest.com/document/en/investors/ir-library/briefing/E_IR_technical_briefing_231129_note.pdf",
+    "https://www.fool.com/earnings/call-transcripts/2026/04/21/teradyne-ter-q4-2025-earnings-transcript/",
+    "https://www.investing.com/news/stock-market-news/earnings-call-advantest-projects-growth-despite-fy-2023-downturn-93CH-3403732"
+   ]
+  },
+  {
+   "claim": "Advantest 自估份额序列:SoC CY22 58%→CY23 59%→CY24 56%(-3pp,中国低端)→CY25 66%;memory 53%→56%→63%→61%;与分部收入(SoC ¥325.5→245.6→440.4→767.4bn;memory ¥78.8→85.9→157.7→171.5bn)及 TAM 交叉校验自洽;\"2022年56%\"系误记(56% 是 CY2024)",
+   "verdict": "confirmed",
+   "evidence": "对抗性核查未找到任何反例,全部数字与 Advantest 官方 IR 材料逐项吻合。(1) FY2023 决算说明会记录(官方PDF,本地解析)载明:CY22 SoC 58% / memory 53%、CY23 SoC 59% / memory 56%(整体 57%→58%,连续第三年第一;CY21 为 SoC 45%/memory 51% 供参照);同一文件分部收入 FY2022 SoC ¥325.5bn / memory ¥78.8bn,FY2023 SoC ¥245.6bn / memory ¥85.9bn。(2) FY2024 决算说明会记录(官方PDF,本地解析)载明 CY24 SoC 56%、memory 63%、整体约58%,并原文归因:\"our market share was down by about 3 percentage points… the growing presence of local suppliers especially from China in the low-end market has weighed on our overall share\"——\"-3pp、中国低端\"是官方原话口径而非外推;FY2024 SoC ¥440.4bn / memory ¥157.7bn 同文件确认。(3) FY2025 官方 slides(经 Investing.com 转述交叉):CY25 SoC 66%(SoC TAM $6.9B vs CY24 $4.1B)、memory 61%(vs 63%,memory TAM $2.1B vs $1.9B);FY2025 SoC ¥767.4bn(+74.3%,反推基数≈¥440bn 自洽)、memory ¥171.5bn(+8.7%)。(4) \"2022年56%\"确系误记:CY22 SoC 为 58%,56% 是 CY2024 SoC(另注意 CY23 memory 也是 56%,为另一潜在混淆源)。份额序列非线性:56%→66% 的跳升是 AI 高端 SoC 集中拿单叠加低端 TAM 占比稀释缓解,而非广谱线性提升;CY24 的 -3pp 明确来自中国本土厂商在低端市场的侵蚀。保留两点(不改变结论、断言本身已含):所有份额为 Advantest 自估(\"Source: Advantest\");财年(4-3月)与日历年错位使收入×TAM 交叉校验只能近似成立;CY25 66%/61% 依据的是对官方 FY25 slides 的二手转述(FY2025 官方PDF URL 未在检索预算内定位),但与两份官方PDF的 CY24 基点完全衔接。",
+   "sources": [
+    "https://www.advantest.com/document/en/investors/ir-library/result/E_BIZ_240426_note.pdf",
+    "https://www.advantest.com/document/en/investors/ir-library/result/E_BIZ_250425_note.pdf",
+    "https://www.investing.com/news/company-news/advantest-fy25-slides-record-margins-as-ai-testing-demand-surges-93CH-4639589"
+   ]
+  },
+  {
+   "claim": "Teradyne SOC TAM 口径系统性宽于 Advantest(CY2023 $3.9B vs $3.3B,差约 18%),两家份额分母不同;TER \"~50% 份额\"仅指 VIP compute 子市场而非总 SoC",
+   "verdict": "confirmed",
+   "evidence": "对抗性核查未找到反例,三个组成部分均被官方IR材料证实。(1) Advantest 官方 FY2023 业绩说明会讲稿(2024-04-26, E_BIZ_240426_note.pdf)原文:\"The CY23 total semiconductor tester market is estimated to have finished around US$4.4 billion... with the SoC tester market accounting for about US$3.3 billion and the memory tester market accounting for about US$1.1 billion... including a 59% share of the SoC tester market\"。(2) Teradyne Q4 2023 财报电话会(2024-01-31):公司估计 2023 年 Semi Test 市场约 $4.8B,其中 SOC $3.9B、Memory $0.9B。3.9/3.3−1=18.2%,与\"差约18%\"吻合;总 tester 口径同样 TER 更宽($4.8B vs $4.4B),但注意 memory 子市场方向相反(TER $0.9B < ADV $1.1B),口径差主要集中在 SoC 侧。(3) Teradyne Q4 2025 电话会明确其 \"~50% share\" 指 VIP (vertically integrated producers) compute 子市场(\"captured approximately 50% share of the VIP compute market\",2025 年 VIP compute 规模仅 $600M+,compute 整体约 $5B),而非总 SoC——这与 Advantest 自报 59% 总 SoC 份额并不矛盾,两者分母不同,直接加总会得出 >100% 的错误结论。断言的核心警示(拼 duopoly 份额须先对齐 TAM 口径与分母)成立。唯一微调:\"系统性宽于\"在 SoC/总 tester 口径成立,但 memory 口径 TER 反而更窄,严谨表述应限定为\"SoC 及总 tester TAM 口径 TER 宽于 ADV\"。",
+   "sources": [
+    "https://www.advantest.com/document/en/investors/ir-library/result/E_BIZ_240426_note.pdf",
+    "https://www.advantest.com/document/en/investors/ir-library/investors-guide/Investors_Guide_2407E.pdf",
+    "https://seekingalpha.com/article/4666414-teradyne-inc-ter-q4-2023-earnings-call-transcript",
+    "https://www.insidermonkey.com/blog/teradyne-inc-nasdaqter-q4-2023-earnings-call-transcript-1252286/3/",
+    "https://www.fool.com/earnings/call-transcripts/2026/04/21/teradyne-ter-q4-2025-earnings-transcript/"
+   ]
+  },
+  {
+   "claim": "Teradyne Semi Test 分部序列(recast 含 IST):2022 $2,350.6M → 2023 $1,957.2M → 2024 $2,123.9M → 2025 $2,523.7M;SoC/memory 年度美元拆分不披露,2025 SoC≈$1.85B、memory≈$0.56B 系由官方增速与季度点倒推的估算",
+   "verdict": "nuanced",
+   "evidence": "部分对部分错。【对】分部收入序列四个数字全部与 SEC 原文吻合:FY2024 10-K 分部附注(recast 含 IST)载 2022 Semiconductor Test 收入 $2,350,603 千;FY2025 10-K 分部附注载 2023 $1,957,188 千、2024 $2,123,920 千、2025 $2,523,744 千,与 MD&A 表($2,523.7M / $2,123.9M)一致。IST 并入 Semi Test 的 recast 亦确认(2024 Q4 起,IST 含 SLT 及 HDD/SSD 测试)。【错】\"SoC/memory 年度美元拆分不披露\"不成立:FY2025 10-K Note E \"Disaggregation of Revenue\" 直接按 System-on-a-chip / Memory / IST 披露年度美元数——2025 年 SoC $1,889,685 千、Memory $504,903 千、IST $129,156 千(合计 $2,523,744 千);2024 年 SoC $1,537,124 千、Memory $501,788 千、IST $85,008 千;2023 年 SoC $1,432,621 千、Memory $386,015 千、IST $138,552 千。因此断言中的倒推估算既无必要也不准:2025 SoC 实际 ~$1.89B(估 $1.85B,低估 ~2%);Memory 实际 ~$0.505B(估 $0.56B,高估 ~11%,约 $55M)。正确表述应为:\"TER 在 10-K Note E 按 SoC/Memory/IST 披露年度美元拆分;2025 年 SoC $1,889.7M、Memory $504.9M、IST $129.2M(分部合计 $2,523.7M)。\" 对下游影响:memory 份额分子应从 ~$560M 下修至 ~$505M(份额下修约 2-3pp 量级,正落在断言自述的敏感区间);SoC 份额分子微升至 ~$1.89B;IST $129.2M 应从 SoC/memory 口径中剔除,'ADV+TER=93%' 闭合需按披露数重算而非估算数。另注:断言中 \"memory≈$0.56M×10³\" 的写法本身有笔误风险(应为 $560M 量级)。",
+   "sources": [
+    "https://www.sec.gov/Archives/edgar/data/97210/000119312526059002/ter-20251231.htm (Teradyne FY2025 10-K:MD&A 分部收入表;Note E Disaggregation of Revenue 按 SoC/Memory/IST 年度美元拆分;分部附注 2025/2024/2023)",
+    "https://www.sec.gov/Archives/edgar/data/97210/000095017025023784/ter-20241231.htm (Teradyne FY2024 10-K:recast 分部附注,2022 Semiconductor Test $2,350,603 千,含 IST)"
+   ]
+  },
+  {
+   "claim": "设备商连续系统性低估自身市场:2024-04 Advantest 对 CY24 SoC 测试机市场指引 $2.9-3.2B vs 实绩 $4.1B(超中值~34%);2025-04 对 CY25 指引 $4.2-4.8B vs 实绩 $6.9B(+53%,逐季上修);FY2024 销售指引一年内 ¥525B→¥779.7B;MTP3 被实绩碾压(三年平均或达 ¥1,109bn,超上限~58%);Teradyne 弃 2028 点模型改 evergreen $12-14B TAM。",
+   "verdict": "confirmed",
+   "evidence": "对抗性核查后,所有核心量化断言均被官方一手材料证实,未找到反例。(1) Advantest 2024-04-26 FY2023 业绩说明资料(E_BIZ_240426_note)给出 CY24 SoC 测试机市场预估 $2.9-3.2B、FY2024 初始销售指引 ¥525.0B(2024年7月即上调至 ¥600B);(2) 2025-04-25 Investors Guide(本人直接读取PDF)载明 CY2024 SoC 市场实绩 $4,100M(vs 中值 $3,050M = +34.4%,断言精确)且 CY2025 预估 $4,200-4,800M(断言精确);(3) 2026-04-27 FY2025 业绩材料确认 CY2025 SoC 市场约 $6.9B(同比~+68%),较 2025-04 中值 $4.5B 高 +53.3%,且公司同时给出 CY2026 预估 $8.7-9.5B;修正路径终点已核实(至 2026-01 上调至 ~$6.5-6.9B),但每个季度的具体中间档位未逐一核对;(4) FY2025 净销售 ¥1,128.6B(+44.7% YoY),倒推 FY2024 实绩 ≈¥779.8B,断言 ¥779.7B 在四舍五入误差内正确;(5) MTP3 部分:FY2025 单年 ¥1,128.6B 已远超 MTP3 任何情景,方向无疑;\"三年平均 ¥1,109bn/超上限58%\" 内部自洽(隐含 FY26 指引 ≈¥1,420bn、MTP3 高增长情景年均 ≈¥700bn),与2024-07 MTP3 简报框架一致,但该两个具体数字未直接对原文复核,且断言本身以\"或达\"作了对冲;(6) Teradyne Q4 2025 财报电话会确认放弃原 2028 定年盈利模型,改为 evergreen 目标模型:中期 ATE TAM $12-14B、营收 $6B、non-GAAP EPS $9.50-11.00,明确以\"AI需求lumpiness导致年份不可精确预测\"为由。方法论推论(官方指引连续三年系统性偏低、不可作外推中枢)与证据一致。唯一注意点:$4.2-4.8B 区间可能最早在 2026-01 之前的 2025-01 已初次给出,2025-04 为维持该区间,但断言引用 2025-04 指引本身准确。",
+   "sources": [
+    "https://www.advantest.com/document/en/investors/ir-library/result/E_BIZ_240426_note.pdf",
+    "https://www.advantest.com/document/en/investors/ir-library/investors-guide/Investors_Guide_2504E.pdf",
+    "https://www.advantest.com/en/news/2026/a81o6o0000000hgw-att/E_FR_FY2025_FN.pdf",
+    "https://www.advantest.com/document/ja/investors/ir-library/result/JE_BIZ_260427_note.pdf",
+    "https://www.advantest.com/document/en/investors/ir-library/result/JE_BIZ_260427_QA.pdf",
+    "https://www.advantest.com/document/en/investors/ir-library/briefing/E_MLTP3_240723_QA.pdf",
+    "https://www.fool.com/earnings/call-transcripts/2026/04/21/teradyne-ter-q4-2025-earnings-transcript/",
+    "https://futurumgroup.com/insights/teradyne-q4-fy-2025-shifts-the-narrative-to-data-center-and-physical-ai/"
+   ]
+  },
+  {
+   "claim": "\"ficonTEC 是唯一做得特别好的\"不成立为垄断表述:成立部分——唯一 assembly+test 全流程覆盖、首发双面 300mm 电光晶圆测试(WLT-D2,首个可测 COUPE 晶圆);不成立部分——ASMPT AMICRA 贴装精度更高(±0.2µm@3σ)且被普遍认为是 TSMC 主力,probe 端 FormFactor 独立成军,ATE/光仪器被 Teradyne(Photon 100+Quantifi)与 Advantest 把持;\"60% 整线份额\"为股吧传言、无第三方份额数据",
+   "verdict": "nuanced",
+   "evidence": "断言主体成立,两处需修正措辞。【已证实】(1) WLT-D2:ficonTEC 官网与 PIC Magazine 确认为业界首个双面 300mm 电光晶圆测试机(顶面电测+底面光测、50nm 对准精度、槽式晶圆卡盘+垂直 FAU 探针),明确针对 TSMC COUPE/3D-CPO 场景——\"首发+首个可测 COUPE\"成立;且 ficonTEC 官方新闻稿自我定位为 \"complement existing ATE\"(补充而非替代 ATE),直接印证\"被 ATE 厂商挤成机械/光学分系统供应商\"的风险框架有公司官方口径背书。(2) ASMPT AMICRA NANO:官方材料确认业界首个 <±0.2µm@3σ 贴装精度,面向 CPO/硅光——贴装精度高于 ficonTEC 成立。(3) Teradyne:IR 与 SEC 10-Q 确认 2025-05-31 以 1.272 亿美元完成收购 Quantifi Photonics;Photon 100 基于 UltraFLEXplus 覆盖晶圆级→光引擎→CPO 模块测试——\"内化光仪器、把持 ATE\"成立。(4) FormFactor 独立成军成立,且 2024-11 与 Advantest 官方宣布战略合作(Velox/Pharos/Apollo + V93000 组成硅光 HVM 测试单元)——Advantest 的光电测试布局正是借道 FormFactor,ATE 双巨头格局成立。(5) \"60% 整线份额\":中文检索仅命中雪球、东方财富财富号等散户自媒体,且数字自相矛盾(800G 封装设备 >80% vs OCS 环节 20-30%),无任何第三方研究或 IR 口径——\"股吧传言、无第三方数据\"成立。【需修正】(a) \"唯一 assembly+test 全流程覆盖\"是 ficonTEC 自身营销定位,未获第三方验证其\"唯一\"性(MRSI 等亦做光子贴装),宜改为\"少数具备贴装+测试一体化能力的厂商之一\";(b) \"AMICRA 被普遍认为是 TSMC 主力\"仅为行业媒体推断,ASMPT 官方材料从未点名 TSMC,应表述为\"行业普遍报道但无官方确认\"。正确表述:ficonTEC 在双面 300mm 电光晶圆测试上有明确的工序级先发优势(WLT-D2,官方定位为现有 ATE 的补充),但光电封测各环节分别由 ASMPT AMICRA(超高精度贴装,±0.2µm@3σ)、FormFactor+Advantest(探针台+V93000 测试单元)、Teradyne(Photon 100+Quantifi,晶圆到模块全覆盖)占据,不存在环节级垄断;任何具体份额数字(60%/80%)均无可信第三方来源。",
+   "sources": [
+    "https://www.ficontec.com/electro-optical-wafer-level-tester-double-sided/",
+    "https://www.ficontec.com/ficontec-releases-innovative-wafer-level-test-cell-to-complement-existing-ate/",
+    "https://picmagazine.net/article/122438/Unlocking_3D-CPO_The_industry%E2%80%99s_first_double-sided_electro-optical_wafer_tester",
+    "https://semi.asmpt.com/en/products/ap/ultra-high-precision-die-bonding/amicra-nano/",
+    "https://www.semiconductor-today.com/news_items/2024/nov/asmpt-201124.shtml",
+    "https://investors.teradyne.com/news-events/press-releases/detail/10/teradyne-to-acquire-quantifi-photonics",
+    "https://investors.teradyne.com/news-events/press-releases/detail/436/teradyne-introduces-photon-100",
+    "https://www.sec.gov/Archives/edgar/data/0000097210/000119312526201058/ter-20260329.htm",
+    "https://investors.formfactor.com/news-releases/news-release-details/formfactor-and-advantest-partner-silicon-photonics-wafer-level",
+    "https://xueqiu.com/5900990282/353693890",
+    "https://caifuhao.eastmoney.com/news/20251127021651797938760"
+   ]
+  },
+  {
+   "claim": "CPO/SiPh 测试设备市场 2026 年仅约 $100M、中期(≈2028-30)$300-700M/年(Teradyne 管理层官方口径),相对 2025 SoC ATE $6.9B 是 1.5%-10% 量级期权;Yole $8.1B(2030)是器件口径不能当设备市场引用",
+   "verdict": "nuanced",
+   "evidence": "核实结果:大方向成立,但有三处需要修正/加注。\n\n【确认的部分】\n1) Teradyne 官方口径确认:Q1 2026 财报电话会(2026-04-29)CEO Greg Smith 原话 \"This year, we're probably looking at silicon photonics right around 100-ish, maybe a little bit less, maybe a little bit more\",并给出 midterm \"$300 million to $700 million per year\";时间框架与 ≈2028-30 一致(管理层称 scale-out networking 主要在 2027 部署、scale-up 在 2028-2029 更大规模 ramp)。$100M/$300-700M 两个数字均为真实管理层口径,非转述失真。\n2) Yole 口径确认:$8.1B by 2030 出自 Yole \"Co-Packaged Optics for Data Centers 2025\" 报告,是 CPO 市场(器件/模组收入,2024 年基数 $46M、CAGR 137%),确实不是测试设备市场,断言中\"不能当设备口径引用\"的警示正确。\n\n【需要修正/加注的部分】\n3) $100M 更像是 Teradyne 自身 2026 SiPh 收入展望(\"we're probably looking at\"),而非全市场规模;同一电话会中 Smith 称与竞争对手(Advantest)份额\"quite balanced\"。若 $100M 是 Teradyne 收入且双寡头对半分,2026 年 CPO/SiPh 生产 ATE 市场可能接近 $150-200M,即近端分子可能低估约 2 倍。不过 $300-700M/yr midterm 表述在电话会中是作为机会/市场量级给出的,期权量级(相对 SoC ATE 约 5-10%)结论不变。\n4) 分母 $6.9B(2025 SoC ATE)未能在官方材料中精确核实:Teradyne Q4 2025 电话会给出的是 2025 全部 ATE TAM ≈$9B(SoC+Memory,Memory 2025 创纪录),中期 ATE TAM $12-14B;扣除 Memory 后 SoC 约 $6.5-7B,$6.9B 数量级合理但应标注为估算而非官方精确数。1.5%-10% 的比值算术自洽(100/6900≈1.45%,700/6900≈10.1%)。\n5) 反例检验(口径陷阱):第三方(GM Insights)\"Silicon Photonics Test Equipment Market\" 估 2025 年已达 $610M、2035 年 $2B——远大于 Teradyne 口径,但其范围涵盖实验室/光学 T&M 仪器(Keysight/EXFO 类)等广义光测试,不是 CPO 生产 ATE 插入点口径。引用时必须写明 Teradyne 数字仅指 SiPh/CPO 量产 ATE;若有人拿广义\"硅光测试设备市场\"数字反驳,属口径不同而非事实矛盾。\n\n【建议的正确表述】\n\"Teradyne 管理层(2026Q1 电话会)预计其 2026 年硅光测试收入约 $100M 上下(份额与 Advantest 大致均衡,隐含全市场或达 ~$150-200M),中期(scale-up 2028-29 放量后)SiPh/CPO 测试机会 $300-700M/年;相对 2025 年 SoC ATE 约 $6.5-7B(Teradyne 口径 2025 全 ATE TAM ≈$9B 扣 Memory 估算),中期占比约 5-10%,属期权量级。Yole $8.1B(2030)为 CPO 器件/模组收入口径(2024 基数 $46M、CAGR 137%),不可与测试设备市场混用;第三方广义'硅光测试设备'口径(含实验室 T&M)2025 已 ~$600M,引用时需注明口径差异。\"\n\n结论对\"分母锚\"的影响:实际生产 ATE 市场并未显著大于断言,双寡头 CPO 期权叙事的量级判断基本站得住;唯一上修风险是 $100M 若为 Teradyne 单家收入,则近端市场约 2 倍,但仍在\"期权\"量级,不足以单独支撑重估。",
+   "sources": [
+    "https://www.fool.com/earnings/call-transcripts/2026/04/29/teradyne-ter-q1-2026-earnings-transcript/",
+    "https://www.yolegroup.com/product/report/co-packaged-optics-2025/",
+    "https://www.yolegroup.com/press-release/co-packaged-optics-powering-the-next-wave-of-ai-infrastructures/",
+    "https://www.theglobeandmail.com/investing/markets/stocks/TER/pressreleases/1429430/teradyne-ter-q4-2025-earnings-transcript/",
+    "https://futurumgroup.com/insights/teradyne-q4-fy-2025-shifts-the-narrative-to-data-center-and-physical-ai/",
+    "https://www.gminsights.com/industry-analysis/silicon-photonics-test-equipment-market"
+   ]
+  },
+  {
+   "claim": "ficonTEC 业绩承诺首年即脱轨：2025 实际扣非净利 -€21.71万 vs 当年预测 €1,078.4万（三年累计承诺 ≥€5,814.5万），兑现全押 2026-27（在手订单 ¥11.05亿 + 2026 年 1-4 月新增 >¥10亿 + 台湾 OEM/ODM 解产能瓶颈）",
+   "verdict": "nuanced",
+   "evidence": "核心数字大体成立，但一处关键细节查无实据、一处框架表述过强：\n\n【核实为真】(1) 2025 年 ficonTEC 实际扣非净利润为亏损 21.71 万欧元（约合人民币 -175.8 万元），多个财经媒体援引罗博特科 2025 年年报确认。(2) 三年（2025-2027）累计扣非净利润承诺 ≥5,814.50 万欧元（约合 4.5 亿元人民币），由实控人戴军现金补偿兜底，与重组报告书一致。(3) 截至 2025 年年报披露日，光电子及半导体业务（主要为 ficonTEC）在手订单约 11.05 亿元。(4) 2026 年 1-4 月新增光电子/半导体重大订单合计约 10.21 亿元（含美股客户 F 硅光耦合设备 6 亿元 + 追加 2.46 亿元、瑞士客户 C 的 OCS 整线约 6,308 万元），\">¥10亿\" 成立。(5) 2026 年预测净利润约 2,038 万欧元（≈2,037.5 万欧元），与断言中的证伪阈值吻合。\n\n【未能核实】(1) 2025 年单年预测 €1,078.4 万：检索到的公开报道只给三年累计 5,814.5 万欧元和 2026 年约 2,038 万欧元，2025 年单年 1,078.4 万欧元未在可及来源中直接出现（数量级上与累计数减 2026/2027 预测自洽，可能出自评估报告分年表，需查重组报告书原文核对）。(2) \"台湾 OEM/ODM 解产能瓶颈\"：公开披露的产能扩张路径是德国、爱沙尼亚、中国（苏州）三地 + 新增基地，检索范围内未见任何\"台湾 OEM/ODM\"表述，此点存疑或来自非公开渠道。\n\n【框架修正】承诺按三年累计考核、期末（2027 年报后）一次性结算补偿，2025 年单年亏损不构成违约触发事件；同理\"2026 年分部利润不达 €2,037.5 万即证伪整条叙事\"过强——2026 年是评估预测数而非单年承诺线，法律上只要 2026+2027 合计补足约 5,836 万欧元缺口即达标（尽管 2025 年亏损后两年需完成累计数的 100%+，\"兑现全押 2026-27\"的方向判断成立）。\n\n【正确表述建议】\"ficonTEC 2025 年实际扣非净利 -€21.71 万，远低于评估预测（三年累计承诺 ≥€5,814.5 万、2026 年预测约 €2,038 万），承诺兑现须由 2026-27 两年完成全部累计数；支撑证据为年报披露在手订单约 ¥11.05 亿及 2026 年 1-4 月新增订单约 ¥10.21 亿；产能扩张公开口径为德国/爱沙尼亚/苏州三地，'台湾 OEM/ODM'未见公开披露；承诺为累计考核，2026 单年不达 €2,037.5 万不直接触发补偿，但会大幅提高 2027 年达标难度并冲击 CPO 收入转化叙事。\"",
+   "sources": [
+    "https://finance.ifeng.com/c/8sD1BS0gzBe",
+    "http://www.eeo.com.cn/2026/0504/864150.shtml",
+    "https://fiber.ofweek.com/2026-05/ART-8100-2100-30687513.html",
+    "http://notice.10jqka.com.cn/api/pdf/23f62cbc7b9c35c.pdf",
+    "https://file.finance.qq.com/finance/hs/pdf/2025/04/09/1223045659.PDF",
+    "https://www.sfccn.com/2026/5-20/0MMDE0MDdfMjE0NjE0MA.html",
+    "https://caifuhao.eastmoney.com/news/20260117164212832324300"
+   ]
+  },
+  {
+   "claim": "Wafer prober 环节:TEL+Accretech 双寡头合计约 8 成以上——TEL CY2025 份额 38%(TechInsights 口径,TEL 决算资料转引)、Accretech 约 40-50% 居第一(精确%未公开);auto prober 无权威公开 TAM,CY2025 窄口径 ≈$1.3-1.5B 系反推 estimate,三方 $1.9-2.0B 为混入 probe station 的宽口径。",
+   "verdict": "nuanced",
+   "evidence": "核心可验证部分全部成立,但 Accretech 精确份额与\"合计≥80%\"无法从一手材料闭环。(1) 已确认(一手来源):TEL FY2026 Q4 决算说明会资料(2026-04-30)第 28 页 \"World Market Share of Major Products (CY2025)\" 明确标注 Wafer Prober 38%,脚注原文 \"SPE (Wafer Prober): Auto Probers, TechInsights Inc., April 2026\"——即 38% 是 TechInsights 的 auto prober 窄口径、CY2025、TEL 官方转引,断言此条完全准确;且脚注证实 TechInsights 口径仅含 auto probers。(2) 已确认(口径混淆):Mordor Intelligence 报告 2026 年 wafer prober 市场 $2.03B(2025 约 $1.9B 量级),其范围明确\"包含 manual、semi-automatic 与 fully automatic prober\",而 fully automatic 仅占 2025 年产品结构的 63.5%——反推 auto prober 窄口径约 $1.2-1.3B,与断言的 $1.3-1.5B 反推区间大体吻合(断言区间略偏高但同一量级);\"把 $1.9-2.0B 宽口径当窄口径实绩会高估约 4 成\"的量化警告基本成立(1.9/1.3≈1.46)。TechInsights/TEL 均未公开 auto prober 市场绝对金额,\"无权威公开 TAM\"成立。(3) 未能闭环(nuanced 主因):Accretech 官网/IR 仅称 prober 全球第一(\"world's leading prober manufacturer\"、\"largest global market share\" in test/back-end),从未公布精确百分比——\"居第一、精确%未公开\"属实,但\"40-50%\"本身无官方或权威三方公开数字支撑,属市场惯用估计;由此\"双寡头合计≥80%\"仅在 Accretech≥42% 时成立,算术上高度可能(第一名份额>38% 则合计已>76%)但无一手证据坐实\"8 成以上\",严谨表述应为\"合计约 75-85%,大概率过 8 成\"。正确表述:TEL CY2025 auto prober 份额 38%(TechInsights,TEL FY26Q4 决算资料转引,一手确认);Accretech 居第一但精确份额未公开,40-50% 为估计;双寡头合计约 75-85%;auto prober 窄口径 TAM 无权威公开数,反推约 $1.2-1.5B,三方 $1.9-2.0B 口径含 manual/semi-auto probe station,不可直接当窄口径实绩使用。",
+   "sources": [
+    "https://www.tel.com/ir/library/report/pjuomj00000000tf-att/fy26q4presentations-e.pdf",
+    "https://www.mordorintelligence.com/industry-reports/wafer-prober-market",
+    "https://www.accretech.com/en/company/",
+    "https://www.accretech.com/en/company/business.html"
+   ]
+  },
+  {
+   "claim": "Probe card 合并断言:公司互引 Yole《Semiconductor Test Consumables》(Q3 2024) 而非 TechInsights;TAM 2019 $1,783M → 2024 $2,443M → 2028E $3,133M,logic 2024 $1,638M(MEMS $937M)、memory $805M;份额:TP MEMS logic SAM 60%、logic 34%、总盘~16%,FF 总盘~22%,前三家(FF/TP/MJC)~60%",
+   "verdict": "nuanced",
+   "evidence": "【确认的部分——全部 TAM 数字与大部分份额,直接对上 Technoprobe CMD 2025 官方 PDF(2025-04-14,逐页读取)】(1) 来源标注:市场页脚注原文为 \"Source: Yole – Semiconductor Test Consumables market monitor Q3 2024 (Sept.2024) – rounded figures\",Technoprobe 确实引 Yole 而非 TechInsights。(2) TAM:分段图精确标出 2019 $1,783M → 2024 $2,443M(CAGR +6.5%)→ 2028E $3,133M(CAGR +6.2%);2024 logic $1,638M / memory $805M(2019: 1,151/632);Logic by technology 页:MEMS 2024 $937M(2019 $557M,CAGR +10.9%),另有 Vertical 286、Cantilever 222、Others 194。(3) TP 份额:开篇即标 \"60% 2024 Market Share\"(限定 MEMS Probe Cards for logic);evolution 页 SAM(MEMS Logic)$937M、TP 2024 收入 $562M(注明不含 Final Test $28M)→ 562/937≈60%✓;562/1,638≈34% logic 份额✓。(4) 前三家~60%:Yole 报告及第三方(Mordor 等)corroborate FF/TP/MJC 合计约 60%、FF+TP 合计 >38%。【需修正的两处】(A) \"公司互引 Yole 而非 TechInsights\" 只对 Technoprobe 成立;FormFactor 官方新闻稿明确引 TechInsights(\"ranked as the world's number one supplier of semiconductor probe cards for 2021 by market research firm TechInsights\",2022-07-08;并连续 11 年获 TechInsights 客户满意度奖至 2024)。即任务预设\"FF/TP 互引 TechInsights\"对 FF 一半成立、对 TP 不成立——断言把它全盘否定同样过头,正确表述:TP 引 Yole,FF 的排名口径引 TechInsights(ex-VLSI Research)。(B) \"TP 总盘~16%\" 与断言自身引用的 Yole 口径内部矛盾:按 CMD 数字 562/2,443≈23%,非 16%;~16% 只在更大的第三方分母/排名口径下出现(FF+TP>38%、FF~22% ⇒ TP~16%),FF 用其 FY2024 probe-card 收入(~$625M)除 Yole $2,443M 则约 26% 而非 22%。因此份额确需分口径,但正确的三档是:MEMS logic SAM 60% / logic 34% / Yole 总盘~23%(而非 16%);\"60% vs 16% 相差 4 倍\"的警示方向正确、幅度应为 60% vs ~23%(约 2.6 倍)。核心结论:TAM 地基(1,783/2,443/3,133、1,638/937/805)与 Yole Q3 2024 出处完全属实;\"而非 TechInsights\"的排他表述及\"总盘~16%\"两处口径错误。",
+   "sources": [
+    "https://www.technoprobe.com/wp-content/uploads/2025/04/Technoprobe-CMD2025.pdf",
+    "https://www.formfactor.com/press-release/formfactor-ranked-as-1-supplier-of-semiconductor-probe-cards-2/",
+    "https://www.yolegroup.com/product/quarterly-monitor/semiconductor-test-consumables---probe-cards-market-monitor/",
+    "https://www.mordorintelligence.com/industry-reports/probe-card-market"
+   ]
+  },
+  {
+   "claim": "Micro Control Company 未被 Advantest 收购(2023-2025 无交易记录,仍为明尼阿波利斯独立私企);ADV burn-in 资产实为 CREA(2022)+ Shin Puu(2023, burn-in board PCB)+ Astronics ATS;KYEC 的 1500W 主力平台 MCC HPB6 来自独立供应商",
+   "verdict": "nuanced",
+   "evidence": "核心命题成立,但两处细节不实。(1) 确认:检索无任何 Advantest 收购 Micro Control Company 的记录;Advantest 官方新闻(2022-2023)及新闻稿仅列 CREA、Shin Puu 等交易,MCC 官网仍以独立公司形象运营,地址为 7956 Main Street NE, Minneapolis, MN 55432,Crunchbase 亦列为私企——把 MCC 划入 ADV 资产确属错误,burn-in 高功率炉环节存在独立美系第三方(MCC)这一竞争格局判断正确。(2) 确认:Advantest 2022-06-01 宣布、2022-08-10 完成收购意大利 CREA(功率半导体测试设备);2023-01-31 宣布、2023-04-28 完成收购台湾 Shin Puu(PCB 制造)。(3) 细节偏差 a:官方口径中 CREA 是\"power semiconductor test equipment\"(含 SiC/GaN 功率器件测试),Shin Puu 被定位为配合 R&D Altanova 的\"high-end test boards\"PCB 产能,Astronics ATS(2019)是 system-level test 业务——三者统称\"burn-in 资产\"是宽泛表述,严格说是功率测试/SLT/测试板资产,与 burn-in 相邻但非等同。(4) 细节偏差 b(实质错误):MCC 官方 HPB-6 产品页明确写\"Handle devices up to 1000 watts\",无 1500W 之说;且 KYEC 官网 high-power burn-in 页未提及 MCC 或 HPB6(仅泛称\"Monitor Burn-In Oven\"),\"KYEC 主力平台=HPB6\"未能从官方来源证实。正确表述建议:\"MCC 为明尼阿波利斯独立私营 burn-in 系统厂商,未被 Advantest 收购;Advantest 通过 CREA(2022,功率半导体测试)、Shin Puu(2023,测试板 PCB)、Astronics ATS(2019,系统级测试)延伸至 burn-in 相邻环节;MCC HPB-6 官方规格为最高 1000W/器件,KYEC 是否以其为主力平台需第三方渠道证据支持。\"",
+   "sources": [
+    "https://www.advantest.com/en/news/2022/20220601.html",
+    "https://www.advantest.com/en/news/2022/20220812.html",
+    "https://www.advantest.com/en/news/2023/20230131.html",
+    "https://www.advantest.com/en/news/2023/20230428.html",
+    "https://www.microcontrol.com/high-power-burn-in-systems/hpb-6/",
+    "https://www.microcontrol.com/about-us/",
+    "https://www.kyec.com.tw/en/Service/high-power-burn-in",
+    "https://www.eenewseurope.com/en/advantest-acquires-italian-power-semiconductor-test-house-crea/"
+   ]
+  }
+ ]
+};
+const $=q=>document.querySelector(q);
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const Y=DATA.years;
+$("#tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+ document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
+ document.querySelectorAll(".tabpane").forEach(p=>p.classList.toggle("on",p.id==="p-"+b.dataset.t));});
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const tip=$("#tip");
+/* ---------- generic charts ---------- */
+function chart(el,title,sub,series,opts={}){
+  const W=470,H=215,P={l:42,r:14,t:14,b:26};
+  const xs=opts.xs||Y;
+  const ymax=(opts.ymax||Math.max(...series.flatMap(s=>s.v.filter(v=>v!=null)))*1.1)||1;
+  const x=i=>P.l+i*(W-P.l-P.r)/(xs.length-1), y=v=>H-P.b-(v/ymax)*(H-P.t-P.b);
+  let g="";
+  for(let k=0;k<=4;k++){const v=ymax*k/4,yy=y(v);
+   g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${yy}" y2="${yy}" stroke="var(--line)"/>`+
+      `<text x="${P.l-6}" y="${yy+4}" text-anchor="end" font-size="10" fill="var(--ink3)">${Math.round(v*10)/10}</text>`;}
+  xs.forEach((yr,i)=>{if(xs.length<=6||i%2===0)g+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--ink3)">${yr}</text>`;});
+  if(opts.stack){let base=xs.map(()=>0);
+    series.forEach(s=>{const top=s.v.map((v,i)=>base[i]+(v||0));
+      g+=`<polygon points="${top.map((v,i)=>`${x(i)},${y(v)}`).join(" ")} ${base.map((v,i)=>`${x(i)},${y(v)}`).reverse().join(" ")}" fill="${s.c}" opacity=".78" stroke="var(--panel)" stroke-width="2"/>`;
+      base=top;});
+  }else{
+    series.forEach(s=>{
+      const pts=s.v.map((v,i)=>v==null?null:`${x(i)},${y(v)}`).filter(Boolean).join(" ");
+      g+=`<polyline points="${pts}" fill="none" stroke="${s.c}" stroke-width="2" ${s.dash?'stroke-dasharray="5 4"':''}/>`;
+      let li=s.v.length-1; while(li>0&&s.v[li]==null)li--;
+      g+=`<circle cx="${x(li)}" cy="${y(s.v[li])}" r="3.5" fill="${s.c}" stroke="var(--panel)" stroke-width="1.5"/>`+
+         `<text x="${x(li)-4}" y="${y(s.v[li])-7}" text-anchor="end" font-size="10.5" font-weight="700" fill="var(--ink)">${s.v[li]}</text>`;});
+  }
+  const card=document.createElement("div");card.className="card";
+  card.innerHTML=`<h3>${title}</h3><div class="sub">${sub}</div>`+
+   (series.length>1?`<div class="legend">${series.map(s=>`<span class="it" style="--c:${s.c}">${s.n}</span>`).join("")}</div>`:"")+
+   `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${g}</svg>`;
+  el.appendChild(card);
+  const svg=card.querySelector("svg");
+  svg.addEventListener("mousemove",ev=>{const r=svg.getBoundingClientRect();
+    const mx=(ev.clientX-r.left)*(W/r.width);
+    const i=Math.max(0,Math.min(xs.length-1,Math.round((mx-P.l)/((W-P.l-P.r)/(xs.length-1)))));
+    tip.style.display="block";tip.style.left=(ev.clientX+14)+"px";tip.style.top=(ev.clientY+10)+"px";
+    tip.innerHTML=`<b>${xs[i]}</b><br>`+series.map(s=>s.v[i]==null?"":`${s.n}: ${s.v[i]}`).filter(Boolean).join("<br>");});
+  svg.addEventListener("mouseleave",()=>tip.style.display="none");
+  return card;
+}
+/* ---------- flow ---------- */
+const T=DATA.tam, tk=k=>T.find(t=>t.key===k);
+const FLOW=[
+ ["CP / Wafer Sort","SoC·Memory ATE + Prober + Probe Card","tester $9.0B + prober ~$1.4B + 卡 ~$2.8B","soc"],
+ ["KGD/KGSD 加测","HBM WLBI · die级(HA1200)· interposer","含于 memory/burn-in 口径","mem"],
+ ["封装(CoWoS等)","非测试环节;良率决定上下游测试强度","—","probecard"],
+ ["Burn-in","炉+board+WLBI(AEHR)· 韩系HBM炉","~$0.85B(2025E)","burnin"],
+ ["Final Test","ATE + Handler/ATC + Socket","handler ~$1.6B + socket ~$2.2B","handler"],
+ ["SLT","AI 永久 100% 全检 · Chroma/AEM/Titan","~$1.8B(2025E,低置信)","slt"],
+ ["CPO 光测","wafer级电光 + OE组装测试(贯穿)","2026 ~$0.1B(期权)","cpo"],
+ ["模组/出货","模组测试 · ODM rack 级 burn-in","多为自建,商售口径小",null],
+];
+$("#flow").innerHTML=FLOW.map(f=>`<div class="stage" ${f[3]?`data-seg="${f[3]}"`:""}><h4>${f[0]}</h4><div class="eq">${f[1]}</div><div class="tam">${f[2]}</div></div>`).join("");
+$("#flow").addEventListener("click",e=>{const s=e.target.closest(".stage");if(!s||!s.dataset.seg)return;
+ document.querySelector('#tabs button[data-t="seg"]').click();
+ const el=document.getElementById("seg-"+s.dataset.seg);if(el){el.open=true;el.scrollIntoView({behavior:"smooth"});}});
+/* ownership map */
+$("#ownmap").innerHTML=`<tr><th>环节</th><th>是否在 "SoC/Memory ATE TAM"($9-12B 口径)内</th><th>主要受益 P&L</th></tr>`+[
+ ["ATE tester 本体","✅ 是(唯一在口径内的环节)","Advantest / Teradyne / 长川·华峰(国产)"],
+ ["Prober / Probe Card","❌ 否(独立市场)","TEL·Accretech / FormFactor·Technoprobe·MJC"],
+ ["Handler / Socket","❌ 否","Cohu·鸿劲·Techwing·Advantest(M48) / Leeno·ISC·Essai(ADV)"],
+ ["Burn-in","❌ 否","韩系(UniTest/DI/YC)·AEHR·MCC·Chroma;KYEC 自制=市场负项"],
+ ["SLT","❌ 否(Titan 收入归 TER 但不在 ATE TAM)","Chroma(NVIDIA独供)·AEM·Teradyne IST·Advantest(Astronics)"],
+ ["CPO 光测","❌ 否(新生口径)","Teradyne+Quantifi vs Advantest+FormFactor/OpenLight vs ficonTEC"],
+].map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("");
+/* ---------- TAM tab ---------- */
+const GRP=[["ATE·SoC",["soc"],css("--s1")],["ATE·Memory",["mem"],css("--s2")],["Wafer接口(Prober+卡)",["prober","probecard"],css("--s3")],["FT接口(Handler+Socket)",["handler","socket"],css("--s5")],["可靠性(Burn-in+SLT)",["burnin","slt"],css("--s6")],["CPO光测",["cpo"],css("--s8")]];
+const gv=keys=>Y.map(y=>Math.round(keys.reduce((s,k)=>s+tk(k).vals[y],0)*100)/100);
+chart($("#tamcharts"),"后道测试设备 TAM 堆叠($B)","6 组聚合;2027-30E 模型假设",GRP.map(g=>({n:g[0],v:gv(g[1]),c:g[2]})),{stack:true});
+const tot=Y.map(y=>Math.round(T.reduce((s,t)=>s+t.vals[y],0)*10)/10);
+chart($("#tamcharts"),"合计与牛熊带($B)",`基准合计;牛=×${DATA.bull} 熊=×${DATA.bear}(2026起,可在Excel改)`,[
+ {n:"基准",v:tot,c:css("--acc")},
+ {n:"牛市",v:tot.map((v,i)=>Y[i]>=2026?Math.round(v*DATA.bull*10)/10:null),c:css("--s2"),dash:1},
+ {n:"熊市",v:tot.map((v,i)=>Y[i]>=2026?Math.round(v*DATA.bear*10)/10:null),c:css("--s6"),dash:1}]);
+const BC={actual:"b-actual",guide:"b-guide",broker:"b-est",estimate:"b-est",none:"b-est",model:"b-model"};
+$("#tamtable").innerHTML=`<tr><th>环节($B)</th>${Y.map(y=>`<th>${y}</th>`).join("")}<th style="min-width:340px">口径与来源</th></tr>`+
+ T.map(t=>`<tr><td><b>${esc(t.name)}</b></td>${Y.map(y=>`<td class="num ${BC[t.basis[y]]}">${t.vals[y].toFixed(2)}</td>`).join("")}<td style="font-size:11.5px;color:var(--ink2)">${esc(t.note)}<br><span style="color:var(--ink3)">锚:${esc(t.anchors)}</span></td></tr>`).join("")+
+ `<tr><td><b>合计</b></td>${Y.map(y=>`<td class="num"><b>${T.reduce((s,t)=>s+t.vals[y],0).toFixed(1)}</b></td>`).join("")}<td></td></tr>`+
+ DATA.memo.map(m=>`<tr><td style="font-style:italic">${esc(m.name)}</td>${Y.map(y=>`<td class="num" style="color:var(--ink3)">${m.vals[y]!=null?m.vals[y].toFixed(1):"—"}</td>`).join("")}<td style="font-size:11.5px;color:var(--ink3)">${esc(m.note)}</td></tr>`).join("");
+/* ---------- segments tab ---------- */
+const SEGKEY={0:"soc",1:"mem",2:"prober",3:"probecard",4:"handler",5:"burnin",6:"slt",7:"cpo"};
+const segsEl=$("#segs");
+DATA.research.slice(0,8).forEach((s,si)=>{
+  const key=SEGKEY[si];
+  const d=document.createElement("details");d.id="seg-"+key;
+  d.innerHTML=`<summary>${esc(s.segment)}</summary>
+   <div class="note" style="margin-top:8px"><b>口径:</b>${esc(s.scope)}</div>
+   <div class="grid2"><div class="card" id="mini-${key}"></div>
+   <div class="card"><h3>特征</h3><ul class="cl">${(s.characteristics||[]).map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div></div>
+   <h2 style="font-size:14px">TAM 序列(原文)</h2>
+   <div class="tblwrap"><table><tr><th>年份</th><th>数值</th><th>basis</th><th>Source</th></tr>${(s.tam||[]).map(t=>`<tr><td>${esc(t.year)}</td><td>${esc(t.value)}</td><td><span class="tag ${t.basis==="actual"?"act":t.basis==="guide"?"gd":"assume"}">${esc(t.basis)}</span></td><td style="font-size:11.5px;color:var(--ink2)">${esc(t.source)}</td></tr>`).join("")}</table></div>
+   <h2 style="font-size:14px">玩家与份额</h2>
+   <div class="tblwrap"><table><tr><th>玩家</th><th>份额(口径)</th><th>特点</th><th>Source</th></tr>${(s.players||[]).map(p=>`<tr><td><b>${esc(p.name)}</b></td><td>${esc(p.share)}</td><td style="font-size:12px">${esc(p.notes||"")}</td><td style="font-size:11px;color:var(--ink3)">${esc(p.source)}</td></tr>`).join("")}</table></div>
+   <h2 style="font-size:14px">叙事时间线</h2>
+   <div class="tl">${(s.timeline||[]).map(t=>`<div class="ev"><span class="when">${esc(t.when)}</span><div class="what">${esc(t.what)}</div><div class="s">${esc(t.source)}</div></div>`).join("")}</div>
+   ${(s.forward&&s.forward.length)?`<h2 style="font-size:14px">前瞻</h2><ul class="cl">${s.forward.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>`:""}`;
+  segsEl.appendChild(d);
+  if(key){const t=tk(key);
+    chart($("#mini-"+key),`${t.name} TAM($B)`,"绿点前=实绩/指引,虚线段=模型假设",[{n:"TAM",v:Y.map(y=>t.vals[y]),c:css("--acc")}]);}
+});
+/* ---------- companies ---------- */
+const COS=[
+ ["Advantest(6857.T)","SoC·Memory ATE / Handler / Socket(Essai)/ SLT+BI(Astronics·CREA·Shin Puu)/ ACS云","FY22 ¥560.2bn → FY23 ¥486bn(-13%,OP -51%)→ FY24 ¥779.7bn(+60%)→ FY25 ¥1,128.6bn(+45%);FY26 指引 ¥1,420bn。SoC 份额 66%、Memory 61%(CY25);NVIDIA 首成第一大客户(集团 21.6%);SoC 产能扩至 1 万台/年(CY28-29)。垂直整合路线:tester+socket+interface+SLT 全自营"],
+ ["Teradyne(TER)","SoC·Memory ATE(Magnum 7H)/ SLT(Titan HP)/ 光测(Quantifi+Photon 100)/ Robotics","Semi Test:2022 $2,350.6M → 2023 $1,957.2M → 2024 $2,123.9M → 2025 $2,523.7M;compute 占 SoC 收入 2023 ~10% → 2025 ~50%;VIP(自研ASIC)测试份额自称 ~50%;Q1-26 首获 merchant GPU 量产订单(~$50M)= 双寡头格局 2019 以来第一道裂缝;轻资产路线:卖掉 DIS 给 Technoprobe 并持股 ~10%;Robotics 2025 $308M(重组,carve-out 传闻=catalyst)"],
+ ["Cohu(COHU)","Handler(Eclipse/T-Core ATC)/ Socket / 中低端 ATE(Diamondx)","2023 $636M(-21.7%),装机利用率 71%(2023末)——车规/工业敞口是重挫主因;2025-09 Eclipse 获『下一代 AI 计算器件』选用(客户未具名)= AI 转型首个实锤;handler+socket 双料 leader 自称,老口径合并份额 ~37%(低置信)"],
+ ["AEHR(AEHR)","Wafer-Level Burn-in(FOX-XP)/ Package BI(Sonoma,收购 Incal)","WLBI 细分事实龙头但体量小:FY2026 指引仅 $45-50M;叙事三级跳:SiC 十倍股(2022-23)→ ON 砍单崩盘(2024)→ AI 转型(hyperscaler PLBI 量产 $41M 订单 + AI processor WLBI + 2026-03 光通信龙头 FOX-XP 首单);系统 ASP $5-6M、订单套餐 $10-20M;高波动期权型标的"],
+ ["FormFactor(FORM)","Probe Card 全球 #1 / Systems(工程 prober)/ SiPh 测试(Advantest 联盟)","FY2025 $785.0M:probe card $637.9M(F&L $369.9M + DRAM含HBM $247.4M + Flash $20.6M)+ Systems $147.1M;GM 40.5%;HBM 卡是增长引擎、F&L 因 PC/Intel 疲软 -3%;总盘份额 ~22-26%;CM300xi-SiPh+Pharos 光学 probe = CPO 卡位(对准引擎用 PI 的 FMPA)"],
+ ["Technoprobe(TPRO.MI)","Probe Card #2(MEMS logic 龙头)/ FT 接口(DIS,购自 Teradyne)","FY2025 €628.4M、GM 44.4%(高于 FF);自报 MEMS logic probe card 份额 60%(SAM $937M)、logic 总盘 34%;NVIDIA/AMD 关键供应商,AI 收入占比 ~38%;Teradyne 持股 ~10% = 生态绑定;2028E HBM 卡 TAM ~$600M(UBS)是下一战场"],
+ ["Tokyo Seimitsu / Accretech(7729.T)","Wafer Prober(多数口径全球 #1)/ 量测 / 切割研磨","Prober 占 SPE 收入 6-7 成且上行;FY2027/3 SPE 指引 ¥141.5B;4Q FY26/3 SPE OPM 26%(高温控高附加机型);份额 ~40-50%(TEL 38%,TechInsights CY25);HPC 受注 logic 5.5成/HBM 4成;高精度温控是对中国国产的壁垒(公司 2026-05 Q&A)"],
+ ["AEM(AWX.SI)","SLT 整线/Handler(Intel HDMT 生态核心)","FY2025 S$399.3M → FY2026 指引 S$550-600M(+38-50%);2002 年起 compute SLT 装机 >1,000 台;新 fabless AI/HPC 客户(NDA,市场猜 AMD)FY26 将成第一大客户;自报 SAM 今日 $3B → 2028 $4.5B(宽口径含 handler/BI/耗材)"],
+ ["鸿劲精密 AIT(7769.TW)","AI Handler + 主动温控 ATC + 水冷板","2025 营收 NT$302.7亿(+166%)、GM 56.5%;结构:handler 42%+ATC 33%+水冷板 23%;AI/HPC 占接单 ~70%,直接客户 NVIDIA/AMD/Google/AWS/Broadcom/Apple;2025-11-27 上市(台股史上最高承销价 NT$1,495,首日 +100.7%);SoC 测试 handler 自估份额 ~70%(口径分歧:媒体 32%)"],
+ ["ficonTEC(罗博特科 300757.SZ 全资)","CPO/光子 assembly+test 一体(唯一全流程)","体量锚:2023 营收 ¥3.82亿;业绩承诺首年脱轨:2025 扣非 -€21.7万 vs 承诺 €1,078万(三年累计 ≥€5,814万,实控人现金兜底);但订单爆发:在手 ¥11.05亿 + 2026 年 1-4 月新增 >¥10亿(含纳斯达克客户 ~¥6亿硅光耦合大单);2026-05 签台湾 OEM/ODM 解产能瓶颈;2026-03 成立 ficonTEST 事业部、称正为 TSMC COUPE 交付双面方案;罗博特科 2025 整体:营收 ¥9.5亿(-14%)、归母 -¥6,644万、新增商誉 ¥9.87亿;港股 IPO 申请中"],
+ ["Chroma 致茂(2360.TW)","SLT(NVIDIA 独供口径)+ Burn-in","NVIDIA GPU SLT 100% 全检独家供应商(合作 15 年);最先进机台 4m/2t/32 颗并测/每颗独立温控 -70~150°C;法人预估 SLT handler 业务 2026E +200%、2027E +30%;2025Q4 营收 NT$85.8亿(+42%)、GM ~60%"],
+ ["韩系 Burn-in/HBM 四家 + Techwing + Leeno","HBM burn-in/wafer test(SK hynix·Samsung 链)/ Memory handler / Socket","SK hynix HBM4 burn-in tester 150-200 台订单由 UniTest(₩29.1B 合同)/DI/YC 分食;DI 子公司已破 Advantest 在 SK hynix wafer tester 的垄断;YC 首家本土向 Samsung 供 HBM wafer tester(₩101.7B);Techwing 自称 memory handler 全球 #1、Cube Prober 切 HBM die 级检测;Leeno FY2025 ₩372.5B(+35%)、OPM ~50%(socket 耗材属性)"],
+];
+$("#cos").innerHTML=COS.map(c=>`<div class="card"><h3>${esc(c[0])}</h3><div class="sub">${esc(c[1])}</div><div style="font-size:12.5px">${esc(c[2])}</div></div>`).join("");
+/* ---------- CPO tab ---------- */
+const cpoSeg=DATA.research.find(s=>s.segment.indexOf("CPO")>=0);
+$("#cpodiff").innerHTML=(cpoSeg.characteristics||[]).slice(0,6).map((c,i)=>{
+  const t=c.split(":")[0].slice(0,26);
+  return `<div class="card"><h3>${esc(t)}</h3><div style="font-size:12.5px">${esc(c)}</div></div>`;}).join("");
+const scenEl=$("#cposcen");
+chart(scenEl,"CPO 测试设备 TAM 情景($B)","熊=交换机利基;基准=TER 中期带;牛=2028 compute-side 导入(模型假设)",[
+ {n:"牛市",v:[null,null,null,0.06,0.10,0.28,0.55,0.90,1.20],c:css("--s2")},
+ {n:"基准",v:[null,null,null,0.06,0.10,0.20,0.35,0.50,0.60],c:css("--acc")},
+ {n:"熊市",v:[null,null,null,0.06,0.08,0.10,0.12,0.14,0.15],c:css("--s6")}],{ymax:1.3});
+scenEl.insertAdjacentHTML("beforeend",`<div class="card"><h3>情景开关(跟踪变量)</h3><ul class="cl">
+ <li><b>牛市开关:</b>compute-side CPO 是否在 Feynman/Rubin Ultra 世代(≈2028)导入——供应链称『铜退光进』提前五年,NVIDIA 未官方确认;若导入,单颗 PIC 全检 >100s(TrendForce)× LightCounting 2030 ~1亿 ports 的测试强度近似线性放量</li>
+ <li><b>基准:</b>Quantum-X(2026量产)/ Spectrum-X Photonics(2H26)/ Broadcom Davisson 按期爬坡,TSMC COUPE 2H26 量产</li>
+ <li><b>熊市:</b>LPO/LRO(去 DSP 化)反扑 + scale-up 不导入 → 测试停留交换机利基</li>
+ <li><b>订单流向盲点(跟踪优先级最高):</b>光引擎 final test/burn-in 这道 insertion 落在 TSMC 厂内、OSAT 还是 EMS(Fabrinet)——决定 2027-28 设备订单买方结构,目前无一手来源</li></ul></div>`);
+$("#ficon").innerHTML=`<div class="vd"><span class="tag warn">NUANCED(已核查)</span> <b>"ficonTEC 是唯一做得特别好的" —— 成立一半</b>
+ <div class="e"><b>成立:</b>①唯一 assembly+test 全流程玩家(die/fiber attach + 测试一体,这是 CPO『测试组装边界消失』范式下的正确形态);②WLT-D2 = 业界首个双面 300mm 电光晶圆测试机(顶面电测+底面光测、50nm 对准),号称首个能测 TSMC COUPE 晶圆的商用方案;③订单验证:在手 ¥11.05亿 + 2026 年 1-4 月新增 >¥10亿。<br>
+ <b>不成立/要打折:</b>①贴装精度不是第一——ASMPT AMICRA NANO ±0.2µm@3σ 是业界标杆,且被普遍认为是 TSMC 先进封装线主力;MRSI/K&S 也在场;②ficonTEC 官方自我定位是 <i>complement existing ATE</i>(补充而非替代)——在 Teradyne 阵营的联合 cell 里,Photon 100 已把光仪器(Quantifi)内化进自家平台,ficonTEC 有被挤成『机械/光学分系统供应商』的真实风险;③中资全资身份 vs 美系客户/TSMC 生态的地缘折价结构性存在(2025-06 被踢出供应链传闻虽被否认);④业绩承诺首年大幅脱轨(-€21.7万 vs €1,078万),兑现全押 2026-27。<br>
+ <b>竞争地图:</b>测试 cell 两阵营——Teradyne(收购 Quantifi + 绑 ficonTEC)vs Advantest(联盟 FormFactor/CM300xi + OpenLight + Jenoptik);独立:MPI(偏工程机)、Keysight/EXFO(R&D 表征);部件:PI(对准引擎,供 FormFactor/MPI);贴装:AMICRA/MRSI/K&S。2026 市场 ~$100M 且份额 balanced(Teradyne CEO)——现在谈『垄断』为时过早,真正的问题是 2028 放量时 ficonTEC 在每台 cell 里占的价值份额还剩多少。</div></div>`;
+$("#cpotl").innerHTML=(cpoSeg.timeline||[]).map(t=>`<div class="ev"><span class="when">${esc(t.when)}</span><div class="what">${esc(t.what)}</div><div class="s">${esc(t.source)}</div></div>`).join("");
+/* ---------- backtest tab ---------- */
+const btEl=$("#btcharts");
+chart(btEl,"Advantest 对 CY25 SoC TAM 的指引路径($B)","一年内上修 +53%:低估的不是需求,是 test intensity",[
+ {n:"指引中值",v:[4.5,6.0,6.7,6.85,6.9],c:css("--acc")},
+ {n:"最终实绩",v:[6.9,6.9,6.9,6.9,6.9],c:css("--s6"),dash:1}],
+ {xs:["25-04","25-07","25-10","26-01","实绩"],ymax:8});
+chart(btEl,"tester 合计 TAM:峰-谷-新高($B)","官方口径(Advantest);2026E 取指引中值",[
+ {n:"SoC",v:[4.0,3.3,4.1,6.9,9.1,null,null,null,null],c:css("--s1")},
+ {n:"Memory",v:[1.2,1.1,1.9,2.1,2.45,null,null,null,null],c:css("--s2")}]);
+const btSeg=DATA.research[DATA.research.length-1];
+$("#bttl").innerHTML=(btSeg.timeline||[]).map(t=>`<div class="ev"><span class="when">${esc(t.when)}</span><div class="what">${esc(t.what)}</div><div class="s">${esc(t.source)}</div></div>`).join("");
+const VC={confirmed:"ok",nuanced:"warn",refuted:"bad",unverifiable:"warn"};
+$("#vds").innerHTML=DATA.verdicts.map(v=>`<div class="vd"><span class="tag ${VC[v.verdict]}">${esc(v.verdict.toUpperCase())}</span> <b>${esc(v.claim)}</b><div class="e">${esc(v.evidence.slice(0,460))}${v.evidence.length>460?"…(全文见 Excel)":""}</div></div>`).join("");
+</script>
