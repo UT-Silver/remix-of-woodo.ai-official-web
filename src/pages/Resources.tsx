@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FileSpreadsheet, FileText, Presentation, FileArchive, File as FileIcon, Download, Loader2, Settings } from "lucide-react";
+import { FileSpreadsheet, FileText, Presentation, FileArchive, File as FileIcon, Download, Loader2, Settings, Globe, ArrowUpRight } from "lucide-react";
 import ScrollReveal from "../components/ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -20,6 +20,7 @@ type Resource = {
 export const CATEGORIES = ["Reports", "Decks", "Data", "Other"] as const;
 
 const iconFor = (fileType: string, fileName: string) => {
+  if (fileType === "html") return Globe;
   const n = fileName.toLowerCase();
   if (n.endsWith(".xlsx") || n.endsWith(".xls") || n.endsWith(".csv")) return FileSpreadsheet;
   if (n.endsWith(".pdf")) return FileText;
@@ -213,26 +214,34 @@ const Resources = () => {
                       )}
                       <div className="flex items-center justify-between mt-auto pt-4" style={{ borderTop: "0.5px solid #E8E5E0" }}>
                         <div className="text-xs" style={{ color: "#94A3B8" }}>
-                          {formatSize(r.file_size)} · {formatDate(r.created_at)}
+                          {r.file_type === "html" ? "Interactive · Web" : `${formatSize(r.file_size)} · ${formatDate(r.created_at)}`}
                         </div>
-                        <button
-                          onClick={() => handleDownload(r)}
-                          disabled={downloadingId === r.id}
-                          className="inline-flex items-center gap-2 text-sm font-semibold rounded-full transition-all active:scale-[0.97]"
-                          style={{
-                            background: "#22C55E",
-                            color: "#FFFFFF",
-                            padding: "8px 18px",
-                          }}
-                        >
-                          {downloadingId === r.id ? (
-                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                          ) : (
-                            <Download className="w-3.5 h-3.5" />
-                          )}
-                          Download
-                        </button>
+                        {r.file_type === "html" ? (
+                          <Link
+                            to={`/resources/view/${r.id}`}
+                            className="inline-flex items-center gap-2 text-sm font-semibold rounded-full transition-all active:scale-[0.97]"
+                            style={{ background: "#22C55E", color: "#FFFFFF", padding: "8px 18px" }}
+                          >
+                            <ArrowUpRight className="w-3.5 h-3.5" />
+                            Open
+                          </Link>
+                        ) : (
+                          <button
+                            onClick={() => handleDownload(r)}
+                            disabled={downloadingId === r.id}
+                            className="inline-flex items-center gap-2 text-sm font-semibold rounded-full transition-all active:scale-[0.97]"
+                            style={{ background: "#22C55E", color: "#FFFFFF", padding: "8px 18px" }}
+                          >
+                            {downloadingId === r.id ? (
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            ) : (
+                              <Download className="w-3.5 h-3.5" />
+                            )}
+                            Download
+                          </button>
+                        )}
                       </div>
+
                     </div>
                   </ScrollReveal>
                 );

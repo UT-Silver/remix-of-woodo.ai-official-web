@@ -19,6 +19,7 @@ import Apply from "./pages/Apply";
 import AiHedgeFund from "./pages/AiHedgeFund";
 import Resources from "./pages/Resources";
 import ResourcesAdmin from "./pages/ResourcesAdmin";
+import ResourceViewer from "./pages/ResourceViewer";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -61,6 +62,7 @@ const App = () => {
               <Route path="/ai-hedge-fund" element={<AiHedgeFund />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/resources/admin" element={<ResourcesAdmin />} />
+              <Route path="/resources/view/:id" element={<ResourceViewer />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
